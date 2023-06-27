@@ -6,6 +6,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.RobotController;
 import frc.robot.Constants.ModuleConstants;
 
 public class SwerveModule {
@@ -16,7 +17,7 @@ public class SwerveModule {
     private final RelativeEncoder m_driveEncoder;
     private final RelativeEncoder m_turningEncoder;
 
-    private final AnalogInput m_AbsoluteEncoder;
+    private final AnalogInput m_absoluteEncoder;
     private final double kAbsoluteEncoderOffsetRad;
     private final boolean kAbsoluteEncoderReversed;
 
@@ -36,10 +37,12 @@ public class SwerveModule {
 
         kAbsoluteEncoderOffsetRad = absoluteEncoderOffset;
         kAbsoluteEncoderReversed = absoluteEncoderReversed;
-        m_AbsoluteEncoder = new AnalogInput(absoluteEncoderId);
+        m_absoluteEncoder = new AnalogInput(absoluteEncoderId);
 
         turningPidController = new PIDController(ModuleConstants.kPTurning, 0, 0); // Consider adding the kI & kD
         turningPidController.enableContinuousInput(-Math.PI, Math.PI);
+
+        resetEncoders(); // Resets encoders every time the robot boots up
     }
 
     public double getDrivePosition() {
@@ -57,9 +60,16 @@ public class SwerveModule {
     public double getTurningVelocity() {
         return m_turningEncoder.getVelocity();
     }
-    
+
+    public double getAbsoluteEncoderRad() {
+        double angle = m_absoluteEncoder.getVoltage() / RobotController.getVoltage5V(); // Returns percent of a full rotation
+        angle *= 2.0 * Math.PI; // convert to radians
+        angle -= kAbsoluteEncoderOffsetRad;
+        return angle * (kAbsoluteEncoderReversed ? -1.0 : 1.0); // Look up ternary or conditional operators in java
+    }
+
     public void resetEncoders() {
         m_driveEncoder.setPosition(0);
-        m_turningEncoder.setPosition(kAbsoluteEncoderOffsetRad);
+        m_turningEncoder.setPosition(getAbsoluteEncoderRad());
     }
 }
