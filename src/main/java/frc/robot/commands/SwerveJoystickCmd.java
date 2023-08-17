@@ -6,6 +6,7 @@ import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.SwerveSubsystem;
@@ -13,12 +14,12 @@ import frc.robot.subsystems.SwerveSubsystem;
 public class SwerveJoystickCmd extends CommandBase{
     private final SwerveSubsystem m_swerveSubsystem;
     private final Supplier<Double> xSpdFunction, ySpdFunction, turningSpdFunction;
-    private final Boolean fieldOrientedFunction;
+    private final Trigger fieldOrientedFunction;
     private final SlewRateLimiter xLimiter, yLimiter, turningLimiter;
 
     public SwerveJoystickCmd(SwerveSubsystem swerveSubsystem,
             Supplier<Double> xSpdFunction, Supplier<Double> ySpdFunction, 
-            Supplier<Double> turningSpdFunction, Boolean fieldOrientedFunction) {
+            Supplier<Double> turningSpdFunction, Trigger fieldOrientedFunction) {
         m_swerveSubsystem = swerveSubsystem;
         this.xSpdFunction = xSpdFunction;
         this.ySpdFunction = ySpdFunction;
@@ -50,7 +51,7 @@ public class SwerveJoystickCmd extends CommandBase{
 
         // 4. Construct desired chassis speeds
         ChassisSpeeds chassisSpeeds;
-        if (fieldOrientedFunction) {
+        if (fieldOrientedFunction.getAsBoolean()) {
             // Relative to field
             chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
                     xSpeed, ySpeed, turningSpeed, m_swerveSubsystem.getRotation2d());
