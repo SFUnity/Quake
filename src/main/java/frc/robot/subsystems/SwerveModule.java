@@ -96,4 +96,10 @@ public class SwerveModule {
         m_driveMotor.set(0);
         m_turningMotor.set(0);
     }
+
+    public void close() throws Exception {
+        m_driveMotor.close();
+        m_turningMotor.close();
+        m_absoluteEncoder.close();
+    }
 }

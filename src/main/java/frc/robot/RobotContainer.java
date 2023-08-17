@@ -8,7 +8,7 @@ import frc.robot.commands.SwerveJoystickCmd;
 import frc.robot.subsystems.SwerveSubsystem;
 
 
-public class RobotContainer {
+public class RobotContainer implements AutoCloseable {
     private final SwerveSubsystem m_swerveSubsystem = new SwerveSubsystem();
 
     private final CommandXboxController m_driverController = new CommandXboxController(
@@ -30,4 +30,9 @@ public class RobotContainer {
   }
 
   // public Command getAutonomousCommand() {}
+
+  @Override
+  public void close() throws Exception {
+    m_swerveSubsystem.close();
+  }
 }

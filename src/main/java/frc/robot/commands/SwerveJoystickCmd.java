@@ -11,7 +11,7 @@ import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.SwerveSubsystem;
 
-public class SwerveJoystickCmd extends CommandBase{
+public class SwerveJoystickCmd extends CommandBase implements AutoCloseable {
     private final SwerveSubsystem m_swerveSubsystem;
     private final Supplier<Double> xSpdFunction, ySpdFunction, turningSpdFunction;
     private final Trigger fieldOrientedFunction;
@@ -75,5 +75,10 @@ public class SwerveJoystickCmd extends CommandBase{
     @Override
     public boolean isFinished() {
         return false;
+    }
+
+    @Override
+    public void close() throws Exception {
+        m_swerveSubsystem.close();
     }
 }
