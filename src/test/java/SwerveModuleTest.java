@@ -8,8 +8,7 @@ import edu.wpi.first.hal.HAL;
 import frc.robot.subsystems.SwerveModule;
 
 public class SwerveModuleTest {
-    // scientific notation for acceptable deviation range
-    static final double DELTA = 1e-2;
+    static final double DELTA = 1e-2; // acceptable deviation range in sci. notation
     SwerveModule m_SwerveModule;
 
     @BeforeEach
