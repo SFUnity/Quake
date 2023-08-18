@@ -1,6 +1,6 @@
 package util;
 
-public class SimulatedCANSparkMax {
+public class CANSparkMaxSim {
 
     public enum MotorType {
         kBrushless,
@@ -10,7 +10,7 @@ public class SimulatedCANSparkMax {
     private double speed;
     private MotorType motorType;
 
-    public SimulatedCANSparkMax(int deviceID, MotorType motorType) {
+    public CANSparkMaxSim(int deviceID, MotorType motorType) {
         this.motorType = motorType;
     }
 

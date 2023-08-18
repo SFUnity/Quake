@@ -15,12 +15,12 @@ public class SwerveModuleTest {
     @BeforeEach
     void setup() {
         assert HAL.initialize(500, 0);
-        m_SwerveModule = new SwerveModule();
+        m_SwerveModule = new SwerveModule(0, 0, false, false, 0, 0, false);
     }
 
     @SuppressWarnings("PMD.SignatureDeclareThrowsException")
     @AfterEach
     void shutdown() throws Exception {
-        m_intake.close(); // destroy our intake object
+        m_SwerveModule.close(); // destroy our intake object
     }
 }
