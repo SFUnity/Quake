@@ -27,6 +27,15 @@ public class SwerveModule {
 
     private final PIDController turningPidController;
     
+    /**
+     * @param drive motor id
+     * @param turning motor id
+     * @param if drive motor is reversed
+     * @param if turning motor is reversed
+     * @param absolute encoder id
+     * @param absolute encoder offset
+     * @param if absolute encoder is reversed
+     */
     public SwerveModule(int kDriveMotorId, int kTurningMotorId, boolean driveMotorReversed, boolean turningMotorReversed,
             int absoluteEncoderId, double absoluteEncoderOffset, boolean absoluteEncoderReversed) {
         
@@ -81,6 +90,9 @@ public class SwerveModule {
         return new SwerveModuleState(getDriveVelocity(), new Rotation2d(getTurningPosition()));
     }
 
+    /**
+     * @param desired swerve module state
+     */
     public void setDesiredState(SwerveModuleState state) {
         if (Math.abs(state.speedMetersPerSecond) < 0.001) {
             stopMotors();
