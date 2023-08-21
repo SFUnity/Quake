@@ -23,6 +23,6 @@ public class SwerveJoystickCmdTest {
         // Act
         command.end(false);
         // Assert
-        verify(subsystem).getRotation2d();
+        verify(subsystem).zeroHeading();
     }
 }
