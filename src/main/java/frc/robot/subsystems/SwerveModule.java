@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ModuleConstants;
 
-public class SwerveModule {
+public class SwerveModule implements AutoCloseable {
     
     private final CANSparkMax m_driveMotor;
     private final CANSparkMax m_turningMotor;
@@ -108,5 +108,12 @@ public class SwerveModule {
     public void stopMotors() {
         m_driveMotor.set(0);
         m_turningMotor.set(0);
+    }
+
+    @Override
+    public void close() throws Exception {
+        m_driveMotor.close();
+        m_turningMotor.close();
+        m_absoluteEncoder.close();
     }
 }

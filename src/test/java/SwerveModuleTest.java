@@ -1,6 +1,7 @@
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -12,10 +13,6 @@ public class SwerveModuleTest {
 
     SwerveModule subsystem;
 
-    @BeforeEach
-    void setup() {
-    }
-
     private void testAbsoluteEncoderTemplate(double offset, boolean reversed) {
         // Arrange
         subsystem = new SwerveModule(0, 1, 
@@ -26,12 +23,16 @@ public class SwerveModuleTest {
         assertEquals(offset * (reversed ? -1.0 : 1.0), subsystem.getAbsoluteEncoderRad());
     }
 
-    @Test
-    public void testResetEncoders() {
+    @BeforeEach
+    void setup() {
         // Arrange
         subsystem = new SwerveModule(0, 1, 
             false, false, 2, 
             0, false);
+    }
+
+    @Test
+    public void testResetEncoders() {
         // Act and Assert
         subsystem.resetEncoders();
         assertEquals(0, subsystem.getDrivePosition());
@@ -40,20 +41,12 @@ public class SwerveModuleTest {
 
     @Test
     public void testGetState() {
-        // Arrange
-        subsystem = new SwerveModule(0, 1, 
-            false, false, 2, 
-            0, false);
         // Act and Assert
         assertEquals(new SwerveModuleState(subsystem.getDriveVelocity(), new Rotation2d(subsystem.getTurningPosition())), subsystem.getState());
     }
 
     @Test
     public void testGetDrivePosition() {
-        // Arrange
-        subsystem = new SwerveModule(0, 1, 
-            false, false, 2, 
-            0, false);
         // Act and Assert
         System.out.println("Drive position = " + subsystem.getDrivePosition());
         assertTrue(subsystem.getDrivePosition() >= 0);
@@ -61,12 +54,13 @@ public class SwerveModuleTest {
 
     @Test
     public void testGetTurningPosition() {
-        // Arrange
-        subsystem = new SwerveModule(0, 1, 
-            false, false, 2, 
-            0, false);
         // Act and Assert
         System.out.println("Drive position = " + subsystem.getTurningPosition());
         assertTrue(subsystem.getTurningPosition() >= 0);
+    }
+
+    @AfterEach
+    void shutdown() throws Exception {
+        subsystem.close();
     }
 }
