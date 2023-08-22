@@ -102,6 +102,7 @@ public class SwerveModule {
         m_driveMotor.set(state.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
         m_turningMotor.set(turningPidController.calculate(getTurningPosition(), state.angle.getRadians()));
         SmartDashboard.putString("Swerve[" + m_absoluteEncoder.getChannel() + "] state", state.toString());
+        System.out.println("Swerve[" + m_absoluteEncoder.getChannel() + "] state " + state.toString());
     }
 
     public void stopMotors() {
