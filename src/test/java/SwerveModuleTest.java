@@ -23,4 +23,15 @@ public class SwerveModuleTest {
         System.out.println("Drive position = " + subsystem.getDrivePosition());
         assertTrue(subsystem.getDrivePosition() >= 0);
     }
+
+    @Test
+    public void testGetTurningPosition() {
+        // Arrange
+        subsystem = new SwerveModule(0, 1, 
+            false, false, 2, 
+            0, false);
+        // Act and Assert
+        System.out.println("Drive position = " + subsystem.getTurningPosition());
+        assertTrue(subsystem.getTurningPosition() >= 0);
+    }
 }
