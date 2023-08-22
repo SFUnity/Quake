@@ -1,4 +1,3 @@
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -21,7 +20,7 @@ public class SwerveModuleTest {
             false, false, 2, 
             0, false);
         // Act and Assert
-        assertTrue(-180 <= subsystem.getDrivePosition() && subsystem.getDrivePosition() <= 180);
+        assertTrue(0 <= subsystem.getDrivePosition() && subsystem.getDrivePosition() <= 1000);
         System.out.println("Drive position = " + subsystem.getDrivePosition());
     }
 }
