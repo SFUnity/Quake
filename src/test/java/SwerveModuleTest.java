@@ -16,6 +16,16 @@ public class SwerveModuleTest {
     void setup() {
     }
 
+    private void testAbsoluteEncoderTemplate(double offset, boolean reversed) {
+        // Arrange
+        subsystem = new SwerveModule(0, 1, 
+            false, false, 2, 
+            offset, reversed);
+        // Act and Assert
+        System.out.println(subsystem.getAbsoluteEncoderRad());
+        assertEquals(offset * (reversed ? -1.0 : 1.0), subsystem.getAbsoluteEncoderRad());
+    }
+
     @Test
     public void testResetEncoders() {
         // Arrange
