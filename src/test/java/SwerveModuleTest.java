@@ -24,8 +24,8 @@ public class SwerveModuleTest {
             0, false);
         // Act and Assert
         subsystem.resetEncoders();
-        assertEquals(subsystem.getDrivePosition(), 0);
-        assertEquals(subsystem.getTurningPosition(), subsystem.getAbsoluteEncoderRad());
+        assertEquals(0, subsystem.getDrivePosition());
+        assertEquals(subsystem.getAbsoluteEncoderRad(), subsystem.getTurningPosition());
     }
 
     @Test
@@ -35,7 +35,7 @@ public class SwerveModuleTest {
             false, false, 2, 
             0, false);
         // Act and Assert
-        assertEquals(subsystem.getState(), new SwerveModuleState(subsystem.getDriveVelocity(), new Rotation2d(subsystem.getTurningPosition())));
+        assertEquals(new SwerveModuleState(subsystem.getDriveVelocity(), new Rotation2d(subsystem.getTurningPosition())), subsystem.getState());
     }
 
     @Test
