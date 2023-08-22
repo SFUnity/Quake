@@ -17,6 +17,18 @@ public class SwerveModuleTest {
     }
 
     @Test
+    public void testResetEncoders() {
+        // Arrange
+        subsystem = new SwerveModule(0, 1, 
+            false, false, 2, 
+            0, false);
+        // Act and Assert
+        subsystem.resetEncoders();
+        assertEquals(subsystem.getDrivePosition(), 0);
+        assertEquals(subsystem.getTurningPosition(), subsystem.getAbsoluteEncoderRad());
+    }
+
+    @Test
     public void testGetState() {
         // Arrange
         subsystem = new SwerveModule(0, 1, 
