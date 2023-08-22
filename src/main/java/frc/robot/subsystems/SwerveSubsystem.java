@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.DriveConstants;
 
-public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
+public class SwerveSubsystem extends SubsystemBase {
     private final SwerveModule frontLeft = new SwerveModule(
         DriveConstants.kFrontLeftDriveMotorPort,
         DriveConstants.kFrontLeftTurningMotorPort,
@@ -94,10 +94,5 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
         frontRight.setDesiredState(desiredStates[1]);
         backLeft.setDesiredState(desiredStates[2]);
         backRight.setDesiredState(desiredStates[3]);
-    }
-
-    @Override
-    public void close() throws Exception {
-        gyro.close();
     }
 }
