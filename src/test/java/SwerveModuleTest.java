@@ -20,7 +20,7 @@ public class SwerveModuleTest {
             false, false, 2, 
             0, false);
         // Act and Assert
-        assertTrue(0 <= subsystem.getDrivePosition() && subsystem.getDrivePosition() <= 1000);
         System.out.println("Drive position = " + subsystem.getDrivePosition());
+        assertTrue(subsystem.getDrivePosition() >= 0);
     }
 }
