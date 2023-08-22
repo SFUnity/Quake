@@ -22,8 +22,9 @@ public class SwerveModuleTest {
 
     @Test
     public void testResetEncoders() {
-        // Act and Assert
+        // Act
         subsystem.resetEncoders();
+        // Assert
         assertEquals(0, subsystem.getDrivePosition());
         assertEquals(subsystem.getAbsoluteEncoderRad(), subsystem.getTurningPosition());
     }
