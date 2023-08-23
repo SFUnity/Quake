@@ -45,25 +45,7 @@ public class SwerveJoystickCmdTest {
     }
 
     @Test
-    public void testExecuteApproximate() {
-        // Act
-        command.execute();
-        // Assert
-        verify(command).applyDeadBandXSpeed(anyDouble());
-        verify(command).applyDeadBandYSpeed(anyDouble());
-        verify(command).applyDeadBandTurningSpeed(anyDouble());
-
-        verify(command).smoothXSpeed(anyDouble());
-        verify(command).smoothYSpeed(anyDouble());
-        verify(command).smoothTurningSpeed(anyDouble());
-
-        verify(command).speedsToChassisSpeeds(anyDouble(), anyDouble(), anyDouble());
-        
-        verify(subsystem).setModuleStates(any(SwerveModuleState[].class));
-    }
-
-    @Test
-    public void testExecuteExact() {
+    public void testExecute() {
         // Act
         command.execute();
         // Assert
