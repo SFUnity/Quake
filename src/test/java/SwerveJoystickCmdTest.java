@@ -5,6 +5,8 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.SwerveJoystickCmd;
 import frc.robot.subsystems.SwerveSubsystem;
+
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 public class SwerveJoystickCmdTest {
@@ -18,12 +20,12 @@ public class SwerveJoystickCmdTest {
         // Arrange
         subsystem = mock(SwerveSubsystem.class);
         controller = new CommandXboxController(0);
-        command = new SwerveJoystickCmd(
+        command = spy(new SwerveJoystickCmd(
                 subsystem,
                 () -> -controller.getLeftY(),
                 () -> controller.getLeftX(),
                 () -> controller.getRightX(),
-                controller.y());
+                controller.y()));
     }
 
     @Test
@@ -31,6 +33,9 @@ public class SwerveJoystickCmdTest {
         // Act
         command.execute();
         // Assert
+        verify(command).applyDeadBandXSpeed(anyDouble());
+        verify(command).applyDeadBandYSpeed(anyDouble());
+        verify(command).applyDeadBandTurningSpeed(anyDouble());
         verify(subsystem).setModuleStates(any(SwerveModuleState[].class));
     }
 

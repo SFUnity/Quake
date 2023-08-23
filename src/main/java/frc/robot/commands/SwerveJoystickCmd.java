@@ -38,15 +38,15 @@ public class SwerveJoystickCmd extends CommandBase {
         addRequirements(swerveSubsystem);
     }
 
-     @Override
+    @Override
     public void execute() {
         double xSpeed = xSpdFunction.get();
         double ySpeed = ySpdFunction.get();
         double turningSpeed = turningSpdFunction.get();
 
-        xSpeed = Math.abs(xSpeed) > OperatorConstants.kDeadband ? xSpeed : 0.0;
-        ySpeed = Math.abs(ySpeed) > OperatorConstants.kDeadband ? ySpeed : 0.0;
-        turningSpeed = Math.abs(turningSpeed) > OperatorConstants.kDeadband ? turningSpeed : 0.0;
+        xSpeed = this.applyDeadBandXSpeed(xSpeed);
+        ySpeed = this.applyDeadBandYSpeed(ySpeed);
+        turningSpeed = this.applyDeadBandTurningSpeed(turningSpeed);
 
         // Makes the driving smoother
         xSpeed = xLimiter.calculate(xSpeed) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
@@ -65,6 +65,18 @@ public class SwerveJoystickCmd extends CommandBase {
         SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
 
         m_swerveSubsystem.setModuleStates(moduleStates);
+    }
+
+    public double applyDeadBandXSpeed(double xSpeed) {
+        return Math.abs(xSpeed) > OperatorConstants.kDeadband ? xSpeed : 0.0;
+    }
+
+    public double applyDeadBandYSpeed(double ySpeed) {
+        return Math.abs(ySpeed) > OperatorConstants.kDeadband ? ySpeed : 0.0;
+    }
+
+    public double applyDeadBandTurningSpeed(double turningSpeed) {
+        return Math.abs(turningSpeed) > OperatorConstants.kDeadband ? turningSpeed : 0.0;
     }
 
     @Override
