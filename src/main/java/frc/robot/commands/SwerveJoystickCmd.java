@@ -51,16 +51,11 @@ public class SwerveJoystickCmd extends CommandBase {
         xSpeed = this.smoothXSpeed(xSpeed);
         ySpeed = this.smoothYSpeed(ySpeed);
         turningSpeed = this.smoothTurningSpeed(turningSpeed);
+        
+        ChassisSpeeds chassisSpeeds = speedsToChassisSpeeds(xSpeed, ySpeed, turningSpeed);
 
-        ChassisSpeeds chassisSpeeds;
-        if (fieldOrientedFunction.getAsBoolean()) {
-            chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
-                    xSpeed, ySpeed, turningSpeed, m_swerveSubsystem.getRotation2d());
-        } else {
-            chassisSpeeds = new ChassisSpeeds(xSpeed, ySpeed, turningSpeed);
-        }
-
-        SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
+        SwerveModuleState[] moduleStates = 
+        DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
 
         m_swerveSubsystem.setModuleStates(moduleStates);
     }
@@ -88,6 +83,17 @@ public class SwerveJoystickCmd extends CommandBase {
     public double smoothTurningSpeed(double turningSpeed) {
         return turningLimiter.calculate(turningSpeed)
                 * DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond;
+    }
+
+    public ChassisSpeeds speedsToChassisSpeeds(double xSpeed, double ySpeed, double turningSpeed) {
+        ChassisSpeeds chassisSpeeds;
+        if (fieldOrientedFunction.getAsBoolean()) {
+            chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
+                    xSpeed, ySpeed, turningSpeed, m_swerveSubsystem.getRotation2d());
+        } else {
+            chassisSpeeds = new ChassisSpeeds(xSpeed, ySpeed, turningSpeed);
+        }
+        return chassisSpeeds;
     }
 
     @Override

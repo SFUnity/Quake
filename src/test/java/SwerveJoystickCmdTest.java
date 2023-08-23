@@ -41,6 +41,8 @@ public class SwerveJoystickCmdTest {
         verify(command).smoothXSpeed(anyDouble());
         verify(command).smoothYSpeed(anyDouble());
         verify(command).smoothTurningSpeed(anyDouble());
+
+        verify(command).speedsToChassisSpeeds(anyDouble(), anyDouble(), anyDouble());
         
         verify(subsystem).setModuleStates(any(SwerveModuleState[].class));
     }
