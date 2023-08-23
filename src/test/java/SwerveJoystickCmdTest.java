@@ -7,6 +7,7 @@ import frc.robot.commands.SwerveJoystickCmd;
 import frc.robot.subsystems.SwerveSubsystem;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyDouble;
 import static org.mockito.Mockito.*;
 
 public class SwerveJoystickCmdTest {
@@ -14,7 +15,7 @@ public class SwerveJoystickCmdTest {
     SwerveSubsystem subsystem;
     SwerveJoystickCmd command;
     CommandXboxController controller;
-    
+
     @BeforeEach
     public void setup() {
         // Arrange
@@ -36,6 +37,11 @@ public class SwerveJoystickCmdTest {
         verify(command).applyDeadBandXSpeed(anyDouble());
         verify(command).applyDeadBandYSpeed(anyDouble());
         verify(command).applyDeadBandTurningSpeed(anyDouble());
+
+        verify(command).smoothXSpeed(anyDouble());
+        verify(command).smoothYSpeed(anyDouble());
+        verify(command).smoothTurningSpeed(anyDouble());
+        
         verify(subsystem).setModuleStates(any(SwerveModuleState[].class));
     }
 

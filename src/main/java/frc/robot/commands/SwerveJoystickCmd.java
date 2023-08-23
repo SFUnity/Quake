@@ -48,11 +48,9 @@ public class SwerveJoystickCmd extends CommandBase {
         ySpeed = this.applyDeadBandYSpeed(ySpeed);
         turningSpeed = this.applyDeadBandTurningSpeed(turningSpeed);
 
-        // Makes the driving smoother
-        xSpeed = xLimiter.calculate(xSpeed) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
-        ySpeed = yLimiter.calculate(ySpeed) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
-        turningSpeed = turningLimiter.calculate(turningSpeed)
-                * DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond;
+        xSpeed = this.smoothXSpeed(xSpeed);
+        ySpeed = this.smoothYSpeed(ySpeed);
+        turningSpeed = this.smoothTurningSpeed(turningSpeed);
 
         ChassisSpeeds chassisSpeeds;
         if (fieldOrientedFunction.getAsBoolean()) {
@@ -77,6 +75,19 @@ public class SwerveJoystickCmd extends CommandBase {
 
     public double applyDeadBandTurningSpeed(double turningSpeed) {
         return Math.abs(turningSpeed) > OperatorConstants.kDeadband ? turningSpeed : 0.0;
+    }
+
+    public double smoothXSpeed(double xSpeed) {
+        return xLimiter.calculate(xSpeed) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
+    }
+
+    public double smoothYSpeed(double ySpeed) {
+        return yLimiter.calculate(ySpeed) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
+    }
+
+    public double smoothTurningSpeed(double turningSpeed) {
+        return turningLimiter.calculate(turningSpeed)
+                * DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond;
     }
 
     @Override
