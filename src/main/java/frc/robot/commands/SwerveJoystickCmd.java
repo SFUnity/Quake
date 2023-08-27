@@ -73,14 +73,12 @@ public class SwerveJoystickCmd extends CommandBase {
     }
 
     public ChassisSpeeds speedsToChassisSpeeds(double xSpeed, double ySpeed, double turningSpeed) {
-        ChassisSpeeds chassisSpeeds;
         if (fieldOrientedFunction.getAsBoolean()) {
-            chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
+            return ChassisSpeeds.fromFieldRelativeSpeeds(
                     xSpeed, ySpeed, turningSpeed, m_swerveSubsystem.getRotation2d());
         } else {
-            chassisSpeeds = new ChassisSpeeds(xSpeed, ySpeed, turningSpeed);
+            return new ChassisSpeeds(xSpeed, ySpeed, turningSpeed);
         }
-        return chassisSpeeds;
     }
 
     @Override
