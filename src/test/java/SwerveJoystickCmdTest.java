@@ -41,6 +41,22 @@ public class SwerveJoystickCmdTest {
     }
 
     @Test
+    void aboveDeadbandShouldStayTheSame() {
+        for (double i = OperatorConstants.kDeadband + 0.01; i < 1; i += 0.01) {
+            System.out.println(i);
+            assertEquals(i, command.applyDeadBand(i));
+        }
+    }
+
+    @Test
+    void belowDeadbandShouldStayTheSame() {
+        for (double i = -1 * OperatorConstants.kDeadband - 0.01; i > -1; i -= 0.01) {
+            System.out.println(i);
+            assertEquals(i, command.applyDeadBand(i));
+        }
+    }
+
+    @Test
     void testEnd() {
         // Act
         command.end(false);
