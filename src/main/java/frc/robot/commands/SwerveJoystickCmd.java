@@ -15,7 +15,7 @@ public class SwerveJoystickCmd extends CommandBase {
     private final SwerveSubsystem m_swerveSubsystem;
     private final Supplier<Double> xSpdFunction, ySpdFunction, turningSpdFunction;
     private final Trigger fieldOrientedFunction;
-    private final SlewRateLimiter xLimiter, yLimiter, turningLimiter;
+    private final SlewRateLimiter linearLimiter, turningLimiter;
 
     /**
      * @param swerveSubsystem
@@ -32,8 +32,7 @@ public class SwerveJoystickCmd extends CommandBase {
         this.ySpdFunction = ySpdFunction;
         this.turningSpdFunction = turningSpdFunction;
         this.fieldOrientedFunction = fieldOrientedFunction;
-        this.xLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
-        this.yLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
+        this.linearLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
         this.turningLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAngularAccelerationUnitsPerSecond);
         addRequirements(swerveSubsystem);
     }
@@ -48,8 +47,8 @@ public class SwerveJoystickCmd extends CommandBase {
         ySpeed = this.applyDeadBand(ySpeed);
         turningSpeed = this.applyDeadBand(turningSpeed);
 
-        xSpeed = this.smoothXSpeed(xSpeed);
-        ySpeed = this.smoothYSpeed(ySpeed);
+        xSpeed = this.smoothLinearSpeed(xSpeed);
+        ySpeed = this.smoothLinearSpeed(ySpeed);
         turningSpeed = this.smoothTurningSpeed(turningSpeed);
         
         ChassisSpeeds chassisSpeeds = speedsToChassisSpeeds(xSpeed, ySpeed, turningSpeed);
@@ -64,12 +63,8 @@ public class SwerveJoystickCmd extends CommandBase {
         return Math.abs(speed) > OperatorConstants.kDeadband ? speed : 0.0;
     }
 
-    public double smoothXSpeed(double xSpeed) {
-        return xLimiter.calculate(xSpeed) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
-    }
-
-    public double smoothYSpeed(double ySpeed) {
-        return yLimiter.calculate(ySpeed) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
+    public double smoothLinearSpeed(double speed) {
+        return linearLimiter.calculate(speed) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
     }
 
     public double smoothTurningSpeed(double turningSpeed) {
