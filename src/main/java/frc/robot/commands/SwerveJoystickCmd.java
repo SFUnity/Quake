@@ -44,9 +44,9 @@ public class SwerveJoystickCmd extends CommandBase {
         double ySpeed = ySpdFunction.get();
         double turningSpeed = turningSpdFunction.get();
 
-        xSpeed = this.applyDeadBandXSpeed(xSpeed);
-        ySpeed = this.applyDeadBandYSpeed(ySpeed);
-        turningSpeed = this.applyDeadBandTurningSpeed(turningSpeed);
+        xSpeed = this.applyDeadBand(xSpeed);
+        ySpeed = this.applyDeadBand(ySpeed);
+        turningSpeed = this.applyDeadBand(turningSpeed);
 
         xSpeed = this.smoothXSpeed(xSpeed);
         ySpeed = this.smoothYSpeed(ySpeed);
@@ -60,16 +60,8 @@ public class SwerveJoystickCmd extends CommandBase {
         m_swerveSubsystem.setModuleStates(moduleStates);
     }
 
-    public double applyDeadBandXSpeed(double xSpeed) {
-        return Math.abs(xSpeed) > OperatorConstants.kDeadband ? xSpeed : 0.0;
-    }
-
-    public double applyDeadBandYSpeed(double ySpeed) {
-        return Math.abs(ySpeed) > OperatorConstants.kDeadband ? ySpeed : 0.0;
-    }
-
-    public double applyDeadBandTurningSpeed(double turningSpeed) {
-        return Math.abs(turningSpeed) > OperatorConstants.kDeadband ? turningSpeed : 0.0;
+    public double applyDeadBand(double speed) {
+        return Math.abs(speed) > OperatorConstants.kDeadband ? speed : 0.0;
     }
 
     public double smoothXSpeed(double xSpeed) {
