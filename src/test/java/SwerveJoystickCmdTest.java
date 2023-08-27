@@ -3,17 +3,13 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.SwerveJoystickCmd;
 import frc.robot.subsystems.SwerveSubsystem;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyDouble;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
-
-import java.util.function.Supplier;
 
 public class SwerveJoystickCmdTest {
 
@@ -21,49 +17,31 @@ public class SwerveJoystickCmdTest {
     CommandXboxController controller;
     SwerveJoystickCmd command;
 
-    @Mock private Supplier<Double> xSpdFunction, ySpdFunction, turningSpdFunction;
-    @Mock private Trigger fieldOrientedFunction;
-
     @BeforeEach
     public void setup() {
         // Arrange
         MockitoAnnotations.openMocks(this);
 
         controller = new CommandXboxController(0);
-        
-        when(xSpdFunction.get()).thenReturn(0.5);
-        when(ySpdFunction.get()).thenReturn(0.5);
-        when(turningSpdFunction.get()).thenReturn(0.5);
-        when(fieldOrientedFunction.getAsBoolean()).thenReturn(false);
 
-        command = spy(new SwerveJoystickCmd(
+        command = new SwerveJoystickCmd(
                 subsystem,
-                xSpdFunction, 
-                ySpdFunction, 
-                turningSpdFunction,
-                fieldOrientedFunction));
+                () -> -controller.getLeftY(),
+                () -> controller.getLeftX(),
+                () -> controller.getRightX(),
+                controller.y());
     }
 
     @Test
-    public void testExecute() {
-        // Act
-        command.execute();
-        // Assert
-        verify(command).applyDeadBandXSpeed(anyDouble());
-        verify(command).applyDeadBandYSpeed(anyDouble());
-        verify(command).applyDeadBandTurningSpeed(anyDouble());
-
-        verify(command).smoothXSpeed(anyDouble());
-        verify(command).smoothYSpeed(anyDouble());
-        verify(command).smoothTurningSpeed(anyDouble());
-
-        verify(command).speedsToChassisSpeeds(anyDouble(), anyDouble(), anyDouble());
-        
-        verify(subsystem).setModuleStates(any(SwerveModuleState[].class));
+    void negativeDeadbandToDeadbandShouldEqualZero() {
+        for (double i = -1 * OperatorConstants.kDeadband; i < OperatorConstants.kDeadband; i += 0.01) {
+            System.out.println(i);
+            assertEquals(0.0, command.applyDeadBand(i));
+        }
     }
 
     @Test
-    public void testEnd() {
+    void testEnd() {
         // Act
         command.end(false);
         // Assert
