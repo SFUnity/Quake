@@ -33,7 +33,7 @@ public class SwerveModule implements AutoCloseable {
      * @param if drive motor is reversed
      * @param if turning motor is reversed
      * @param absolute encoder id
-     * @param absolute encoder offset
+     * @param absolute encoder offset in radians
      * @param if absolute encoder is reversed
      */
     public SwerveModule(int kDriveMotorId, int kTurningMotorId, boolean driveMotorReversed, boolean turningMotorReversed,
@@ -56,6 +56,36 @@ public class SwerveModule implements AutoCloseable {
         turningPidController.enableContinuousInput(-Math.PI, Math.PI);
 
         resetEncoders(); // Resets encoders every time the robot boots up
+    }
+
+    /**
+     * @param driveMotor
+     * @param turningMotor
+     * @param driveEncoder
+     * @param turningEncoder
+     * @param absoluteEncoder
+     * @param absoluteEncoderOffset in radians
+     * @param if the absoluteEncoder is reversed
+     */
+    // For testing purposes only
+    public SwerveModule(CANSparkMax driveMotor, CANSparkMax turningMotor, 
+            RelativeEncoder driveEncoder, RelativeEncoder turningEncoder, 
+            AnalogInput absoluteEncoder, double absoluteEncoderOffset, boolean absoluteEncoderReversed) {
+       
+        m_driveMotor = driveMotor;
+        m_turningMotor = turningMotor;
+
+        m_driveEncoder = driveEncoder;
+        m_turningEncoder = turningEncoder;
+        
+        kAbsoluteEncoderOffsetRad = absoluteEncoderOffset;
+        kAbsoluteEncoderReversed = absoluteEncoderReversed;
+        m_absoluteEncoder = absoluteEncoder;
+
+        turningPidController = new PIDController(ModuleConstants.kPTurning, 0, 0); // Consider adding the kI & kD
+        turningPidController.enableContinuousInput(-Math.PI, Math.PI);
+
+        resetEncoders();
     }
 
     public double getDrivePosition() {
