@@ -42,11 +42,6 @@ public class SwerveModuleTest {
     }
 
     @Test
-    public void testForwardNoTurn() {
-
-    }
-
-    @Test
     public void testGetState() {
         // Act and Assert
         assertEquals(new SwerveModuleState(subsystem.getDriveVelocity(), new Rotation2d(subsystem.getTurningPosition())), subsystem.getState());
@@ -55,14 +50,12 @@ public class SwerveModuleTest {
     @Test
     public void testGetDrivePosition() {
         // Act and Assert
-        System.out.println("Drive position = " + subsystem.getDrivePosition());
         assertTrue(subsystem.getDrivePosition() >= 0);
     }
 
     @Test
     public void testGetTurningPosition() {
         // Act and Assert
-        System.out.println("Drive position = " + subsystem.getTurningPosition());
         assertTrue(subsystem.getTurningPosition() >= 0);
     }
     
