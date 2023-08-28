@@ -2,7 +2,6 @@ package frc.robot.commands;
 
 import java.util.function.Supplier;
 
-import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -15,7 +14,6 @@ public class SwerveJoystickCmd extends CommandBase {
     private final SwerveSubsystem m_swerveSubsystem;
     private final Supplier<Double> xSpdFunction, ySpdFunction, turningSpdFunction;
     private final Trigger fieldOrientedFunction;
-    private final SlewRateLimiter linearLimiter, turningLimiter;
 
     /**
      * @param swerveSubsystem
@@ -32,8 +30,6 @@ public class SwerveJoystickCmd extends CommandBase {
         this.ySpdFunction = ySpdFunction;
         this.turningSpdFunction = turningSpdFunction;
         this.fieldOrientedFunction = fieldOrientedFunction;
-        this.linearLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
-        this.turningLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAngularAccelerationUnitsPerSecond);
         addRequirements(swerveSubsystem);
     }
 
@@ -46,10 +42,6 @@ public class SwerveJoystickCmd extends CommandBase {
         xSpeed = this.applyDeadBand(xSpeed);
         ySpeed = this.applyDeadBand(ySpeed);
         turningSpeed = this.applyDeadBand(turningSpeed);
-
-        xSpeed = this.smoothLinearSpeed(xSpeed);
-        ySpeed = this.smoothLinearSpeed(ySpeed);
-        turningSpeed = this.smoothTurningSpeed(turningSpeed);
         
         ChassisSpeeds chassisSpeeds = speedsToChassisSpeeds(xSpeed, ySpeed, turningSpeed, fieldOrientedFunction.getAsBoolean());
 
@@ -61,15 +53,6 @@ public class SwerveJoystickCmd extends CommandBase {
 
     public double applyDeadBand(double speed) {
         return Math.abs(speed) > OperatorConstants.kDeadband ? speed : 0.0;
-    }
-
-    public double smoothLinearSpeed(double speed) {
-        return linearLimiter.calculate(speed) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
-    }
-
-    public double smoothTurningSpeed(double turningSpeed) {
-        return turningLimiter.calculate(turningSpeed)
-                * DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond;
     }
 
     public ChassisSpeeds speedsToChassisSpeeds(double xSpeed, double ySpeed, double turningSpeed, boolean fieldOriented) {
