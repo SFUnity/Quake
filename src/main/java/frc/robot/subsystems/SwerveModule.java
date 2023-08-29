@@ -69,14 +69,13 @@ public class SwerveModule implements AutoCloseable {
      */
     // For testing purposes only
     public SwerveModule(CANSparkMax driveMotor, CANSparkMax turningMotor, 
-            RelativeEncoder driveEncoder, RelativeEncoder turningEncoder, 
             AnalogInput absoluteEncoder, double absoluteEncoderOffset, boolean absoluteEncoderReversed) {
        
         m_driveMotor = driveMotor;
         m_turningMotor = turningMotor;
 
-        m_driveEncoder = driveEncoder;
-        m_turningEncoder = turningEncoder;
+        m_driveEncoder = m_driveMotor.getEncoder();
+        m_turningEncoder = m_turningMotor.getEncoder();
         
         kAbsoluteEncoderOffsetRad = absoluteEncoderOffset;
         kAbsoluteEncoderReversed = absoluteEncoderReversed;
