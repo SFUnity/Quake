@@ -13,6 +13,7 @@ import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.simulation.AnalogInputSim;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.subsystems.SwerveModule;
 
@@ -27,6 +28,7 @@ public class SwerveModuleTest {
     RelativeEncoder mockTurningEncoder;
 
     AnalogInput absoluteEncoder;
+    AnalogInputSim mockAbsoluteEncoder;
 
     @BeforeEach
     void setup() {
@@ -37,13 +39,14 @@ public class SwerveModuleTest {
         mockDriveEncoder = mock(RelativeEncoder.class);
         mockTurningEncoder = mock(RelativeEncoder.class);
 
-        absoluteEncoder = mock(AnalogInput.class);
+        absoluteEncoder = new AnalogInput(0);
+        mockAbsoluteEncoder = new AnalogInputSim(absoluteEncoder);
 
         when(mockDriveMotor.getEncoder()).thenReturn(mockDriveEncoder);
         when(mockTurningMotor.getEncoder()).thenReturn(mockTurningEncoder);
 
-        when(mockDriveEncoder.getPosition()).thenReturn(0.5);
-        when(mockTurningEncoder.getPosition()).thenReturn(0.5);
+        when(mockDriveEncoder.getPosition()).thenReturn(0.0);
+        when(mockTurningEncoder.getPosition()).thenReturn(0.0);
 
         when(mockDriveEncoder.getVelocity()).thenReturn(0.5);
         when(mockTurningEncoder.getVelocity()).thenReturn(0.5);
@@ -57,7 +60,7 @@ public class SwerveModuleTest {
         // Act
         subsystem.resetEncoders();
         // Assert
-        assertEquals(0, subsystem.getDrivePosition());
+        assertEquals(0.0, subsystem.getDrivePosition());
         assertEquals(subsystem.getAbsoluteEncoderRad(), subsystem.getTurningPosition());
     }
 
