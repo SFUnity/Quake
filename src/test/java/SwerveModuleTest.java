@@ -57,6 +57,8 @@ public class SwerveModuleTest {
 
     @Test
     public void testResetEncoders() {
+        // Arrange                                                    percent of a full rotation ↓
+        subsystem.setDesiredState(new SwerveModuleState(0.5, new Rotation2d(10 * 2.0 * Math.PI)));
         // Act
         subsystem.resetEncoders();
         // Assert
