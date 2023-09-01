@@ -4,6 +4,7 @@ import static org.mockito.Mockito.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
@@ -26,7 +27,7 @@ public class SwerveModuleTest {
     RelativeEncoder mockTurningEncoder;
 
     AnalogInput absoluteEncoder;
-    AnalogInputSim mockAbsoluteEncoder;
+    AnalogInputSim simAbsoluteEncoder;
 
     @BeforeEach
     void setup() {
@@ -38,13 +39,14 @@ public class SwerveModuleTest {
         mockTurningEncoder = mock(RelativeEncoder.class);
 
         absoluteEncoder = new AnalogInput(0);
-        mockAbsoluteEncoder = new AnalogInputSim(absoluteEncoder);
+        simAbsoluteEncoder = new AnalogInputSim(absoluteEncoder);
 
         when(mockDriveMotor.getEncoder()).thenReturn(mockDriveEncoder);
         when(mockTurningMotor.getEncoder()).thenReturn(mockTurningEncoder);
 
         subsystem = new SwerveModule(mockDriveMotor, mockTurningMotor, 
                 absoluteEncoder, 0, false);
+        Mockito.reset(mockDriveEncoder, mockTurningEncoder);
     }
 
     @Test
@@ -52,8 +54,8 @@ public class SwerveModuleTest {
         // Act
         subsystem.resetEncoders();
         // Assert
-        assertEquals(0.0, subsystem.getDrivePosition());
-        assertEquals(subsystem.getAbsoluteEncoderRad(), subsystem.getTurningPosition());
+        verify(mockDriveEncoder).setPosition(0);
+        verify(mockTurningEncoder).setPosition(subsystem.getAbsoluteEncoderRad());
     }
 
     @Test
