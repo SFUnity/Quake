@@ -65,12 +65,12 @@ public class SwerveModuleTest {
         verify(mockTurningEncoder).setPosition(subsystem.getAbsoluteEncoderRad());
     }
 
-    void setDesiredStateTemplate(double speed, double angle) {
+    void setStateTemplate(double speed, double angle) {
         // Arrange
         when(subsystem.getTurningPosition()).thenReturn(0.5);
         SwerveModuleState expectedState = new SwerveModuleState(speed, new Rotation2d(angle * Math.PI / 180));
         // Act
-        subsystem.setDesiredState(expectedState);
+        subsystem.setState(expectedState);
         // Assert
         verify(mockDriveMotor).set(expectedState.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
         verify(mockTurningMotor).set(turningPidController.calculate(0.5, expectedState.angle.getRadians()));
@@ -78,7 +78,7 @@ public class SwerveModuleTest {
 
     @Test
     void testStraigtForwardFullThrottle() {
-        setDesiredStateTemplate(1.0, 0);
+        setStateTemplate(1.0, 0);
     }
 
     @Test

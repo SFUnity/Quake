@@ -122,7 +122,7 @@ public class SwerveModule implements AutoCloseable {
     /**
      * @param desired swerve module state
      */
-    public void setDesiredState(SwerveModuleState state) {
+    public void setState(SwerveModuleState state) {
         if (Math.abs(state.speedMetersPerSecond) < 0.001) {
             stopMotors();
             return;
