@@ -9,11 +9,13 @@ import org.mockito.Mockito;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.simulation.AnalogInputSim;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.ModuleConstants;
 import frc.robot.subsystems.SwerveModule;
 
 public class SwerveModuleTest {
@@ -28,6 +30,8 @@ public class SwerveModuleTest {
 
     AnalogInput absoluteEncoder;
     AnalogInputSim simAbsoluteEncoder;
+
+    private PIDController turningPidController;
 
     @BeforeEach
     void setup() {
@@ -44,9 +48,12 @@ public class SwerveModuleTest {
         when(mockDriveMotor.getEncoder()).thenReturn(mockDriveEncoder);
         when(mockTurningMotor.getEncoder()).thenReturn(mockTurningEncoder);
 
+        turningPidController = new PIDController(ModuleConstants.kPTurning, 0, 0); // Consider adding the kI & kD
+        turningPidController.enableContinuousInput(-Math.PI, Math.PI);
+
         subsystem = new SwerveModule(mockDriveMotor, mockTurningMotor, 
                 absoluteEncoder, 0, false);
-        Mockito.reset(mockDriveEncoder, mockTurningEncoder);
+        Mockito.reset(mockDriveMotor, mockTurningMotor, mockDriveEncoder, mockTurningEncoder);
     }
 
     @Test
@@ -58,13 +65,20 @@ public class SwerveModuleTest {
         verify(mockTurningEncoder).setPosition(subsystem.getAbsoluteEncoderRad());
     }
 
-    @Test
-    public void testForwardDrive() {
+    void setDesiredStateTemplate(double speed, double angle) {
+        // Arrange
+        when(subsystem.getTurningPosition()).thenReturn(0.5);
+        SwerveModuleState expectedState = new SwerveModuleState(speed, new Rotation2d(angle * Math.PI / 180));
         // Act
-        subsystem.setDesiredState(new SwerveModuleState(0.5, new Rotation2d(0)));
+        subsystem.setDesiredState(expectedState);
         // Assert
-        verify(mockDriveMotor).set(0.5 / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
-        verify(mockTurningMotor).set(0.0);
+        verify(mockDriveMotor).set(expectedState.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
+        verify(mockTurningMotor).set(turningPidController.calculate(0.5, expectedState.angle.getRadians()));
+    }
+
+    @Test
+    void testStraigtForwardFullThrottle() {
+        setDesiredStateTemplate(1.0, 0);
     }
 
     @Test
