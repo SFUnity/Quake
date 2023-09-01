@@ -124,19 +124,20 @@ public class SwerveModule implements AutoCloseable {
      */
     public void setState(SwerveModuleState state) {
         if (Math.abs(state.speedMetersPerSecond) < 0.001) {
-            stopMotors();
-            return;
+            m_driveMotor.set(0);
+        } else {
+            m_driveMotor.set(state.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
         }
         state = SwerveModuleState.optimize(state, getState().angle);
-        m_driveMotor.set(state.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
-        m_turningMotor.set(turningPidController.calculate(getTurningPosition(), state.angle.getRadians()));
+        double desiredTurnValue = turningPidController.calculate(getTurningPosition(), state.angle.getRadians());
+        if (Math.abs(desiredTurnValue) < 0.001) {
+            m_turningMotor.set(0);
+        } else {
+            m_turningMotor.set(desiredTurnValue);
+        }
+
         SmartDashboard.putString("Swerve[" + m_absoluteEncoder.getChannel() + "] state", state.toString());
         System.out.println("Swerve[" + m_absoluteEncoder.getChannel() + "] state " + state.toString());
-    }
-
-    public void stopMotors() {
-        m_driveMotor.set(0);
-        m_turningMotor.set(0);
     }
 
     @Override
