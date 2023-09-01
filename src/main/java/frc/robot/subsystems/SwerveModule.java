@@ -140,6 +140,11 @@ public class SwerveModule implements AutoCloseable {
         System.out.println("Swerve[" + m_absoluteEncoder.getChannel() + "] state " + state.toString());
     }
 
+    public void stopMotors() {
+        m_driveMotor.set(0);
+        m_turningMotor.set(0);
+    }
+
     @Override
     public void close() throws Exception {
         m_driveMotor.close();
