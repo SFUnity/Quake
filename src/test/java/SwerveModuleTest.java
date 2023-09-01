@@ -45,12 +45,6 @@ public class SwerveModuleTest {
         when(mockDriveMotor.getEncoder()).thenReturn(mockDriveEncoder);
         when(mockTurningMotor.getEncoder()).thenReturn(mockTurningEncoder);
 
-        when(mockDriveEncoder.getPosition()).thenReturn(0.0);
-        when(mockTurningEncoder.getPosition()).thenReturn(0.0);
-
-        when(mockDriveEncoder.getVelocity()).thenReturn(0.5);
-        when(mockTurningEncoder.getVelocity()).thenReturn(0.5);
-
         subsystem = new SwerveModule(mockDriveMotor, mockTurningMotor, 
                 absoluteEncoder, 0, false);
     }
@@ -79,8 +73,14 @@ public class SwerveModuleTest {
 
     @Test
     public void testGetState() {
+        // Arrange
+        when(mockTurningEncoder.getPosition()).thenReturn(0.5);
+        when(mockDriveEncoder.getVelocity()).thenReturn(0.5);
         // Act and Assert
-        assertEquals(new SwerveModuleState(subsystem.getDriveVelocity(), new Rotation2d(subsystem.getTurningPosition())), subsystem.getState());
+        SwerveModuleState state = new SwerveModuleState(0.5, new Rotation2d(0.5));
+        assertEquals(state, subsystem.getState());
+        System.out.println(subsystem.getState().toString());
+        System.out.println(state.toString());
     }
     
 
