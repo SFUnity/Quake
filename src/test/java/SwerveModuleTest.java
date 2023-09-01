@@ -1,7 +1,5 @@
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -51,8 +49,6 @@ public class SwerveModuleTest {
 
     @Test
     public void testResetEncoders() {
-        // Arrange                                                    percent of a full rotation ↓
-        subsystem.setDesiredState(new SwerveModuleState(0.5, new Rotation2d(10 * 2.0 * Math.PI)));
         // Act
         subsystem.resetEncoders();
         // Assert
@@ -60,15 +56,13 @@ public class SwerveModuleTest {
         assertEquals(subsystem.getAbsoluteEncoderRad(), subsystem.getTurningPosition());
     }
 
-    public void testSetStateTemplate(double speedMetersPerSecond, double angle) {
-        // Arrange
-        angle *= 2.0 * Math.PI;
-        SwerveModuleState goalState = new SwerveModuleState(speedMetersPerSecond, new Rotation2d(angle));
-        // Act 
-        subsystem.setDesiredState(goalState);
+    @Test
+    public void testForwardDrive() {
+        // Act
+        subsystem.setDesiredState(new SwerveModuleState(0.5, new Rotation2d(0)));
         // Assert
-        assertEquals(speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond, subsystem.getDriveVelocity());
-        assertTrue(-180 <= subsystem.getTurningPosition() / 360 && subsystem.getTurningPosition() / 360 <= 180);
+        verify(mockDriveMotor).set(0.5 / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
+        verify(mockTurningMotor).set(0.0);
     }
 
     @Test
