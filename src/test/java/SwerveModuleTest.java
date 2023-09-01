@@ -83,6 +83,8 @@ public class SwerveModuleTest {
         SwerveModuleState expectedState = new SwerveModuleState(speed, new Rotation2d(angle * Math.PI / 180));
         // Act
         subsystem.setState(expectedState);
+        // Arrange pt 2
+        expectedState = SwerveModuleState.optimize(expectedState, subsystem.getState().angle);
         // Assert
         verify(mockDriveMotor).set(expectedState.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
         verify(mockTurningMotor).set(turningPidController.calculate(0.5, expectedState.angle.getRadians()));
@@ -91,6 +93,20 @@ public class SwerveModuleTest {
     @Test
     void testStraigtForwardFullThrottle() {
         setStateTemplate(1.0, 0);
+    }
+
+    @Test
+    void test180InPlace() {
+        // setStateTemplate(0.0, 90);
+        // Arrange
+        when(subsystem.getTurningPosition()).thenReturn(0.5);
+        SwerveModuleState expectedState = new SwerveModuleState(0.0, new Rotation2d(90 * Math.PI / 180));
+        // Act
+        subsystem.setState(expectedState);
+        expectedState = SwerveModuleState.optimize(expectedState, subsystem.getState().angle);
+        // Assert
+        verify(mockDriveMotor).set(expectedState.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
+        verify(mockTurningMotor).set(turningPidController.calculate(0.5, expectedState.angle.getRadians()));
     }
     
 
