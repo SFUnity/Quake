@@ -4,6 +4,7 @@ import static org.mockito.Mockito.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
 import com.revrobotics.CANSparkMax;
@@ -53,7 +54,7 @@ public class SwerveModuleTest {
 
         subsystem = new SwerveModule(mockDriveMotor, mockTurningMotor, 
                 absoluteEncoder, 0, false);
-        Mockito.reset(mockDriveMotor, mockTurningMotor, mockDriveEncoder, mockTurningEncoder);
+        Mockito.reset(mockDriveEncoder, mockTurningEncoder);
     }
 
     @Test
@@ -83,15 +84,35 @@ public class SwerveModuleTest {
      */
     void setStateTemplate(double speed, double angle) {
         // Arrange
-        double fakeTurningPosition = 0.5;
-        when(subsystem.getTurningPosition()).thenReturn(fakeTurningPosition);
+        when(subsystem.getTurningPosition()).thenReturn(0.0);
         double angleInRadians = angle * Math.PI / 180;
         SwerveModuleState expectedState = new SwerveModuleState(speed, new Rotation2d(angleInRadians));
         // Act
         subsystem.setState(expectedState);
         // Assert                   Sets the drive speed to be proportional to the max speed
         verify(mockDriveMotor).set(expectedState.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
-        // verify(mockTurningMotor).set();
+        // Verifies that the speed of the turning motor is appropriate given optimization
+        ArgumentCaptor<Double> argumentCaptor = ArgumentCaptor.forClass(Double.class);
+        verify(mockTurningMotor).set(argumentCaptor.capture());
+        double turningMotorSpeed = argumentCaptor.getValue();
+        if (angle > 0 && angle <= 90 || angle > 180 && angle <= 270) {
+            if (turningMotorSpeed <= 0.0 || turningMotorSpeed > 1.0) {
+                throw new AssertionError("Value out of range!");
+            }
+        } else if (angle > 90 && angle < 180 || angle > 270 && angle < 360) {
+            if (turningMotorSpeed >= 0.0 || turningMotorSpeed < -1.0) {
+                throw new AssertionError("Value out of range!");
+            }
+        } else {
+            if (turningMotorSpeed != 0.0) {
+                throw new AssertionError("Value out of range!");
+            }
+        }
+    }
+
+    @Test
+    void testNothing() {
+        setStateTemplate(0, 0);
     }
 
     @Test
@@ -100,13 +121,16 @@ public class SwerveModuleTest {
     }
 
     @Test
-    void test90InPlace() {
-        setStateTemplate(0.0, 90);
+    void testStraigtBackwardFullThrottle() {
+        setStateTemplate(-1.0, 0);
     }
 
     @Test
-    void test180InPlace() {
-        setStateTemplate(0.0, 180);
+    void testEveryTenthAngleInPlace() {
+        for (double i = 0.0; i <= 360; i += 10) {
+            setStateTemplate(0.0, i);
+            Mockito.reset(mockDriveMotor, mockTurningMotor);
+        }
     }
     
 
