@@ -3,7 +3,9 @@ import static org.mockito.Mockito.*;
 
 import org.junit.jupiter.api.*;
 import org.mockito.ArgumentCaptor;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
@@ -19,11 +21,11 @@ public class SwerveModuleTest {
 
     SwerveModule subsystem;
 
-    CANSparkMax mockDriveMotor;
-    CANSparkMax mockTurningMotor;
+    @Mock CANSparkMax mockDriveMotor;
+    @Mock CANSparkMax mockTurningMotor;
 
-    RelativeEncoder mockDriveEncoder;
-    RelativeEncoder mockTurningEncoder;
+    @Mock RelativeEncoder mockDriveEncoder;
+    @Mock RelativeEncoder mockTurningEncoder;
 
     AnalogInput absoluteEncoder;
     AnalogInputSim simAbsoluteEncoder;
@@ -31,11 +33,7 @@ public class SwerveModuleTest {
     @BeforeEach
     void setup() {
         // Arrange
-        mockDriveMotor = mock(CANSparkMax.class);
-        mockTurningMotor = mock(CANSparkMax.class);
-
-        mockDriveEncoder = mock(RelativeEncoder.class);
-        mockTurningEncoder = mock(RelativeEncoder.class);
+        MockitoAnnotations.openMocks(this);
 
         absoluteEncoder = new AnalogInput(0);
         simAbsoluteEncoder = new AnalogInputSim(absoluteEncoder);
