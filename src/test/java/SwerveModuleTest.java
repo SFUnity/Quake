@@ -79,15 +79,20 @@ public class SwerveModuleTest {
 
     void setStateTemplate(double speed, double angle) {
         // Arrange
-        when(subsystem.getTurningPosition()).thenReturn(0.5);
+        double turningPosition = 0.5;
+        when(subsystem.getTurningPosition()).thenReturn(turningPosition);
+        SwerveModuleState unoptimizedState = new SwerveModuleState(speed, new Rotation2d(angle * Math.PI / 180));
         SwerveModuleState expectedState = new SwerveModuleState(speed, new Rotation2d(angle * Math.PI / 180));
-        // Act
-        subsystem.setState(expectedState);
-        // Arrange pt 2
         expectedState = SwerveModuleState.optimize(expectedState, subsystem.getState().angle);
+        // Act
+        subsystem.setState(unoptimizedState);
         // Assert
-        verify(mockDriveMotor).set(expectedState.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
-        verify(mockTurningMotor).set(turningPidController.calculate(0.5, expectedState.angle.getRadians()));
+        double expectedDriveValue = expectedState.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond;
+        if (Math.abs(expectedDriveValue) < 0.001) {
+            expectedDriveValue = Math.abs(expectedDriveValue);
+        }
+        verify(mockDriveMotor).set(expectedDriveValue);
+        verify(mockTurningMotor).set(turningPidController.calculate(subsystem.getTurningPosition(), expectedState.angle.getRadians()));
     }
 
     @Test
@@ -96,17 +101,13 @@ public class SwerveModuleTest {
     }
 
     @Test
+    void test90InPlace() {
+        setStateTemplate(0.0, 90);
+    }
+
+    @Test
     void test180InPlace() {
-        // setStateTemplate(0.0, 90);
-        // Arrange
-        when(subsystem.getTurningPosition()).thenReturn(0.5);
-        SwerveModuleState expectedState = new SwerveModuleState(0.0, new Rotation2d(90 * Math.PI / 180));
-        // Act
-        subsystem.setState(expectedState);
-        expectedState = SwerveModuleState.optimize(expectedState, subsystem.getState().angle);
-        // Assert
-        verify(mockDriveMotor).set(expectedState.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
-        verify(mockTurningMotor).set(turningPidController.calculate(0.5, expectedState.angle.getRadians()));
+        setStateTemplate(0.0, 180);
     }
     
 
