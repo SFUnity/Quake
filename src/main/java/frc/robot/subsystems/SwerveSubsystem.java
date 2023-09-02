@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.DriveConstants;
 
 public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
-    private final SwerveModule frontLeft = new SwerveModule(
+    private final SwerveModule m_frontLeft = new SwerveModule(
         DriveConstants.kFrontLeftDriveMotorPort,
         DriveConstants.kFrontLeftTurningMotorPort,
         DriveConstants.kFrontLeftDriveEncoderReversed,
@@ -19,7 +19,7 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
         DriveConstants.kFrontLeftDriveAbsoluteEncoderOffsetRad,
         DriveConstants.kFrontLeftDriveAbsoluteEncoderReversed);
 
-    private final SwerveModule frontRight = new SwerveModule(
+    private final SwerveModule m_frontRight = new SwerveModule(
         DriveConstants.kFrontRightDriveMotorPort,
         DriveConstants.kFrontRightTurningMotorPort,
         DriveConstants.kFrontRightDriveEncoderReversed,
@@ -28,7 +28,7 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
         DriveConstants.kFrontRightDriveAbsoluteEncoderOffsetRad,
         DriveConstants.kFrontRightDriveAbsoluteEncoderReversed);
 
-    private final SwerveModule backLeft = new SwerveModule(
+    private final SwerveModule m_backLeft = new SwerveModule(
         DriveConstants.kBackLeftDriveMotorPort,
         DriveConstants.kBackLeftTurningMotorPort,
         DriveConstants.kBackLeftDriveEncoderReversed,
@@ -37,7 +37,7 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
         DriveConstants.kBackLeftDriveAbsoluteEncoderOffsetRad,
         DriveConstants.kBackLeftDriveAbsoluteEncoderReversed);
 
-    private final SwerveModule backRight = new SwerveModule(
+    private final SwerveModule m_backRight = new SwerveModule(
         DriveConstants.kBackRightDriveMotorPort,
         DriveConstants.kBackRightTurningMotorPort,
         DriveConstants.kBackRightDriveEncoderReversed,
@@ -78,10 +78,10 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
     }
 
     public void stopModules() {
-        frontLeft.stopMotors();
-        frontRight.stopMotors();
-        backLeft.stopMotors();
-        backRight.stopMotors();
+        m_frontLeft.stopMotors();
+        m_frontRight.stopMotors();
+        m_backLeft.stopMotors();
+        m_backRight.stopMotors();
     }
 
     /**
@@ -89,18 +89,18 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
      */
     public void setModuleStates(SwerveModuleState[] desiredStates) {
         SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
-        frontLeft.setState(desiredStates[0]);
-        frontRight.setState(desiredStates[1]);
-        backLeft.setState(desiredStates[2]);
-        backRight.setState(desiredStates[3]);
+        m_frontLeft.setState(desiredStates[0]);
+        m_frontRight.setState(desiredStates[1]);
+        m_backLeft.setState(desiredStates[2]);
+        m_backRight.setState(desiredStates[3]);
     }
 
     @Override
     public void close() throws Exception {
-        frontLeft.close();
-        frontRight.close();
-        backLeft.close();
-        backRight.close();
+        m_frontLeft.close();
+        m_frontRight.close();
+        m_backLeft.close();
+        m_backRight.close();
         gyro.DestroyObject();
     }
 }
