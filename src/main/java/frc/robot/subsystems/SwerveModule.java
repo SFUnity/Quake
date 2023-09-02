@@ -129,11 +129,11 @@ public class SwerveModule implements AutoCloseable {
             m_driveMotor.set(state.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
         }
         state = SwerveModuleState.optimize(state, getState().angle);
-        double desiredTurnValue = turningPidController.calculate(getTurningPosition(), state.angle.getRadians());
-        if (Math.abs(desiredTurnValue) < 0.001) {
+        double desiredTurnSpeed = turningPidController.calculate(getTurningPosition(), state.angle.getRadians());
+        if (Math.abs(desiredTurnSpeed) < 0.001) {
             m_turningMotor.set(0);
         } else {
-            m_turningMotor.set(desiredTurnValue);
+            m_turningMotor.set(desiredTurnSpeed);
         }
 
         SmartDashboard.putString("Swerve[" + m_absoluteEncoder.getChannel() + "] state", state.toString());
