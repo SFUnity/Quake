@@ -1,12 +1,11 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import com.kauailabs.navx.frc.AHRS;
+import com.ctre.phoenix.sensors.Pigeon2;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.DriveConstants;
 
@@ -47,7 +46,7 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
         DriveConstants.kBackRightDriveAbsoluteEncoderOffsetRad,
         DriveConstants.kBackRightDriveAbsoluteEncoderReversed);
 
-    private final AHRS gyro = new AHRS(SPI.Port.kMXP);
+    private final Pigeon2 gyro = new Pigeon2(0);
 
     public SwerveSubsystem() {
         /* Threads are units of code. These threads call the zeroHeading method 1 sec 
@@ -62,11 +61,11 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
     }
 
     public void zeroHeading() {
-        gyro.reset();
+        gyro.setYaw(0);
     }
 
     public double getHeading() {
-        return Math.IEEEremainder(gyro.getAngle(), 360);
+        return Math.IEEEremainder(gyro.getYaw(), 360);
     }
 
     public Rotation2d getRotation2d() {
@@ -102,6 +101,6 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
         frontRight.close();
         backLeft.close();
         backRight.close();
-        gyro.close();
+        gyro.DestroyObject();
     }
 }
