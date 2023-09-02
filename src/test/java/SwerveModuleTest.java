@@ -1,22 +1,18 @@
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.simulation.AnalogInputSim;
 import frc.robot.Constants.DriveConstants;
-import frc.robot.Constants.ModuleConstants;
 import frc.robot.subsystems.SwerveModule;
 
 public class SwerveModuleTest {
@@ -32,8 +28,6 @@ public class SwerveModuleTest {
     AnalogInput absoluteEncoder;
     AnalogInputSim simAbsoluteEncoder;
 
-    private PIDController turningPidController;
-
     @BeforeEach
     void setup() {
         // Arrange
@@ -48,9 +42,6 @@ public class SwerveModuleTest {
 
         when(mockDriveMotor.getEncoder()).thenReturn(mockDriveEncoder);
         when(mockTurningMotor.getEncoder()).thenReturn(mockTurningEncoder);
-
-        turningPidController = new PIDController(ModuleConstants.kPTurning, 0, 0); // Consider adding the kI & kD
-        turningPidController.enableContinuousInput(-Math.PI, Math.PI);
 
         subsystem = new SwerveModule(mockDriveMotor, mockTurningMotor, 
                 absoluteEncoder, 0, false);
@@ -84,6 +75,7 @@ public class SwerveModuleTest {
      */
     void setStateTemplate(double speed, double angle) {
         // Arrange
+        Mockito.reset(mockDriveMotor, mockTurningMotor);
         when(subsystem.getTurningPosition()).thenReturn(0.0);
         double angleInRadians = angle * Math.PI / 180;
         SwerveModuleState expectedState = new SwerveModuleState(speed, new Rotation2d(angleInRadians));
@@ -129,7 +121,6 @@ public class SwerveModuleTest {
     void testEveryTenthAngleInPlace() {
         for (double i = 0.0; i <= 360; i += 10) {
             setStateTemplate(0.0, i);
-            Mockito.reset(mockDriveMotor, mockTurningMotor);
         }
     }
 
