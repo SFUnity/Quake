@@ -83,6 +83,7 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
     }
 
     public double getHeading() {
+        // Normalizes the heading to be between -360 and 360
         return Math.IEEEremainder(m_gyro.getYaw(), 360);
     }
 

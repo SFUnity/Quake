@@ -3,6 +3,7 @@ import static org.mockito.Mockito.*;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -25,11 +26,27 @@ public class SwerveSubsystemTest {
     void setup() {
         // Arrange
         MockitoAnnotations.openMocks(this);
-
+        
         // Put stubs here
-
+        
         subsystem = new SwerveSubsystem(frontLeftMock, frontRightMock, 
                                         backLeftMock, backRightMock, gyroMock);
+    }
+
+    @Test
+    void testGetHeadingLarge() {
+        // Arrange
+        when(gyroMock.getYaw()).thenReturn(1000.0);
+        // Act and Assert
+        assertTrue(subsystem.getHeading() >= -360 && subsystem.getHeading() <= 360);
+    }
+
+    @Test
+    void testGetHeadingSmall() {
+        // Arrange
+        when(gyroMock.getYaw()).thenReturn(1.0);
+        // Act and Assert
+        assertTrue(subsystem.getHeading() >= -360 && subsystem.getHeading() <= 360);
     }
 
     @AfterEach
