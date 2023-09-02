@@ -132,6 +132,26 @@ public class SwerveModuleTest {
             Mockito.reset(mockDriveMotor, mockTurningMotor);
         }
     }
+
+    @Test
+    void testBackwardFullThrottleAnd90() {
+        setStateTemplate(-1.0, 90);
+    }
+
+    @Test
+    void testBackwardFullThrottleAnd180() {
+        setStateTemplate(-1.0, 180);
+    }
+
+    @Test
+    void testForwardFullThrottleAnd90() {
+        setStateTemplate(1.0, 90);
+    }
+
+    @Test
+    void testForwardFullThrottleAnd180() {
+        setStateTemplate(1.0, 180);
+    }
     
 
     @AfterEach
