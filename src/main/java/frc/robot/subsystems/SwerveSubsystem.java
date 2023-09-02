@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.DriveConstants;
 
 public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
-    private final SwerveModule m_frontLeft = new SwerveModule(
+    private SwerveModule m_frontLeft = new SwerveModule(
         DriveConstants.kFrontLeftDriveMotorPort,
         DriveConstants.kFrontLeftTurningMotorPort,
         DriveConstants.kFrontLeftDriveEncoderReversed,
@@ -19,7 +19,7 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
         DriveConstants.kFrontLeftDriveAbsoluteEncoderOffsetRad,
         DriveConstants.kFrontLeftDriveAbsoluteEncoderReversed);
 
-    private final SwerveModule m_frontRight = new SwerveModule(
+    private SwerveModule m_frontRight = new SwerveModule(
         DriveConstants.kFrontRightDriveMotorPort,
         DriveConstants.kFrontRightTurningMotorPort,
         DriveConstants.kFrontRightDriveEncoderReversed,
@@ -28,7 +28,7 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
         DriveConstants.kFrontRightDriveAbsoluteEncoderOffsetRad,
         DriveConstants.kFrontRightDriveAbsoluteEncoderReversed);
 
-    private final SwerveModule m_backLeft = new SwerveModule(
+    private SwerveModule m_backLeft = new SwerveModule(
         DriveConstants.kBackLeftDriveMotorPort,
         DriveConstants.kBackLeftTurningMotorPort,
         DriveConstants.kBackLeftDriveEncoderReversed,
@@ -37,7 +37,7 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
         DriveConstants.kBackLeftDriveAbsoluteEncoderOffsetRad,
         DriveConstants.kBackLeftDriveAbsoluteEncoderReversed);
 
-    private final SwerveModule m_backRight = new SwerveModule(
+    private SwerveModule m_backRight = new SwerveModule(
         DriveConstants.kBackRightDriveMotorPort,
         DriveConstants.kBackRightTurningMotorPort,
         DriveConstants.kBackRightDriveEncoderReversed,
@@ -46,7 +46,7 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
         DriveConstants.kBackRightDriveAbsoluteEncoderOffsetRad,
         DriveConstants.kBackRightDriveAbsoluteEncoderReversed);
 
-    private final Pigeon2 gyro = new Pigeon2(0);
+    private Pigeon2 m_gyro = new Pigeon2(0);
 
     public SwerveSubsystem() {
         /* Threads are units of code. These threads call the zeroHeading method 1 sec 
@@ -60,12 +60,30 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
         }).start();
     }
 
+    // For testing purposes only
+    public SwerveSubsystem(SwerveModule frontLeft, SwerveModule frontRight, 
+                           SwerveModule backLeft, SwerveModule backRight, Pigeon2 gyro) {
+        m_frontLeft = frontLeft;
+        m_frontRight = frontRight;
+        m_backLeft = backLeft;
+        m_backRight = backRight;
+        m_gyro = gyro;
+
+        new Thread(() -> {
+            try {
+                Thread.sleep(1000);
+                zeroHeading();
+            } catch (Exception e) {
+            }
+        }).start();
+    }
+
     public void zeroHeading() {
-        gyro.setYaw(0);
+        m_gyro.setYaw(0);
     }
 
     public double getHeading() {
-        return Math.IEEEremainder(gyro.getYaw(), 360);
+        return Math.IEEEremainder(m_gyro.getYaw(), 360);
     }
 
     public Rotation2d getRotation2d() {
@@ -101,6 +119,6 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
         m_frontRight.close();
         m_backLeft.close();
         m_backRight.close();
-        gyro.DestroyObject();
+        m_gyro.DestroyObject();
     }
 }
