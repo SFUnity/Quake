@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.DriveConstants;
 
 public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
-    private SwerveModule m_frontLeft = new SwerveModule(
+    private final SwerveModule m_frontLeft = new SwerveModule(
         DriveConstants.kFrontLeftDriveMotorPort,
         DriveConstants.kFrontLeftTurningMotorPort,
         DriveConstants.kFrontLeftDriveEncoderReversed,
@@ -19,7 +19,7 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
         DriveConstants.kFrontLeftDriveAbsoluteEncoderOffsetRad,
         DriveConstants.kFrontLeftDriveAbsoluteEncoderReversed);
 
-    private SwerveModule m_frontRight = new SwerveModule(
+    private final SwerveModule m_frontRight = new SwerveModule(
         DriveConstants.kFrontRightDriveMotorPort,
         DriveConstants.kFrontRightTurningMotorPort,
         DriveConstants.kFrontRightDriveEncoderReversed,
@@ -28,7 +28,7 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
         DriveConstants.kFrontRightDriveAbsoluteEncoderOffsetRad,
         DriveConstants.kFrontRightDriveAbsoluteEncoderReversed);
 
-    private SwerveModule m_backLeft = new SwerveModule(
+    private final SwerveModule m_backLeft = new SwerveModule(
         DriveConstants.kBackLeftDriveMotorPort,
         DriveConstants.kBackLeftTurningMotorPort,
         DriveConstants.kBackLeftDriveEncoderReversed,
@@ -37,7 +37,7 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
         DriveConstants.kBackLeftDriveAbsoluteEncoderOffsetRad,
         DriveConstants.kBackLeftDriveAbsoluteEncoderReversed);
 
-    private SwerveModule m_backRight = new SwerveModule(
+    private final SwerveModule m_backRight = new SwerveModule(
         DriveConstants.kBackRightDriveMotorPort,
         DriveConstants.kBackRightTurningMotorPort,
         DriveConstants.kBackRightDriveEncoderReversed,
@@ -61,12 +61,7 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
     }
 
     // For testing purposes only
-    public SwerveSubsystem(SwerveModule frontLeft, SwerveModule frontRight, 
-                           SwerveModule backLeft, SwerveModule backRight, Pigeon2 gyro) {
-        m_frontLeft = frontLeft;
-        m_frontRight = frontRight;
-        m_backLeft = backLeft;
-        m_backRight = backRight;
+    public SwerveSubsystem(Pigeon2 gyro) {
         m_gyro = gyro;
 
         new Thread(() -> {

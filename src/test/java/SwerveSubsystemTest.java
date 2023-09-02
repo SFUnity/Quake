@@ -9,16 +9,10 @@ import org.mockito.MockitoAnnotations;
 
 import com.ctre.phoenix.sensors.Pigeon2;
 
-import frc.robot.subsystems.SwerveModule;
 import frc.robot.subsystems.SwerveSubsystem;
 
 public class SwerveSubsystemTest {
     SwerveSubsystem subsystem;
-
-    @Mock SwerveModule frontLeftMock;
-    @Mock SwerveModule frontRightMock;
-    @Mock SwerveModule backLeftMock;
-    @Mock SwerveModule backRightMock;
 
     @Mock Pigeon2 gyroMock;
 
@@ -29,8 +23,7 @@ public class SwerveSubsystemTest {
         
         // Put stubs here
         
-        subsystem = new SwerveSubsystem(frontLeftMock, frontRightMock, 
-                                        backLeftMock, backRightMock, gyroMock);
+        subsystem = new SwerveSubsystem(gyroMock);
     }
 
     @Test
