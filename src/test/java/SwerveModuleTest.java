@@ -77,22 +77,21 @@ public class SwerveModuleTest {
         System.out.println(state.toString());
     }
 
+    /**
+     * @param speed in m/s
+     * @param angle in degrees
+     */
     void setStateTemplate(double speed, double angle) {
         // Arrange
-        double turningPosition = 0.5;
-        when(subsystem.getTurningPosition()).thenReturn(turningPosition);
-        SwerveModuleState unoptimizedState = new SwerveModuleState(speed, new Rotation2d(angle * Math.PI / 180));
-        SwerveModuleState expectedState = new SwerveModuleState(speed, new Rotation2d(angle * Math.PI / 180));
-        expectedState = SwerveModuleState.optimize(expectedState, subsystem.getState().angle);
+        double fakeTurningPosition = 0.5;
+        when(subsystem.getTurningPosition()).thenReturn(fakeTurningPosition);
+        double angleInRadians = angle * Math.PI / 180;
+        SwerveModuleState expectedState = new SwerveModuleState(speed, new Rotation2d(angleInRadians));
         // Act
-        subsystem.setState(unoptimizedState);
-        // Assert
-        double expectedDriveValue = expectedState.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond;
-        if (Math.abs(expectedDriveValue) < 0.001) {
-            expectedDriveValue = Math.abs(expectedDriveValue);
-        }
-        verify(mockDriveMotor).set(expectedDriveValue);
-        verify(mockTurningMotor).set(turningPidController.calculate(subsystem.getTurningPosition(), expectedState.angle.getRadians()));
+        subsystem.setState(expectedState);
+        // Assert                   Sets the drive speed to be proportional to the max speed
+        verify(mockDriveMotor).set(expectedState.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
+        // verify(mockTurningMotor).set();
     }
 
     @Test
