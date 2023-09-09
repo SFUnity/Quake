@@ -31,15 +31,6 @@ public class MAXSwerveModule implements AutoCloseable, SwerveModule {
 
     private SwerveModuleState desiredState = new SwerveModuleState(0.0, new Rotation2d());
     
-    /**
-     * @param drive motor id
-     * @param turning motor id
-     * @param if drive motor is reversed
-     * @param if turning motor is reversed
-     * @param absolute encoder id
-     * @param absolute encoder offset in radians
-     * @param if absolute encoder is reversed
-     */
     public MAXSwerveModule(int kDriveMotorId, int kTurningMotorId, boolean driveMotorReversed, boolean turningMotorReversed,
             int absoluteEncoderId, double absoluteEncoderOffset, boolean absoluteEncoderReversed) {
         
@@ -62,16 +53,7 @@ public class MAXSwerveModule implements AutoCloseable, SwerveModule {
         resetEncoders(); // Resets encoders every time the robot boots up
     }
 
-    /**
-     * @param driveMotor
-     * @param turningMotor
-     * @param driveEncoder
-     * @param turningEncoder
-     * @param absoluteEncoder
-     * @param absoluteEncoderOffset in radians
-     * @param if the absoluteEncoder is reversed
-     */
-    // For testing purposes only
+    // ! For testing purposes only
     public MAXSwerveModule(CANSparkMax driveMotor, CANSparkMax turningMotor, 
             AnalogInput absoluteEncoder, double absoluteEncoderOffset, boolean absoluteEncoderReversed) {
        
@@ -127,9 +109,6 @@ public class MAXSwerveModule implements AutoCloseable, SwerveModule {
         return new SwerveModulePosition(getDrivePosition(), new Rotation2d(getTurningPosition()));
     }
 
-    /**
-     * @param desired swerve module state
-     */
     public void setDesiredState(SwerveModuleState state) {
         if (Math.abs(state.speedMetersPerSecond) < 0.001) {
             m_driveMotor.set(0);

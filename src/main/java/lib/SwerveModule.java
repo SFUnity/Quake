@@ -28,36 +28,14 @@ public interface SwerveModule extends Sendable {
                                 absoluteEncoderId, absoluteEncoderOffset, absoluteEncoderReversed)
         : new GoalSwerveModule();
   }
-
-  /**
-   * Returns the current state of the module.
-   *
-   * @return The current state of the module.
-   */
   public SwerveModuleState getState();
 
-  /**
-   * Returns the current position of the module.
-   *
-   * @return The current position of the module.
-   */
   public SwerveModulePosition getPosition();
 
-  /**
-   * Sets the desired state for the module.
-   *
-   * @param _desiredState Desired state with speed and angle.
-   */
   public void setDesiredState(SwerveModuleState _desiredState);
 
-  /**
-   * Returns the desired state for the module.
-   *
-   * @return The desired state of the module.
-   */
   public SwerveModuleState getDesiredState();
 
-  /** Zeroes all the drive encoders. */
   public void resetEncoders();
 
   @Override
