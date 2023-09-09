@@ -28,6 +28,21 @@ public interface SwerveModule extends Sendable {
                                 absoluteEncoderId, absoluteEncoderOffset, absoluteEncoderReversed)
         : new GoalSwerveModule();
   }
+
+  // double getDrivePosition();
+
+  // double getTurningPosition();
+
+  // double getDriveVelocity();
+
+  // double getTurningVelocity();
+
+  // double getAbsoluteEncoderRad();
+
+  // void stopMotors();
+
+  // public void close() throws Exception;
+
   public SwerveModuleState getState();
 
   public SwerveModulePosition getPosition();
