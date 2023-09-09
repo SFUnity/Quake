@@ -1,7 +1,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import com.ctre.phoenix.sensors.Pigeon2;
+import com.ctre.phoenix.sensors.WPI_Pigeon2;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -46,7 +46,7 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
         DriveConstants.kBackRightDriveAbsoluteEncoderOffsetRad,
         DriveConstants.kBackRightDriveAbsoluteEncoderReversed);
 
-    private Pigeon2 m_gyro = new Pigeon2(0);
+    private WPI_Pigeon2 m_gyro = new WPI_Pigeon2(0);
 
     public SwerveSubsystem() {
         /* Threads are units of code. These threads call the zeroHeading method 1 sec 
@@ -61,7 +61,7 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
     }
 
     // ! For testing purposes only
-    public SwerveSubsystem(Pigeon2 gyro) {
+    public SwerveSubsystem(WPI_Pigeon2 gyro) {
         m_gyro = gyro;
 
         new Thread(() -> {
