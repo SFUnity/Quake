@@ -2,9 +2,10 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import lib.SwerveModule;
 
 /** Ideal swerve module, useful for debugging */
-public class GoalSwerveModule {
+public class GoalSwerveModule implements SwerveModule {
 
   private SwerveModuleState state = new SwerveModuleState();
   private double distance;
