@@ -63,8 +63,6 @@ public class SwerveModuleTest {
         // Act and Assert
         SwerveModuleState state = new SwerveModuleState(0.5, new Rotation2d(0.5));
         assertEquals(state, subsystem.getState());
-        System.out.println(subsystem.getState().toString());
-        System.out.println(state.toString());
     }
 
     /**

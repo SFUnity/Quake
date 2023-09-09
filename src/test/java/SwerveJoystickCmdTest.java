@@ -35,7 +35,6 @@ public class SwerveJoystickCmdTest {
     @Test
     void negativeDeadbandToDeadbandShouldEqualZero() {
         for (double i = -1 * OperatorConstants.kDeadband; i <= OperatorConstants.kDeadband; i += 0.01) {
-            System.out.println(i);
             assertEquals(0.0, command.applyDeadBand(i));
         }
         // Checks boundary because that isn't checked in the for loop because of floating-point precision errors 
@@ -45,7 +44,6 @@ public class SwerveJoystickCmdTest {
     @Test
     void aboveDeadbandShouldStayTheSame() {
         for (double i = OperatorConstants.kDeadband + 0.01; i <= 1; i += 0.01) {
-            System.out.println(i);
             assertEquals(i, command.applyDeadBand(i));
         }
     }
@@ -53,7 +51,6 @@ public class SwerveJoystickCmdTest {
     @Test
     void belowDeadbandShouldStayTheSame() {
         for (double i = -1 * OperatorConstants.kDeadband - 0.01; i >= -1; i -= 0.01) {
-            System.out.println(i);
             assertEquals(i, command.applyDeadBand(i));
         }
     }
