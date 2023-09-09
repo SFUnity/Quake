@@ -15,11 +15,11 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.simulation.AnalogInputSim;
 import frc.robot.Constants.DriveConstants;
-import frc.robot.subsystems.SwerveModule;
+import frc.robot.subsystems.MAXSwerveModule;
 
 public class SwerveModuleTest {
 
-    SwerveModule subsystem;
+    MAXSwerveModule subsystem;
 
     @Mock CANSparkMax mockDriveMotor;
     @Mock CANSparkMax mockTurningMotor;
@@ -41,7 +41,7 @@ public class SwerveModuleTest {
         when(mockDriveMotor.getEncoder()).thenReturn(mockDriveEncoder);
         when(mockTurningMotor.getEncoder()).thenReturn(mockTurningEncoder);
 
-        subsystem = new SwerveModule(mockDriveMotor, mockTurningMotor, 
+        subsystem = new MAXSwerveModule(mockDriveMotor, mockTurningMotor, 
                 absoluteEncoder, 0, false);
         Mockito.reset(mockDriveEncoder, mockTurningEncoder);
     }

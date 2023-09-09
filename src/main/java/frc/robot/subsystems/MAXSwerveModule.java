@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ModuleConstants;
 
-public class SwerveModule implements AutoCloseable {
+public class MAXSwerveModule implements AutoCloseable {
     
     private final CANSparkMax m_driveMotor;
     private final CANSparkMax m_turningMotor;
@@ -36,7 +36,7 @@ public class SwerveModule implements AutoCloseable {
      * @param absolute encoder offset in radians
      * @param if absolute encoder is reversed
      */
-    public SwerveModule(int kDriveMotorId, int kTurningMotorId, boolean driveMotorReversed, boolean turningMotorReversed,
+    public MAXSwerveModule(int kDriveMotorId, int kTurningMotorId, boolean driveMotorReversed, boolean turningMotorReversed,
             int absoluteEncoderId, double absoluteEncoderOffset, boolean absoluteEncoderReversed) {
         
         m_driveMotor = new CANSparkMax(kDriveMotorId, MotorType.kBrushless);
@@ -68,7 +68,7 @@ public class SwerveModule implements AutoCloseable {
      * @param if the absoluteEncoder is reversed
      */
     // For testing purposes only
-    public SwerveModule(CANSparkMax driveMotor, CANSparkMax turningMotor, 
+    public MAXSwerveModule(CANSparkMax driveMotor, CANSparkMax turningMotor, 
             AnalogInput absoluteEncoder, double absoluteEncoderOffset, boolean absoluteEncoderReversed) {
        
         m_driveMotor = driveMotor;

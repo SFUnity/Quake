@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.DriveConstants;
 
 public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
-    private final SwerveModule m_frontLeft = new SwerveModule(
+    private final MAXSwerveModule m_frontLeft = new MAXSwerveModule(
         DriveConstants.kFrontLeftDriveMotorPort,
         DriveConstants.kFrontLeftTurningMotorPort,
         DriveConstants.kFrontLeftDriveEncoderReversed,
@@ -19,7 +19,7 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
         DriveConstants.kFrontLeftDriveAbsoluteEncoderOffsetRad,
         DriveConstants.kFrontLeftDriveAbsoluteEncoderReversed);
 
-    private final SwerveModule m_frontRight = new SwerveModule(
+    private final MAXSwerveModule m_frontRight = new MAXSwerveModule(
         DriveConstants.kFrontRightDriveMotorPort,
         DriveConstants.kFrontRightTurningMotorPort,
         DriveConstants.kFrontRightDriveEncoderReversed,
@@ -28,7 +28,7 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
         DriveConstants.kFrontRightDriveAbsoluteEncoderOffsetRad,
         DriveConstants.kFrontRightDriveAbsoluteEncoderReversed);
 
-    private final SwerveModule m_backLeft = new SwerveModule(
+    private final MAXSwerveModule m_backLeft = new MAXSwerveModule(
         DriveConstants.kBackLeftDriveMotorPort,
         DriveConstants.kBackLeftTurningMotorPort,
         DriveConstants.kBackLeftDriveEncoderReversed,
@@ -37,7 +37,7 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
         DriveConstants.kBackLeftDriveAbsoluteEncoderOffsetRad,
         DriveConstants.kBackLeftDriveAbsoluteEncoderReversed);
 
-    private final SwerveModule m_backRight = new SwerveModule(
+    private final MAXSwerveModule m_backRight = new MAXSwerveModule(
         DriveConstants.kBackRightDriveMotorPort,
         DriveConstants.kBackRightTurningMotorPort,
         DriveConstants.kBackRightDriveEncoderReversed,
