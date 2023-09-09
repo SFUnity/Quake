@@ -69,14 +69,14 @@ public class SwerveModuleTest {
      * @param speed in m/s
      * @param angle in degrees
      */
-    void setStateTemplate(double speed, double angle) {
+    void setDesiredStateTemplate(double speed, double angle) {
         // Arrange
         Mockito.reset(mockDriveMotor, mockTurningMotor);
         when(subsystem.getTurningPosition()).thenReturn(0.0);
         double angleInRadians = angle * Math.PI / 180;
         SwerveModuleState expectedState = new SwerveModuleState(speed, new Rotation2d(angleInRadians));
         // Act
-        subsystem.setState(expectedState);
+        subsystem.setDesiredState(expectedState);
         // Assert                   Sets the drive speed to be proportional to the max speed
         verify(mockDriveMotor).set(expectedState.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
         // Verifies that the speed of the turning motor is appropriate given optimization
@@ -100,44 +100,44 @@ public class SwerveModuleTest {
 
     @Test
     void testNothing() {
-        setStateTemplate(0, 0);
+        setDesiredStateTemplate(0, 0);
     }
 
     @Test
     void testStraigtForwardFullThrottle() {
-        setStateTemplate(1.0, 0);
+        setDesiredStateTemplate(1.0, 0);
     }
 
     @Test
     void testStraigtBackwardFullThrottle() {
-        setStateTemplate(-1.0, 0);
+        setDesiredStateTemplate(-1.0, 0);
     }
 
     @Test
     void testEveryTenthAngleInPlace() {
         for (double i = 0.0; i <= 360; i += 10) {
-            setStateTemplate(0.0, i);
+            setDesiredStateTemplate(0.0, i);
         }
     }
 
     @Test
     void testBackwardFullThrottleAnd90() {
-        setStateTemplate(-1.0, 90);
+        setDesiredStateTemplate(-1.0, 90);
     }
 
     @Test
     void testBackwardFullThrottleAnd180() {
-        setStateTemplate(-1.0, 180);
+        setDesiredStateTemplate(-1.0, 180);
     }
 
     @Test
     void testForwardFullThrottleAnd90() {
-        setStateTemplate(1.0, 90);
+        setDesiredStateTemplate(1.0, 90);
     }
 
     @Test
     void testForwardFullThrottleAnd180() {
-        setStateTemplate(1.0, 180);
+        setDesiredStateTemplate(1.0, 180);
     }
     
 

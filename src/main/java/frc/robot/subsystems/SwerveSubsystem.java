@@ -103,10 +103,10 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
      */
     public void setModuleStates(SwerveModuleState[] desiredStates) {
         SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
-        m_frontLeft.setState(desiredStates[0]);
-        m_frontRight.setState(desiredStates[1]);
-        m_backLeft.setState(desiredStates[2]);
-        m_backRight.setState(desiredStates[3]);
+        m_frontLeft.setDesiredState(desiredStates[0]);
+        m_frontRight.setDesiredState(desiredStates[1]);
+        m_backLeft.setDesiredState(desiredStates[2]);
+        m_backRight.setDesiredState(desiredStates[3]);
     }
 
     @Override

@@ -122,7 +122,7 @@ public class MAXSwerveModule implements AutoCloseable {
     /**
      * @param desired swerve module state
      */
-    public void setState(SwerveModuleState state) {
+    public void setDesiredState(SwerveModuleState state) {
         if (Math.abs(state.speedMetersPerSecond) < 0.001) {
             m_driveMotor.set(0);
         } else {
