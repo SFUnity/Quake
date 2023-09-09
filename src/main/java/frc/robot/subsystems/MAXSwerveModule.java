@@ -6,14 +6,16 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ModuleConstants;
+import lib.SwerveModule;
 
-public class MAXSwerveModule implements AutoCloseable {
+public class MAXSwerveModule implements AutoCloseable, SwerveModule {
     
     private final CANSparkMax m_driveMotor;
     private final CANSparkMax m_turningMotor;
@@ -26,6 +28,8 @@ public class MAXSwerveModule implements AutoCloseable {
     private final boolean kAbsoluteEncoderReversed;
 
     private final PIDController turningPidController;
+
+    private SwerveModuleState desiredState = new SwerveModuleState(0.0, new Rotation2d());
     
     /**
      * @param drive motor id
@@ -119,6 +123,10 @@ public class MAXSwerveModule implements AutoCloseable {
         return new SwerveModuleState(getDriveVelocity(), new Rotation2d(getTurningPosition()));
     }
 
+    public SwerveModulePosition getPosition() {
+        return new SwerveModulePosition(getDrivePosition(), new Rotation2d(getTurningPosition()));
+    }
+
     /**
      * @param desired swerve module state
      */
@@ -138,6 +146,10 @@ public class MAXSwerveModule implements AutoCloseable {
 
         SmartDashboard.putString("Swerve[" + m_absoluteEncoder.getChannel() + "] state", state.toString());
         System.out.println("Swerve[" + m_absoluteEncoder.getChannel() + "] state " + state.toString());
+    }
+
+    public SwerveModuleState getDesiredState() {
+        return desiredState;
     }
 
     public void stopMotors() {
