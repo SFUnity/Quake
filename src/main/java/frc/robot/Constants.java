@@ -21,11 +21,16 @@ public final class Constants {
     public static final double kTrackWidth = Units.inchesToMeters(22.75);
     // Distance between front and back wheels
     public static final double kWheelBase = Units.inchesToMeters(22.75);
-    public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
-                new Translation2d(kWheelBase / 2, -kTrackWidth / 2),
-                new Translation2d(kWheelBase / 2, kTrackWidth / 2),
-                new Translation2d(-kWheelBase / 2, -kTrackWidth / 2),
-                new Translation2d(-kWheelBase / 2, kTrackWidth / 2));
+    public static final Translation2d[] kModuleOffset = {
+        new Translation2d(kWheelBase / 2, kTrackWidth / 2),
+        new Translation2d(kWheelBase / 2, -kTrackWidth / 2),
+        new Translation2d(-kWheelBase / 2, kTrackWidth / 2),
+        new Translation2d(-kWheelBase / 2, -kTrackWidth / 2)
+    };
+    public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(kModuleOffset);
+
+    /* */
+    public static final boolean kGyroReversed = true;
 
     /* */
     public static final int kFrontLeftDriveMotorPort = 8;
