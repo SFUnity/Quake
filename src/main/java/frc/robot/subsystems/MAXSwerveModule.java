@@ -124,7 +124,6 @@ public class MAXSwerveModule implements AutoCloseable, SwerveModule {
         }
 
         SmartDashboard.putString("Swerve[" + m_absoluteEncoder.getChannel() + "] state", state.toString());
-        System.out.println("Swerve[" + m_absoluteEncoder.getChannel() + "] state " + state.toString());
     }
 
     public SwerveModuleState getDesiredState() {

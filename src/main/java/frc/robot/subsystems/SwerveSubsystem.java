@@ -180,6 +180,7 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
         m_frontRight.setDesiredState(desiredStates[1]);
         m_backLeft.setDesiredState(desiredStates[2]);
         m_backRight.setDesiredState(desiredStates[3]);
+        SmartDashboard.putString("Desired States", "Set module states to: " + desiredStates.toString());
     }
 
     /**
