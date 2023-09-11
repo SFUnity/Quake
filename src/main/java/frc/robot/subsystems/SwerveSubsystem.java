@@ -146,29 +146,14 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
         }
     }
 
-    public void zeroHeading() {
-        m_gyro.setYaw(0);
-    }
-
-    public double getHeading() {
-        // Normalizes the heading to be between -360 and 360
-        return Math.IEEEremainder(m_gyro.getYaw(), 360);
-    }
-
-    public Rotation2d getRotation2d() {
-        return Rotation2d.fromDegrees(getHeading());
-    }
-
-    @Override
-    public void periodic() {
-        SmartDashboard.putNumber("Robot Heading", getHeading());
-    }
-
-    public void stopModules() {
-        m_frontLeft.stopMotors();
-        m_frontRight.stopMotors();
-        m_backLeft.stopMotors();
-        m_backRight.stopMotors();
+    /**
+     * Sets the wheels into an X formation to prevent movement.
+     */
+    public void setX() {
+        m_frontLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
+        m_frontRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(-45)));
+        m_backLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(-45)));
+        m_backRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
     }
 
     /**
@@ -180,17 +165,22 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
         m_frontRight.setDesiredState(desiredStates[1]);
         m_backLeft.setDesiredState(desiredStates[2]);
         m_backRight.setDesiredState(desiredStates[3]);
-        SmartDashboard.putString("Desired States", "Set module states to: " + desiredStates.toString());
     }
 
-    /**
-     * Sets the wheels into an X formation to prevent movement.
-     */
-    public void setX() {
-        m_frontLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
-        m_frontRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(-45)));
-        m_backLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(-45)));
-        m_backRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
+    public void resetEncoders() {
+        m_frontLeft.resetEncoders();
+        m_backLeft.resetEncoders();
+        m_frontRight.resetEncoders();
+        m_backRight.resetEncoders();
+    }
+
+    public void zeroHeading() {
+        m_gyro.reset();
+    }
+
+    public double getHeading() {
+        // Normalizes the heading to be between -180 and 180
+        return Rotation2d.fromDegrees(m_gyro.getAngle()).getDegrees();
     }
 
     /**
@@ -219,6 +209,18 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
 
         };
     }
+
+    public Rotation2d getRotation2d() {
+        return Rotation2d.fromDegrees(getHeading());
+    }
+
+    public void stopModules() {
+        m_frontLeft.stopMotors();
+        m_frontRight.stopMotors();
+        m_backLeft.stopMotors();
+        m_backRight.stopMotors();
+    }
+
 
     @Override
     public void close() throws Exception {
