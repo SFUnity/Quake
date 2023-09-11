@@ -23,7 +23,7 @@ import frc.robot.Constants.DriveConstants;
 import lib.SwerveModule;
 
 public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
-    private final MAXSwerveModule m_frontLeft = new MAXSwerveModule(
+    private final RealSwerveModule m_frontLeft = new RealSwerveModule(
         DriveConstants.kFrontLeftDriveMotorPort,
         DriveConstants.kFrontLeftTurningMotorPort,
         DriveConstants.kFrontLeftDriveEncoderReversed,
@@ -32,7 +32,7 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
         DriveConstants.kFrontLeftDriveAbsoluteEncoderOffsetRad,
         DriveConstants.kFrontLeftDriveAbsoluteEncoderReversed);
 
-    private final MAXSwerveModule m_frontRight = new MAXSwerveModule(
+    private final RealSwerveModule m_frontRight = new RealSwerveModule(
         DriveConstants.kFrontRightDriveMotorPort,
         DriveConstants.kFrontRightTurningMotorPort,
         DriveConstants.kFrontRightDriveEncoderReversed,
@@ -41,7 +41,7 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
         DriveConstants.kFrontRightDriveAbsoluteEncoderOffsetRad,
         DriveConstants.kFrontRightDriveAbsoluteEncoderReversed);
 
-    private final MAXSwerveModule m_backLeft = new MAXSwerveModule(
+    private final RealSwerveModule m_backLeft = new RealSwerveModule(
         DriveConstants.kBackLeftDriveMotorPort,
         DriveConstants.kBackLeftTurningMotorPort,
         DriveConstants.kBackLeftDriveEncoderReversed,
@@ -50,7 +50,7 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
         DriveConstants.kBackLeftDriveAbsoluteEncoderOffsetRad,
         DriveConstants.kBackLeftDriveAbsoluteEncoderReversed);
 
-    private final MAXSwerveModule m_backRight = new MAXSwerveModule(
+    private final RealSwerveModule m_backRight = new RealSwerveModule(
         DriveConstants.kBackRightDriveMotorPort,
         DriveConstants.kBackRightTurningMotorPort,
         DriveConstants.kBackRightDriveEncoderReversed,

@@ -15,7 +15,7 @@ import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ModuleConstants;
 import lib.SwerveModule;
 
-public class MAXSwerveModule implements AutoCloseable, SwerveModule {
+public class RealSwerveModule implements AutoCloseable, SwerveModule {
     
     private final CANSparkMax m_driveMotor;
     private final CANSparkMax m_turningMotor;
@@ -31,7 +31,7 @@ public class MAXSwerveModule implements AutoCloseable, SwerveModule {
 
     private SwerveModuleState desiredState = new SwerveModuleState(0.0, new Rotation2d());
     
-    public MAXSwerveModule(int kDriveMotorId, int kTurningMotorId, boolean driveMotorReversed, boolean turningMotorReversed,
+    public RealSwerveModule(int kDriveMotorId, int kTurningMotorId, boolean driveMotorReversed, boolean turningMotorReversed,
             int absoluteEncoderId, double absoluteEncoderOffset, boolean absoluteEncoderReversed) {
         
         m_driveMotor = new CANSparkMax(kDriveMotorId, MotorType.kBrushless);
@@ -54,7 +54,7 @@ public class MAXSwerveModule implements AutoCloseable, SwerveModule {
     }
 
     // ! For testing purposes only
-    public MAXSwerveModule(CANSparkMax driveMotor, CANSparkMax turningMotor, 
+    public RealSwerveModule(CANSparkMax driveMotor, CANSparkMax turningMotor, 
             AnalogInput absoluteEncoder, double absoluteEncoderOffset, boolean absoluteEncoderReversed) {
        
         m_driveMotor = driveMotor;

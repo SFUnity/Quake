@@ -6,7 +6,7 @@ import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.RobotBase;
 import frc.robot.subsystems.GoalSwerveModule;
-import frc.robot.subsystems.MAXSwerveModule;
+import frc.robot.subsystems.RealSwerveModule;
 
 /** Interface to represent a swerve module */
 public interface SwerveModule extends Sendable {
@@ -14,17 +14,17 @@ public interface SwerveModule extends Sendable {
   /**
    * Creates a swerve module.
    *
-   * <p>If the robot is real, a new {@link MAXSwerveModule} will be created, otherwise a
+   * <p>If the robot is real, a new {@link RealSwerveModule} will be created, otherwise a
    * {@link GoalSwerveModule} will be created.
    *
-   * <p>For the parameters, see {@link MAXSwerveModule#MAXSwerveModule(int, int, double)}.
+   * <p>For the parameters, see {@link RealSwerveModule#MAXSwerveModule(int, int, double)}.
    *
    * @return A new {@link SwerveModule} based on if the robot is currently real or simulated.
    */
   public static SwerveModule create(int kDriveMotorId, int kTurningMotorId, boolean driveMotorReversed, boolean turningMotorReversed,
           int absoluteEncoderId, double absoluteEncoderOffset, boolean absoluteEncoderReversed) {
     return RobotBase.isReal()
-        ? new MAXSwerveModule(kDriveMotorId, kTurningMotorId, driveMotorReversed, turningMotorReversed, 
+        ? new RealSwerveModule(kDriveMotorId, kTurningMotorId, driveMotorReversed, turningMotorReversed, 
                                 absoluteEncoderId, absoluteEncoderOffset, absoluteEncoderReversed)
         : new GoalSwerveModule();
   }
