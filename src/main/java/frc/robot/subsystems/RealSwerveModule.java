@@ -73,6 +73,40 @@ public class RealSwerveModule implements AutoCloseable, SwerveModule {
         resetEncoders();
     }
 
+    public SwerveModuleState getState() {
+        return new SwerveModuleState(getDriveVelocity(), new Rotation2d(getTurningPosition()));
+    }
+
+    public SwerveModulePosition getPosition() {
+        return new SwerveModulePosition(getDrivePosition(), new Rotation2d(getTurningPosition()));
+    }
+
+    public void setDesiredState(SwerveModuleState state) {
+        m_driveMotor.set(state.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
+        state = SwerveModuleState.optimize(state, getState().angle);
+        double desiredTurnSpeed = turningPidController.calculate(getTurningPosition(), state.angle.getRadians());
+        m_turningMotor.set(desiredTurnSpeed);
+
+        desiredState = state;
+        SmartDashboard.putString("Swerve[" + m_absoluteEncoder.getChannel() + "] state", state.toString());
+    }
+
+    public void resetEncoders() {
+        m_driveEncoder.setPosition(0);
+        m_turningEncoder.setPosition(getAbsoluteEncoderRad());
+    }
+
+    public double getAbsoluteEncoderRad() {
+        double angle = m_absoluteEncoder.getVoltage() / RobotController.getVoltage5V(); // Returns percent of a full rotation
+        angle *= 2.0 * Math.PI; // convert to radians
+        angle -= kAbsoluteEncoderOffsetRad;
+        return angle * (kAbsoluteEncoderReversed ? -1.0 : 1.0); // Look up ternary or conditional operators in java
+    }
+
+    public SwerveModuleState getDesiredState() {
+        return desiredState;
+    }
+
     public double getDrivePosition() {
         return m_driveEncoder.getPosition();
     }
@@ -87,47 +121,6 @@ public class RealSwerveModule implements AutoCloseable, SwerveModule {
 
     public double getTurningVelocity() {
         return m_turningEncoder.getVelocity();
-    }
-
-    public double getAbsoluteEncoderRad() {
-        double angle = m_absoluteEncoder.getVoltage() / RobotController.getVoltage5V(); // Returns percent of a full rotation
-        angle *= 2.0 * Math.PI; // convert to radians
-        angle -= kAbsoluteEncoderOffsetRad;
-        return angle * (kAbsoluteEncoderReversed ? -1.0 : 1.0); // Look up ternary or conditional operators in java
-    }
-
-    public void resetEncoders() {
-        m_driveEncoder.setPosition(0);
-        m_turningEncoder.setPosition(getAbsoluteEncoderRad());
-    }
-
-    public SwerveModuleState getState() {
-        return new SwerveModuleState(getDriveVelocity(), new Rotation2d(getTurningPosition()));
-    }
-
-    public SwerveModulePosition getPosition() {
-        return new SwerveModulePosition(getDrivePosition(), new Rotation2d(getTurningPosition()));
-    }
-
-    public void setDesiredState(SwerveModuleState state) {
-        if (Math.abs(state.speedMetersPerSecond) < 0.001) {
-            m_driveMotor.set(0);
-        } else {
-            m_driveMotor.set(state.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
-        }
-        state = SwerveModuleState.optimize(state, getState().angle);
-        double desiredTurnSpeed = turningPidController.calculate(getTurningPosition(), state.angle.getRadians());
-        if (Math.abs(desiredTurnSpeed) < 0.001) {
-            m_turningMotor.set(0);
-        } else {
-            m_turningMotor.set(desiredTurnSpeed);
-        }
-
-        SmartDashboard.putString("Swerve[" + m_absoluteEncoder.getChannel() + "] state", state.toString());
-    }
-
-    public SwerveModuleState getDesiredState() {
-        return desiredState;
     }
 
     public void stopMotors() {
