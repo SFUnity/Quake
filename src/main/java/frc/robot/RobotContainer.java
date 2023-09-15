@@ -1,9 +1,13 @@
 package frc.robot;
 
+import com.pathplanner.lib.PathConstraints;
+
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.CommandFactory;
 import frc.robot.commands.SwerveJoystickCmd;
 import frc.robot.subsystems.SwerveSubsystem;
 
@@ -13,6 +17,8 @@ public class RobotContainer {
 
     private final CommandXboxController m_driverController = new CommandXboxController(
                     OperatorConstants.kDriverControllerPort);
+
+    private final CommandFactory commandFactory = new CommandFactory(m_swerveSubsystem);
 
     public RobotContainer() {
         m_swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
@@ -29,5 +35,11 @@ public class RobotContainer {
     new Trigger(m_driverController.a()).onTrue(new InstantCommand(() -> m_swerveSubsystem.zeroHeading()));
   }
 
-  // public Command getAutonomousCommand() {}
+  public Command getAutonomousCommand() {
+    return commandFactory.AutoPath(
+      "Test Path", 
+      new PathConstraints(3, 2), 
+      null
+    );
+  }
 }
