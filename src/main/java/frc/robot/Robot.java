@@ -4,11 +4,14 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.SwerveSubsystem;
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
+
+  private SwerveSubsystem m_swerveSubsystem = new SwerveSubsystem();
 
   @Override
   public void robotInit() {
@@ -19,6 +22,8 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
+
+    m_swerveSubsystem.updatePoseEstimator();
   }
 
   @Override
@@ -61,5 +66,7 @@ public class Robot extends TimedRobot {
   public void simulationInit() {}
 
   @Override
-  public void simulationPeriodic() {}
+  public void simulationPeriodic() {
+    m_swerveSubsystem.simulate();
+  }
 }

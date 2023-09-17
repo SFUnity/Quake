@@ -20,6 +20,12 @@ public class RobotContainer {
 
     private final CommandFactory commandFactory = new CommandFactory(m_swerveSubsystem);
 
+    private Command autonomousCommand = commandFactory.AutoPath(
+        "Test Path",
+        new PathConstraints(3, 2),
+        null
+      );
+
     public RobotContainer() {
         m_swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
                 m_swerveSubsystem,
@@ -36,10 +42,6 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return commandFactory.AutoPath(
-      "Test Path", 
-      new PathConstraints(3, 2), 
-      null
-    );
+    return autonomousCommand;
   }
 }

@@ -23,7 +23,7 @@ import frc.robot.Constants.DriveConstants;
 import lib.SwerveModule;
 
 public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
-    private final RealSwerveModule m_frontLeft = new RealSwerveModule(
+    private final SwerveModule m_frontLeft = SwerveModule.create(
         DriveConstants.kFrontLeftDriveMotorPort,
         DriveConstants.kFrontLeftTurningMotorPort,
         DriveConstants.kFrontLeftDriveEncoderReversed,
@@ -32,7 +32,7 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
         DriveConstants.kFrontLeftDriveAbsoluteEncoderOffsetRad,
         DriveConstants.kFrontLeftDriveAbsoluteEncoderReversed);
 
-    private final RealSwerveModule m_frontRight = new RealSwerveModule(
+    private final SwerveModule m_frontRight = SwerveModule.create(
         DriveConstants.kFrontRightDriveMotorPort,
         DriveConstants.kFrontRightTurningMotorPort,
         DriveConstants.kFrontRightDriveEncoderReversed,
@@ -41,7 +41,7 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
         DriveConstants.kFrontRightDriveAbsoluteEncoderOffsetRad,
         DriveConstants.kFrontRightDriveAbsoluteEncoderReversed);
 
-    private final RealSwerveModule m_backLeft = new RealSwerveModule(
+    private final SwerveModule m_backLeft = SwerveModule.create(
         DriveConstants.kBackLeftDriveMotorPort,
         DriveConstants.kBackLeftTurningMotorPort,
         DriveConstants.kBackLeftDriveEncoderReversed,
@@ -50,7 +50,7 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
         DriveConstants.kBackLeftDriveAbsoluteEncoderOffsetRad,
         DriveConstants.kBackLeftDriveAbsoluteEncoderReversed);
 
-    private final RealSwerveModule m_backRight = new RealSwerveModule(
+    private final SwerveModule m_backRight = SwerveModule.create(
         DriveConstants.kBackRightDriveMotorPort,
         DriveConstants.kBackRightTurningMotorPort,
         DriveConstants.kBackRightDriveEncoderReversed,

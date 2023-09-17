@@ -17,8 +17,6 @@ public interface SwerveModule extends Sendable {
    * <p>If the robot is real, a new {@link RealSwerveModule} will be created, otherwise a
    * {@link GoalSwerveModule} will be created.
    *
-   * <p>For the parameters, see {@link RealSwerveModule#MAXSwerveModule(int, int, double)}.
-   *
    * @return A new {@link SwerveModule} based on if the robot is currently real or simulated.
    */
   public static SwerveModule create(int kDriveMotorId, int kTurningMotorId, boolean driveMotorReversed, boolean turningMotorReversed,
@@ -39,9 +37,9 @@ public interface SwerveModule extends Sendable {
 
   // double getAbsoluteEncoderRad();
 
-  // void stopMotors();
+  public default void stopMotors() {}
 
-  // public void close() throws Exception;
+  public default void close() throws Exception {}
 
   public SwerveModuleState getState();
 
