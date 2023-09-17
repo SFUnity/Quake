@@ -73,14 +73,17 @@ public class RealSwerveModule implements AutoCloseable, SwerveModule {
         resetEncoders();
     }
 
+    @Override
     public SwerveModuleState getState() {
         return new SwerveModuleState(getDriveVelocity(), new Rotation2d(getTurningPosition()));
     }
 
+    @Override
     public SwerveModulePosition getPosition() {
         return new SwerveModulePosition(getDrivePosition(), new Rotation2d(getTurningPosition()));
     }
 
+    @Override
     public void setDesiredState(SwerveModuleState state) {
         m_driveMotor.set(state.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
         state = SwerveModuleState.optimize(state, getState().angle);
@@ -91,6 +94,7 @@ public class RealSwerveModule implements AutoCloseable, SwerveModule {
         SmartDashboard.putString("Swerve[" + m_absoluteEncoder.getChannel() + "] state", state.toString());
     }
 
+    @Override
     public void resetEncoders() {
         m_driveEncoder.setPosition(0);
         m_turningEncoder.setPosition(getAbsoluteEncoderRad());
@@ -103,6 +107,7 @@ public class RealSwerveModule implements AutoCloseable, SwerveModule {
         return angle * (kAbsoluteEncoderReversed ? -1.0 : 1.0); // Look up ternary or conditional operators in java
     }
 
+    @Override
     public SwerveModuleState getDesiredState() {
         return desiredState;
     }
@@ -123,6 +128,7 @@ public class RealSwerveModule implements AutoCloseable, SwerveModule {
         return m_turningEncoder.getVelocity();
     }
 
+    @Override
     public void stopMotors() {
         m_driveMotor.set(0);
         m_turningMotor.set(0);
