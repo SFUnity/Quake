@@ -5,7 +5,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import lib.SwerveModule;
 
 /** Ideal swerve module, useful for debugging */
-public class GoalSwerveModule implements SwerveModule {
+public class FakeSwerveModule implements SwerveModule {
 
   private SwerveModuleState state = new SwerveModuleState();
   private double distance;
@@ -22,6 +22,7 @@ public class GoalSwerveModule implements SwerveModule {
 
   @Override
   public void setDesiredState(SwerveModuleState desiredState) {
+    System.out.println("Distance: " + distance);
     state = SwerveModuleState.optimize(desiredState, state.angle);
     distance += state.speedMetersPerSecond * 0.02;
   }
