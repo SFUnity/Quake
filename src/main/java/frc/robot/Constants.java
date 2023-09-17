@@ -29,10 +29,10 @@ public final class Constants {
     };
     public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(kModuleOffset);
 
-    /* */
+    // TODO
     public static final boolean kGyroReversed = true;
 
-    /* */
+    // TODO
     public static final int kFrontLeftDriveMotorPort = 8;
     public static final int kBackLeftDriveMotorPort = 2;
     public static final int kFrontRightDriveMotorPort = 6;
@@ -72,7 +72,7 @@ public final class Constants {
     public static final double kPhysicalMaxSpeedMetersPerSecond = 4.25;
     public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 2 * 2 * Math.PI;
 
-    /* Should tweak */
+    // TODO Should tweak these
     public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond / 4;
     public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = kPhysicalMaxAngularSpeedRadiansPerSecond / 4;
     public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 3;
