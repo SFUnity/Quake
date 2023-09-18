@@ -29,10 +29,9 @@ public final class Constants {
     };
     public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(kModuleOffset);
 
-    // TODO
+    // TODO Should tweak these
     public static final boolean kGyroReversed = true;
 
-    // TODO
     public static final int kFrontLeftDriveMotorPort = 8;
     public static final int kBackLeftDriveMotorPort = 2;
     public static final int kFrontRightDriveMotorPort = 6;
