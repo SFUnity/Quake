@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj.simulation.AnalogInputSim;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.subsystems.modules.RealSwerveModule;
 
-public class SwerveModuleTest {
+public class RealSwerveModuleTest {
 
     RealSwerveModule subsystem;
 
