@@ -130,15 +130,17 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
     public void updatePoseEstimator(){
         poseEstimator.update(
             Rotation2d.fromDegrees(m_gyro.getAngle()),
-                new SwerveModulePosition[] {
-                    m_frontLeft.getPosition(),
-                    m_frontRight.getPosition(),
-                    m_backLeft.getPosition(),
-                    m_backRight.getPosition()
-                }
+            new SwerveModulePosition[] {
+                m_frontLeft.getPosition(),
+                m_frontRight.getPosition(),
+                m_backLeft.getPosition(),
+                m_backRight.getPosition()
+            }
         );
 
         field2d.setRobotPose(getPose());
+
+        SmartDashboard.putString("Pose", getPose().toString());
 
         for (int i = 0; i < modules.size(); i++) {
             var transform = new Transform2d(DriveConstants.kModuleOffset[i], modules.get(i).getPosition().angle);
@@ -198,6 +200,7 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
         SmartDashboard.putData("Module 3", m_backLeft);
         SmartDashboard.putData("Module 4", m_backRight);
         gyroSim.addHeading(Units.radiansToDegrees(DriveConstants.kDriveKinematics.toChassisSpeeds(getModuleStates()).omegaRadiansPerSecond) * 0.02);
+        SmartDashboard.putNumber("Heading", getHeading());
     }
 
     private SwerveModuleState[] getModuleStates() {

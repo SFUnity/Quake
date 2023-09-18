@@ -13,20 +13,26 @@ import frc.robot.subsystems.SwerveSubsystem;
 
 
 public class RobotContainer {
-    private final SwerveSubsystem m_swerveSubsystem = new SwerveSubsystem();
+    private final SwerveSubsystem m_swerveSubsystem;
 
     private final CommandXboxController m_driverController = new CommandXboxController(
                     OperatorConstants.kDriverControllerPort);
 
-    private final CommandFactory commandFactory = new CommandFactory(m_swerveSubsystem);
+    private final CommandFactory commandFactory;
 
-    private Command autonomousCommand = commandFactory.AutoPath(
-        "Test Path",
-        new PathConstraints(3, 2),
-        null
-      );
+    private final Command autonomousCommand;
 
-    public RobotContainer() {
+    public RobotContainer(SwerveSubsystem swerveSubsystem) {
+        m_swerveSubsystem = swerveSubsystem;
+
+        commandFactory = new CommandFactory(m_swerveSubsystem);
+
+        autonomousCommand = commandFactory.AutoPath(
+          "Test Path",
+          new PathConstraints(3, 2),
+          null
+        );
+
         m_swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
                 m_swerveSubsystem,
                 () -> -m_driverController.getLeftY(),
