@@ -77,8 +77,9 @@ public class RealSwerveModuleTest {
         SwerveModuleState expectedState = new SwerveModuleState(speed, new Rotation2d(angleInRadians));
         // Act
         subsystem.setDesiredState(expectedState);
-        // Assert                   Sets the drive speed to be proportional to the max speed
-        verify(mockDriveMotor).set(expectedState.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
+        // Assert
+        expectedState = SwerveModuleState.optimize(expectedState, subsystem.getState().angle);  
+        verify(mockDriveMotor).set(expectedState.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond); // Sets the drive speed to be proportional to the max speed
         // Verifies that the speed of the turning motor is appropriate given optimization
         ArgumentCaptor<Double> argumentCaptor = ArgumentCaptor.forClass(Double.class);
         verify(mockTurningMotor).set(argumentCaptor.capture());

@@ -85,10 +85,10 @@ public class RealSwerveModule implements AutoCloseable, SwerveModule {
 
     @Override
     public void setDesiredState(SwerveModuleState state) {
-        m_driveMotor.set(state.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
         state = SwerveModuleState.optimize(state, getState().angle);
         double desiredTurnSpeed = turningPidController.calculate(getTurningPosition(), state.angle.getRadians());
         m_turningMotor.set(desiredTurnSpeed);
+        m_driveMotor.set(state.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
 
         desiredState = state;
         SmartDashboard.putString("Swerve[" + m_absoluteEncoder.getChannel() + "] state", state.toString());
