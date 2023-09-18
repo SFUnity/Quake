@@ -5,8 +5,8 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.RobotBase;
-import frc.robot.subsystems.FakeSwerveModule;
-import frc.robot.subsystems.RealSwerveModule;
+import frc.robot.subsystems.modules.FakeSwerveModule;
+import frc.robot.subsystems.modules.RealSwerveModule;
 
 /** Interface to represent a swerve module */
 public interface SwerveModule extends Sendable {

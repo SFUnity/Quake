@@ -15,7 +15,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.simulation.AnalogInputSim;
 import frc.robot.Constants.DriveConstants;
-import frc.robot.subsystems.RealSwerveModule;
+import frc.robot.subsystems.modules.RealSwerveModule;
 
 public class SwerveModuleTest {
 
