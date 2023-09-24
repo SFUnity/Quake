@@ -19,7 +19,7 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer(m_swerveSubsystem);
     DriverStation.silenceJoystickConnectionWarning(true);
     // Logging stuff
-    DataLogManager.start();
+    DataLogManager.start("logs");
     DriverStation.startDataLog(DataLogManager.getLog());
   }
 
