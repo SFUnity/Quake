@@ -4,6 +4,9 @@
 # Simulation GUI and other tools window save file
 simgui*
 
+# stops log clutter
+logs
+
 ### C++ ###
 # Prerequisites
 *.d

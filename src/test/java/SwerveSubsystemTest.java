@@ -7,14 +7,14 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import com.ctre.phoenix.sensors.Pigeon2;
+import com.ctre.phoenix.sensors.WPI_Pigeon2;
 
 import frc.robot.subsystems.SwerveSubsystem;
 
 public class SwerveSubsystemTest {
     SwerveSubsystem subsystem;
 
-    @Mock Pigeon2 gyroMock;
+    @Mock WPI_Pigeon2 gyroMock;
 
     @BeforeEach
     void setup() {

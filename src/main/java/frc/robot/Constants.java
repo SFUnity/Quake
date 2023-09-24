@@ -21,13 +21,17 @@ public final class Constants {
     public static final double kTrackWidth = Units.inchesToMeters(22.75);
     // Distance between front and back wheels
     public static final double kWheelBase = Units.inchesToMeters(22.75);
-    public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
-                new Translation2d(kWheelBase / 2, -kTrackWidth / 2),
-                new Translation2d(kWheelBase / 2, kTrackWidth / 2),
-                new Translation2d(-kWheelBase / 2, -kTrackWidth / 2),
-                new Translation2d(-kWheelBase / 2, kTrackWidth / 2));
+    public static final Translation2d[] kModuleOffset = {
+        new Translation2d(kWheelBase / 2, kTrackWidth / 2),
+        new Translation2d(kWheelBase / 2, -kTrackWidth / 2),
+        new Translation2d(-kWheelBase / 2, kTrackWidth / 2),
+        new Translation2d(-kWheelBase / 2, -kTrackWidth / 2)
+    };
+    public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(kModuleOffset);
 
-    /* */
+    // TODO Should tweak these
+    public static final boolean kGyroReversed = true;
+
     public static final int kFrontLeftDriveMotorPort = 8;
     public static final int kBackLeftDriveMotorPort = 2;
     public static final int kFrontRightDriveMotorPort = 6;
@@ -67,7 +71,7 @@ public final class Constants {
     public static final double kPhysicalMaxSpeedMetersPerSecond = 4.25;
     public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 2 * 2 * Math.PI;
 
-    /* Should tweak */
+    // TODO Should tweak these
     public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond / 4;
     public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = kPhysicalMaxAngularSpeedRadiansPerSecond / 4;
     public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 3;

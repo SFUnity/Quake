@@ -1,4 +1,4 @@
-package frc.robot.subsystems;
+package frc.robot.subsystems.modules;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
@@ -6,14 +6,16 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ModuleConstants;
+import lib.SwerveModule;
 
-public class SwerveModule implements AutoCloseable {
+public class RealSwerveModule implements AutoCloseable, SwerveModule {
     
     private final CANSparkMax m_driveMotor;
     private final CANSparkMax m_turningMotor;
@@ -26,17 +28,10 @@ public class SwerveModule implements AutoCloseable {
     private final boolean kAbsoluteEncoderReversed;
 
     private final PIDController turningPidController;
+
+    private SwerveModuleState desiredState = new SwerveModuleState(0.0, new Rotation2d());
     
-    /**
-     * @param drive motor id
-     * @param turning motor id
-     * @param if drive motor is reversed
-     * @param if turning motor is reversed
-     * @param absolute encoder id
-     * @param absolute encoder offset in radians
-     * @param if absolute encoder is reversed
-     */
-    public SwerveModule(int kDriveMotorId, int kTurningMotorId, boolean driveMotorReversed, boolean turningMotorReversed,
+    public RealSwerveModule(int kDriveMotorId, int kTurningMotorId, boolean driveMotorReversed, boolean turningMotorReversed,
             int absoluteEncoderId, double absoluteEncoderOffset, boolean absoluteEncoderReversed) {
         
         m_driveMotor = new CANSparkMax(kDriveMotorId, MotorType.kBrushless);
@@ -58,17 +53,8 @@ public class SwerveModule implements AutoCloseable {
         resetEncoders(); // Resets encoders every time the robot boots up
     }
 
-    /**
-     * @param driveMotor
-     * @param turningMotor
-     * @param driveEncoder
-     * @param turningEncoder
-     * @param absoluteEncoder
-     * @param absoluteEncoderOffset in radians
-     * @param if the absoluteEncoder is reversed
-     */
-    // For testing purposes only
-    public SwerveModule(CANSparkMax driveMotor, CANSparkMax turningMotor, 
+    // ! For testing purposes only
+    public RealSwerveModule(CANSparkMax driveMotor, CANSparkMax turningMotor, 
             AnalogInput absoluteEncoder, double absoluteEncoderOffset, boolean absoluteEncoderReversed) {
        
         m_driveMotor = driveMotor;
@@ -87,6 +73,45 @@ public class SwerveModule implements AutoCloseable {
         resetEncoders();
     }
 
+    @Override
+    public SwerveModuleState getState() {
+        return new SwerveModuleState(getDriveVelocity(), new Rotation2d(getTurningPosition()));
+    }
+
+    @Override
+    public SwerveModulePosition getPosition() {
+        return new SwerveModulePosition(getDrivePosition(), new Rotation2d(getTurningPosition()));
+    }
+
+    @Override
+    public void setDesiredState(SwerveModuleState state) {
+        state = SwerveModuleState.optimize(state, getState().angle);
+        double desiredTurnSpeed = turningPidController.calculate(getTurningPosition(), state.angle.getRadians());
+        m_turningMotor.set(desiredTurnSpeed);
+        m_driveMotor.set(state.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
+
+        desiredState = state;
+        SmartDashboard.putString("Swerve[" + m_absoluteEncoder.getChannel() + "] state", state.toString());
+    }
+
+    @Override
+    public void resetEncoders() {
+        m_driveEncoder.setPosition(0);
+        m_turningEncoder.setPosition(getAbsoluteEncoderRad());
+    }
+
+    public double getAbsoluteEncoderRad() {
+        double angle = m_absoluteEncoder.getVoltage() / RobotController.getVoltage5V(); // Returns percent of a full rotation
+        angle *= 2.0 * Math.PI; // convert to radians
+        angle -= kAbsoluteEncoderOffsetRad;
+        return angle * (kAbsoluteEncoderReversed ? -1.0 : 1.0); // Look up ternary or conditional operators in java
+    }
+
+    @Override
+    public SwerveModuleState getDesiredState() {
+        return desiredState;
+    }
+
     public double getDrivePosition() {
         return m_driveEncoder.getPosition();
     }
@@ -103,43 +128,7 @@ public class SwerveModule implements AutoCloseable {
         return m_turningEncoder.getVelocity();
     }
 
-    public double getAbsoluteEncoderRad() {
-        double angle = m_absoluteEncoder.getVoltage() / RobotController.getVoltage5V(); // Returns percent of a full rotation
-        angle *= 2.0 * Math.PI; // convert to radians
-        angle -= kAbsoluteEncoderOffsetRad;
-        return angle * (kAbsoluteEncoderReversed ? -1.0 : 1.0); // Look up ternary or conditional operators in java
-    }
-
-    public void resetEncoders() {
-        m_driveEncoder.setPosition(0);
-        m_turningEncoder.setPosition(getAbsoluteEncoderRad());
-    }
-
-    public SwerveModuleState getState() {
-        return new SwerveModuleState(getDriveVelocity(), new Rotation2d(getTurningPosition()));
-    }
-
-    /**
-     * @param desired swerve module state
-     */
-    public void setState(SwerveModuleState state) {
-        if (Math.abs(state.speedMetersPerSecond) < 0.001) {
-            m_driveMotor.set(0);
-        } else {
-            m_driveMotor.set(state.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
-        }
-        state = SwerveModuleState.optimize(state, getState().angle);
-        double desiredTurnSpeed = turningPidController.calculate(getTurningPosition(), state.angle.getRadians());
-        if (Math.abs(desiredTurnSpeed) < 0.001) {
-            m_turningMotor.set(0);
-        } else {
-            m_turningMotor.set(desiredTurnSpeed);
-        }
-
-        SmartDashboard.putString("Swerve[" + m_absoluteEncoder.getChannel() + "] state", state.toString());
-        System.out.println("Swerve[" + m_absoluteEncoder.getChannel() + "] state " + state.toString());
-    }
-
+    @Override
     public void stopMotors() {
         m_driveMotor.set(0);
         m_turningMotor.set(0);
