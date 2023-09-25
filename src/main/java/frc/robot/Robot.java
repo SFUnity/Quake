@@ -1,5 +1,6 @@
 package frc.robot;
 
+import edu.wpi.first.util.datalog.DataLog;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -16,11 +17,12 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() {
-    m_robotContainer = new RobotContainer(m_swerveSubsystem);
-    DriverStation.silenceJoystickConnectionWarning(true);
     // Logging stuff
     DataLogManager.start("logs");
-    DriverStation.startDataLog(DataLogManager.getLog());
+    DataLog log = DataLogManager.getLog();
+    DriverStation.startDataLog(log);
+    m_robotContainer = new RobotContainer(m_swerveSubsystem);
+    DriverStation.silenceJoystickConnectionWarning(true);
   }
 
   @Override

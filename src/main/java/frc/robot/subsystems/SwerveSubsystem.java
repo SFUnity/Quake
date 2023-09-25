@@ -16,6 +16,9 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.util.datalog.DataLog;
+import edu.wpi.first.util.datalog.DoubleArrayLogEntry;
+import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.FieldObject2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -79,6 +82,9 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
     private final Field2d field2d = new Field2d();
     private final FieldObject2d[] modules2d = new FieldObject2d[modules.size()];
 
+    private DoubleArrayLogEntry m_statesLog;
+    private DoubleArrayLogEntry m_desiredStatesLog;
+
     public SwerveSubsystem() {
         /* Threads are units of code. These threads call the zeroHeading method 1 sec 
         after the robot starts without interfering with the rest of the code */
@@ -95,6 +101,12 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
         }
 
         SmartDashboard.putData("Field", field2d);
+
+        DataLogManager.start("logs");
+        DataLog log = DataLogManager.getLog();
+
+        m_statesLog = new DoubleArrayLogEntry(log, "states");
+        m_desiredStatesLog = new DoubleArrayLogEntry(log, "desired states");
     }
 
     // ! For testing purposes only
@@ -142,6 +154,16 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
 
         SmartDashboard.putString("Pose", getPose().toString());
 
+        double[] states = {
+            m_frontLeft.getState().angle.getRadians(), m_frontLeft.getState().speedMetersPerSecond,
+            m_frontRight.getState().angle.getRadians(), m_frontRight.getState().speedMetersPerSecond,
+            m_backLeft.getState().angle.getRadians(), m_backLeft.getState().speedMetersPerSecond,
+            m_backRight.getState().angle.getRadians(), m_backRight.getState().speedMetersPerSecond
+        };
+
+        m_statesLog.append(states);
+
+
         for (int i = 0; i < modules.size(); i++) {
             var transform = new Transform2d(DriveConstants.kModuleOffset[i], modules.get(i).getPosition().angle);
             modules2d[i].setPose(getPose().transformBy(transform));
@@ -167,6 +189,15 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
         m_frontRight.setDesiredState(desiredStates[1]);
         m_backLeft.setDesiredState(desiredStates[2]);
         m_backRight.setDesiredState(desiredStates[3]);
+
+        double[] desiredStatesLog = {
+            desiredStates[0].angle.getRadians(), desiredStates[0].speedMetersPerSecond,
+            desiredStates[1].angle.getRadians(), desiredStates[1].speedMetersPerSecond,
+            desiredStates[2].angle.getRadians(), desiredStates[2].speedMetersPerSecond,
+            desiredStates[3].angle.getRadians(), desiredStates[3].speedMetersPerSecond
+        };
+
+        m_desiredStatesLog.append(desiredStatesLog);
     }
 
     public void resetEncoders() {
@@ -205,11 +236,10 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
 
     private SwerveModuleState[] getModuleStates() {
         return new SwerveModuleState[] {
-                m_frontLeft.getState(),
-                m_frontRight.getState(),
-                m_backLeft.getState(),
-                m_backRight.getState(),
-
+            m_frontLeft.getState(),
+            m_frontRight.getState(),
+            m_backLeft.getState(),
+            m_backRight.getState(),
         };
     }
 
