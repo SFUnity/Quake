@@ -155,10 +155,10 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
         SmartDashboard.putString("Pose", getPose().toString());
 
         double[] states = {
-            m_frontLeft.getState().angle.getRadians(), m_frontLeft.getState().speedMetersPerSecond,
-            m_frontRight.getState().angle.getRadians(), m_frontRight.getState().speedMetersPerSecond,
-            m_backLeft.getState().angle.getRadians(), m_backLeft.getState().speedMetersPerSecond,
-            m_backRight.getState().angle.getRadians(), m_backRight.getState().speedMetersPerSecond
+            m_frontLeft.getState().angle.getDegrees(), m_frontLeft.getState().speedMetersPerSecond,
+            m_frontRight.getState().angle.getDegrees(), m_frontRight.getState().speedMetersPerSecond,
+            m_backLeft.getState().angle.getDegrees(), m_backLeft.getState().speedMetersPerSecond,
+            m_backRight.getState().angle.getDegrees(), m_backRight.getState().speedMetersPerSecond
         };
 
         m_statesLog.append(states);
@@ -191,10 +191,10 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
         m_backRight.setDesiredState(desiredStates[3]);
 
         double[] desiredStatesLog = {
-            desiredStates[0].angle.getRadians(), desiredStates[0].speedMetersPerSecond,
-            desiredStates[1].angle.getRadians(), desiredStates[1].speedMetersPerSecond,
-            desiredStates[2].angle.getRadians(), desiredStates[2].speedMetersPerSecond,
-            desiredStates[3].angle.getRadians(), desiredStates[3].speedMetersPerSecond
+            desiredStates[0].angle.getDegrees(), desiredStates[0].speedMetersPerSecond,
+            desiredStates[1].angle.getDegrees(), desiredStates[1].speedMetersPerSecond,
+            desiredStates[2].angle.getDegrees(), desiredStates[2].speedMetersPerSecond,
+            desiredStates[3].angle.getDegrees(), desiredStates[3].speedMetersPerSecond
         };
 
         m_desiredStatesLog.append(desiredStatesLog);
