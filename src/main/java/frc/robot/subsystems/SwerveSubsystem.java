@@ -79,6 +79,9 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
         new Pose2d(new Translation2d(4,4), new Rotation2d())
     );
 
+    private double[] moduleDesiredStates = { 0, 0, 0, 0, 0, 0, 0, 0 };
+    private double[] currentStates = { 0, 0, 0, 0, 0, 0, 0, 0 };
+
     private final Field2d field2d = new Field2d();
     private final FieldObject2d[] modules2d = new FieldObject2d[modules.size()];
 
@@ -153,15 +156,16 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
 
         SmartDashboard.putString("Pose", getPose().toString());
 
-        double[] states = {
-            m_frontLeft.getState().angle.getDegrees(), m_frontLeft.getState().speedMetersPerSecond,
-            m_frontRight.getState().angle.getDegrees(), m_frontRight.getState().speedMetersPerSecond,
-            m_backLeft.getState().angle.getDegrees(), m_backLeft.getState().speedMetersPerSecond,
-            m_backRight.getState().angle.getDegrees(), m_backRight.getState().speedMetersPerSecond
-        };
+        currentStates[0] = m_frontLeft.getState().angle.getDegrees();
+        currentStates[1] = m_frontLeft.getState().speedMetersPerSecond;
+        currentStates[2] = m_frontRight.getState().angle.getDegrees();
+        currentStates[3] = m_frontRight.getState().speedMetersPerSecond;
+        currentStates[4] = m_backLeft.getState().angle.getDegrees();
+        currentStates[5] = m_backLeft.getState().speedMetersPerSecond;
+        currentStates[6] = m_backRight.getState().angle.getDegrees();
+        currentStates[7] = m_backRight.getState().speedMetersPerSecond;
 
-        m_statesPublisher.set(states);
-
+        m_statesPublisher.set(currentStates);
 
         for (int i = 0; i < modules.size(); i++) {
             var transform = new Transform2d(DriveConstants.kModuleOffset[i], modules.get(i).getPosition().angle);
@@ -188,15 +192,17 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
         m_frontRight.setDesiredState(desiredStates[1]);
         m_backLeft.setDesiredState(desiredStates[2]);
         m_backRight.setDesiredState(desiredStates[3]);
+        
+        moduleDesiredStates[0] = desiredStates[0].angle.getDegrees();
+        moduleDesiredStates[1] = desiredStates[0].speedMetersPerSecond;
+        moduleDesiredStates[2] = desiredStates[1].angle.getDegrees();
+        moduleDesiredStates[3] = desiredStates[1].speedMetersPerSecond;
+        moduleDesiredStates[4] = desiredStates[2].angle.getDegrees();
+        moduleDesiredStates[5] = desiredStates[2].speedMetersPerSecond;
+        moduleDesiredStates[6] = desiredStates[3].angle.getDegrees();
+        moduleDesiredStates[7] = desiredStates[3].speedMetersPerSecond;
 
-        double[] desiredStatesTopic = {
-            desiredStates[0].angle.getDegrees(), desiredStates[0].speedMetersPerSecond,
-            desiredStates[1].angle.getDegrees(), desiredStates[1].speedMetersPerSecond,
-            desiredStates[2].angle.getDegrees(), desiredStates[2].speedMetersPerSecond,
-            desiredStates[3].angle.getDegrees(), desiredStates[3].speedMetersPerSecond
-        };
-
-        m_desiredStatesPublisher.set(desiredStatesTopic);
+        m_desiredStatesPublisher.set(moduleDesiredStates);
     }
 
     public void resetEncoders() {
@@ -229,6 +235,7 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
         SmartDashboard.putData("Module 2", m_frontRight);
         SmartDashboard.putData("Module 3", m_backLeft);
         SmartDashboard.putData("Module 4", m_backRight);
+        SmartDashboard.putData("Swerve Data", this);
         gyroSim.addHeading(Units.radiansToDegrees(DriveConstants.kDriveKinematics.toChassisSpeeds(getModuleStates()).omegaRadiansPerSecond) * 0.02);
         SmartDashboard.putNumber("Heading", getHeading());
     }
@@ -253,6 +260,9 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
         m_backRight.stopMotors();
     }
 
+    public void setNetworkTables() {
+        
+    }
 
     @Override
     public void close() throws Exception {
