@@ -7,6 +7,9 @@ simgui*
 # stops log clutter
 logs
 
+# DataLogTool settings
+.DataLogTool
+
 ### C++ ###
 # Prerequisites
 *.d
