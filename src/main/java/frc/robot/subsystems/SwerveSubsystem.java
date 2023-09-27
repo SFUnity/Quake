@@ -79,7 +79,7 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
         new Pose2d(new Translation2d(4,4), new Rotation2d())
     );
 
-    private double[] moduleDesiredStates = { 0, 0, 0, 0, 0, 0, 0, 0 };
+    private double[] desiredModuleStates = { 0, 0, 0, 0, 0, 0, 0, 0 };
     private double[] currentStates = { 0, 0, 0, 0, 0, 0, 0, 0 };
 
     private final Field2d field2d = new Field2d();
@@ -193,16 +193,16 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
         m_backLeft.setDesiredState(desiredStates[2]);
         m_backRight.setDesiredState(desiredStates[3]);
         
-        moduleDesiredStates[0] = desiredStates[0].angle.getDegrees();
-        moduleDesiredStates[1] = desiredStates[0].speedMetersPerSecond;
-        moduleDesiredStates[2] = desiredStates[1].angle.getDegrees();
-        moduleDesiredStates[3] = desiredStates[1].speedMetersPerSecond;
-        moduleDesiredStates[4] = desiredStates[2].angle.getDegrees();
-        moduleDesiredStates[5] = desiredStates[2].speedMetersPerSecond;
-        moduleDesiredStates[6] = desiredStates[3].angle.getDegrees();
-        moduleDesiredStates[7] = desiredStates[3].speedMetersPerSecond;
+        desiredModuleStates[0] = desiredStates[0].angle.getDegrees();
+        desiredModuleStates[1] = desiredStates[0].speedMetersPerSecond;
+        desiredModuleStates[2] = desiredStates[1].angle.getDegrees();
+        desiredModuleStates[3] = desiredStates[1].speedMetersPerSecond;
+        desiredModuleStates[4] = desiredStates[2].angle.getDegrees();
+        desiredModuleStates[5] = desiredStates[2].speedMetersPerSecond;
+        desiredModuleStates[6] = desiredStates[3].angle.getDegrees();
+        desiredModuleStates[7] = desiredStates[3].speedMetersPerSecond;
 
-        m_desiredStatesPublisher.set(moduleDesiredStates);
+        m_desiredStatesPublisher.set(desiredModuleStates);
     }
 
     public void resetEncoders() {
