@@ -16,9 +16,9 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.util.datalog.DataLog;
-import edu.wpi.first.util.datalog.DoubleArrayLogEntry;
-import edu.wpi.first.wpilibj.DataLogManager;
+import edu.wpi.first.networktables.DoubleArrayPublisher;
+import edu.wpi.first.networktables.DoubleArrayTopic;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.FieldObject2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -82,8 +82,13 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
     private final Field2d field2d = new Field2d();
     private final FieldObject2d[] modules2d = new FieldObject2d[modules.size()];
 
-    private DoubleArrayLogEntry m_statesLog;
-    private DoubleArrayLogEntry m_desiredStatesLog;
+    NetworkTableInstance inst = NetworkTableInstance.getDefault();
+
+    private DoubleArrayTopic m_statesTopic = inst.getDoubleArrayTopic("module states");
+    private DoubleArrayPublisher m_statesPublisher = m_statesTopic.publish();
+
+    private DoubleArrayTopic m_desiredStatesTopic = inst.getDoubleArrayTopic("desired module states");
+    private DoubleArrayPublisher m_desiredStatesPublisher = m_desiredStatesTopic.publish();
 
     public SwerveSubsystem() {
         /* Threads are units of code. These threads call the zeroHeading method 1 sec 
@@ -101,12 +106,6 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
         }
 
         SmartDashboard.putData("Field", field2d);
-
-        DataLogManager.start("logs");
-        DataLog log = DataLogManager.getLog();
-
-        m_statesLog = new DoubleArrayLogEntry(log, "states");
-        m_desiredStatesLog = new DoubleArrayLogEntry(log, "desired states");
     }
 
     // ! For testing purposes only
@@ -161,7 +160,7 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
             m_backRight.getState().angle.getDegrees(), m_backRight.getState().speedMetersPerSecond
         };
 
-        m_statesLog.append(states);
+        m_statesPublisher.set(states);
 
 
         for (int i = 0; i < modules.size(); i++) {
@@ -190,14 +189,14 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
         m_backLeft.setDesiredState(desiredStates[2]);
         m_backRight.setDesiredState(desiredStates[3]);
 
-        double[] desiredStatesLog = {
+        double[] desiredStatesTopic = {
             desiredStates[0].angle.getDegrees(), desiredStates[0].speedMetersPerSecond,
             desiredStates[1].angle.getDegrees(), desiredStates[1].speedMetersPerSecond,
             desiredStates[2].angle.getDegrees(), desiredStates[2].speedMetersPerSecond,
             desiredStates[3].angle.getDegrees(), desiredStates[3].speedMetersPerSecond
         };
 
-        m_desiredStatesLog.append(desiredStatesLog);
+        m_desiredStatesPublisher.set(desiredStatesTopic);
     }
 
     public void resetEncoders() {
