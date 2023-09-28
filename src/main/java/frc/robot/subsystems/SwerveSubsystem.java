@@ -235,7 +235,6 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
         SmartDashboard.putData("Module 2", m_frontRight);
         SmartDashboard.putData("Module 3", m_backLeft);
         SmartDashboard.putData("Module 4", m_backRight);
-        SmartDashboard.putData("Swerve Data", this);
         gyroSim.addHeading(Units.radiansToDegrees(DriveConstants.kDriveKinematics.toChassisSpeeds(getModuleStates()).omegaRadiansPerSecond) * 0.02);
         SmartDashboard.putNumber("Heading", getHeading());
     }
@@ -258,10 +257,6 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
         m_frontRight.stopMotors();
         m_backLeft.stopMotors();
         m_backRight.stopMotors();
-    }
-
-    public void setNetworkTables() {
-        
     }
 
     @Override
