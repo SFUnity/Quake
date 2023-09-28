@@ -13,7 +13,7 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
-  private SwerveSubsystem m_swerveSubsystem = new SwerveSubsystem();
+  private SwerveSubsystem m_swerveSubsystem;
 
   @Override
   public void robotInit() {
@@ -21,6 +21,8 @@ public class Robot extends TimedRobot {
     DataLogManager.start("logs");
     DataLog log = DataLogManager.getLog();
     DriverStation.startDataLog(log);
+
+    m_swerveSubsystem = new SwerveSubsystem();
     m_robotContainer = new RobotContainer(m_swerveSubsystem);
     DriverStation.silenceJoystickConnectionWarning(true);
   }
