@@ -23,7 +23,7 @@ public class FakeSwerveModule implements SwerveModule {
   @Override
   public void setDesiredState(SwerveModuleState desiredState) {
     state = SwerveModuleState.optimize(desiredState, state.angle);
-    distance += state.speedMetersPerSecond * 0.02;
+    distance += state.speedMetersPerSecond * 0.04;
   }
 
   @Override
