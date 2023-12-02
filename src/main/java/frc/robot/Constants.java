@@ -32,15 +32,18 @@ public final class Constants {
     // TODO Should tweak these
     public static final boolean kGyroReversed = true;
 
-    public static final int kFrontLeftDriveMotorPort = 8;
-    public static final int kBackLeftDriveMotorPort = 2;
-    public static final int kFrontRightDriveMotorPort = 6;
-    public static final int kBackRightDriveMotorPort = 4;
+    public static final int kFrontLeftDriveMotorPort = 1;
+    public static final int kFrontRightDriveMotorPort = 3;
+    public static final int kBackLeftDriveMotorPort = 5;
+    public static final int kBackRightDriveMotorPort = 7;
 
-    public static final int kFrontLeftTurningMotorPort = 7;
-    public static final int kBackLeftTurningMotorPort = 1;
-    public static final int kFrontRightTurningMotorPort = 5;
-    public static final int kBackRightTurningMotorPort = 3;
+    public static final int kFrontLeftTurningMotorPort = 2;
+    public static final int kFrontRightTurningMotorPort = 4;
+    public static final int kBackLeftTurningMotorPort = 6;
+    public static final int kBackRightTurningMotorPort = 8;
+
+    // PDHPort = 9
+    // RoboRioPort = 0
 
     public static final boolean kFrontLeftTurningEncoderReversed = true;
     public static final boolean kBackLeftTurningEncoderReversed = true;
