@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.CircleAutoCmd;
 import frc.robot.commands.CommandFactory;
 import frc.robot.commands.StraightAutoCmd;
 import frc.robot.commands.SwerveJoystickCmd;
@@ -27,6 +28,8 @@ public class RobotContainer {
     private final Command m_complexAuto;
 
     private final Command m_straightAuto = new StraightAutoCmd(m_swerveSubsystem);
+
+    private final Command m_circleAuto = new CircleAutoCmd(m_swerveSubsystem);
 
     SendableChooser<Command> m_chooser = new SendableChooser<>();
 
@@ -52,6 +55,8 @@ public class RobotContainer {
         m_chooser.setDefaultOption("Complex Auto", m_complexAuto);
 
         m_chooser.addOption("Straight Auto", m_straightAuto);
+
+        m_chooser.addOption("Circle Auto", m_circleAuto);
 
         // Put the chooser on the dashboard
         Shuffleboard.getTab("Auto Options").add(m_chooser);
