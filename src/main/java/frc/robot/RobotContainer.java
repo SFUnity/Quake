@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.CommandFactory;
-import frc.robot.commands.StraightAutoCmd;
 import frc.robot.commands.SwerveJoystickCmd;
 import frc.robot.subsystems.SwerveSubsystem;
 
@@ -22,8 +21,6 @@ public class RobotContainer {
     private final CommandFactory commandFactory;
 
     private final Command m_complexAuto;
-
-    private final Command m_simpleAuto = new StraightAutoCmd(m_swerveSubsystem);
 
     public RobotContainer() {
         commandFactory = new CommandFactory(m_swerveSubsystem);
