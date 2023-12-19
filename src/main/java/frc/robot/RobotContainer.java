@@ -8,26 +8,27 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.CommandFactory;
+import frc.robot.commands.StraightAutoCmd;
 import frc.robot.commands.SwerveJoystickCmd;
 import frc.robot.subsystems.SwerveSubsystem;
 
 
 public class RobotContainer {
-    private final SwerveSubsystem m_swerveSubsystem;
+    private final SwerveSubsystem m_swerveSubsystem = new SwerveSubsystem();
 
     private final CommandXboxController m_driverController = new CommandXboxController(
                     OperatorConstants.kDriverControllerPort);
 
     private final CommandFactory commandFactory;
 
-    private final Command autonomousCommand;
+    private final Command m_complexAuto;
 
-    public RobotContainer(SwerveSubsystem swerveSubsystem) {
-        m_swerveSubsystem = swerveSubsystem;
+    private final Command m_simpleAuto = new StraightAutoCmd(m_swerveSubsystem);
 
+    public RobotContainer() {
         commandFactory = new CommandFactory(m_swerveSubsystem);
 
-        autonomousCommand = commandFactory.AutoPath(
+        m_complexAuto = commandFactory.AutoPath(
           "Test Path",
           new PathConstraints(3, 2),
           null
@@ -48,6 +49,10 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return autonomousCommand;
+      return m_complexAuto;
+  }
+  
+  public SwerveSubsystem getSwerveSubsystem() {
+      return m_swerveSubsystem;
   }
 }
