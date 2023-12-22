@@ -81,6 +81,7 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
 
     private double[] desiredModuleStates = { 0, 0, 0, 0, 0, 0, 0, 0 };
     private double[] currentStates = { 0, 0, 0, 0, 0, 0, 0, 0 };
+    private double[] encoderOffsets = { 0, 0, 0, 0 };
 
     private final Field2d field2d = new Field2d();
     private final FieldObject2d[] modules2d = new FieldObject2d[modules.size()];
@@ -92,6 +93,9 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
 
     private DoubleArrayTopic m_desiredStatesTopic = inst.getDoubleArrayTopic("desired module states");
     private DoubleArrayPublisher m_desiredStatesPublisher = m_desiredStatesTopic.publish();
+
+    private DoubleArrayTopic m_encoderOffsetTopic = inst.getDoubleArrayTopic("encoder offsets");
+    private DoubleArrayPublisher m_encoderOffsetPublisher = m_encoderOffsetTopic.publish();
 
     public SwerveSubsystem() {
         /* Threads are units of code. These threads call the zeroHeading method 1 sec 
@@ -156,16 +160,23 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
 
         SmartDashboard.putString("Pose", getPose().toString());
 
-        currentStates[0] = m_frontLeft.getState().angle.getDegrees();
+        currentStates[0] = m_frontLeft.getState().angle.getRadians();
         currentStates[1] = m_frontLeft.getState().speedMetersPerSecond;
-        currentStates[2] = m_frontRight.getState().angle.getDegrees();
+        currentStates[2] = m_frontRight.getState().angle.getRadians();
         currentStates[3] = m_frontRight.getState().speedMetersPerSecond;
-        currentStates[4] = m_backLeft.getState().angle.getDegrees();
+        currentStates[4] = m_backLeft.getState().angle.getRadians();
         currentStates[5] = m_backLeft.getState().speedMetersPerSecond;
-        currentStates[6] = m_backRight.getState().angle.getDegrees();
+        currentStates[6] = m_backRight.getState().angle.getRadians();
         currentStates[7] = m_backRight.getState().speedMetersPerSecond;
 
         m_statesPublisher.set(currentStates);
+
+        encoderOffsets[0] = m_frontLeft.getAbsoluteEncoderRad();
+        encoderOffsets[1] = m_frontRight.getAbsoluteEncoderRad();
+        encoderOffsets[2] = m_backLeft.getAbsoluteEncoderRad();
+        encoderOffsets[3] = m_backRight.getAbsoluteEncoderRad();
+
+        m_encoderOffsetPublisher.set(encoderOffsets);
 
         for (int i = 0; i < modules.size(); i++) {
             var transform = new Transform2d(DriveConstants.kModuleOffset[i], modules.get(i).getPosition().angle);
@@ -193,13 +204,13 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
         m_backLeft.setDesiredState(desiredStates[2]);
         m_backRight.setDesiredState(desiredStates[3]);
         
-        desiredModuleStates[0] = desiredStates[0].angle.getDegrees();
+        desiredModuleStates[0] = desiredStates[0].angle.getRadians();
         desiredModuleStates[1] = desiredStates[0].speedMetersPerSecond;
-        desiredModuleStates[2] = desiredStates[1].angle.getDegrees();
+        desiredModuleStates[2] = desiredStates[1].angle.getRadians();
         desiredModuleStates[3] = desiredStates[1].speedMetersPerSecond;
-        desiredModuleStates[4] = desiredStates[2].angle.getDegrees();
+        desiredModuleStates[4] = desiredStates[2].angle.getRadians();
         desiredModuleStates[5] = desiredStates[2].speedMetersPerSecond;
-        desiredModuleStates[6] = desiredStates[3].angle.getDegrees();
+        desiredModuleStates[6] = desiredStates[3].angle.getRadians();
         desiredModuleStates[7] = desiredStates[3].speedMetersPerSecond;
 
         m_desiredStatesPublisher.set(desiredModuleStates);

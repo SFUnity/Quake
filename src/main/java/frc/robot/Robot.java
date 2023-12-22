@@ -18,7 +18,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     // Logging stuff
-    DataLogManager.start("logs");
+    DataLogManager.start("/home/lvuser");
     DataLog log = DataLogManager.getLog();
     DriverStation.startDataLog(log);
 

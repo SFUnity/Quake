@@ -35,7 +35,7 @@ public interface SwerveModule extends Sendable {
 
   // double getTurningVelocity();
 
-  // double getAbsoluteEncoderRad();
+  double getAbsoluteEncoderRad();
 
   public default void stopMotors() {}
 

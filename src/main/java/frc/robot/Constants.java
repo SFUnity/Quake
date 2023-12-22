@@ -13,7 +13,7 @@ public final class Constants {
     public static final double kTurningEncoderRot2Rad = kTurningMotorGearRatio * 2 * Math.PI;
     public static final double kDriveEncoderRPM2MeterPerSec = kDriveEncoderRot2Meter / 60;
     public static final double kTurningEncoderRPM2RadPerSec = kTurningEncoderRot2Rad / 60;
-    public static final double kPTurning = 0.5; // *
+    public static final double kPTurning = 0.25; // *
   }
 
   public static final class DriveConstants {
@@ -46,39 +46,32 @@ public final class Constants {
     // RoboRioPort = 0
 
     public static final boolean kFrontLeftTurningEncoderReversed = true;
-    public static final boolean kBackLeftTurningEncoderReversed = true;
     public static final boolean kFrontRightTurningEncoderReversed = true;
+    public static final boolean kBackLeftTurningEncoderReversed = true;
     public static final boolean kBackRightTurningEncoderReversed = true;
 
     public static final boolean kFrontLeftDriveEncoderReversed = true;
-    public static final boolean kBackLeftDriveEncoderReversed = true;
     public static final boolean kFrontRightDriveEncoderReversed = false;
+    public static final boolean kBackLeftDriveEncoderReversed = true;
     public static final boolean kBackRightDriveEncoderReversed = false;
 
-    public static final int kFrontLeftDriveAbsoluteEncoderPort = 0;
+    public static final int kFrontLeftDriveAbsoluteEncoderPort = 1;
+    public static final int kFrontRightDriveAbsoluteEncoderPort = 0;
     public static final int kBackLeftDriveAbsoluteEncoderPort = 2;
-    public static final int kFrontRightDriveAbsoluteEncoderPort = 1;
     public static final int kBackRightDriveAbsoluteEncoderPort = 3;
 
     public static final boolean kFrontLeftDriveAbsoluteEncoderReversed = false;
-    public static final boolean kBackLeftDriveAbsoluteEncoderReversed = false;
     public static final boolean kFrontRightDriveAbsoluteEncoderReversed = false;
+    public static final boolean kBackLeftDriveAbsoluteEncoderReversed = false;
     public static final boolean kBackRightDriveAbsoluteEncoderReversed = false;
 
-    public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = -0.254;
-    public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = -1.252;
-    public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = -1.816;
-    public static final double kBackRightDriveAbsoluteEncoderOffsetRad = -4.811;
+    public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = 0;
+    public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = 0;
+    public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = 0;
+    public static final double kBackRightDriveAbsoluteEncoderOffsetRad = 0;
     /* */
 
     public static final double kPhysicalMaxSpeedMetersPerSecond = 13.00;
-    public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 2 * 2 * Math.PI;
-
-    // TODO Should tweak these
-    public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond / 4;
-    public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = kPhysicalMaxAngularSpeedRadiansPerSecond / 4;
-    public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 3;
-    public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 3;
   }
 
   public static final class OperatorConstants {
