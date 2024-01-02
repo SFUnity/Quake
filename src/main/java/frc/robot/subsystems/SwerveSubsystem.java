@@ -4,8 +4,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import java.util.List;
 
-import com.ctre.phoenix.sensors.BasePigeonSimCollection;
-import com.ctre.phoenix.sensors.WPI_Pigeon2;
+import com.ctre.phoenix6.hardware.Pigeon2;
 
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -15,7 +14,6 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.DoubleArrayPublisher;
 import edu.wpi.first.networktables.DoubleArrayTopic;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -25,7 +23,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.DriveConstants;
 import lib.SwerveModule;
 
-public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
+public class SwerveSubsystem extends SubsystemBase {
     private final SwerveModule m_frontLeft = SwerveModule.create(
         DriveConstants.kFrontLeftDriveMotorPort,
         DriveConstants.kFrontLeftTurningMotorPort,
@@ -64,8 +62,7 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
 
     private final List<SwerveModule> modules = List.of(m_frontLeft, m_frontRight, m_backLeft, m_backRight);
 
-    private WPI_Pigeon2 m_gyro = new WPI_Pigeon2(0);
-    private final BasePigeonSimCollection gyroSim = m_gyro.getSimCollection();
+    private Pigeon2 m_gyro = new Pigeon2(0);
 
     SwerveDrivePoseEstimator poseEstimator = new SwerveDrivePoseEstimator(
         DriveConstants.kDriveKinematics,
@@ -116,7 +113,7 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
     }
 
     // ! For testing purposes only
-    public SwerveSubsystem(WPI_Pigeon2 gyro) {
+    public SwerveSubsystem(Pigeon2 gyro) {
         m_gyro = gyro;
 
         new Thread(() -> {
@@ -246,18 +243,7 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
         SmartDashboard.putData("Module 2", m_frontRight);
         SmartDashboard.putData("Module 3", m_backLeft);
         SmartDashboard.putData("Module 4", m_backRight);
-        gyroSim.addHeading(Units.radiansToDegrees(DriveConstants.kDriveKinematics.toChassisSpeeds(getModuleStates()).omegaRadiansPerSecond) 
-        * (DriveConstants.kGyroReversed ? -1.0 : 1.0) * 0.02);
         SmartDashboard.putNumber("Heading", getHeading());
-    }
-
-    private SwerveModuleState[] getModuleStates() {
-        return new SwerveModuleState[] {
-            m_frontLeft.getState(),
-            m_frontRight.getState(),
-            m_backLeft.getState(),
-            m_backRight.getState(),
-        };
     }
 
     public Rotation2d getRotation2d() {
@@ -269,14 +255,5 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
         m_frontRight.stopMotors();
         m_backLeft.stopMotors();
         m_backRight.stopMotors();
-    }
-
-    @Override
-    public void close() throws Exception {
-        m_frontLeft.close();
-        m_frontRight.close();
-        m_backLeft.close();
-        m_backRight.close();
-        m_gyro.DestroyObject();
     }
 }
