@@ -160,13 +160,13 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
 
         SmartDashboard.putString("Pose", getPose().toString());
 
-        currentStates[0] = m_frontLeft.getState().angle.getRadians();
+        currentStates[0] = m_frontLeft.getState().angle.getDegrees();
         currentStates[1] = m_frontLeft.getState().speedMetersPerSecond;
-        currentStates[2] = m_frontRight.getState().angle.getRadians();
+        currentStates[2] = m_frontRight.getState().angle.getDegrees();
         currentStates[3] = m_frontRight.getState().speedMetersPerSecond;
-        currentStates[4] = m_backLeft.getState().angle.getRadians();
+        currentStates[4] = m_backLeft.getState().angle.getDegrees();
         currentStates[5] = m_backLeft.getState().speedMetersPerSecond;
-        currentStates[6] = m_backRight.getState().angle.getRadians();
+        currentStates[6] = m_backRight.getState().angle.getDegrees();
         currentStates[7] = m_backRight.getState().speedMetersPerSecond;
 
         m_statesPublisher.set(currentStates);
@@ -204,13 +204,13 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
         m_backLeft.setDesiredState(desiredStates[2]);
         m_backRight.setDesiredState(desiredStates[3]);
         
-        desiredModuleStates[0] = desiredStates[0].angle.getRadians();
+        desiredModuleStates[0] = desiredStates[0].angle.getDegrees();
         desiredModuleStates[1] = desiredStates[0].speedMetersPerSecond;
-        desiredModuleStates[2] = desiredStates[1].angle.getRadians();
+        desiredModuleStates[2] = desiredStates[1].angle.getDegrees();
         desiredModuleStates[3] = desiredStates[1].speedMetersPerSecond;
-        desiredModuleStates[4] = desiredStates[2].angle.getRadians();
+        desiredModuleStates[4] = desiredStates[2].angle.getDegrees();
         desiredModuleStates[5] = desiredStates[2].speedMetersPerSecond;
-        desiredModuleStates[6] = desiredStates[3].angle.getRadians();
+        desiredModuleStates[6] = desiredStates[3].angle.getDegrees();
         desiredModuleStates[7] = desiredStates[3].speedMetersPerSecond;
 
         m_desiredStatesPublisher.set(desiredModuleStates);
