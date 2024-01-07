@@ -4,6 +4,7 @@ import com.pathplanner.lib.PathConstraints;
 
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -11,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.CircleAutoCmd;
 import frc.robot.commands.CommandFactory;
+import frc.robot.commands.CustomTestCmd;
 import frc.robot.commands.StraightAutoCmd;
 import frc.robot.commands.SwerveJoystickCmd;
 import frc.robot.subsystems.SwerveSubsystem;
@@ -31,7 +33,9 @@ public class RobotContainer {
 
     private final Command m_circleAuto = new CircleAutoCmd(m_swerveSubsystem);
 
-    SendableChooser<Command> m_chooser = new SendableChooser<>();
+    private final Command m_customAuto = new CustomTestCmd(m_swerveSubsystem);
+
+    public SendableChooser<Command> m_chooser = new SendableChooser<>();
 
     public RobotContainer() {
         commandFactory = new CommandFactory(m_swerveSubsystem);
@@ -58,8 +62,10 @@ public class RobotContainer {
 
         m_chooser.addOption("Circle Auto", m_circleAuto);
 
+        m_chooser.addOption("Custom Auto", m_customAuto);
+
         // Put the chooser on the dashboard
-        Shuffleboard.getTab("Auto Options").add(m_chooser);
+        SmartDashboard.putData("Auto Options", m_chooser);
     }
 
   private void configureBindings() {
