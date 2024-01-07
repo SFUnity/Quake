@@ -23,10 +23,10 @@ public class DriveStraightCmd extends CommandBase {
         initialPosX = m_swerveSubsystem.getPose().getX();
         initialPosY = m_swerveSubsystem.getPose().getY();
         SwerveModuleState[] module_states = {
-                new SwerveModuleState(1.0, Rotation2d.fromDegrees(rotationDegrees)),
-                new SwerveModuleState(1.0, Rotation2d.fromDegrees(rotationDegrees)),
-                new SwerveModuleState(1.0, Rotation2d.fromDegrees(rotationDegrees)),
-                new SwerveModuleState(1.0, Rotation2d.fromDegrees(rotationDegrees))
+            new SwerveModuleState(1.0, Rotation2d.fromDegrees(rotationDegrees)),
+            new SwerveModuleState(1.0, Rotation2d.fromDegrees(rotationDegrees)),
+            new SwerveModuleState(1.0, Rotation2d.fromDegrees(rotationDegrees)),
+            new SwerveModuleState(1.0, Rotation2d.fromDegrees(rotationDegrees))
         };
         m_swerveSubsystem.setModuleStates(module_states);
     }
