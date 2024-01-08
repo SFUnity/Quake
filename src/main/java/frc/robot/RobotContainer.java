@@ -56,16 +56,16 @@ public class RobotContainer {
         configureBindings();
 
         // Add commands to the autonomous command chooser
-        m_chooser.setDefaultOption("Complex Auto", m_complexAuto);
+        m_chooser.addOption("Complex Auto", m_complexAuto);
 
         m_chooser.addOption("Straight Auto", m_straightAuto);
 
         m_chooser.addOption("Circle Auto", m_circleAuto);
 
-        m_chooser.addOption("Custom Auto", m_customAuto);
+        m_chooser.setDefaultOption("Custom Auto", m_customAuto);
 
         // Put the chooser on the dashboard
-        SmartDashboard.putData("Auto Options", m_chooser);
+        Shuffleboard.getTab("Auto Options").add(m_chooser);
     }
 
   private void configureBindings() {

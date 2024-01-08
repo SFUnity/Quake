@@ -9,9 +9,9 @@ public class CustomTestCmd extends SequentialCommandGroup{
 
     public CustomTestCmd(SwerveSubsystem swerveSubsystem) {
         addCommands(
-            new DriveStraightCmd(0.0, 2.0, swerveSubsystem),
+            new DriveStraightCmd(5.0, 0.0, 5.0, swerveSubsystem),
             new RotateDegreesCmd(180.0, true, swerveSubsystem),
-            new DriveStraightCmd(0.0, 2.0, swerveSubsystem)
+            new DriveStraightCmd(-5.0, 0.0, 5.0, swerveSubsystem)
         );
     }
 
