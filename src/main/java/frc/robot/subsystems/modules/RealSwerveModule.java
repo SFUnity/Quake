@@ -24,7 +24,7 @@ public class RealSwerveModule implements AutoCloseable, SwerveModule {
     private final RelativeEncoder m_turningEncoder;
 
     private final AnalogInput m_absoluteEncoder;
-    private final double kAbsoluteEncoderOffsetRad;
+    private final double kAbsoluteEncoderOffset;
     private final boolean kAbsoluteEncoderReversed;
 
     private final PIDController turningPidController;
@@ -43,7 +43,7 @@ public class RealSwerveModule implements AutoCloseable, SwerveModule {
         m_driveEncoder = m_driveMotor.getEncoder();
         m_turningEncoder = m_turningMotor.getEncoder();
 
-        kAbsoluteEncoderOffsetRad = absoluteEncoderOffset;
+        kAbsoluteEncoderOffset = absoluteEncoderOffset;
         kAbsoluteEncoderReversed = absoluteEncoderReversed;
         m_absoluteEncoder = new AnalogInput(absoluteEncoderId);
 
@@ -63,7 +63,7 @@ public class RealSwerveModule implements AutoCloseable, SwerveModule {
         m_driveEncoder = m_driveMotor.getEncoder();
         m_turningEncoder = m_turningMotor.getEncoder();
         
-        kAbsoluteEncoderOffsetRad = absoluteEncoderOffset;
+        kAbsoluteEncoderOffset = absoluteEncoderOffset;
         kAbsoluteEncoderReversed = absoluteEncoderReversed;
         m_absoluteEncoder = absoluteEncoder;
 
@@ -97,14 +97,14 @@ public class RealSwerveModule implements AutoCloseable, SwerveModule {
     @Override
     public void resetEncoders() {
         m_driveEncoder.setPosition(0);
-        m_turningEncoder.setPosition(getAbsoluteEncoderRad());
+        m_turningEncoder.setPosition(getAbsoluteEncoderRotations());
     }
 
-    public double getAbsoluteEncoderRad() {
+    public double getAbsoluteEncoderRotations() {
         double angle = m_absoluteEncoder.getVoltage() / RobotController.getVoltage5V(); // Returns percent of a full rotation
-        angle *= 2.0 * Math.PI; // convert to radians
-        angle -= kAbsoluteEncoderOffsetRad;
+        angle -= kAbsoluteEncoderOffset;
         return angle * (kAbsoluteEncoderReversed ? -1.0 : 1.0); // Look up ternary or conditional operators in java
+
     }
 
     @Override

@@ -52,7 +52,7 @@ public class RealSwerveModuleTest {
         subsystem.resetEncoders();
         // Assert
         verify(mockDriveEncoder).setPosition(0);
-        verify(mockTurningEncoder).setPosition(subsystem.getAbsoluteEncoderRad());
+        verify(mockTurningEncoder).setPosition(subsystem.getAbsoluteEncoderRotations());
     }
 
     @Test
