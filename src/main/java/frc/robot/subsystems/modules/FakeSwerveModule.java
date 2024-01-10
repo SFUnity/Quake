@@ -32,7 +32,7 @@ public class FakeSwerveModule implements SwerveModule {
   }
 
   @Override
-  public double getAbsoluteEncoderRad(){
+  public double getAbsoluteEncoderRotations(){
     return 0.0;
   }
 

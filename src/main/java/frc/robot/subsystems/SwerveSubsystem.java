@@ -81,7 +81,6 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
 
     private double[] desiredModuleStates = { 0, 0, 0, 0, 0, 0, 0, 0 };
     private double[] currentStates = { 0, 0, 0, 0, 0, 0, 0, 0 };
-    private double[] encoderOffsets = { 0, 0, 0, 0 };
 
     private final Field2d field2d = new Field2d();
     private final FieldObject2d[] modules2d = new FieldObject2d[modules.size()];
@@ -93,9 +92,6 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
 
     private DoubleArrayTopic m_desiredStatesTopic = inst.getDoubleArrayTopic("desired module states");
     private DoubleArrayPublisher m_desiredStatesPublisher = m_desiredStatesTopic.publish();
-
-    private DoubleArrayTopic m_encoderOffsetTopic = inst.getDoubleArrayTopic("encoder offsets");
-    private DoubleArrayPublisher m_encoderOffsetPublisher = m_encoderOffsetTopic.publish();
 
     public SwerveSubsystem() {
         /* Threads are units of code. These threads call the zeroHeading method 1 sec 
@@ -170,13 +166,6 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
         currentStates[7] = m_backRight.getState().speedMetersPerSecond;
 
         m_statesPublisher.set(currentStates);
-
-        encoderOffsets[0] = m_frontLeft.getAbsoluteEncoderRad();
-        encoderOffsets[1] = m_frontRight.getAbsoluteEncoderRad();
-        encoderOffsets[2] = m_backLeft.getAbsoluteEncoderRad();
-        encoderOffsets[3] = m_backRight.getAbsoluteEncoderRad();
-
-        m_encoderOffsetPublisher.set(encoderOffsets);
 
         for (int i = 0; i < modules.size(); i++) {
             var transform = new Transform2d(DriveConstants.kModuleOffset[i], modules.get(i).getPosition().angle);
