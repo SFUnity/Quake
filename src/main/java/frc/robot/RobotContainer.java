@@ -52,9 +52,9 @@ public class RobotContainer {
         configureBindings();
 
         // Add commands to the autonomous command chooser
-        m_chooser.setDefaultOption("Complex Auto", m_complexAuto);
+        m_chooser.setDefaultOption("Straight Auto", m_straightAuto);
 
-        m_chooser.addOption("Straight Auto", m_straightAuto);
+        m_chooser.addOption("Complex Auto", m_complexAuto);
 
         m_chooser.addOption("Circle Auto", m_circleAuto);
 
