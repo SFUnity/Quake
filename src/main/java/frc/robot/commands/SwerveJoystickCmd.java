@@ -43,7 +43,7 @@ public class SwerveJoystickCmd extends CommandBase {
         ySpeed = this.applyDeadBand(ySpeed);
         turningSpeed = this.applyDeadBand(turningSpeed);
         
-        ChassisSpeeds chassisSpeeds = speedsToChassisSpeeds(xSpeed, ySpeed, turningSpeed, fieldOrientedFunction.getAsBoolean());
+        ChassisSpeeds chassisSpeeds = speedsToChassisSpeeds(xSpeed, ySpeed, turningSpeed, false);
 
         SwerveModuleState[] moduleStates = 
         DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
