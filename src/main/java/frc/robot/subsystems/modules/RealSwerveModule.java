@@ -75,18 +75,18 @@ public class RealSwerveModule implements AutoCloseable, SwerveModule {
 
     @Override
     public SwerveModuleState getState() {
-        return new SwerveModuleState(getDriveVelocity(), new Rotation2d(getTurningPosition()));
+        return new SwerveModuleState(getDriveVelocity(), new Rotation2d(getAbsoluteEncoderRad()));
     }
 
     @Override
     public SwerveModulePosition getPosition() {
-        return new SwerveModulePosition(getDrivePosition(), new Rotation2d(getTurningPosition()));
+        return new SwerveModulePosition(getDrivePosition(), new Rotation2d(getAbsoluteEncoderRad()));
     }
 
     @Override
     public void setDesiredState(SwerveModuleState state) {
         state = SwerveModuleState.optimize(state, getState().angle);
-        double desiredTurnSpeed = turningPidController.calculate(getTurningPosition(), state.angle.getRadians());
+        double desiredTurnSpeed = turningPidController.calculate(getAbsoluteEncoderRad(), state.angle.getRadians());
         m_turningMotor.set(desiredTurnSpeed);
         m_driveMotor.set(state.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
 
@@ -104,7 +104,13 @@ public class RealSwerveModule implements AutoCloseable, SwerveModule {
         double angle = m_absoluteEncoder.getVoltage() / RobotController.getVoltage5V(); // Returns percent of a full rotation
         angle -= kAbsoluteEncoderOffset;
         return angle * (kAbsoluteEncoderReversed ? -1.0 : 1.0); // Look up ternary or conditional operators in java
+    }
 
+    public double getAbsoluteEncoderRad() {
+        double angle = m_absoluteEncoder.getVoltage() / RobotController.getVoltage5V(); // Returns percent of a full rotation
+        angle -= kAbsoluteEncoderOffset;
+        angle *= 2.0 * Math.PI; // Convert to radians
+        return angle * (kAbsoluteEncoderReversed ? -1.0 : 1.0); // Look up ternary or conditional operators in java
     }
 
     @Override
@@ -116,16 +122,8 @@ public class RealSwerveModule implements AutoCloseable, SwerveModule {
         return m_driveEncoder.getPosition();
     }
 
-    public double getTurningPosition() {
-        return m_turningEncoder.getPosition();
-    }
-
     public double getDriveVelocity() {
         return m_driveEncoder.getVelocity();
-    }
-
-    public double getTurningVelocity() {
-        return m_turningEncoder.getVelocity();
     }
 
     @Override

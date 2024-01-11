@@ -72,7 +72,7 @@ public class RealSwerveModuleTest {
     void setDesiredStateTemplate(double speed, double angle) {
         // Arrange
         Mockito.reset(mockDriveMotor, mockTurningMotor);
-        when(subsystem.getTurningPosition()).thenReturn(0.0);
+        when(subsystem.getAbsoluteEncoderRad()).thenReturn(0.0);
         double angleInRadians = angle * Math.PI / 180;
         SwerveModuleState expectedState = new SwerveModuleState(speed, new Rotation2d(angleInRadians));
         // Act
