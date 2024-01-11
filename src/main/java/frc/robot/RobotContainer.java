@@ -1,7 +1,5 @@
 package frc.robot;
 
-import com.pathplanner.lib.PathConstraints;
-
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -10,7 +8,6 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.CircleAutoCmd;
-import frc.robot.commands.CommandFactory;
 import frc.robot.commands.StraightAutoCmd;
 import frc.robot.commands.SwerveJoystickCmd;
 import frc.robot.subsystems.SwerveSubsystem;
@@ -23,10 +20,6 @@ public class RobotContainer {
                     OperatorConstants.kDriverControllerPort);
 
     // Auto Commands
-    private final CommandFactory commandFactory;
-
-    private final Command m_complexAuto;
-
     private final Command m_straightAuto = new StraightAutoCmd(m_swerveSubsystem);
 
     private final Command m_circleAuto = new CircleAutoCmd(m_swerveSubsystem);
@@ -34,14 +27,6 @@ public class RobotContainer {
     SendableChooser<Command> m_chooser = new SendableChooser<>();
 
     public RobotContainer() {
-        commandFactory = new CommandFactory(m_swerveSubsystem);
-
-        m_complexAuto = commandFactory.AutoPath(
-          "Test Path",
-          new PathConstraints(3, 2),
-          null
-        );
-
         m_swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
                 m_swerveSubsystem,
                 () -> -m_driverController.getLeftY(),
@@ -53,8 +38,6 @@ public class RobotContainer {
 
         // Add commands to the autonomous command chooser
         m_chooser.setDefaultOption("Straight Auto", m_straightAuto);
-
-        m_chooser.addOption("Complex Auto", m_complexAuto);
 
         m_chooser.addOption("Circle Auto", m_circleAuto);
 

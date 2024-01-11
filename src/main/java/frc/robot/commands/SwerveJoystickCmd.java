@@ -4,13 +4,13 @@ import java.util.function.Supplier;
 
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.SwerveSubsystem;
 
-public class SwerveJoystickCmd extends CommandBase {
+public class SwerveJoystickCmd extends Command {
     private final SwerveSubsystem m_swerveSubsystem;
     private final Supplier<Double> xSpdFunction, ySpdFunction, turningSpdFunction;
     private final Trigger fieldOrientedFunction;

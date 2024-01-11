@@ -2,10 +2,10 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.SwerveSubsystem;
 
-public class CircleAutoCmd extends CommandBase {
+public class CircleAutoCmd extends Command {
     private final SwerveSubsystem m_swerveSubsystem;
 
     public CircleAutoCmd(SwerveSubsystem swerveSubsystem) {
