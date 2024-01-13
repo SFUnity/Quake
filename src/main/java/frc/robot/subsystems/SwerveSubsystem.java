@@ -18,10 +18,12 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.DoubleArrayPublisher;
 import edu.wpi.first.networktables.DoubleArrayTopic;
+import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.FieldObject2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.DriveConstants;
 import lib.SwerveModule;
 
@@ -93,6 +95,11 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
     private DoubleArrayTopic m_desiredStatesTopic = inst.getDoubleArrayTopic("desired module states");
     private DoubleArrayPublisher m_desiredStatesPublisher = m_desiredStatesTopic.publish();
 
+    public ShuffleboardTab swerveTab = Shuffleboard.getTab("Swerve Subsystem");
+    public ShuffleboardTab odometryTab = Shuffleboard.getTab("Odometry");
+
+    private GenericEntry headingEntry = odometryTab.add("Heading", 0).getEntry();
+
     public SwerveSubsystem() {
         /* Threads are units of code. These threads call the zeroHeading method 1 sec 
         after the robot starts without interfering with the rest of the code */
@@ -108,7 +115,12 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
             modules2d[i] = field2d.getObject("module-" + i);
         }
 
-        SmartDashboard.putData("Field", field2d);
+        odometryTab.add("Field", field2d);
+
+        swerveTab.add("Front Left", m_frontLeft);
+        swerveTab.add("Front Right", m_frontRight);
+        swerveTab.add("Back Left", m_backLeft);
+        swerveTab.add("Back Right", m_backRight);
     }
 
     // ! For testing purposes only
@@ -153,8 +165,6 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
         );
 
         field2d.setRobotPose(getPose());
-
-        SmartDashboard.putString("Pose", getPose().toString());
 
         currentStates[0] = m_frontLeft.getState().angle.getDegrees();
         currentStates[1] = m_frontLeft.getState().speedMetersPerSecond;
@@ -227,13 +237,9 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
     }
 
     public void simulate(){
-        SmartDashboard.putData("Module 1", m_frontLeft);
-        SmartDashboard.putData("Module 2", m_frontRight);
-        SmartDashboard.putData("Module 3", m_backLeft);
-        SmartDashboard.putData("Module 4", m_backRight);
         gyroSim.addYaw(Units.radiansToDegrees(DriveConstants.kDriveKinematics.toChassisSpeeds(getModuleStates()).omegaRadiansPerSecond) 
         * (DriveConstants.kGyroReversed ? -1.0 : 1.0) * 0.02);
-        SmartDashboard.putNumber("Heading", getHeading());
+        headingEntry.setDouble(getHeading());
     }
 
     private SwerveModuleState[] getModuleStates() {

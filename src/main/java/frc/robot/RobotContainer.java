@@ -1,6 +1,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -24,7 +25,9 @@ public class RobotContainer {
 
     private final Command m_circleAuto = new CircleAutoCmd(m_swerveSubsystem);
 
-    SendableChooser<Command> m_chooser = new SendableChooser<>();
+    SendableChooser<Command> m_autoChooser = new SendableChooser<>();
+
+    public ShuffleboardTab mainTab = Shuffleboard.getTab("Auto Options");
 
     public RobotContainer() {
         m_swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
@@ -37,12 +40,14 @@ public class RobotContainer {
         configureBindings();
 
         // Add commands to the autonomous command chooser
-        m_chooser.setDefaultOption("Straight Auto", m_straightAuto);
+        m_autoChooser.setDefaultOption("Straight Auto", m_straightAuto);
 
-        m_chooser.addOption("Circle Auto", m_circleAuto);
+        m_autoChooser.addOption("Circle Auto", m_circleAuto);
 
         // Put the chooser on the dashboard
-        Shuffleboard.getTab("Auto Options").add(m_chooser);
+        mainTab.add(m_autoChooser);
+
+        // SmartDashboard.putData(m_swerveSubsystem);
     }
 
   private void configureBindings() {
@@ -54,6 +59,6 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-      return m_chooser.getSelected();
+      return m_autoChooser.getSelected();
   }  
 }
