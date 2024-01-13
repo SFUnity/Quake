@@ -20,6 +20,7 @@ import edu.wpi.first.networktables.DoubleArrayPublisher;
 import edu.wpi.first.networktables.DoubleArrayTopic;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -98,7 +99,7 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
     public ShuffleboardTab swerveTab = Shuffleboard.getTab("Swerve Subsystem");
     public ShuffleboardTab odometryTab = Shuffleboard.getTab("Odometry");
 
-    private GenericEntry headingEntry = odometryTab.add("Heading", 0).getEntry();
+    private GenericEntry headingEntry = odometryTab.add("Heading", 0).withWidget(BuiltInWidgets.kGyro).getEntry();
 
     public SwerveSubsystem() {
         /* Threads are units of code. These threads call the zeroHeading method 1 sec 
