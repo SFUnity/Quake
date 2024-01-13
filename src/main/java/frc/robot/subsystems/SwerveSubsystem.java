@@ -192,15 +192,11 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
         m_frontRight.setDesiredState(desiredStates[1]);
         m_backLeft.setDesiredState(desiredStates[2]);
         m_backRight.setDesiredState(desiredStates[3]);
-        
-        desiredModuleStates[0] = desiredStates[0].angle.getDegrees();
-        desiredModuleStates[1] = desiredStates[0].speedMetersPerSecond;
-        desiredModuleStates[2] = desiredStates[1].angle.getDegrees();
-        desiredModuleStates[3] = desiredStates[1].speedMetersPerSecond;
-        desiredModuleStates[4] = desiredStates[2].angle.getDegrees();
-        desiredModuleStates[5] = desiredStates[2].speedMetersPerSecond;
-        desiredModuleStates[6] = desiredStates[3].angle.getDegrees();
-        desiredModuleStates[7] = desiredStates[3].speedMetersPerSecond;
+
+        for (int i = 0; i < modules.size(); i++) {
+            desiredModuleStates[i] = desiredStates[i].angle.getDegrees();
+            desiredModuleStates[i + 1] = desiredStates[i].speedMetersPerSecond;
+        }
 
         m_desiredStatesPublisher.set(desiredModuleStates);
     }
