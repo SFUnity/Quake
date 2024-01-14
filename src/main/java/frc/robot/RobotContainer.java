@@ -39,7 +39,7 @@ public class RobotContainer {
                 () -> -m_driverController.getLeftY(),
                 () -> -m_driverController.getLeftX(),
                 () -> m_driverController.getRightX(),
-                m_fieldOrientedChooser.getSelected()));
+                true));
 
         configureBindings();
 
