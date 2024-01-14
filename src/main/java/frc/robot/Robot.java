@@ -7,21 +7,28 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.SwerveSubsystem;
+import edu.wpi.first.wpilibj.RobotBase;
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
 
-  private SwerveSubsystem m_swerveSubsystem = new SwerveSubsystem();
+  private SwerveSubsystem m_swerveSubsystem;
 
   @Override
   public void robotInit() {
     // Logging stuff
-    DataLogManager.start("logs");
+    if (RobotBase.isReal()) {
+      DataLogManager.start("/home/lvuser");
+    } else {
+      DataLogManager.start("logs");
+    }
     DataLog log = DataLogManager.getLog();
     DriverStation.startDataLog(log);
-    m_robotContainer = new RobotContainer(m_swerveSubsystem);
+
+    m_robotContainer = new RobotContainer();
+    m_swerveSubsystem = m_robotContainer.getSwerveSubsystem();
     DriverStation.silenceJoystickConnectionWarning(true);
   }
 

@@ -35,7 +35,7 @@ public interface SwerveModule extends Sendable {
 
   // double getTurningVelocity();
 
-  // double getAbsoluteEncoderRad();
+  double getAbsoluteEncoderRotations();
 
   public default void stopMotors() {}
 
@@ -58,6 +58,7 @@ public interface SwerveModule extends Sendable {
     // _builder.addDoubleProperty("current position", () -> getPosition().distanceMeters, null);
     // _builder.addDoubleProperty("target velocity", () -> getDesiredState().speedMetersPerSecond, null);
     // _builder.addDoubleProperty("target angle", () -> getDesiredState().angle.getRadians(), null);
-    _builder.addStringProperty("Position", () -> getPosition().toString(), null);
+    // _builder.addStringProperty("Position", () -> getPosition().toString(), null);
+    _builder.addStringProperty("State", () -> getState().toString(), null);
   }
 }
