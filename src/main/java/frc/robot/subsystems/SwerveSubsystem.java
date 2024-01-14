@@ -253,7 +253,7 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
     }
 
     public Rotation2d getRotation2d() {
-        return Rotation2d.fromDegrees(getHeading());
+        return Rotation2d.fromDegrees(m_gyro.getAngle());
     }
 
     public void stopModules() {
