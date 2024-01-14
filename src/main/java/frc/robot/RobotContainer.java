@@ -21,14 +21,17 @@ public class RobotContainer {
     private final CommandXboxController m_driverController = new CommandXboxController(
                     OperatorConstants.kDriverControllerPort);
 
-    // Auto Commands
+    // Auto Commands Chooser
     private final Command m_straightAuto = new StraightAutoCmd(m_swerveSubsystem);
 
     private final Command m_circleAuto = new CircleAutoCmd(m_swerveSubsystem);
 
     SendableChooser<Command> m_autoChooser = new SendableChooser<>();
 
-    public ShuffleboardTab mainTab = Shuffleboard.getTab("Auto Options");
+    // Field Oriented Chooser
+    SendableChooser<Boolean> m_fieldOrientedChooser = new SendableChooser<>();
+
+    public ShuffleboardTab mainTab = Shuffleboard.getTab("Main");
 
     public RobotContainer() {
         m_swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
@@ -36,7 +39,7 @@ public class RobotContainer {
                 () -> -m_driverController.getLeftY(),
                 () -> -m_driverController.getLeftX(),
                 () -> m_driverController.getRightX(),
-                m_driverController.y()));
+                m_fieldOrientedChooser.getSelected()));
 
         configureBindings();
 
@@ -45,8 +48,13 @@ public class RobotContainer {
 
         m_autoChooser.addOption("Circle Auto", m_circleAuto);
 
-        // Put the chooser on the dashboard
+        // Add options to the field oriented chooser
+        m_fieldOrientedChooser.setDefaultOption("Field Oriented", true);
+        m_fieldOrientedChooser.addOption("Robot Oriented", false);
+
+        // Put the choosers on the dashboard
         mainTab.add(m_autoChooser);
+        mainTab.add(m_fieldOrientedChooser);
 
         SmartDashboard.putData(m_swerveSubsystem);
         SmartDashboard.putData(m_straightAuto);

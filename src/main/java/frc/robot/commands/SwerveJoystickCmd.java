@@ -5,7 +5,6 @@ import java.util.function.Supplier;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.SwerveSubsystem;
@@ -13,7 +12,7 @@ import frc.robot.subsystems.SwerveSubsystem;
 public class SwerveJoystickCmd extends Command {
     private final SwerveSubsystem m_swerveSubsystem;
     private final Supplier<Double> xSpdFunction, ySpdFunction, turningSpdFunction;
-    private final Trigger fieldOrientedFunction;
+    private final Boolean fieldOrientedFunction;
 
     /**
      * @param swerveSubsystem
@@ -24,7 +23,7 @@ public class SwerveJoystickCmd extends Command {
      */
     public SwerveJoystickCmd(SwerveSubsystem swerveSubsystem,
             Supplier<Double> xSpdFunction, Supplier<Double> ySpdFunction, 
-            Supplier<Double> turningSpdFunction, Trigger fieldOrientedFunction) {
+            Supplier<Double> turningSpdFunction, Boolean fieldOrientedFunction) {
         m_swerveSubsystem = swerveSubsystem;
         this.xSpdFunction = xSpdFunction;
         this.ySpdFunction = ySpdFunction;
@@ -47,7 +46,7 @@ public class SwerveJoystickCmd extends Command {
         ySpeed *= 0.3;
         turningSpeed *= -0.4;
         
-        ChassisSpeeds chassisSpeeds = speedsToChassisSpeeds(xSpeed, ySpeed, turningSpeed, false);
+        ChassisSpeeds chassisSpeeds = speedsToChassisSpeeds(xSpeed, ySpeed, turningSpeed, fieldOrientedFunction);
 
         SwerveModuleState[] moduleStates = 
         DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
