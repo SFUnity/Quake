@@ -43,6 +43,10 @@ public class SwerveJoystickCmd extends Command {
         ySpeed = this.applyDeadBand(ySpeed);
         turningSpeed = this.applyDeadBand(turningSpeed);
         
+        xSpeed *= 0.3;
+        ySpeed *= 0.3;
+        turningSpeed *= -0.4;
+        
         ChassisSpeeds chassisSpeeds = speedsToChassisSpeeds(xSpeed, ySpeed, turningSpeed, false);
 
         SwerveModuleState[] moduleStates = 
