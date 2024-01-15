@@ -13,10 +13,13 @@ import frc.robot.commands.CircleAutoCmd;
 import frc.robot.commands.StraightAutoCmd;
 import frc.robot.commands.SwerveJoystickCmd;
 import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.subsystems.LimelightSubsystem;
 
 
 public class RobotContainer {
     private final SwerveSubsystem m_swerveSubsystem = new SwerveSubsystem();
+
+    public static final LimelightSubsystem m_limelightSubsystem = LimelightSubsystem.getInstance();
 
     private final CommandXboxController m_driverController = new CommandXboxController(
                     OperatorConstants.kDriverControllerPort);
@@ -67,6 +70,10 @@ public class RobotContainer {
   
   public SwerveSubsystem getSwerveSubsystem() {
       return m_swerveSubsystem;
+  }
+
+  public LimelightSubsystem getLimelightSubsystem() {
+      return m_limelightSubsystem; 
   }
 
   public Command getAutonomousCommand() {
