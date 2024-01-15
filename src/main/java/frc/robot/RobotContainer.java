@@ -1,5 +1,7 @@
 package frc.robot;
 
+import com.pathplanner.lib.commands.PathPlannerAuto;
+
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -29,6 +31,8 @@ public class RobotContainer {
 
     private final Command m_circleAuto = new CircleAutoCmd(m_swerveSubsystem);
 
+    private final Command m_straightPathAuto = new PathPlannerAuto("Test Auto");
+
     SendableChooser<Command> m_autoChooser = new SendableChooser<>();
 
     // Field Oriented Chooser
@@ -48,8 +52,8 @@ public class RobotContainer {
 
         // Add commands to the autonomous command chooser
         m_autoChooser.setDefaultOption("Straight Auto", m_straightAuto);
-
         m_autoChooser.addOption("Circle Auto", m_circleAuto);
+        m_autoChooser.addOption("Straight Path Auto", m_straightPathAuto);
 
         // Add options to the field oriented chooser
         m_fieldOrientedChooser.setDefaultOption("Field Oriented", true);
@@ -77,6 +81,6 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-      return m_autoChooser.getSelected();
+      return new PathPlannerAuto("Test Auto");
   }  
 }
