@@ -1,7 +1,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
+import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -27,6 +27,8 @@ public class LimelightSubsystem extends SubsystemBase {
   private static NetworkTableEntry camMode;
   private static NetworkTableEntry ledMode;
 
+  private GenericEntry txEntry;
+
   private LimelightSubsystem ()
   {
     table = NetworkTableInstance.getDefault().getTable("limelight");
@@ -38,10 +40,16 @@ public class LimelightSubsystem extends SubsystemBase {
     ledMode = table.getEntry("ledMode"); // limelight's LED state (0-3).
     camMode = table.getEntry("camMode"); // limelight's operation mode (0-1).
 
-    limelightTab.add("tx", tx);
-    limelightTab.add("ty", ty);
-    limelightTab.add("tv", tv);
-    limelightTab.add("ta", ta);
+    txEntry = limelightTab.add("tx", 0).getEntry();
+    // limelightTab.add("ty", ty).getEntry();
+    // limelightTab.add("tv", tv).getEntry();
+    // limelightTab.add("ta", ta).getEntry();
+  }
+
+  @Override
+  public void periodic() {
+      super.periodic();
+      txEntry.setDouble(table.getEntry("tx").getDouble(0));
   }
 
   /**
