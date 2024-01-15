@@ -68,7 +68,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    Shuffleboard.getTab("Limelight").add("X Offset", RobotContainer.m_limelightSubsystem.getTargetOffsetX());
   }
 
   @Override
