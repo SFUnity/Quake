@@ -106,6 +106,9 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
 
     private GenericEntry headingEntry = odometryTab.add("Heading", 0).withWidget(BuiltInWidgets.kGyro).getEntry();
 
+    private GenericEntry translationPEntry = swerveTab.addPersistent("translation P", 0.5).getEntry();
+    private GenericEntry rotationPEntry = swerveTab.addPersistent("rotation P", 0.5).getEntry();
+
     public SwerveSubsystem() {
         /* Threads are units of code. These threads call the zeroHeading method 1 sec 
         after the robot starts without interfering with the rest of the code */
@@ -134,8 +137,8 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
             this::getRobotRelativeChassisSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
             this::driveRobotRelative, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
             new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
-                    new PIDConstants(0.5, 0.0, 0.0), // Translation PID constants
-                    new PIDConstants(0.5, 0.0, 0.0), // Rotation PID constants
+                    new PIDConstants(translationPEntry.getDouble(0.5), 0.0, 0.0), // Translation PID constants
+                    new PIDConstants(rotationPEntry.getDouble(0.5), 0.0, 0.0), // Rotation PID constants
                     0.5, // Max module speed, in m/s
                     0.3, // Drive base radius in meters. Distance from robot center to furthest module.
                     new ReplanningConfig(false, false) // Default path replanning config. See the API for the options here
