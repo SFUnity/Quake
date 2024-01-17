@@ -27,7 +27,10 @@ public class LimelightSubsystem extends SubsystemBase {
   private static NetworkTableEntry camMode;
   private static NetworkTableEntry ledMode;
 
-  private GenericEntry txEntry;
+  private static double x;
+  private static double y;
+  private static double v;
+  private static double a;
 
   private LimelightSubsystem ()
   {
@@ -37,19 +40,19 @@ public class LimelightSubsystem extends SubsystemBase {
     ty = table.getEntry("ty"); // Vertical offset from crosshair to target (-24.85 to 24.85 degrees).
     tv = table.getEntry("tv"); // Whether the limelight has any valid targets (0 or 1).
     ta = table.getEntry("ta"); // Target area (0% of image to 100% of image).
+
+    x = tx.getDouble(0.0);
+    y = ty.getDouble(0.0);
+    v = tv.getDouble(0.0);
+    a = ta.getDouble(0.0);
+
     ledMode = table.getEntry("ledMode"); // limelight's LED state (0-3).
     camMode = table.getEntry("camMode"); // limelight's operation mode (0-1).
 
-    txEntry = limelightTab.add("tx", 0).getEntry();
-    // limelightTab.add("ty", ty).getEntry();
-    // limelightTab.add("tv", tv).getEntry();
-    // limelightTab.add("ta", ta).getEntry();
-  }
-
-  @Override
-  public void periodic() {
-      super.periodic();
-      txEntry.setDouble(table.getEntry("tx").getDouble(0));
+    limelightTab.add("tx", x);
+    limelightTab.add("ty", y);
+    limelightTab.add("tv", v);
+    limelightTab.add("ta", a);
   }
 
   /**
@@ -86,6 +89,24 @@ public class LimelightSubsystem extends SubsystemBase {
   public double getTargetArea()
   {
     return ta.getDouble(0.0);
+  }
+
+  public double getDistance () {
+
+    // how many degrees back is your limelight rotated from perfectly vertical?
+    double limelightMountAngleDegrees = 25.0; 
+
+    // distance from the center of the Limelight lens to the floor
+    double limelightLensHeightInches = 20.0; 
+
+    // distance from the target to the floor
+    double goalHeightInches = 60.0; 
+
+    double angleToGoalDegrees = limelightMountAngleDegrees + y;
+    double angleToGoalRadians = angleToGoalDegrees * (3.14159 / 180.0);
+
+    //calculate distance
+    return (goalHeightInches - limelightLensHeightInches) / Math.tan(angleToGoalRadians);
   }
 
   /**
