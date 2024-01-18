@@ -84,7 +84,7 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
             m_backLeft.getPosition(),
             m_backRight.getPosition()
         }, 
-        new Pose2d(new Translation2d(4,4), new Rotation2d())
+        new Pose2d(new Translation2d(2,2), new Rotation2d())
     );
 
     private double[] desiredModuleStates = { 0, 0, 0, 0, 0, 0, 0, 0 };
