@@ -85,7 +85,7 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
         new Pose2d(new Translation2d(4,4), new Rotation2d())
     );
 
-    private PIDController turnToAnglePID = new PIDController(0.25, 0, 0);
+    private PIDController turnToAnglePID = new PIDController(0.05, 0, 0);
 
     private double[] desiredModuleStates = { 0, 0, 0, 0, 0, 0, 0, 0 };
     private double[] currentStates = { 0, 0, 0, 0, 0, 0, 0, 0 };
@@ -122,7 +122,7 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
         }
 
         turnToAnglePID.enableContinuousInput(-180, 180);
-        turnToAnglePID.setTolerance(1, 0.5);
+        turnToAnglePID.setTolerance(0.1);
 
         odometryTab.add("Field", field2d);
 
@@ -251,13 +251,6 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
         return Rotation2d.fromDegrees(m_gyro.getAngle()).getDegrees();
     }
 
-    /**
-     * @return heading in degrees from 0 to 360
-     */
-    public double getHeading0to360() {
-        return m_gyro.getYaw().getValueAsDouble();
-    }
-
     public void simulate(){
         gyroSim.addYaw(Units.radiansToDegrees(DriveConstants.kDriveKinematics.toChassisSpeeds(getModuleStates()).omegaRadiansPerSecond) 
         * (DriveConstants.kGyroReversed ? -1.0 : 1.0) * 0.02);
@@ -288,16 +281,20 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
      * @param desiredAngleDegrees
      * @return
      */
-    // TODO it wiggles back and forth still
     public Command TurnToAngle(double desiredAngleDegrees) {
         return run(
             () -> {
-                double turningSpeedDegrees = turnToAnglePID.calculate(getHeading0to360(), desiredAngleDegrees);
-                double turningSpeedRadians = Units.degreesToRadians(turningSpeedDegrees);
-                ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(0, 0, turningSpeedRadians, getRotation2d());
+                double constrainedAngleDegrees = Rotation2d.fromDegrees(desiredAngleDegrees).getDegrees();
+                double turningSpeedDegrees = turnToAnglePID.calculate(getHeading(), constrainedAngleDegrees);
+                // double turningSpeedRadians = Units.degreesToRadians(turningSpeedDegrees);
+                ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(0, 0, turningSpeedDegrees, getRotation2d());
                 this.setModuleStates(DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds));
+                System.out.println("Heading: " + getHeading() + "\n Speed: " + turningSpeedDegrees);
             })
-        .finallyDo(interrupted -> this.stopModules());
+        .until(() -> turnToAnglePID.atSetpoint())
+        .finallyDo(interrupted -> {
+            this.stopModules(); 
+        });
     }
 
     @Override

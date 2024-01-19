@@ -63,6 +63,7 @@ public class RobotContainer {
         SmartDashboard.putData(m_swerveSubsystem);
         SmartDashboard.putData(m_straightAuto);
         SmartDashboard.putData(m_circleAuto);
+        SmartDashboard.putData(m_swerveSubsystem.TurnToAngle(45));
     }
 
   private void configureBindings() {
