@@ -40,7 +40,6 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
         DriveConstants.kFrontLeftDriveEncoderReversed,
         DriveConstants.kFrontLeftTurningEncoderReversed,
         DriveConstants.kFrontLeftDriveAbsoluteEncoderPort,
-        DriveConstants.kFrontLeftDriveAbsoluteEncoderOffset,
         DriveConstants.kFrontLeftDriveAbsoluteEncoderReversed);
 
     private final SwerveModule m_frontRight = SwerveModule.create(
@@ -49,7 +48,6 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
         DriveConstants.kFrontRightDriveEncoderReversed,
         DriveConstants.kFrontRightTurningEncoderReversed,
         DriveConstants.kFrontRightDriveAbsoluteEncoderPort,
-        DriveConstants.kFrontRightDriveAbsoluteEncoderOffset,
         DriveConstants.kFrontRightDriveAbsoluteEncoderReversed);
 
     private final SwerveModule m_backLeft = SwerveModule.create(
@@ -58,7 +56,6 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
         DriveConstants.kBackLeftDriveEncoderReversed,
         DriveConstants.kBackLeftTurningEncoderReversed,
         DriveConstants.kBackLeftDriveAbsoluteEncoderPort,
-        DriveConstants.kBackLeftDriveAbsoluteEncoderOffset,
         DriveConstants.kBackLeftDriveAbsoluteEncoderReversed);
 
     private final SwerveModule m_backRight = SwerveModule.create(
@@ -67,7 +64,6 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
         DriveConstants.kBackRightDriveEncoderReversed,
         DriveConstants.kBackRightTurningEncoderReversed,
         DriveConstants.kBackRightDriveAbsoluteEncoderPort,
-        DriveConstants.kBackRightDriveAbsoluteEncoderOffset,
         DriveConstants.kBackRightDriveAbsoluteEncoderReversed);
 
     private final List<SwerveModule> modules = List.of(m_frontLeft, m_frontRight, m_backLeft, m_backRight);
@@ -239,13 +235,6 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
         m_desiredStatesPublisher.set(desiredModuleStates);
     }
 
-    public void resetEncoders() {
-        m_frontLeft.resetEncoders();
-        m_backLeft.resetEncoders();
-        m_frontRight.resetEncoders();
-        m_backRight.resetEncoders();
-    }
-
     public void zeroHeading() {
         m_gyro.reset();
     }
@@ -254,17 +243,6 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
         // Normalizes the heading to be between -180 and 180
         return Rotation2d.fromDegrees(m_gyro.getAngle()).getDegrees();
     }
-
-    /**
-     * Returns the turn rate of the robot.
-     *
-     * @return The turn rate of the robot, in degrees per second
-     */
-    public double getTurnRate() {
-        return m_gyro.getRate() * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
-    }
-
-
 
     public void simulate(){
         gyroSim.addYaw(Units.radiansToDegrees(DriveConstants.kDriveKinematics.toChassisSpeeds(getModuleStates()).omegaRadiansPerSecond) 

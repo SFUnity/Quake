@@ -20,10 +20,10 @@ public interface SwerveModule extends Sendable {
    * @return A new {@link SwerveModule} based on if the robot is currently real or simulated.
    */
   public static SwerveModule create(int kDriveMotorId, int kTurningMotorId, boolean driveMotorReversed, boolean turningMotorReversed,
-          int absoluteEncoderId, double absoluteEncoderOffset, boolean absoluteEncoderReversed) {
+          int absoluteEncoderId, boolean absoluteEncoderReversed) {
     return RobotBase.isReal()
         ? new RealSwerveModule(kDriveMotorId, kTurningMotorId, driveMotorReversed, turningMotorReversed, 
-                                absoluteEncoderId, absoluteEncoderOffset, absoluteEncoderReversed)
+                                absoluteEncoderId, absoluteEncoderReversed)
         : new FakeSwerveModule();
   }
 

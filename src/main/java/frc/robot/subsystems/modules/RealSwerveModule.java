@@ -11,7 +11,6 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ModuleConstants;
 import lib.SwerveModule;
 
@@ -24,7 +23,6 @@ public class RealSwerveModule implements AutoCloseable, SwerveModule {
     private final RelativeEncoder m_turningEncoder;
 
     private final CANcoder m_absoluteEncoder;
-    private final double kAbsoluteEncoderOffset;
     private final boolean kAbsoluteEncoderReversed;
 
     private final PIDController turningPidController;
@@ -32,7 +30,7 @@ public class RealSwerveModule implements AutoCloseable, SwerveModule {
     private SwerveModuleState desiredState = new SwerveModuleState(0.0, new Rotation2d());
     
     public RealSwerveModule(int kDriveMotorId, int kTurningMotorId, boolean driveMotorReversed, boolean turningMotorReversed,
-            int absoluteEncoderId, double absoluteEncoderOffset, boolean absoluteEncoderReversed) {
+            int absoluteEncoderId, boolean absoluteEncoderReversed) {
         
         m_driveMotor = new CANSparkMax(kDriveMotorId, MotorType.kBrushless);
         m_turningMotor = new CANSparkMax(kTurningMotorId, MotorType.kBrushless);
@@ -43,7 +41,6 @@ public class RealSwerveModule implements AutoCloseable, SwerveModule {
         m_driveEncoder = m_driveMotor.getEncoder();
         m_turningEncoder = m_turningMotor.getEncoder();
 
-        kAbsoluteEncoderOffset = absoluteEncoderOffset;
         kAbsoluteEncoderReversed = absoluteEncoderReversed;
         m_absoluteEncoder = new CANcoder(absoluteEncoderId);
 
