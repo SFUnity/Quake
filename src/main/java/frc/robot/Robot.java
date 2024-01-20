@@ -1,5 +1,7 @@
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.util.datalog.DataLog;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -47,6 +49,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
+    m_swerveSubsystem.resetPose(new Pose2d(2.0, 2.0, new Rotation2d()));
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     if (m_autonomousCommand != null) {
