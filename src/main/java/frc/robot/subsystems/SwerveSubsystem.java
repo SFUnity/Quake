@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import java.util.List;
@@ -7,6 +8,7 @@ import java.util.List;
 import com.ctre.phoenix6.sim.Pigeon2SimState;
 import com.ctre.phoenix6.hardware.Pigeon2;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -101,6 +103,10 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
     public ShuffleboardTab odometryTab = Shuffleboard.getTab("Odometry");
 
     private GenericEntry headingEntry = odometryTab.add("Heading", 0).withWidget(BuiltInWidgets.kGyro).getEntry();
+    
+    private GenericEntry turnToAnglePEntry = swerveTab.addPersistent("turnToAngle P", 0.05).getEntry();
+    private GenericEntry turnToAngleIEntry = swerveTab.addPersistent("turnToAngle I", 0.01).getEntry();
+    private PIDController turnToAnglePID = new PIDController(turnToAnglePEntry.getDouble(0.05), turnToAngleIEntry.getDouble(0.05), 0);
 
     public SwerveSubsystem() {
         /* Threads are units of code. These threads call the zeroHeading method 1 sec 
@@ -116,6 +122,9 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
         for (int i = 0; i < modules2d.length; i++) {
             modules2d[i] = field2d.getObject("module-" + i);
         }
+
+        turnToAnglePID.enableContinuousInput(-180, 180);
+        turnToAnglePID.setTolerance(0.1);
 
         odometryTab.add("Field", field2d);
 
@@ -274,6 +283,26 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
         m_frontRight.stopMotors();
         m_backLeft.stopMotors();
         m_backRight.stopMotors();
+    }
+
+    /**
+     * @param desiredAngleDegrees
+     * @return
+     */
+    // Still a little fast
+    public Command TurnToAngle(double desiredAngleDegrees) {
+        return run(
+            () -> {
+                double constrainedAngleDegrees = Rotation2d.fromDegrees(desiredAngleDegrees).getDegrees();
+                double turningSpeedDegrees = turnToAnglePID.calculate(m_gyro.getYaw().getValueAsDouble(), constrainedAngleDegrees);
+                // double turningSpeedRadians = Units.degreesToRadians(turningSpeedDegrees);
+                ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(0, 0, turningSpeedDegrees, getRotation2d());
+                this.setModuleStates(DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds));
+            })
+        .until(() -> turnToAnglePID.atSetpoint())
+        .finallyDo(interrupted -> {
+            this.stopModules(); 
+        });
     }
 
     @Override
