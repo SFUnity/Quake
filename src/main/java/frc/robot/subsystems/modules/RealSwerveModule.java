@@ -77,7 +77,7 @@ public class RealSwerveModule implements AutoCloseable, SwerveModule {
 
     @Override
     public SwerveModulePosition getPosition() {
-        return new SwerveModulePosition(getDrivePosition(), new Rotation2d(getAbsoluteEncoderRad()));
+        return new SwerveModulePosition(getDrivePosition()*0.1016*Math.PI, new Rotation2d(getAbsoluteEncoderRad()));
     }
 
     @Override
