@@ -239,6 +239,9 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
         m_gyro.reset();
     }
 
+    /**
+     * @return heading in degrees from -180 to 180
+     */
     public double getHeading() {
         // Normalizes the heading to be between -180 and 180
         return Rotation2d.fromDegrees(m_gyro.getAngle()).getDegrees();
@@ -259,6 +262,9 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
         };
     }
 
+    /**
+     * @return robot heading as a rotation2d
+     */
     public Rotation2d getRotation2d() {
         return Rotation2d.fromDegrees(m_gyro.getYaw().getValueAsDouble());
     }
