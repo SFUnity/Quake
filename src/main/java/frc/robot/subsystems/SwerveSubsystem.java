@@ -105,7 +105,8 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
     private GenericEntry headingEntry = odometryTab.add("Heading", 0).withWidget(BuiltInWidgets.kGyro).getEntry();
     
     private GenericEntry turnToAnglePEntry = swerveTab.addPersistent("turnToAngle P", 0.05).getEntry();
-    private PIDController turnToAnglePID = new PIDController(turnToAnglePEntry.getDouble(0.05), 0, 0);
+    private GenericEntry turnToAngleIEntry = swerveTab.addPersistent("turnToAngle I", 0.01).getEntry();
+    private PIDController turnToAnglePID = new PIDController(turnToAnglePEntry.getDouble(0.05), turnToAngleIEntry.getDouble(0.05), 0);
 
     public SwerveSubsystem() {
         /* Threads are units of code. These threads call the zeroHeading method 1 sec 
@@ -288,15 +289,15 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
      * @param desiredAngleDegrees
      * @return
      */
+    // Still a little fast
     public Command TurnToAngle(double desiredAngleDegrees) {
         return run(
             () -> {
                 double constrainedAngleDegrees = Rotation2d.fromDegrees(desiredAngleDegrees).getDegrees();
-                double turningSpeedDegrees = turnToAnglePID.calculate(getHeading(), constrainedAngleDegrees);
+                double turningSpeedDegrees = turnToAnglePID.calculate(m_gyro.getYaw().getValueAsDouble(), constrainedAngleDegrees);
                 // double turningSpeedRadians = Units.degreesToRadians(turningSpeedDegrees);
                 ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(0, 0, turningSpeedDegrees, getRotation2d());
                 this.setModuleStates(DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds));
-                System.out.println("Heading: " + getHeading() + "\n Speed: " + turningSpeedDegrees);
             })
         .until(() -> turnToAnglePID.atSetpoint())
         .finallyDo(interrupted -> {
