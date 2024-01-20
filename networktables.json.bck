@@ -2,7 +2,7 @@
   {
     "name": "/Shuffleboard/Swerve Subsystem/turnToAngle P",
     "type": "double",
-    "value": 0.5,
+    "value": 0.05,
     "properties": {
       "persistent": true,
       "retained": true

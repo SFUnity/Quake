@@ -103,8 +103,9 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
     public ShuffleboardTab odometryTab = Shuffleboard.getTab("Odometry");
 
     private GenericEntry headingEntry = odometryTab.add("Heading", 0).withWidget(BuiltInWidgets.kGyro).getEntry();
-
-    private PIDController turnToAnglePID = new PIDController(0.05, 0, 0);
+    
+    private GenericEntry turnToAnglePEntry = swerveTab.addPersistent("turnToAngle P", 0.05).getEntry();
+    private PIDController turnToAnglePID = new PIDController(turnToAnglePEntry.getDouble(0.05), 0, 0);
 
     public SwerveSubsystem() {
         /* Threads are units of code. These threads call the zeroHeading method 1 sec 
