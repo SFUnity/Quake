@@ -5,9 +5,10 @@ import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 // import frc.robot.Constants.DriveConstants;
 
@@ -15,9 +16,15 @@ public class LimelightSubsystem extends SubsystemBase {
 
   private static LimelightSubsystem instance = null;
 
-  public ShuffleboardTab limelightTab = Shuffleboard.getTab("Limelight");
+  public ShuffleboardTab limelightTab = Shuffleboard.getTab("limelight");
 
   //Declaring objects that are used for retrieving data from the limelight.
+
+  private GenericEntry txEntry = limelightTab.add("tx", 0).getEntry();
+  private GenericEntry tyEntry = limelightTab.add("ty", 0).getEntry();
+  private GenericEntry taEntry = limelightTab.add("ta", 0).getEntry();
+  private GenericEntry tvEntry = limelightTab.add("tv", 0).getEntry();
+  private GenericEntry distanceEntry = limelightTab.add("distance", 0).getEntry();
 
   private static NetworkTable table;
   private static NetworkTableEntry tx;
@@ -35,24 +42,38 @@ public class LimelightSubsystem extends SubsystemBase {
   private LimelightSubsystem ()
   {
     table = NetworkTableInstance.getDefault().getTable("limelight");
+    
+    System.out.println("tx: " + x + "   ty: " + y + "   tv: " + v);
 
     tx = table.getEntry("tx"); // Horizontal offset from crosshair to target (-29.8 to 29.8 degrees).
     ty = table.getEntry("ty"); // Vertical offset from crosshair to target (-24.85 to 24.85 degrees).
     tv = table.getEntry("tv"); // Whether the limelight has any valid targets (0 or 1).
     ta = table.getEntry("ta"); // Target area (0% of image to 100% of image).
 
+    ledMode = table.getEntry("ledMode"); // limelight's LED state (0-3).
+    camMode = table.getEntry("camMode"); // limelight's operation mode (0-1).
+
+  }
+
+  @Override 
+  public void periodic() {
     x = tx.getDouble(0.0);
     y = ty.getDouble(0.0);
     v = tv.getDouble(0.0);
     a = ta.getDouble(0.0);
 
-    ledMode = table.getEntry("ledMode"); // limelight's LED state (0-3).
-    camMode = table.getEntry("camMode"); // limelight's operation mode (0-1).
+    txEntry.setDouble(x);
+    tyEntry.setDouble(y);
+    tvEntry.setDouble(v);
+    taEntry.setDouble(a);
+    distanceEntry.setDouble(getDistance());
 
-    limelightTab.add("tx", x);
-    limelightTab.add("ty", y);
-    limelightTab.add("tv", v);
-    limelightTab.add("ta", a);
+
+     // limelightTab.add("tx", x);
+    // limelightTab.add("ty", y);
+    // limelightTab.add("tv", v);
+    // limelightTab.add("ta", a);
+   
   }
 
   /**
