@@ -78,4 +78,13 @@ public final class Constants {
 
     public static final double kDeadband = 0.05;
   }
+
+  public static final class IntakeConstants {
+
+    public static final int kIntakeAngleMotorPort = 9;
+    public static final int kIntakeRollersMotorPort = 10;
+
+    public static final int kIntakeAngleMotorEncoderPort = 4;
+    
+  }
 }
