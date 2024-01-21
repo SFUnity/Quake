@@ -75,7 +75,7 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
 
     SwerveDrivePoseEstimator poseEstimator = new SwerveDrivePoseEstimator(
         DriveConstants.kDriveKinematics,
-        Rotation2d.fromDegrees(m_gyro.getAngle()),
+        Rotation2d.fromDegrees(m_gyro.getYaw().getValueAsDouble()),
         new SwerveModulePosition[] {
             m_frontLeft.getPosition(),
             m_frontRight.getPosition(),
@@ -166,7 +166,7 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
 
     public void resetPose(Pose2d pose) {
         poseEstimator.resetPosition(
-            Rotation2d.fromDegrees(m_gyro.getAngle()),
+            Rotation2d.fromDegrees(m_gyro.getYaw().getValueAsDouble()),
             new SwerveModulePosition[] {
                 m_frontLeft.getPosition(),
                 m_frontRight.getPosition(),
@@ -179,7 +179,7 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
 
     public void updatePoseEstimator(){
         poseEstimator.update(
-            Rotation2d.fromDegrees(m_gyro.getAngle()),
+            Rotation2d.fromDegrees(m_gyro.getYaw().getValueAsDouble()),
             new SwerveModulePosition[] {
                 m_frontLeft.getPosition(),
                 m_frontRight.getPosition(),
