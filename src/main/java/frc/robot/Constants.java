@@ -41,6 +41,11 @@ public final class Constants {
     public static final int kBackLeftTurningMotorPort = 6;
     public static final int kBackRightTurningMotorPort = 8;
 
+    public static final int kShooterAngleMotor = 9;
+    public static final int kShooterFlywheelMotor = 10;
+
+
+
     // PDHPort = 9
     // RoboRioPort = 0
 
@@ -58,6 +63,8 @@ public final class Constants {
     public static final int kFrontRightDriveAbsoluteEncoderPort = 0;
     public static final int kBackLeftDriveAbsoluteEncoderPort = 2;
     public static final int kBackRightDriveAbsoluteEncoderPort = 3;
+    
+    public static final int kShooterEncoderPort = 4;
 
     public static final boolean kFrontLeftDriveAbsoluteEncoderReversed = false;
     public static final boolean kFrontRightDriveAbsoluteEncoderReversed = false;
