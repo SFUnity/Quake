@@ -5,6 +5,9 @@ import com.ctre.phoenix6.hardware.CANcoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
+import com.revrobotics.Rev2mDistanceSensor.Port;
+import com.revrobotics.Rev2mDistanceSensor;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -18,8 +21,11 @@ public class IntakeSubsystem extends SubsystemBase{
 
     private final PIDController m_IntakePID = new PIDController(0.05, 0, 0); //mess around with this later
 
+    private final Rev2mDistanceSensor noteSensor;
+
     public IntakeSubsystem() {
-        
+        // add port
+        noteSensor = new Rev2mDistanceSensor();
     }
 
     public void moveIntake(double speed) {
