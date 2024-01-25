@@ -14,11 +14,11 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.CircleAutoCmd;
 import frc.robot.commands.StraightAutoCmd;
 import frc.robot.commands.SwerveJoystickCmd;
-import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.subsystems.Swerve;
 
 
 public class RobotContainer {
-    private final SwerveSubsystem m_swerveSubsystem = new SwerveSubsystem();
+    private final Swerve m_swerveSubsystem = new Swerve();
 
     private final CommandXboxController m_driverController = new CommandXboxController(
                     OperatorConstants.kDriverControllerPort);
@@ -70,7 +70,7 @@ public class RobotContainer {
     new Trigger(m_driverController.a()).onTrue(new InstantCommand(() -> m_swerveSubsystem.zeroHeading()));
   }
   
-  public SwerveSubsystem getSwerveSubsystem() {
+  public Swerve getSwerveSubsystem() {
       return m_swerveSubsystem;
   }
 

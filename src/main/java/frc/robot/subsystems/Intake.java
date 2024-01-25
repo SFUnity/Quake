@@ -12,7 +12,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 
-public class IntakeSubsystem extends SubsystemBase{
+public class Intake extends SubsystemBase{
 
     private final CANSparkMax m_IntakeAngleMotor = new CANSparkMax(IntakeConstants.kIntakeAngleMotorPort, MotorType.kBrushless);
     private final CANSparkMax m_IntakeRollersMotor = new CANSparkMax(IntakeConstants.kIntakeRollersMotorPort, MotorType.kBrushless);
@@ -23,7 +23,7 @@ public class IntakeSubsystem extends SubsystemBase{
 
     //private final Rev2mDistanceSensor noteSensor;
 
-    public IntakeSubsystem() {
+    public Intake() {
         // add port
         //noteSensor = new Rev2mDistanceSensor();
     }
