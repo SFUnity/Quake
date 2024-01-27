@@ -22,7 +22,7 @@ public class Shooter extends SubsystemBase {
     private final Rev2mDistanceSensor m_distOnboard;
 
     public Shooter(){
-        m_encoder = new CANcoder(ShooterConstants.kShooterAngleMotorEncoderPort);
+        m_encoder = new CANcoder(4);
         // We really don't know what these numbers mean 
         // if something breaks try changing these numbers
         m_pidController =  new PIDController(1,0,0);
@@ -32,5 +32,33 @@ public class Shooter extends SubsystemBase {
         m_shooterAngleMotor = new CANSparkMax(ShooterConstants.kShooterAngleMotor, MotorType.kBrushless);
         m_shooterFlywheelMotor = new CANSparkMax(ShooterConstants.kShooterFlywheelMotor, MotorType.kBrushless);
     }
+
+
+
+    public void shoot(){
+        if(m_distOnboard.isRangeValid()){
+            if(m_distOnboard.getRange() <=2){
+                
+            }
+        }
+    }
+
+    public void stopShooterMotors(){
+        m_shooterFlywheelMotor.stopMotor();
+    }
+
+    public void startShooterMotors(){
+        m_shooterFlywheelMotor.set(1);
+    }
+
+    public double getAimAngle(int distance){
+        double heightOfTarget = 6.5;  // feet
+        double angleRad = Math.atan(heightOfTarget / distance);
+        double angleDeg = Math.toDegrees(angleRad);
+        return angleDeg;
+    }
+
+
+
 }
 
