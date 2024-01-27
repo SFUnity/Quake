@@ -54,11 +54,11 @@ public class Intake extends SubsystemBase{
     }
 
     public void moveIntake(double speed) {
-        m_IntakeAngleMotor.set(speed);
+        m_IntakeAngleMotor.set(speed>0 ? Math.min(speed, 1.0) : Math.max(speed, -1.0));
     }
 
     public void runIntake(double speed) {
-        m_IntakeRollersMotor.set(speed);
+        m_IntakeRollersMotor.set(speed>0 ? Math.min(speed, 1.0) : Math.max(speed, -1.0));
     }
 
     public void setIntakeToAngle(double angle) {
