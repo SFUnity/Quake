@@ -5,7 +5,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.RobotBase;
-import frc.robot.subsystems.modules.FakeSwerveModule;
+import frc.robot.subsystems.modules.SimulationSwerveModule;
 import frc.robot.subsystems.modules.RealSwerveModule;
 
 /** Interface to represent a swerve module */
@@ -15,7 +15,7 @@ public interface SwerveModule extends Sendable {
    * Creates a swerve module.
    *
    * <p>If the robot is real, a new {@link RealSwerveModule} will be created, otherwise a
-   * {@link FakeSwerveModule} will be created.
+   * {@link SimulationSwerveModule} will be created.
    *
    * @return A new {@link SwerveModule} based on if the robot is currently real or simulated.
    */
@@ -24,7 +24,7 @@ public interface SwerveModule extends Sendable {
     return RobotBase.isReal()
         ? new RealSwerveModule(kDriveMotorId, kTurningMotorId, driveMotorReversed, turningMotorReversed, 
                                 absoluteEncoderId, absoluteEncoderReversed)
-        : new FakeSwerveModule();
+        : new SimulationSwerveModule();
   }
 
   // double getDrivePosition();

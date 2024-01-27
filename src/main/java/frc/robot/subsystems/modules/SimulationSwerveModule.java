@@ -5,7 +5,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import lib.SwerveModule;
 
 /** Ideal swerve module, useful for debugging */
-public class FakeSwerveModule implements SwerveModule {
+public class SimulationSwerveModule implements SwerveModule {
 
   private SwerveModuleState state = new SwerveModuleState();
   private double distance;
