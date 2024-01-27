@@ -75,7 +75,7 @@ public final class Constants {
     public static final double kPhysicalMaxSpeedMetersPerSecond = 13.00;
   }
 
-  public static final class OperatorConstants {
+  public static final class ControllerConstants {
     public static final int kDriverControllerPort = 0;
 
     public static final double kDeadband = 0.05;
@@ -85,8 +85,10 @@ public final class Constants {
 
     public static final int kIntakeAngleMotorPort = 9;
     public static final int kIntakeRollersMotorPort = 10;
+    public static final Double kTurningMotorMaxSpeed = 10.0;
 
     public static final int kIntakeAngleMotorEncoderPort = 4;
+    public static final Double kIntakeAngleMotorEncoderOffset = 0.0; //TODO needs to be updated
     
   }
 
@@ -99,7 +101,7 @@ public final class Constants {
     public static final int kShooterAngleMotor = 11;
     public static final int kShooterFlywheelMotor = 12;
 
-    public static final int kIntakeAngleMotorEncoderPort = 5;
+    public static final int kShooterAngleMotorEncoderPort = 5;
     
   }
 }
