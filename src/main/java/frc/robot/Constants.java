@@ -80,6 +80,7 @@ public final class Constants {
 
     public static final int kIntakeAngleMotorPort = 9;
     public static final int kIntakeRollersMotorPort = 10;
+    public static final Double kTurningMotorMaxSpeed = 10.0;
 
     public static final int kIntakeAngleMotorEncoderPort = 4;
     
