@@ -14,19 +14,19 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.CircleAutoCmd;
 import frc.robot.commands.StraightAutoCmd;
 import frc.robot.commands.SwerveJoystickCmd;
-import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.subsystems.Swerve;
 
 
 public class RobotContainer {
-    private final SwerveSubsystem m_swerveSubsystem = new SwerveSubsystem();
+    private final Swerve m_swerve = new Swerve();
 
     private final CommandXboxController m_driverController = new CommandXboxController(
                     OperatorConstants.kDriverControllerPort);
 
     // Auto Commands Chooser
-    private final Command m_straightAuto = new StraightAutoCmd(m_swerveSubsystem);
+    private final Command m_straightAuto = new StraightAutoCmd(m_swerve);
 
-    private final Command m_circleAuto = new CircleAutoCmd(m_swerveSubsystem);
+    private final Command m_circleAuto = new CircleAutoCmd(m_swerve);
 
     private final Command m_straightPathAuto = new PathPlannerAuto("Test Auto");
 
@@ -38,8 +38,8 @@ public class RobotContainer {
     public ShuffleboardTab mainTab = Shuffleboard.getTab("Main");
 
     public RobotContainer() {
-        m_swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
-                m_swerveSubsystem,
+        m_swerve.setDefaultCommand(new SwerveJoystickCmd(
+                m_swerve,
                 () -> -m_driverController.getLeftY(),
                 () -> -m_driverController.getLeftX(),
                 () -> m_driverController.getRightX(),
@@ -60,18 +60,18 @@ public class RobotContainer {
         mainTab.add(m_autoChooser);
         mainTab.add(m_fieldOrientedChooser);
 
-        SmartDashboard.putData(m_swerveSubsystem);
+        SmartDashboard.putData(m_swerve);
         SmartDashboard.putData(m_straightAuto);
         SmartDashboard.putData(m_circleAuto);
-        SmartDashboard.putData(m_swerveSubsystem.TurnToAngle(45));
+        SmartDashboard.putData(m_swerve.TurnToAngle(45));
     }
 
   private void configureBindings() {
-    new Trigger(m_driverController.a()).onTrue(new InstantCommand(() -> m_swerveSubsystem.zeroHeading()));
+    new Trigger(m_driverController.a()).onTrue(new InstantCommand(() -> m_swerve.zeroHeading()));
   }
   
-  public SwerveSubsystem getSwerveSubsystem() {
-      return m_swerveSubsystem;
+  public Swerve getSwerve() {
+      return m_swerve;
   }
 
   public Command getAutonomousCommand() {
