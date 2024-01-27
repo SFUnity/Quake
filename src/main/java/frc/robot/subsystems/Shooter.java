@@ -22,7 +22,7 @@ public class Shooter extends SubsystemBase {
     private final Rev2mDistanceSensor m_distOnboard;
 
     public Shooter(){
-        m_encoder = new CANcoder(4);
+        m_encoder = new CANcoder(ShooterConstants.kShooterAngleMotorEncoderPort);
         // We really don't know what these numbers mean 
         // if something breaks try changing these numbers
         m_pidController =  new PIDController(1,0,0);

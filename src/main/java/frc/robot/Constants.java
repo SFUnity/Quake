@@ -94,7 +94,7 @@ public final class Constants {
     public static final int kShooterAngleMotor = 11;
     public static final int kShooterFlywheelMotor = 12;
 
-    public static final int kIntakeAngleMotorEncoderPort = 5;
+    public static final int kShooterAngleMotorEncoderPort = 5;
     
   }
 }
