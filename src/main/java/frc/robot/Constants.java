@@ -85,6 +85,8 @@ public final class Constants {
     public static final int kIntakeAngleMotorEncoderPort = 4;
     public static final Double kIntakeAngleMotorEncoderOffset = 0.0; //TODO needs to be updated with measured values
     public static final Double kDistanceActivationThresholdMin = 0.5; //TODO needs to be updated with measued values
+    public static final Double kIntakeLowweredAngle = 0.0; //TODO needs to be updated with measued values
+    public static final Double kIntakeRaisedAngle = Math.PI/2; //TODO needs to be updated with measued values
     
   }
 

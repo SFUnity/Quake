@@ -37,7 +37,7 @@ public class Intake extends SubsystemBase{
 
         if (intakeMoving) {
             moveIntake(m_IntakePID.calculate(m_encoder.getAbsolutePosition().getValueAsDouble() - IntakeConstants.kIntakeAngleMotorEncoderOffset, angle) / IntakeConstants.kTurningMotorMaxSpeed);
-            if (m_encoder.getAbsolutePosition().getValueAsDouble() - IntakeConstants.kIntakeAngleMotorEncoderOffset - angle < 1.0) {
+            if (Math.abs(m_encoder.getAbsolutePosition().getValueAsDouble() - IntakeConstants.kIntakeAngleMotorEncoderOffset - angle) < 1.0) {
                 stopIntakeRotation();
                 intakeMoving = false;
             }
@@ -76,5 +76,23 @@ public class Intake extends SubsystemBase{
 
     public void stopIntakeRotation() {
         m_IntakeAngleMotor.stopMotor();
+    }
+
+    public void lowerIntake() {
+        setIntakeToAngle(IntakeConstants.kIntakeLowweredAngle);
+    }
+    
+    public void raiseIntake() {
+        setIntakeToAngle(IntakeConstants.kIntakeRaisedAngle);
+    }
+    
+    public void lowerAndRunIntake() {
+        setIntakeToAngle(IntakeConstants.kIntakeLowweredAngle);
+        startIntake();
+    }
+    
+    public void raiseAndStopIntake() {
+        setIntakeToAngle(IntakeConstants.kIntakeRaisedAngle);
+        stopIntake();
     }
 }
