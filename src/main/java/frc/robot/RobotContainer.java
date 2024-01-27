@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.Constants.OperatorConstants;
+import frc.robot.Constants.ControllerConstants;
 import frc.robot.commands.CircleAutoCmd;
 import frc.robot.commands.StraightAutoCmd;
 import frc.robot.commands.SwerveJoystickCmd;
@@ -24,7 +24,7 @@ public class RobotContainer {
     private Operations m_operations = new Operations();
 
     private final CommandXboxController m_driverController = new CommandXboxController(
-                    OperatorConstants.kDriverControllerPort);
+                    ControllerConstants.kDriverControllerPort);
 
     // Auto Commands Chooser
     private final Command m_straightAuto = new StraightAutoCmd(m_swerveSubsystem);
