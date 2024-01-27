@@ -90,6 +90,10 @@ public final class Constants {
     
   }
 
+  public static final class OperationsConstants{
+    public static final int kIndexMotorID = 13;
+  }
+
   public static final class ShooterConstants {
 
     public static final int kShooterAngleMotor = 11;

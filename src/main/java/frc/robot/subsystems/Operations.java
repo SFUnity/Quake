@@ -1,9 +1,18 @@
 package frc.robot.subsystems;
 
+import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
+
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
+import frc.robot.Constants.OperationsConstants;
 
 public class Operations {
+    
+    private final CANSparkMax m_operationsMotor;
+    private final RelativeEncoder m_operationsEncoder;
+
     // PWM port 9
     // Must be a PWM header, not MXP or DIO
     private final AddressableLED m_led = new AddressableLED(9);
@@ -13,12 +22,22 @@ public class Operations {
     private int m_rainbowFirstPixelHue;
 
     public Operations() {
+        m_operationsMotor = new CANSparkMax(OperationsConstants.kIndexMotorID, MotorType.kBrushless);
+        m_operationsEncoder = m_operationsMotor.getEncoder();
+
+        
         // Length is expensive to set, so only set it once, then just update data
         m_led.setLength(m_ledBuffer.getLength());
 
         // Set the data
         m_led.setData(m_ledBuffer);
         m_led.start();
+
+        
+    }
+
+    public void setOperationsSpeed(double speed){
+           m_operationsMotor.set(speed); 
     }
 
     public void rainbow() {
