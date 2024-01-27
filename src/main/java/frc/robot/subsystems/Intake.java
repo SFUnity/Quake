@@ -21,14 +21,13 @@ public class Intake extends SubsystemBase{
 
     private final PIDController m_IntakePID = new PIDController(0.05, 0, 0); //mess around with this later
 
-    private final Rev2mDistanceSensor distOnboard, distMXP;
+    private final Rev2mDistanceSensor distOnboard;
     private Double angle = 0.0;
     private Boolean intakeMoving, intakeRunning = false;
 
     public Intake() {
         // add port
         distOnboard = new Rev2mDistanceSensor(Port.kOnboard);
-        distMXP = new Rev2mDistanceSensor(Port.kMXP);
         distOnboard.setAutomaticMode(true);
     }
 
