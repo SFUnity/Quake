@@ -37,6 +37,13 @@ public class Shooter extends SubsystemBase {
         
     }
 
+    public Boolean noteInShooter() {
+        if(m_distOnboard.isRangeValid()){
+            return m_distOnboard.getRange() <=2;
+        }
+        return false;
+    }
+
     public void shoot(){
         if(m_distOnboard.isRangeValid()){
             if(m_distOnboard.getRange() <=2){
