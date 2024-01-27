@@ -36,7 +36,11 @@ public class Intake extends SubsystemBase{
     public void periodic() {
         super.periodic();
         if (intakeMoving) {
-            moveIntake(m_IntakePID.calculate(m_encoder.getAbsolutePosition().getValueAsDouble(), angle));
+            moveIntake(m_IntakePID.calculate(m_encoder.getAbsolutePosition().getValueAsDouble() - IntakeConstants.kIntakeAngleMotorEncoderOffset, angle) / IntakeConstants.kTurningMotorMaxSpeed);
+            if (m_encoder.getAbsolutePosition().getValueAsDouble() - IntakeConstants.kIntakeAngleMotorEncoderOffset - angle < 1.0) {
+                moveIntake(0);
+                intakeMoving = false;
+            }
         }
     }
 
