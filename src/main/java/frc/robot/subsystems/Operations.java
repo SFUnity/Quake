@@ -4,6 +4,7 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import frc.robot.Constants.OperationsConstants;
@@ -14,6 +15,8 @@ public class Operations extends SubsystemBase{
     
     private final CANSparkMax m_operationsMotor;
     private final RelativeEncoder m_operationsEncoder;
+
+    private final PIDController m_climberPID = new PIDController(0.05, 0, 0); //mess around with this later
 
     // PWM port 9
     // Must be a PWM header, not MXP or DIO
@@ -72,5 +75,15 @@ public class Operations extends SubsystemBase{
 
     public Command setToRainbow() {
         return run(() -> this.rainbow());
+    }
+
+
+    // Climber
+    public void raiseRobot() {
+
+    }
+
+    public void lowwerRobot() {
+
     }
 }
