@@ -88,6 +88,7 @@ public final class Constants {
     public static final Double kTurningMotorMaxSpeed = 10.0;
 
     public static final int kIntakeAngleMotorEncoderPort = 4;
+    public static final Double kIntakeAngleMotorEncoderOffset = 0.0; //TODO needs to be updated
     
   }
 
