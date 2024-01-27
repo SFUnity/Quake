@@ -32,7 +32,7 @@ public class Robot extends TimedRobot {
     DataLog log = DataLogManager.getLog();
     DriverStation.startDataLog(log);
 
-    // Git info logging
+    // Git info logging. Run build if it says GitBuildConstants doesn't exist
     entryGitSha.append(GitBuildConstants.GIT_SHA);
     entryGitBranch.append(GitBuildConstants.GIT_BRANCH);
 
