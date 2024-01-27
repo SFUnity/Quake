@@ -14,11 +14,14 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.CircleAutoCmd;
 import frc.robot.commands.StraightAutoCmd;
 import frc.robot.commands.SwerveJoystickCmd;
+import frc.robot.subsystems.Operations;
 import frc.robot.subsystems.Swerve;
 
 
 public class RobotContainer {
     private final Swerve m_swerve = new Swerve();
+
+    private Operations m_operations = new Operations();
 
     private final CommandXboxController m_driverController = new CommandXboxController(
                     OperatorConstants.kDriverControllerPort);
