@@ -75,7 +75,7 @@ public final class Constants {
     public static final double kPhysicalMaxSpeedMetersPerSecond = 13.00;
   }
 
-  public static final class OperatorConstants {
+  public static final class ControllerConstants {
     public static final int kDriverControllerPort = 0;
 
     public static final double kDeadband = 0.05;
