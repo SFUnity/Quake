@@ -103,6 +103,8 @@ public final class Constants {
     public static final int kShooterFlywheelMotor = 12;
 
     public static final int kShooterAngleMotorEncoderPort = 5;
+    public static final Double kShooterAngleMotorEncoderOffset = 0.0;
+    public static final Double kShooterMotorMaxSpeed = 10.0;
     
   }
 }
