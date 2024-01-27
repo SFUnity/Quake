@@ -48,6 +48,8 @@ public class RobotContainer {
                 () -> m_driverController.getRightX(),
                 true));
 
+        m_operations.setDefaultCommand(m_operations.setToRainbow());
+
         configureBindings();
 
         // Add commands to the autonomous command chooser

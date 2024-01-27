@@ -7,8 +7,10 @@ import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import frc.robot.Constants.OperationsConstants;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Operations {
+public class Operations extends SubsystemBase {
     
     private final CANSparkMax m_operationsMotor;
     private final RelativeEncoder m_operationsEncoder;
@@ -66,5 +68,9 @@ public class Operations {
          }
          
          m_led.setData(m_ledBuffer);
+    }
+
+    public Command setToRainbow() {
+        return run(() -> this.rainbow());
     }
 }
