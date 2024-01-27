@@ -2,8 +2,10 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Operations {
+public class Operations extends SubsystemBase {
     // PWM port 9
     // Must be a PWM header, not MXP or DIO
     private final AddressableLED m_led = new AddressableLED(9);
@@ -47,5 +49,9 @@ public class Operations {
          }
          
          m_led.setData(m_ledBuffer);
+    }
+
+    public Command setToRainbow() {
+        return run(() -> this.rainbow());
     }
 }
