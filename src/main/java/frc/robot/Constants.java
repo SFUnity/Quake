@@ -109,4 +109,10 @@ public final class Constants {
     public static final Double kShooterMotorMaxSpeed = 10.0;
     
   }
+
+  public static final class ClimberConstants {
+    public static final Double kClimberMotorMaxSpeed = 10.0; //TODO needs to be updated with measured values
+  }
+
+
 }
