@@ -1,6 +1,7 @@
 package frc.robot;
 
 import edu.wpi.first.util.datalog.DataLog;
+import edu.wpi.first.util.datalog.StringLogEntry;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -16,6 +17,10 @@ public class Robot extends TimedRobot {
 
   private SwerveSubsystem m_swerveSubsystem;
 
+  // Git info logging
+  StringLogEntry entryGitSha = new StringLogEntry(DataLogManager.getLog(), "/Metadata/GitSHA");
+  StringLogEntry entryGitBranch = new StringLogEntry(DataLogManager.getLog(), "/Metadata/GitBranch");
+
   @Override
   public void robotInit() {
     // Logging stuff
@@ -26,6 +31,10 @@ public class Robot extends TimedRobot {
     }
     DataLog log = DataLogManager.getLog();
     DriverStation.startDataLog(log);
+
+    // Git info logging
+    entryGitSha.append(GitBuildConstants.GIT_SHA);
+    entryGitBranch.append(GitBuildConstants.GIT_BRANCH);
 
     m_robotContainer = new RobotContainer();
     m_swerveSubsystem = m_robotContainer.getSwerveSubsystem();
