@@ -8,6 +8,7 @@ import com.revrobotics.Rev2mDistanceSensor.Port;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.ShooterConstants;
 
 
@@ -20,6 +21,8 @@ public class Shooter extends SubsystemBase {
     private final PIDController m_pidController;
     
     private final Rev2mDistanceSensor m_distOnboard;
+    private Boolean shooterMoving;
+    private double desiredAngle;
 
     public Shooter(){
         m_encoder = new CANcoder(4);
@@ -33,8 +36,6 @@ public class Shooter extends SubsystemBase {
         m_shooterFlywheelMotor = new CANSparkMax(ShooterConstants.kShooterFlywheelMotor, MotorType.kBrushless);
         
     }
-
-
 
     public void shoot(){
         if(m_distOnboard.isRangeValid()){
@@ -64,11 +65,24 @@ public class Shooter extends SubsystemBase {
     }
 
    
-    public void setShooterToAngle() {
-        startAngleMotors(m_pidController.calculate(m_encoder.getAbsolutePosition().getValueAsDouble(), getAimAngle(5)));
+    public void setShooterToAngle(double angle) {
+        shooterMoving = true;
+        this.desiredAngle = angle;
+    }
+
+   @Override
+    public void periodic() {
+        desiredAngle = getAimAngle(16);
+        super.periodic();
+        if (shooterMoving) {
+            startAngleMotors(m_pidController.calculate(m_encoder.getAbsolutePosition().getValueAsDouble() - ShooterConstants.kShooterAngleMotorEncoderOffset, desiredAngle) / ShooterConstants.kShooterMotorMaxSpeed);
+            if (m_encoder.getAbsolutePosition().getValueAsDouble() - ShooterConstants.kShooterAngleMotorEncoderOffset - desiredAngle < 1.0) {
+                startAngleMotors(desiredAngle);
+                
+                shooterMoving = false;
+            }
+        }
     }
 
 
-
 }
-
