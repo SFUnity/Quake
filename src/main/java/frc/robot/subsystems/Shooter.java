@@ -31,6 +31,7 @@ public class Shooter extends SubsystemBase {
         m_distOnboard = new Rev2mDistanceSensor(Port.kOnboard);
         m_shooterAngleMotor = new CANSparkMax(ShooterConstants.kShooterAngleMotor, MotorType.kBrushless);
         m_shooterFlywheelMotor = new CANSparkMax(ShooterConstants.kShooterFlywheelMotor, MotorType.kBrushless);
+        
     }
 
 
@@ -38,7 +39,7 @@ public class Shooter extends SubsystemBase {
     public void shoot(){
         if(m_distOnboard.isRangeValid()){
             if(m_distOnboard.getRange() <=2){
-                
+                startShooterMotors(1);
             }
         }
     }
@@ -47,8 +48,12 @@ public class Shooter extends SubsystemBase {
         m_shooterFlywheelMotor.stopMotor();
     }
 
-    public void startShooterMotors(){
-        m_shooterFlywheelMotor.set(1);
+    public void startAngleMotors(double speed){
+        m_shooterAngleMotor.set(speed);
+    }
+
+    public void startShooterMotors(double speed){
+        m_shooterFlywheelMotor.set(speed);
     }
 
     public double getAimAngle(int distance){
@@ -56,6 +61,11 @@ public class Shooter extends SubsystemBase {
         double angleRad = Math.atan(heightOfTarget / distance);
         double angleDeg = Math.toDegrees(angleRad);
         return angleDeg;
+    }
+
+   
+    public void setShooterToAngle() {
+        startAngleMotors(m_pidController.calculate(m_encoder.getAbsolutePosition().getValueAsDouble(), getAimAngle(5)));
     }
 
 
