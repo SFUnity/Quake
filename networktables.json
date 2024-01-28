@@ -2,10 +2,18 @@
   {
     "name": "/Shuffleboard/Swerve Subsystem/turnToAngle P",
     "type": "double",
-    "value": 0.5,
+    "value": 5.0,
     "properties": {
       "persistent": true,
       "retained": true
+    }
+  },
+  {
+    "name": "/Shuffleboard/Swerve Subsystem/turnToAngle I",
+    "type": "double",
+    "value": 0.01,
+    "properties": {
+      "persistent": true
     }
   }
 ]
