@@ -58,7 +58,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
-    m_swerveSubsystem.resetPose(new Pose2d(2.0, 2.0, new Rotation2d()));
+    m_swerve.resetPose(new Pose2d(2.0, 2.0, new Rotation2d()));
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     if (m_autonomousCommand != null) {
