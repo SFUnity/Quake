@@ -13,8 +13,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Operations extends SubsystemBase {
     
-    private final CANSparkMax m_operationsMotor;
-    private final RelativeEncoder m_operationsEncoder;
+    private final CANSparkMax m_indexerMotor;
+    private final RelativeEncoder m_indexerEncoder;
 
     private final PIDController m_climberPID = new PIDController(0.05, 0, 0); //mess around with this later
 
@@ -27,8 +27,8 @@ public class Operations extends SubsystemBase {
     private int m_rainbowFirstPixelHue;
 
     public Operations() {
-        m_operationsMotor = new CANSparkMax(OperationsConstants.kIndexMotorID, MotorType.kBrushless);
-        m_operationsEncoder = m_operationsMotor.getEncoder();
+        m_indexerMotor = new CANSparkMax(OperationsConstants.kIndexMotorID, MotorType.kBrushless);
+        m_indexerEncoder = m_indexerMotor.getEncoder();
 
         
         // Length is expensive to set, so only set it once, then just update data
@@ -42,7 +42,7 @@ public class Operations extends SubsystemBase {
     }
 
     public void setOperationsSpeed(double speed){
-           m_operationsMotor.set(speed); 
+           m_indexerMotor.set(speed); 
     }
 
     public void rainbow() {

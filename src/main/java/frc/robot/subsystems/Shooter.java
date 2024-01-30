@@ -11,13 +11,13 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ShooterConstants;
 
-
-
 public class Shooter extends SubsystemBase {
     private final CANSparkMax m_shooterAngleMotor; 
     private final CANSparkMax m_shooterFlywheelMotor;
+    
+    private final CANcoder m_shooterAngleEncoder;
+    public final RelativeEncoder m_flywheelEncoder;
 
-    private final CANcoder m_encoder;
     private final PIDController m_pidController;
     
     private final Rev2mDistanceSensor m_shooterDistanceSensor;
@@ -26,10 +26,9 @@ public class Shooter extends SubsystemBase {
     public Boolean noteInShooter;
     private Boolean angleSet;
 
-    public final RelativeEncoder m_flywheelEncoder;
 
     public Shooter(){
-        m_encoder = new CANcoder(ShooterConstants.kShooterAngleMotorEncoderPort);
+        m_shooterAngleEncoder = new CANcoder(ShooterConstants.kShooterAngleMotorEncoderPort);
         // We really don't know what these numbers mean 
         // if something breaks try changing these numbers
         m_pidController =  new PIDController(0.5,0,0);
@@ -40,13 +39,10 @@ public class Shooter extends SubsystemBase {
         m_shooterFlywheelMotor = new CANSparkMax(ShooterConstants.kShooterFlywheelMotor, MotorType.kBrushless);
         m_flywheelEncoder = m_shooterFlywheelMotor.getEncoder();
         angleSet = false;
-        
     }
 
     public void shoot(){
-        
         if(noteInShooter){
-
             setShooterMotors(1);
 
             angleSet = false;
@@ -54,13 +50,9 @@ public class Shooter extends SubsystemBase {
         else{
             stopShooterMotors();
         }
-
-        
-    
     }
 
     public boolean isNoteInShooter(){
-        
         if(m_shooterDistanceSensor.isRangeValid()){
             if(m_shooterDistanceSensor.getRange() <= ShooterConstants.kShooterDistanceRange){
                 return true;
@@ -68,14 +60,11 @@ public class Shooter extends SubsystemBase {
             else{
                 return false;
             }
-
         }
         else{
             return false;
         }
     }
-
-
 
     public void stopShooterMotors(){
         m_shooterFlywheelMotor.stopMotor();
@@ -113,16 +102,15 @@ public class Shooter extends SubsystemBase {
 
    @Override
     public void periodic() {
-        
         super.periodic();
+
         if (shooterMoving) {
-            startAngleMotors(m_pidController.calculate(m_encoder.getAbsolutePosition().getValueAsDouble() - ShooterConstants.kShooterAngleMotorEncoderOffset, desiredAngle) / ShooterConstants.kShooterMotorMaxSpeed);
-            if (m_encoder.getAbsolutePosition().getValueAsDouble() - ShooterConstants.kShooterAngleMotorEncoderOffset - desiredAngle < 1.0) {
+            startAngleMotors(m_pidController.calculate(m_shooterAngleEncoder.getAbsolutePosition().getValueAsDouble() - ShooterConstants.kShooterAngleMotorEncoderOffset, desiredAngle) / ShooterConstants.kShooterMotorMaxSpeed);
+            if (m_shooterAngleEncoder.getAbsolutePosition().getValueAsDouble() - ShooterConstants.kShooterAngleMotorEncoderOffset - desiredAngle < 1.0) {
                 stopAngleMotors();
                 
                 shooterMoving = false;
             }
-            
         }
     }
 }
