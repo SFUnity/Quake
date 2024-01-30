@@ -65,6 +65,11 @@ public final class Constants {
     public static final boolean kFrontRightDriveAbsoluteEncoderReversed = false;
     public static final boolean kBackLeftDriveAbsoluteEncoderReversed = false;
     public static final boolean kBackRightDriveAbsoluteEncoderReversed = false;
+
+    public static final double kFrontLeftDriveAbsoluteEncoderOffset = 0.007;
+    public static final double kBackLeftDriveAbsoluteEncoderOffset = 0.014;
+    public static final double kFrontRightDriveAbsoluteEncoderOffset = 0.451;
+    public static final double kBackRightDriveAbsoluteEncoderOffset = 0.245; // good
     /* */
 
     public static final double kPhysicalMaxSpeedMetersPerSecond = 13.00;
@@ -100,6 +105,7 @@ public final class Constants {
 
     public static final int kShooterAngleMotor = 11;
     public static final int kShooterFlywheelMotor = 12;
+    public static final int kShooterRollerMotor = 13;
 
     public static final int kShooterAngleMotorEncoderPort = 5;
     public static final Double kShooterAngleMotorEncoderOffset = 0.0;
