@@ -27,7 +27,7 @@ public class Shooter extends SubsystemBase {
     private Boolean angleSet;
 
 
-    public Shooter(){
+    public Shooter() {
         m_angleMotor = new CANSparkMax(ShooterConstants.kShooterAngleMotor, MotorType.kBrushless);
         m_flywheelMotor = new CANSparkMax(ShooterConstants.kShooterFlywheelMotor, MotorType.kBrushless);
 
@@ -41,13 +41,12 @@ public class Shooter extends SubsystemBase {
         angleSet = false;
     }
 
-    public void shoot(){
-        if(noteInShooter()){
+    public void shoot() {
+        if (noteInShooter()) {
             setShooterMotors(1);
 
             angleSet = false;
-        }
-        else{
+        } else {
             stopShooterMotors();
         }
     }
@@ -56,7 +55,7 @@ public class Shooter extends SubsystemBase {
         if (m_noteSensor.isRangeValid()) {
             if (m_noteSensor.getRange() <= ShooterConstants.kShooterDistanceRange) {
                 return true;
-            } else{
+            } else {
                 return false;
             }
         } else {
@@ -69,15 +68,15 @@ public class Shooter extends SubsystemBase {
         m_flywheelMotor.stopMotor();
     }
 
-    public void startAngleMotors(double speed){
+    public void startAngleMotors(double speed) {
         m_angleMotor.set(speed);
     }
 
-    public void stopAngleMotors(){
+    public void stopAngleMotors() {
         m_angleMotor.stopMotor();
     }
 
-    public void setShooterMotors(double speed){
+    public void setShooterMotors(double speed) {
         m_flywheelMotor.set(speed);
     }
 
@@ -86,7 +85,7 @@ public class Shooter extends SubsystemBase {
      * @param distanceFromTarget
      * @return retruns vertical angle to target in degrees
      */
-    public double getAimAngle(int distanceFromTarget){
+    public double getAimAngle(int distanceFromTarget) {
         double heightOfTarget = 6.5;  // feet
         double angleRad = Math.atan(heightOfTarget / distanceFromTarget);
         double angleDeg = Math.toDegrees(angleRad);
