@@ -6,43 +6,43 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.Rev2mDistanceSensor;
 import com.revrobotics.Rev2mDistanceSensor.Port;
+import com.revrobotics.Rev2mDistanceSensor.Unit;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ShooterConstants;
 
 public class Shooter extends SubsystemBase {
-    private final CANSparkMax m_shooterAngleMotor; 
-    private final CANSparkMax m_shooterFlywheelMotor;
+    private final CANSparkMax m_angleMotor; 
+    private final CANSparkMax m_flywheelMotor;
     
-    private final CANcoder m_shooterAngleEncoder;
+    private final CANcoder m_angleEncoder;
     public final RelativeEncoder m_flywheelEncoder;
 
-    private final PIDController m_pidController;
+    private final PIDController m_anglePidController;
     
-    private final Rev2mDistanceSensor m_shooterDistanceSensor;
+    private final Rev2mDistanceSensor m_noteSensor;
     private Boolean shooterMoving;
     private double desiredAngle;
-    public Boolean noteInShooter;
     private Boolean angleSet;
 
 
     public Shooter(){
-        m_shooterAngleEncoder = new CANcoder(ShooterConstants.kShooterAngleMotorEncoderPort);
-        // We really don't know what these numbers mean 
-        // if something breaks try changing these numbers
-        m_pidController =  new PIDController(0.5,0,0);
-        // We don't know what this does either, the funny guy online
-        // told us to and I guess it works
-        m_shooterDistanceSensor = new Rev2mDistanceSensor(Port.kOnboard);
-        m_shooterAngleMotor = new CANSparkMax(ShooterConstants.kShooterAngleMotor, MotorType.kBrushless);
-        m_shooterFlywheelMotor = new CANSparkMax(ShooterConstants.kShooterFlywheelMotor, MotorType.kBrushless);
-        m_flywheelEncoder = m_shooterFlywheelMotor.getEncoder();
+        m_angleMotor = new CANSparkMax(ShooterConstants.kShooterAngleMotor, MotorType.kBrushless);
+        m_flywheelMotor = new CANSparkMax(ShooterConstants.kShooterFlywheelMotor, MotorType.kBrushless);
+
+        m_angleEncoder = new CANcoder(ShooterConstants.kShooterAngleMotorEncoderPort);
+        m_flywheelEncoder = m_flywheelMotor.getEncoder();
+
+        m_noteSensor = new Rev2mDistanceSensor(Port.kOnboard);
+        m_noteSensor.setDistanceUnits(Unit.kInches);
+
+        m_anglePidController =  new PIDController(0.5,0,0);
         angleSet = false;
     }
 
     public void shoot(){
-        if(noteInShooter){
+        if(noteInShooter()){
             setShooterMotors(1);
 
             angleSet = false;
@@ -52,34 +52,33 @@ public class Shooter extends SubsystemBase {
         }
     }
 
-    public boolean isNoteInShooter(){
-        if(m_shooterDistanceSensor.isRangeValid()){
-            if(m_shooterDistanceSensor.getRange() <= ShooterConstants.kShooterDistanceRange){
+    public boolean noteInShooter() {
+        if (m_noteSensor.isRangeValid()) {
+            if (m_noteSensor.getRange() <= ShooterConstants.kShooterDistanceRange) {
                 return true;
-            }
-            else{
+            } else{
                 return false;
             }
-        }
-        else{
+        } else {
+            System.out.println("Range is invalid");
             return false;
         }
     }
 
-    public void stopShooterMotors(){
-        m_shooterFlywheelMotor.stopMotor();
+    public void stopShooterMotors() {
+        m_flywheelMotor.stopMotor();
     }
 
     public void startAngleMotors(double speed){
-        m_shooterAngleMotor.set(speed);
+        m_angleMotor.set(speed);
     }
 
     public void stopAngleMotors(){
-        m_shooterAngleMotor.stopMotor();
+        m_angleMotor.stopMotor();
     }
 
     public void setShooterMotors(double speed){
-        m_shooterFlywheelMotor.set(speed);
+        m_flywheelMotor.set(speed);
     }
 
     /**
@@ -105,8 +104,8 @@ public class Shooter extends SubsystemBase {
         super.periodic();
 
         if (shooterMoving) {
-            startAngleMotors(m_pidController.calculate(m_shooterAngleEncoder.getAbsolutePosition().getValueAsDouble() - ShooterConstants.kShooterAngleMotorEncoderOffset, desiredAngle) / ShooterConstants.kShooterMotorMaxSpeed);
-            if (m_shooterAngleEncoder.getAbsolutePosition().getValueAsDouble() - ShooterConstants.kShooterAngleMotorEncoderOffset - desiredAngle < 1.0) {
+            startAngleMotors(m_anglePidController.calculate(m_angleEncoder.getAbsolutePosition().getValueAsDouble() - ShooterConstants.kShooterAngleMotorEncoderOffset, desiredAngle) / ShooterConstants.kShooterMotorMaxSpeed);
+            if (m_angleEncoder.getAbsolutePosition().getValueAsDouble() - ShooterConstants.kShooterAngleMotorEncoderOffset - desiredAngle < 1.0) {
                 stopAngleMotors();
                 
                 shooterMoving = false;
