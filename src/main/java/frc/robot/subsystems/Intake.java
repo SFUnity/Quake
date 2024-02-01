@@ -9,6 +9,7 @@ import com.revrobotics.*;
 import com.revrobotics.Rev2mDistanceSensor.Port;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 
@@ -30,10 +31,20 @@ public class Intake extends SubsystemBase{
         distOnboard.setAutomaticMode(true);
     }
 
+    /*
     @Override
     public void periodic() {
         super.periodic();
 
+        updateIntake();
+    }
+    */
+
+    public Command runUpdateIntake() {
+        return run(() -> this.updateIntake());
+    }
+
+    public void updateIntake() {
         if (intakeMoving) {
             moveIntake(m_IntakePID.calculate(m_encoder.getAbsolutePosition().getValueAsDouble() - IntakeConstants.kIntakeAngleMotorEncoderOffset, angle) / IntakeConstants.kTurningMotorMaxSpeed);
             if (Math.abs(m_encoder.getAbsolutePosition().getValueAsDouble() - IntakeConstants.kIntakeAngleMotorEncoderOffset - angle) < 1.0) {
