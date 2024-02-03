@@ -8,6 +8,7 @@ import com.revrobotics.Rev2mDistanceSensor;
 import com.revrobotics.Rev2mDistanceSensor.Port;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ShooterConstants;
 
@@ -117,9 +118,11 @@ public class Shooter extends SubsystemBase {
         this.desiredAngle = angle;
     }
 
-   @Override
-    public void periodic() { 
-        super.periodic();
+    public Command runUpdateShooter() {
+        return run(() -> this.updateShooter());
+    }
+
+    public void updateShooter() { 
         if (shooterMoving) {
             startAngleMotors(m_pidController.calculate(m_encoder.getAbsolutePosition().getValueAsDouble() - ShooterConstants.kShooterAngleMotorEncoderOffset, desiredAngle) / ShooterConstants.kShooterMotorMaxSpeed);
             if (m_encoder.getAbsolutePosition().getValueAsDouble() - ShooterConstants.kShooterAngleMotorEncoderOffset - desiredAngle < 1.0) {
