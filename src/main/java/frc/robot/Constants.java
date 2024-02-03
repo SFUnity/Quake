@@ -93,6 +93,7 @@ public final class Constants {
     public static final Double kIntakeLowweredAngle = 0.0; //TODO needs to be updated with measued values
     public static final Double kIntakeRaisedAngle = Math.PI/2; //TODO needs to be updated with measued values
     
+    public static final int kIndexerMotorPort = 0; //TODO needs to be updated
   }
 
   public static final class OperationsConstants{
@@ -116,5 +117,9 @@ public final class Constants {
     public static final Double kShooterDistanceRange = 2.0; //TODO needs to be updated with measured values
   }
 
+  public static final class LEDconstants {
+    public static final int[] kNoteInShooter = {0, 255, 0};
+    public static final int[] kNoteInIndexer = {0, 0, 255};
+  }
 
 }

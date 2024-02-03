@@ -15,7 +15,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Intake extends SubsystemBase{
     private final CANSparkMax m_IntakeAngleMotor = new CANSparkMax(IntakeConstants.kIntakeAngleMotorPort, MotorType.kBrushless);
-    private final CANSparkMax m_IntakeRollersMotor = new CANSparkMax(IntakeConstants.kIntakeRollersMotorPort, MotorType.kBrushless);
+    private final CANSparkMax m_IntakeFlywheelMotor = new CANSparkMax(IntakeConstants.kIntakeRollersMotorPort, MotorType.kBrushless);
+    private final CANSparkMax m_IndexerFlywheelMotor = new CANSparkMax(IntakeConstants.kIndexerMotorPort, MotorType.kBrushless);
     
     private final CANcoder m_encoder = new CANcoder(IntakeConstants.kIntakeAngleMotorEncoderPort);
 
@@ -43,7 +44,8 @@ public class Intake extends SubsystemBase{
         } else {
             stopIntakeRotation();
         }
-
+        
+        /*
         if (intakeRunning) {
             runIntake(1);
 
@@ -51,6 +53,11 @@ public class Intake extends SubsystemBase{
                 stopIntake();
             }
         }
+        */
+    }
+
+    public Boolean noteInIndexer() {
+        return distOnboard.isRangeValid() && distOnboard.getRange() < IntakeConstants.kDistanceActivationThresholdMin;
     }
 
     public void moveIntake(double speed) {
@@ -58,7 +65,8 @@ public class Intake extends SubsystemBase{
     }
 
     public void runIntake(double speed) {
-        m_IntakeRollersMotor.set(speed>0 ? Math.min(speed, 1.0) : Math.max(speed, -1.0)); //don't set higher than 1, don't set lower than -1
+        m_IntakeFlywheelMotor.set(speed>0 ? Math.min(speed, 1.0) : Math.max(speed, -1.0)); //don't set higher than 1, don't set lower than -1
+        m_IndexerFlywheelMotor.set(speed>0 ? Math.min(speed, 1.0) : Math.max(speed, -1.0));
     }
 
     public void setIntakeToAngle(double angle) {
@@ -66,12 +74,18 @@ public class Intake extends SubsystemBase{
     }
 
     public void startIntake() {
+        runIntake(1);
         intakeRunning = true;
     }
 
     public void stopIntake() {
-        m_IntakeRollersMotor.stopMotor();
+        m_IntakeFlywheelMotor.stopMotor();
         intakeRunning = false;
+    }
+
+    public void stopAll() {
+        m_IntakeFlywheelMotor.stopMotor();
+        m_IndexerFlywheelMotor.stopMotor();
     }
 
     public void stopIntakeRotation() {

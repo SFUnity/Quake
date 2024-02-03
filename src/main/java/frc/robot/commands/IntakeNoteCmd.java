@@ -1,56 +1,48 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.LEDconstants;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Operations;
 
 public class IntakeNoteCmd extends Command{
 
-    private final Intake intake;
-    private final Shooter shooter;
-    private final Operations operations;
+    private final Intake m_intake;
+    private final Shooter m_shooter;
+    private final Operations m_operations;
 
     public IntakeNoteCmd(Intake intake, Shooter shooter, Operations operations) {
-        this.intake = intake;
-        this.shooter = shooter;
-        this.operations = operations;
+        m_intake = intake;
+        m_shooter = shooter;
+        m_operations = operations;
     }
 
     @Override
     public void initialize() { //start lower intake
-        // TODO Auto-generated method stub
-        super.initialize();
-        intake.startIntake();
+        m_intake.lowerAndRunIntake();
     }
 
     @Override
     public void execute() {
-        // TODO Auto-generated method stub
-        super.execute();
+        if (m_intake.noteInIndexer()) {
+            m_operations.setRGB(LEDconstants.kNoteInIndexer[0], LEDconstants.kNoteInIndexer[1], LEDconstants.kNoteInIndexer[2]);
+        }
     }
 
     @Override
     public boolean isFinished() { //if note is in shooter, return true
-        // TODO Auto-generated method stub
-        return super.isFinished();
-        /* if (shooter.isNoteInShooter()) {
-            shooter.updateShooter();
-        } */
+        return m_shooter.isNoteInShooter();
     }
 
     @Override
     public void end(boolean interrupted) { //stop intake, end program, turn on lights
-        // TODO Auto-generated method stub
         super.end(interrupted);
-        operations.setRGB(k_noteInShooter[0], k_noteInShooter[1], k_noteInShooter[2]); //should change once k_noteInShooter is commited
-        intake.raiseAndStopIntake();
-        shooter.stopAngleMotors();
-        shooter.stopRollerMotors();
-        shooter.stopShooterMotors();
+        m_operations.setRGB(LEDconstants.kNoteInShooter[0], LEDconstants.kNoteInShooter[1], LEDconstants.kNoteInShooter[2]);
+        m_intake.raiseAndStopIntake();
+        m_intake.stopAll();
         
     }
 
     
 }
-f
