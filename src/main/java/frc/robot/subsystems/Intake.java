@@ -15,8 +15,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Intake extends SubsystemBase{
     private final CANSparkMax m_IntakeAngleMotor = new CANSparkMax(IntakeConstants.kIntakeAngleMotorPort, MotorType.kBrushless);
-    private final CANSparkMax m_IntakeFlywheelMotor = new CANSparkMax(IntakeConstants.kIntakeRollersMotorPort, MotorType.kBrushless);
-    private final CANSparkMax m_IndexerFlywheelMoter = new CANSparkMax(IntakeConstants.kIntakeRollersMotorPort, MotorType.kBrushless);
+    private final CANSparkMax m_IntakeRollersMotor = new CANSparkMax(IntakeConstants.kIntakeRollersMotorPort, MotorType.kBrushless);
     
     private final CANcoder m_encoder = new CANcoder(IntakeConstants.kIntakeAngleMotorEncoderPort);
 
@@ -30,7 +29,7 @@ public class Intake extends SubsystemBase{
         // add port
         distOnboard = new Rev2mDistanceSensor(Port.kOnboard);
         distOnboard.setAutomaticMode(true);
-
+        
         angle = IntakeConstants.kIntakeRaisedAngle;
     }
 
@@ -59,8 +58,7 @@ public class Intake extends SubsystemBase{
     }
 
     public void runIntake(double speed) {
-        m_IntakeFlywheelMotor.set(speed>0 ? Math.min(speed, 1.0) : Math.max(speed, -1.0));
-        m_IndexerFlywheelMoter.set(speed>0 ? Math.min(speed, 1.0) : Math.max(speed, -1.0));
+        m_IntakeRollersMotor.set(speed>0 ? Math.min(speed, 1.0) : Math.max(speed, -1.0)); //don't set higher than 1, don't set lower than -1
     }
 
     public void setIntakeToAngle(double angle) {
@@ -72,8 +70,7 @@ public class Intake extends SubsystemBase{
     }
 
     public void stopIntake() {
-        m_IntakeFlywheelMotor.stopMotor();
-        m_IndexerFlywheelMoter.stopMotor();
+        m_IntakeRollersMotor.stopMotor();
         intakeRunning = false;
     }
 
