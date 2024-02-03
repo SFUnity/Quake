@@ -24,8 +24,9 @@ public class Shooter extends SubsystemBase {
     
     private final Rev2mDistanceSensor m_shooterDistanceSensor;
     private double desiredAngle;
-    public Boolean noteInShooter;
-    public Boolean noteHeld;
+
+    public Boolean finishedUpdating;
+    
 
     public final RelativeEncoder m_flywheelEncoder;
 
@@ -41,21 +42,14 @@ public class Shooter extends SubsystemBase {
         m_encoder = new CANcoder(ShooterConstants.kShooterAngleMotorEncoderPort);
         m_flywheelEncoder = m_shooterFlywheelMotor.getEncoder();
 
-        noteHeld = false;
+        finishedUpdating = false;
+
     }
 
-    public void holdNote() {
-        if (noteInShooter) {
-            stopRollerMotors();  
-            noteHeld = true;
-        } else {
-            startRollerMotors(1);
-        }
-    }
+   
 
     public void shoot() {
         setShooterMotors(1);
-        noteHeld = false;
     }
 
     public boolean isNoteInShooter() {
@@ -97,7 +91,7 @@ public class Shooter extends SubsystemBase {
      * @return retruns vertical angle to target in degrees
      */
     public double getAimAngle(int distanceFromTarget) {
-        double heightOfTarget = 6.5;  // feet
+        double heightOfTarget = 6.5;  // TODO MESURE PROPER HEIGHT
         double angleRad = Math.atan(heightOfTarget / distanceFromTarget);
         double angleDeg = Math.toDegrees(angleRad);
         return angleDeg;
@@ -105,12 +99,14 @@ public class Shooter extends SubsystemBase {
 
     public void setShooterToAngle(double angle) {
         this.desiredAngle = angle;
+        finishedUpdating = false;
     }
 
     public void updateShooter() {
         if (m_encoder.getAbsolutePosition().getValueAsDouble() - ShooterConstants.kShooterAngleMotorEncoderOffset - desiredAngle > 1.0) {
             startAngleMotors(m_pidController.calculate(m_encoder.getAbsolutePosition().getValueAsDouble() - ShooterConstants.kShooterAngleMotorEncoderOffset, desiredAngle) / ShooterConstants.kShooterMotorMaxSpeed);
         } else {
+            finishedUpdating = true;
             stopAngleMotors();
         }
     }
