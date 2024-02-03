@@ -45,13 +45,19 @@ public class Intake extends SubsystemBase{
             stopIntakeRotation();
         }
 
+        /*
         if (intakeRunning) {
             runIntake(1);
-
+            
             if (distOnboard.isRangeValid() && distOnboard.getRange() < IntakeConstants.kDistanceActivationThresholdMin) {
-                stopIntake();
+                raiseAndStopIntake();
             }
         }
+        */
+    }
+
+    public Boolean noteInIndexer() {
+        return distOnboard.isRangeValid() && distOnboard.getRange() < IntakeConstants.kDistanceActivationThresholdMin;
     }
 
     public void moveIntake(double speed) {
@@ -68,10 +74,16 @@ public class Intake extends SubsystemBase{
     }
 
     public void startIntake() {
+        runIntake(1);
         intakeRunning = true;
     }
 
     public void stopIntake() {
+        m_IntakeFlywheelMotor.stopMotor();
+        intakeRunning = false;
+    }
+
+    public void stopAll() {
         m_IntakeFlywheelMotor.stopMotor();
         m_IndexerFlywheelMoter.stopMotor();
         intakeRunning = false;
