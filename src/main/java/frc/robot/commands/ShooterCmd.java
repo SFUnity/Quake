@@ -20,7 +20,7 @@ public class ShooterCmd extends Command{
     @Override
     public void initialize() {
         m_shooter.setShooterMotors(1); //1 should equal 100%
-        m_shooter.setShooterToAngle(m_shooter.getAimAngle(0)); // TODO add visual
+        m_shooter.setShooterToAngle(m_shooter.getAimAngle(shooterConstants.kVisualDistanceInput)); // TODO add visual
     }
 
     @Override
