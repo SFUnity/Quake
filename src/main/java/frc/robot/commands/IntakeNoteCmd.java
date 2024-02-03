@@ -6,43 +6,7 @@ import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Operations;
 
 public class IntakeNoteCmd extends Command{
-
-    private final Intake m_intake;
-    private final Shooter m_shooter;
-    private final Operations m_operations;
-
     public IntakeNoteCmd(Intake intake, Shooter shooter, Operations operations) {
-        m_intake = intake;
-        m_shooter = shooter;
-        m_operations = operations;
-    }
-
-    @Override
-    public void initialize() {
-        // TODO Auto-generated method stub
-        super.initialize();
-
-    }
-
-    @Override
-    public void execute() {
-        // TODO Auto-generated method stub
-        super.execute();
-        if(m_shooter.isNoteInShooter()) {
-            m_intake.raiseAndStopIntake();
-        }
-    }
-
-    @Override
-    public boolean isFinished() {
-        // TODO Auto-generated method stub
-        return super.isFinished();
-    }
-
-    @Override
-    public void end(boolean interrupted) {
-        // TODO Auto-generated method stub
-        super.end(interrupted);
-        m_operations.setGreen();
+        
     }
 }
