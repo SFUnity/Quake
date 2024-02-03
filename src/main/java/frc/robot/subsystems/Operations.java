@@ -17,8 +17,6 @@ public class Operations extends SubsystemBase{
     private final CANSparkMax m_operationsMotor;
     private final RelativeEncoder m_operationsEncoder;
 
-    private final CANSparkMax m_IntakeRollersMotor = new CANSparkMax(IntakeConstants.kIntakeRollersMotorPort, MotorType.kBrushless);
-
     private final PIDController m_climberPID = new PIDController(0.05, 0, 0); //mess around with this later
 
     // PWM port 9
