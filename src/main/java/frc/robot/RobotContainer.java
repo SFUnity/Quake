@@ -31,6 +31,8 @@ public class RobotContainer {
 
     private final CommandXboxController m_driverController = new CommandXboxController(
                     ControllerConstants.kDriverControllerPort);
+    private final CommandXboxController m_operationsController = new CommandXboxController(
+                    ControllerConstants.kOperationControllerPort);
 
     // Auto Commands Chooser
     private final Command m_straightAuto = new StraightAutoCmd(m_swerve);
