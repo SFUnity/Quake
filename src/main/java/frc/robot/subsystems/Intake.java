@@ -23,34 +23,25 @@ public class Intake extends SubsystemBase{
 
     private final Rev2mDistanceSensor distOnboard;
     private Double angle = 0.0;
-    private Boolean intakeMoving, intakeRunning = false;
+    private Boolean intakeRunning = false;
 
     public Intake() {
         // add port
         distOnboard = new Rev2mDistanceSensor(Port.kOnboard);
         distOnboard.setAutomaticMode(true);
+        
+        angle = IntakeConstants.kIntakeRaisedAngle;
     }
-
-    /*
-    @Override
-    public void periodic() {
-        super.periodic();
-
-        updateIntake();
-    }
-    */
 
     public Command runUpdateIntake() {
         return run(() -> this.updateIntake());
     }
 
     public void updateIntake() {
-        if (intakeMoving) {
+        if (Math.abs(m_encoder.getAbsolutePosition().getValueAsDouble() - IntakeConstants.kIntakeAngleMotorEncoderOffset - angle) > 1.0) {
             moveIntake(m_IntakePID.calculate(m_encoder.getAbsolutePosition().getValueAsDouble() - IntakeConstants.kIntakeAngleMotorEncoderOffset, angle) / IntakeConstants.kTurningMotorMaxSpeed);
-            if (Math.abs(m_encoder.getAbsolutePosition().getValueAsDouble() - IntakeConstants.kIntakeAngleMotorEncoderOffset - angle) < 1.0) {
-                stopIntakeRotation();
-                intakeMoving = false;
-            }
+        } else {
+            stopIntakeRotation();
         }
 
         if (intakeRunning) {
@@ -71,7 +62,6 @@ public class Intake extends SubsystemBase{
     }
 
     public void setIntakeToAngle(double angle) {
-        intakeMoving = true;
         this.angle = angle;
     }
 

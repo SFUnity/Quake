@@ -15,6 +15,7 @@ import frc.robot.commands.CircleAutoCmd;
 import frc.robot.commands.StraightAutoCmd;
 import frc.robot.commands.SwerveJoystickCmd;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Operations;
 import frc.robot.subsystems.Swerve;
 
@@ -25,6 +26,8 @@ public class RobotContainer {
     private Operations m_operations = new Operations();
 
     private Intake m_intake = new Intake();
+
+    private Shooter m_shooter = new Shooter();
 
     private final CommandXboxController m_driverController = new CommandXboxController(
                     ControllerConstants.kDriverControllerPort);
@@ -54,6 +57,8 @@ public class RobotContainer {
         m_operations.setDefaultCommand(m_operations.setToRainbow());
 
         m_intake.setDefaultCommand(m_intake.runUpdateIntake());
+
+        m_shooter.setDefaultCommand(m_shooter.runUpdateShooter());
 
         configureBindings();
 

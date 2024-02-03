@@ -8,6 +8,7 @@ import com.revrobotics.Rev2mDistanceSensor;
 import com.revrobotics.Rev2mDistanceSensor.Port;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ShooterConstants;
 
@@ -22,11 +23,9 @@ public class Shooter extends SubsystemBase {
     private final PIDController m_pidController;
     
     private final Rev2mDistanceSensor m_shooterDistanceSensor;
-    private Boolean shooterMoving;
     private double desiredAngle;
     public Boolean noteInShooter;
     public Boolean noteHeld;
-    private Boolean angleSet;
 
     public final RelativeEncoder m_flywheelEncoder;
 
@@ -42,16 +41,14 @@ public class Shooter extends SubsystemBase {
         m_encoder = new CANcoder(ShooterConstants.kShooterAngleMotorEncoderPort);
         m_flywheelEncoder = m_shooterFlywheelMotor.getEncoder();
 
-        angleSet = false;
         noteHeld = false;
     }
 
     public void holdNote() {
-        if(noteInShooter){
+        if (noteInShooter) {
             stopRollerMotors();  
             noteHeld = true;
-        }else{
-            
+        } else {
             startRollerMotors(1);
         }
     }
@@ -64,15 +61,8 @@ public class Shooter extends SubsystemBase {
     public boolean isNoteInShooter() {
         
         if(m_shooterDistanceSensor.isRangeValid()) {
-            if(m_shooterDistanceSensor.getRange() <= ShooterConstants.kShooterDistanceRange) {
-                return true;
-            }
-            else {
-                return false;
-            }
-
-        } 
-        else {
+            return m_shooterDistanceSensor.getRange() <= ShooterConstants.kShooterDistanceRange;
+        } else {
             return false;
         }
     }
@@ -100,6 +90,7 @@ public class Shooter extends SubsystemBase {
     public void setShooterMotors(double speed) {
         m_shooterFlywheelMotor.set(speed);
     }
+
     /**
      * 
      * @param distanceFromTarget
@@ -113,20 +104,18 @@ public class Shooter extends SubsystemBase {
     }
 
     public void setShooterToAngle(double angle) {
-        shooterMoving = true;
         this.desiredAngle = angle;
     }
 
-   @Override
-    public void periodic() { 
-        super.periodic();
-        if (shooterMoving) {
+    public void updateShooter() {
+        if (m_encoder.getAbsolutePosition().getValueAsDouble() - ShooterConstants.kShooterAngleMotorEncoderOffset - desiredAngle > 1.0) {
             startAngleMotors(m_pidController.calculate(m_encoder.getAbsolutePosition().getValueAsDouble() - ShooterConstants.kShooterAngleMotorEncoderOffset, desiredAngle) / ShooterConstants.kShooterMotorMaxSpeed);
-            if (m_encoder.getAbsolutePosition().getValueAsDouble() - ShooterConstants.kShooterAngleMotorEncoderOffset - desiredAngle < 1.0) {
-                stopAngleMotors();
-                
-                shooterMoving = false;
-            }
+        } else {
+            stopAngleMotors();
         }
+    }
+
+    public Command runUpdateShooter() {
+        return run(() -> updateShooter());
     }
 }
