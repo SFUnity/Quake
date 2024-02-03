@@ -7,6 +7,7 @@ import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
+import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.OperationsConstants;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -15,6 +16,8 @@ public class Operations extends SubsystemBase{
     
     private final CANSparkMax m_operationsMotor;
     private final RelativeEncoder m_operationsEncoder;
+
+    private final CANSparkMax m_IntakeRollersMotor = new CANSparkMax(IntakeConstants.kIntakeRollersMotorPort, MotorType.kBrushless);
 
     private final PIDController m_climberPID = new PIDController(0.05, 0, 0); //mess around with this later
 
