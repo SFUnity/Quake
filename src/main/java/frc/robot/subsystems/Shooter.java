@@ -24,6 +24,8 @@ public class Shooter extends SubsystemBase {
     
     private final Rev2mDistanceSensor m_shooterDistanceSensor;
     private double desiredAngle;
+
+    public Boolean finishedUpdating;
     
 
     public final RelativeEncoder m_flywheelEncoder;
@@ -100,6 +102,7 @@ public class Shooter extends SubsystemBase {
     public void setShooterToAngle(double angle) {
         shooterDoneUpdating = false;
         this.desiredAngle = angle;
+        finishedUpdating = false;
     }
 
     public void updateShooter() {
