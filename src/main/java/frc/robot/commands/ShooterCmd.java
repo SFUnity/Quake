@@ -9,10 +9,12 @@ public class ShooterCmd extends Command{
 
     private final Shooter m_shooter;
     private final Operations m_operations;
+    private Boolean hasNoteBeenInShooter; 
 
     public ShooterCmd(Shooter shooter, Operations operations) { // TODO Get input from visual
         m_shooter = shooter;
         m_operations = operations;
+        hasNoteBeenInShooter = false;
     }
 
     @Override
@@ -27,12 +29,19 @@ public class ShooterCmd extends Command{
         if(m_shooter.shooterDoneUpdating) {
             m_shooter.startRollerMotors(1);
         }
+        if(m_shooter.isNoteInShooter()){
+            hasNoteBeenInShooter = true;
+        }
     }
 
     @Override
     public boolean isFinished() {
-        // TODO add something to say its done
-        return false;
+        if(hasNoteBeenInShooter && !m_shooter.isNoteInShooter()) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     @Override
