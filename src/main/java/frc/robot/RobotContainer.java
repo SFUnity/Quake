@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.ControllerConstants;
+import frc.robot.Constants.OperationsConstants;
 import frc.robot.commands.CircleAutoCmd;
 import frc.robot.commands.StraightAutoCmd;
 import frc.robot.commands.SwerveJoystickCmd;
@@ -32,7 +33,7 @@ public class RobotContainer {
     private final CommandXboxController m_driverController = new CommandXboxController(
                     ControllerConstants.kDriverControllerPort);
     private final CommandXboxController m_operationsController = new CommandXboxController(
-                    ControllerConstants.kOperationControllerPort);
+                    OperationsConstants.kOperationControllerPort);
 
     // Auto Commands Chooser
     private final Command m_straightAuto = new StraightAutoCmd(m_swerve);
@@ -85,7 +86,10 @@ public class RobotContainer {
 
   private void configureBindings() {
     new Trigger(m_driverController.a()).onTrue(new InstantCommand(() -> m_swerve.zeroHeading()));
+    new Trigger(m_operationsController.)
   }
+
+
   
   public Swerve getSwerve() {
       return m_swerve;
