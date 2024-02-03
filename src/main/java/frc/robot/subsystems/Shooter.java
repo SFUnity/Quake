@@ -24,6 +24,8 @@ public class Shooter extends SubsystemBase {
     
     private final Rev2mDistanceSensor m_shooterDistanceSensor;
     private double desiredAngle;
+
+    public Boolean finishedUpdating;
     
 
     public final RelativeEncoder m_flywheelEncoder;
@@ -39,6 +41,8 @@ public class Shooter extends SubsystemBase {
 
         m_encoder = new CANcoder(ShooterConstants.kShooterAngleMotorEncoderPort);
         m_flywheelEncoder = m_shooterFlywheelMotor.getEncoder();
+
+        finishedUpdating = false;
 
     }
 
@@ -95,12 +99,14 @@ public class Shooter extends SubsystemBase {
 
     public void setShooterToAngle(double angle) {
         this.desiredAngle = angle;
+        finishedUpdating = false;
     }
 
     public void updateShooter() {
         if (m_encoder.getAbsolutePosition().getValueAsDouble() - ShooterConstants.kShooterAngleMotorEncoderOffset - desiredAngle > 1.0) {
             startAngleMotors(m_pidController.calculate(m_encoder.getAbsolutePosition().getValueAsDouble() - ShooterConstants.kShooterAngleMotorEncoderOffset, desiredAngle) / ShooterConstants.kShooterMotorMaxSpeed);
         } else {
+            finishedUpdating = true;
             stopAngleMotors();
         }
     }
