@@ -28,6 +28,8 @@ public class Shooter extends SubsystemBase {
 
     public final RelativeEncoder m_flywheelEncoder;
 
+    public Boolean shooterDoneUpdating;
+
     public Shooter() {
         m_pidController =  new PIDController(0.5,0,0);
         
@@ -39,6 +41,8 @@ public class Shooter extends SubsystemBase {
 
         m_encoder = new CANcoder(ShooterConstants.kShooterAngleMotorEncoderPort);
         m_flywheelEncoder = m_shooterFlywheelMotor.getEncoder();
+
+        shooterDoneUpdating = false;
 
     }
 
@@ -94,6 +98,7 @@ public class Shooter extends SubsystemBase {
     }
 
     public void setShooterToAngle(double angle) {
+        shooterDoneUpdating = false;
         this.desiredAngle = angle;
     }
 
@@ -101,6 +106,7 @@ public class Shooter extends SubsystemBase {
         if (m_encoder.getAbsolutePosition().getValueAsDouble() - ShooterConstants.kShooterAngleMotorEncoderOffset - desiredAngle > 1.0) {
             startAngleMotors(m_pidController.calculate(m_encoder.getAbsolutePosition().getValueAsDouble() - ShooterConstants.kShooterAngleMotorEncoderOffset, desiredAngle) / ShooterConstants.kShooterMotorMaxSpeed);
         } else {
+            shooterDoneUpdating = true;
             stopAngleMotors();
         }
     }
