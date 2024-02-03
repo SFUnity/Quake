@@ -86,7 +86,7 @@ public class RobotContainer {
 
   private void configureBindings() {
     new Trigger(m_driverController.a()).onTrue(new InstantCommand(() -> m_swerve.zeroHeading()));
-    new Trigger(m_operationsController.)
+    //new Trigger(m_operationsController.)
   }
 
 
