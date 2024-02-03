@@ -90,8 +90,8 @@ public class Shooter extends SubsystemBase {
      * @param distanceFromTarget
      * @return retruns vertical angle to target in degrees
      */
-    public double getAimAngle(int distanceFromTarget) {
-        double heightOfTarget = shooterConstants.kHeightOfSpeaker;  // TODO MEASURE PROPER HEIGHT
+    public double getAimAngle(Double distanceFromTarget) {
+        double heightOfTarget = ShooterConstants.kHeightOfSpeaker;  // TODO MEASURE PROPER HEIGHT
         double angleRad = Math.atan(heightOfTarget / distanceFromTarget);
         double angleDeg = Math.toDegrees(angleRad);
         return angleDeg;
