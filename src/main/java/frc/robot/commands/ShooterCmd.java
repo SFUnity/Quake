@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Operations;
+import frc.robot.Constants.ShooterConstants;
 
 public class ShooterCmd extends Command{
 
@@ -20,7 +21,7 @@ public class ShooterCmd extends Command{
     @Override
     public void initialize() {
         m_shooter.setShooterMotors(1); //1 should equal 100%
-        m_shooter.setShooterToAngle(m_shooter.getAimAngle(shooterConstants.kVisualDistanceInput)); // TODO add visual
+        m_shooter.setShooterToAngle(m_shooter.getAimAngle(ShooterConstants.kVisualDistanceInput)); // TODO add visual
     }
 
     @Override
