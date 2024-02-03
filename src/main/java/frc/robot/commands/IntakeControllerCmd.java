@@ -6,13 +6,13 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Operations;
 
-public class IntakeNoteCmd extends Command{
+public class IntakeControllerCmd extends Command{
 
     private final Intake m_intake;
     private final Shooter m_shooter;
     private final Operations m_operations;
 
-    public IntakeNoteCmd(Intake intake, Shooter shooter, Operations operations) {
+    public IntakeControllerCmd(Intake intake, Shooter shooter, Operations operations) {
         m_intake = intake;
         m_shooter = shooter;
         m_operations = operations;
