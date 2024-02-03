@@ -1,9 +1,5 @@
 package frc.robot;
 
-import java.lang.reflect.Array;
-
-import org.opencv.core.Mat.Tuple3;
-
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
@@ -120,8 +116,5 @@ public final class Constants {
     public static final Double kShooterDistanceRange = 2.0; //TODO needs to be updated with measured values
   }
 
-  public static final class LEDconstants {
-    public static final int[] k_noteInShooter = {0, 255, 0};
-  }
 
 }

@@ -24,13 +24,9 @@ public class Shooter extends SubsystemBase {
     
     private final Rev2mDistanceSensor m_shooterDistanceSensor;
     private double desiredAngle;
-
-    public Boolean finishedUpdating;
     
 
     public final RelativeEncoder m_flywheelEncoder;
-
-    public Boolean shooterDoneUpdating;
 
     public Shooter() {
         m_pidController =  new PIDController(0.5,0,0);
@@ -43,8 +39,6 @@ public class Shooter extends SubsystemBase {
 
         m_encoder = new CANcoder(ShooterConstants.kShooterAngleMotorEncoderPort);
         m_flywheelEncoder = m_shooterFlywheelMotor.getEncoder();
-
-        shooterDoneUpdating = false;
 
     }
 
@@ -93,23 +87,20 @@ public class Shooter extends SubsystemBase {
      * @return retruns vertical angle to target in degrees
      */
     public double getAimAngle(int distanceFromTarget) {
-        double heightOfTarget = 6.5;  // TODO MESURE PROPER HEIGHT
+        double heightOfTarget = 6.5;  // TODO MEASURE PROPER HEIGHT
         double angleRad = Math.atan(heightOfTarget / distanceFromTarget);
         double angleDeg = Math.toDegrees(angleRad);
         return angleDeg;
     }
 
     public void setShooterToAngle(double angle) {
-        shooterDoneUpdating = false;
         this.desiredAngle = angle;
-        finishedUpdating = false;
     }
 
     public void updateShooter() {
         if (m_encoder.getAbsolutePosition().getValueAsDouble() - ShooterConstants.kShooterAngleMotorEncoderOffset - desiredAngle > 1.0) {
             startAngleMotors(m_pidController.calculate(m_encoder.getAbsolutePosition().getValueAsDouble() - ShooterConstants.kShooterAngleMotorEncoderOffset, desiredAngle) / ShooterConstants.kShooterMotorMaxSpeed);
         } else {
-            shooterDoneUpdating = true;
             stopAngleMotors();
         }
     }
