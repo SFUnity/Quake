@@ -4,7 +4,7 @@ import java.util.function.Supplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.Constants.LEDconstants;
+import frc.robot.Constants.LEDConstants;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Operations;
@@ -43,12 +43,12 @@ public class IntakeControllerCmd extends Command{
         }
 
         if (m_intake.noteInIndexer()) {
-            m_operations.setRGB(LEDconstants.kNoteInIndexer[0], LEDconstants.kNoteInIndexer[1], LEDconstants.kNoteInIndexer[2]);
+            m_operations.setRGB(LEDConstants.kNoteInIndexer[0], LEDConstants.kNoteInIndexer[1], LEDConstants.kNoteInIndexer[2]);
         }
 
         if (m_shooter.isNoteInShooter()) {
             m_intake.stopIndexer();
-            m_operations.setRGB(LEDconstants.kNoteInShooter[0], LEDconstants.kNoteInShooter[1], LEDconstants.kNoteInShooter[2]);
+            m_operations.setRGB(LEDConstants.kNoteInShooter[0], LEDConstants.kNoteInShooter[1], LEDConstants.kNoteInShooter[2]);
         }
     }
 
