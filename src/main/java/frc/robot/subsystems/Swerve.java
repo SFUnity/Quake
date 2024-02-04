@@ -35,7 +35,7 @@ import com.pathplanner.lib.auto.*;
 import com.pathplanner.lib.util.*;
 
 
-public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
+public class Swerve extends SubsystemBase implements AutoCloseable {
     private final SwerveModule m_frontLeft = SwerveModule.create(
         DriveConstants.kFrontLeftDriveMotorPort,
         DriveConstants.kFrontLeftTurningMotorPort,
@@ -108,7 +108,7 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
     private GenericEntry turnToAngleIEntry = swerveTab.addPersistent("turnToAngle I", 0.01).getEntry();
     private PIDController turnToAnglePID = new PIDController(turnToAnglePEntry.getDouble(0.05), turnToAngleIEntry.getDouble(0.05), 0);
 
-    public SwerveSubsystem() {
+    public Swerve() {
         /* Threads are units of code. These threads call the zeroHeading method 1 sec 
         after the robot starts without interfering with the rest of the code */
         new Thread(() -> {
@@ -248,6 +248,9 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
         m_gyro.reset();
     }
 
+    /**
+     * @return heading in degrees from -180 to 180
+     */
     public double getHeading() {
         // Normalizes the heading to be between -180 and 180
         return Rotation2d.fromDegrees(m_gyro.getAngle()).getDegrees();
@@ -268,6 +271,9 @@ public class SwerveSubsystem extends SubsystemBase implements AutoCloseable {
         };
     }
 
+    /**
+     * @return robot heading as a rotation2d
+     */
     public Rotation2d getRotation2d() {
         return Rotation2d.fromDegrees(m_gyro.getYaw().getValueAsDouble());
     }
