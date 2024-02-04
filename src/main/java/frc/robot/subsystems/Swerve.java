@@ -262,6 +262,9 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
         headingEntry.setDouble(getHeading());
     }
 
+    /**
+     * @return the module states
+     */
     private SwerveModuleState[] getModuleStates() {
         return new SwerveModuleState[] {
             m_frontLeft.getState(),
@@ -313,6 +316,4 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
         m_backRight.close();
         m_gyro.close();
     }
-
-    
 }

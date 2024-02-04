@@ -50,26 +50,6 @@ public class RealSwerveModule implements AutoCloseable, SwerveModule {
         resetEncoders(); // Resets encoders every time the robot boots up
     }
 
-    // // ! For testing purposes only
-    // public RealSwerveModule(CANSparkMax driveMotor, CANSparkMax turningMotor, 
-    //         AnalogInput absoluteEncoder, double absoluteEncoderOffset, boolean absoluteEncoderReversed) {
-       
-    //     m_driveMotor = driveMotor;
-    //     m_turningMotor = turningMotor;
-
-    //     m_driveEncoder = m_driveMotor.getEncoder();
-    //     m_turningEncoder = m_turningMotor.getEncoder();
-        
-    //     kAbsoluteEncoderOffset = absoluteEncoderOffset;
-    //     kAbsoluteEncoderReversed = absoluteEncoderReversed;
-    //     m_absoluteEncoder = absoluteEncoder;
-
-    //     turningPidController = new PIDController(ModuleConstants.kPTurning, 0, 0); // Consider adding the kI & kD
-    //     turningPidController.enableContinuousInput(-Math.PI, Math.PI);
-
-    //     resetEncoders();
-    // }
-
     @Override
     public SwerveModuleState getState() {
         return new SwerveModuleState(getDriveVelocity(), new Rotation2d(getAbsoluteEncoderRad()));
