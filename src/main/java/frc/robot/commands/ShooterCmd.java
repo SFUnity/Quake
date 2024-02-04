@@ -12,13 +12,12 @@ public class ShooterCmd extends Command{
 
     private final Shooter m_shooter;
     private final Operations m_operations;
-    private Boolean hasBeenFired; 
+    private Boolean shootingNote = false;
     private final Trigger xButton, yButton, aButton, bButton;
 
     public ShooterCmd(Shooter shooter, Operations operations, Trigger xButton, Trigger yButton, Trigger aButton, Trigger bButton) { // TODO Get input from visual
         m_shooter = shooter;
         m_operations = operations;
-        hasBeenFired = false;
         this.xButton = xButton;
         this.yButton = yButton;
         this.aButton = aButton;
@@ -27,36 +26,44 @@ public class ShooterCmd extends Command{
 
     @Override
     public void initialize() {
-        m_shooter.setShooterMotors(1); //1 should equal 100%
-        m_shooter.setShooterToAngle(m_shooter.getAimAngle(ShooterConstants.kVisualDistanceInput)); // TODO add visual
+        
     }
 
     @Override
     public void execute() {
         m_shooter.updateShooter();
-        if(m_shooter.shooterDoneUpdating) {
+
+        //TODO visual distance input should not be a constant
+        m_shooter.setShooterToAngle(m_shooter.getAimAngle(ShooterConstants.kVisualDistanceInput)); // TODO add visual
+
+        if(m_shooter.shooterDoneUpdating && m_shooter.isNoteInShooter() && !shootingNote) {
             m_operations.setRGB(LEDConstants.kNoteInShooter[0], LEDConstants.kNoteInShooter[1], LEDConstants.kNoteInShooter[2]);
         }
+
         if(bButton.getAsBoolean()){
-            hasBeenFired = true;
+            shootingNote = true;
+        }
+
+        if (shootingNote && m_shooter.isNoteInShooter()) {
+            m_shooter.setShooterMotors(1); //1 should equal 100%
             m_shooter.startRollerMotors(1);
+            m_operations.setRGB(0, 0, 0);
+        } else {
+            m_shooter.stopShooterMotors();
+            m_shooter.stopRollerMotors();
+            shootingNote = false;
         }
     }
 
     @Override
     public boolean isFinished() {
-        if(hasBeenFired && !m_shooter.isNoteInShooter()) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        return false;
     }
 
     @Override
     public void end(boolean interrupted) {
         m_shooter.stopShooterMotors();
         m_shooter.stopRollerMotors();
-        // TODO add lights
+        m_shooter.stopAngleMotors();
     }
 }

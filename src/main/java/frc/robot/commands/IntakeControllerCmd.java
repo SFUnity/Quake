@@ -61,7 +61,7 @@ public class IntakeControllerCmd extends Command{
     @Override
     public void end(boolean interrupted) {
         super.end(interrupted);
-        m_intake.raiseAndStopIntake();
+        m_intake.stopIntakeRotation();
         m_intake.stopAll();
         
     }

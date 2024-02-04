@@ -14,6 +14,7 @@ import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.OperationsConstants;
 import frc.robot.commands.CircleAutoCmd;
 import frc.robot.commands.IntakeControllerCmd;
+import frc.robot.commands.ShooterCmd;
 import frc.robot.commands.StraightAutoCmd;
 import frc.robot.commands.SwerveJoystickCmd;
 import frc.robot.subsystems.Intake;
@@ -62,7 +63,7 @@ public class RobotContainer {
 
         m_intake.setDefaultCommand(new IntakeControllerCmd(m_intake, m_shooter, m_operations, m_operationsController.x(), m_operationsController.y(), m_operationsController.a(), m_operationsController.b()));
 
-        m_shooter.setDefaultCommand(m_shooter.runUpdateShooter());
+        m_shooter.setDefaultCommand(new ShooterCmd(m_shooter, m_operations, m_operationsController.x(), m_operationsController.y(), m_operationsController.a(), m_operationsController.b()));
 
         configureBindings();
 
