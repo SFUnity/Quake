@@ -109,8 +109,8 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
     private PIDController turnToAnglePID = new PIDController(turnToAnglePEntry.getDouble(0.05), turnToAngleIEntry.getDouble(0.05), 0);
 
     private GenericEntry drivePEntry = swerveTab.addPersistent("Drive P", 0.05).getEntry();
-    private GenericEntry driveIEntry = swerveTab.addPersistent("Drive I", 0.01).getEntry();
-    private GenericEntry driveDEntry = swerveTab.addPersistent("Drive D", 0.00).getEntry();
+    private GenericEntry driveIEntry = swerveTab.addPersistent("Drive I", 0.00).getEntry();
+    private GenericEntry driveDEntry = swerveTab.addPersistent("Drive D", 0.01).getEntry();
 
     public Swerve() {
         /* Threads are units of code. These threads call the zeroHeading method 1 sec 
