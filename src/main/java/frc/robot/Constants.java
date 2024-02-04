@@ -119,7 +119,7 @@ public final class Constants {
     public static Double kVisualDistanceInput = 6.0; //TODO needs to be updated
   }
 
-  public static final class LEDconstants {
+  public static final class LEDConstants {
     public static final int[] kNoteInShooter = {0, 255, 0};
     public static final int[] kNoteInIndexer = {0, 0, 255};
   }
