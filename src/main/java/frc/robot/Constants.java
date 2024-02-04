@@ -27,6 +27,10 @@ public final class Constants {
         new Translation2d(-kWheelBase / 2, kTrackWidth / 2),
         new Translation2d(-kWheelBase / 2, -kTrackWidth / 2)
     };
+
+
+    public static final double driveEncoderPositionConversionFactor = 6.12;
+    public static final double kWheelDiameterMeters = 0.1016;
     public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(kModuleOffset);
 
     public static final boolean kGyroReversed = true;

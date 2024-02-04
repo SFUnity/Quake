@@ -108,6 +108,10 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
     private GenericEntry turnToAngleIEntry = swerveTab.addPersistent("turnToAngle I", 0.01).getEntry();
     private PIDController turnToAnglePID = new PIDController(turnToAnglePEntry.getDouble(0.05), turnToAngleIEntry.getDouble(0.05), 0);
 
+    private GenericEntry drivePEntry = swerveTab.addPersistent("Drive P", 0.05).getEntry();
+    private GenericEntry driveIEntry = swerveTab.addPersistent("Drive I", 0.01).getEntry();
+    private GenericEntry driveDEntry = swerveTab.addPersistent("Drive D", 0.00).getEntry();
+
     public Swerve() {
         /* Threads are units of code. These threads call the zeroHeading method 1 sec 
         after the robot starts without interfering with the rest of the code */
@@ -139,8 +143,8 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
             this::getRobotRelativeChassisSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
             this::driveRobotRelative, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
             new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
-                    new PIDConstants(0.5, 0.0, 0.0), // Translation PID constants
-                    new PIDConstants(0.5, 0.0, 0.0), // Rotation PID constants
+                    new PIDConstants(drivePEntry.getDouble(0.05), driveIEntry.getDouble(0.01), driveDEntry.getDouble(0.0)), // Translation PID constants
+                    new PIDConstants(0.05, 0.0, 0.0), // Rotation PID constants
                     0.5, // Max module speed, in m/s
                     0.3, // Drive base radius in meters. Distance from robot center to furthest module.
                     new ReplanningConfig(false, false) // Default path replanning config. See the API for the options here

@@ -11,6 +11,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ModuleConstants;
 import lib.SwerveModule;
 
@@ -37,9 +38,14 @@ public class RealSwerveModule implements AutoCloseable, SwerveModule {
 
         m_driveMotor.setInverted(driveMotorReversed);
         m_turningMotor.setInverted(turningMotorReversed);
+        
+        
 
         m_driveEncoder = m_driveMotor.getEncoder();
         m_turningEncoder = m_turningMotor.getEncoder();
+        
+        m_driveEncoder.setPositionConversionFactor((DriveConstants.kWheelDiameterMeters * Math.PI) / DriveConstants.driveEncoderPositionConversionFactor);
+        m_driveEncoder.setVelocityConversionFactor((DriveConstants.kWheelDiameterMeters * Math.PI)/ 60.0 / DriveConstants.driveEncoderPositionConversionFactor);
 
         kAbsoluteEncoderReversed = absoluteEncoderReversed;
         m_absoluteEncoder = new CANcoder(absoluteEncoderId);
@@ -77,7 +83,7 @@ public class RealSwerveModule implements AutoCloseable, SwerveModule {
 
     @Override
     public SwerveModulePosition getPosition() {
-        return new SwerveModulePosition(getDrivePosition()*0.1016*Math.PI, new Rotation2d(getAbsoluteEncoderRad()));
+        return new SwerveModulePosition(getDrivePosition(), new Rotation2d(getAbsoluteEncoderRad()));
     }
 
     @Override
@@ -118,7 +124,7 @@ public class RealSwerveModule implements AutoCloseable, SwerveModule {
     }
 
     public double getDriveVelocity() {
-        return m_driveEncoder.getVelocity();
+        return m_driveEncoder.getVelocity() / 60 * DriveConstants.kWheelDiameterMeters * Math.PI;
     }
 
     @Override
