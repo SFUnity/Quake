@@ -60,6 +60,14 @@ public class Shooter extends SubsystemBase {
         }
     }
 
+    public void rollersIntake() {
+        startRollerMotors(ShooterConstants.kRollerIntakeSpeed);
+    }
+
+    public void rollersShooting() {
+        startRollerMotors(1);
+    }
+
     public void startRollerMotors(double speed) {
         m_shooterRollerMotor.set(speed);
     }
