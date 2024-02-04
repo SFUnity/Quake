@@ -42,13 +42,16 @@ public class IntakeControllerCmd extends Command{
             m_intake.raiseAndStopIntake();
         }
 
+        if (yButton.getAsBoolean()) {
+            m_intake.stopIndexer();
+        }
+
         if (m_intake.noteInIndexer()) {
             m_operations.setRGB(LEDConstants.kNoteInIndexer[0], LEDConstants.kNoteInIndexer[1], LEDConstants.kNoteInIndexer[2]);
         }
 
         if (m_shooter.isNoteInShooter()) {
             m_intake.stopIndexer();
-            m_operations.setRGB(LEDConstants.kNoteInShooter[0], LEDConstants.kNoteInShooter[1], LEDConstants.kNoteInShooter[2]);
         }
     }
 
