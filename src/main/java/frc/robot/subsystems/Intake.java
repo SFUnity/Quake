@@ -83,9 +83,13 @@ public class Intake extends SubsystemBase{
         intakeRunning = false;
     }
 
-    public void stopAll() {
-        m_IntakeFlywheelMotor.stopMotor();
+    public void stopIndexer() {
         m_IndexerFlywheelMotor.stopMotor();
+    }
+
+    public void stopAll() {
+        stopIntake();
+        stopIndexer();
     }
 
     public void stopIntakeRotation() {

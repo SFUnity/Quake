@@ -45,6 +45,11 @@ public class IntakeControllerCmd extends Command{
         if (m_intake.noteInIndexer()) {
             m_operations.setRGB(LEDconstants.kNoteInIndexer[0], LEDconstants.kNoteInIndexer[1], LEDconstants.kNoteInIndexer[2]);
         }
+
+        if (m_shooter.isNoteInShooter()) {
+            m_intake.stopIndexer();
+            m_operations.setRGB(LEDconstants.kNoteInShooter[0], LEDconstants.kNoteInShooter[1], LEDconstants.kNoteInShooter[2]);
+        }
     }
 
     @Override
