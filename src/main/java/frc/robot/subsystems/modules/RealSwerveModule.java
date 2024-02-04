@@ -44,8 +44,8 @@ public class RealSwerveModule implements AutoCloseable, SwerveModule {
         m_driveEncoder = m_driveMotor.getEncoder();
         m_turningEncoder = m_turningMotor.getEncoder();
         
-        m_driveEncoder.setPositionConversionFactor((DriveConstants.kWheelDiameterMeters * Math.PI) / DriveConstants.driveEncoderPositionConversionFactor);
-        m_driveEncoder.setVelocityConversionFactor((DriveConstants.kWheelDiameterMeters * Math.PI)/ 60.0 / DriveConstants.driveEncoderPositionConversionFactor);
+        m_driveEncoder.setPositionConversionFactor((DriveConstants.kWheelDiameterMeters * Math.PI) / DriveConstants.kDriveEncoderPositionConversionFactor);
+        m_driveEncoder.setVelocityConversionFactor((DriveConstants.kWheelDiameterMeters * Math.PI) / DriveConstants.kDriveEncoderPositionConversionFactor / 60.0);
 
         kAbsoluteEncoderReversed = absoluteEncoderReversed;
         m_absoluteEncoder = new CANcoder(absoluteEncoderId);
@@ -91,7 +91,9 @@ public class RealSwerveModule implements AutoCloseable, SwerveModule {
         state = SwerveModuleState.optimize(state, getState().angle);
         double desiredTurnSpeed = turningPidController.calculate(getAbsoluteEncoderRad(), state.angle.getRadians());
         m_turningMotor.set(desiredTurnSpeed);
-        m_driveMotor.set(Math.max(-1, Math.min(1, state.speedMetersPerSecond)));
+        double desiredSpeedRpm = state.speedMetersPerSecond / (DriveConstants.kWheelDiameterMeters * Math.PI) * 60;
+        double normalizedSpeed = desiredSpeedRpm / DriveConstants.kMaxRPM;
+        m_driveMotor.set(normalizedSpeed);
 
         desiredState = state;
         SmartDashboard.putString("Swerve[" + m_absoluteEncoder.getDeviceID() + "] state", state.toString());

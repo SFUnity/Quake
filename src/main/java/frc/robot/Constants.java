@@ -29,7 +29,7 @@ public final class Constants {
     };
 
 
-    public static final double driveEncoderPositionConversionFactor = 6.12;
+    public static final double kDriveEncoderPositionConversionFactor = 6.12;
     public static final double kWheelDiameterMeters = 0.1016;
     public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(kModuleOffset);
 
@@ -70,6 +70,7 @@ public final class Constants {
     /* */
 
     public static final double kPhysicalMaxSpeedMetersPerSecond = 13.00;
+    public static final double kMaxRPM = 6500;
   }
 
   public static final class OperatorConstants {
