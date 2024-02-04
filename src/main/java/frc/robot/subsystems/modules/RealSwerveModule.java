@@ -3,6 +3,8 @@ package frc.robot.subsystems.modules;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkPIDController;
+import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -10,6 +12,9 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ModuleConstants;
@@ -27,6 +32,10 @@ public class RealSwerveModule implements AutoCloseable, SwerveModule {
     private final boolean kAbsoluteEncoderReversed;
 
     private final PIDController turningPidController;
+    private final SparkPIDController drivePidController;
+
+    public ShuffleboardTab swerveTab = Shuffleboard.getTab("Swerve Subsystem");
+    private GenericEntry drivePEntry = swerveTab.addPersistent("drive P", 0.05).getEntry();
 
     private SwerveModuleState desiredState = new SwerveModuleState(0.0, new Rotation2d());
     
@@ -38,8 +47,6 @@ public class RealSwerveModule implements AutoCloseable, SwerveModule {
 
         m_driveMotor.setInverted(driveMotorReversed);
         m_turningMotor.setInverted(turningMotorReversed);
-        
-        
 
         m_driveEncoder = m_driveMotor.getEncoder();
         m_turningEncoder = m_turningMotor.getEncoder();
@@ -52,6 +59,9 @@ public class RealSwerveModule implements AutoCloseable, SwerveModule {
 
         turningPidController = new PIDController(ModuleConstants.kPTurning, 0, 0); // Consider adding the kI & kD
         turningPidController.enableContinuousInput(-Math.PI, Math.PI);
+
+        drivePidController = m_driveMotor.getPIDController();
+        drivePidController.setP(drivePEntry.getDouble(0.05));
 
         resetEncoders(); // Resets encoders every time the robot boots up
     }
@@ -92,8 +102,7 @@ public class RealSwerveModule implements AutoCloseable, SwerveModule {
         double desiredTurnSpeed = turningPidController.calculate(getAbsoluteEncoderRad(), state.angle.getRadians());
         m_turningMotor.set(desiredTurnSpeed);
         double desiredSpeedRpm = state.speedMetersPerSecond / (DriveConstants.kWheelDiameterMeters * Math.PI) * 60;
-        double normalizedSpeed = desiredSpeedRpm / DriveConstants.kMaxRPM;
-        m_driveMotor.set(normalizedSpeed);
+        m_driveMotor.getPIDController().setReference(desiredSpeedRpm, ControlType.kVelocity);
 
         desiredState = state;
         SmartDashboard.putString("Swerve[" + m_absoluteEncoder.getDeviceID() + "] state", state.toString());
