@@ -69,7 +69,7 @@ public class RobotContainer {
     }
 
   private void configureBindings() {
-    new Trigger(m_driverController.a()).onTrue(new InstantCommand(() -> m_swerve.resetPose(new Pose2d(2, 2, new Rotation2d(0)))));
+    new Trigger(m_driverController.a()).onTrue(new InstantCommand(() -> m_swerve.resetPose(new Pose2d(2, 2, new Rotation2d(0)))).andThen(() -> m_swerve.resetHeading()));
   }
   
   public Swerve getSwerve() {

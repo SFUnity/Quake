@@ -1,11 +1,18 @@
 [
   {
-    "name": "/Shuffleboard/Swerve Subsystem/turnToAngle P",
+    "name": "/Shuffleboard/Swerve Subsystem/translation P",
     "type": "double",
-    "value": 0.05,
+    "value": 0.5,
     "properties": {
-      "persistent": true,
-      "retained": true
+      "persistent": true
+    }
+  },
+  {
+    "name": "/Shuffleboard/Swerve Subsystem/rotation P",
+    "type": "double",
+    "value": 0.5,
+    "properties": {
+      "persistent": true
     }
   }
 ]

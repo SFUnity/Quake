@@ -97,7 +97,8 @@ public class RealSwerveModule implements AutoCloseable, SwerveModule {
         m_turningMotor.set(desiredTurnSpeed);
 
         double desiredSpeedRpm = state.speedMetersPerSecond / (DriveConstants.kWheelDiameterMeters * Math.PI) * 60;
-        drivePidController.setReference(desiredSpeedRpm, ControlType.kVelocity);
+        double normalizedSpeed = state.speedMetersPerSecond / 5.00; // 6500 = max rpm of motor
+        m_driveMotor.set(normalizedSpeed);
 
         desiredState = state;
         SmartDashboard.putString("Swerve[" + m_absoluteEncoder.getDeviceID() + "] state", state.toString());
