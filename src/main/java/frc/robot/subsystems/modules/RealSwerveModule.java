@@ -125,12 +125,18 @@ public class RealSwerveModule implements AutoCloseable, SwerveModule {
         return desiredState;
     }
 
+    /**
+     * @return The position of the drive motor in meters
+     */
     public double getDrivePosition() {
         return m_driveEncoder.getPosition();
     }
 
+    /**
+     * @return The velocity of the drive motor in meters per second
+    */
     public double getDriveVelocity() {
-        return m_driveEncoder.getVelocity() / 60 * DriveConstants.kWheelDiameterMeters * Math.PI;
+        return m_driveEncoder.getVelocity();
     }
 
     @Override
