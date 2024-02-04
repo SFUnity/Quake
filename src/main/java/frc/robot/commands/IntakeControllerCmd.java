@@ -3,6 +3,7 @@ package frc.robot.commands;
 import java.util.function.Supplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.LEDconstants;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
@@ -13,10 +14,10 @@ public class IntakeControllerCmd extends Command{
     private final Intake m_intake;
     private final Shooter m_shooter;
     private final Operations m_operations;
-    private final Supplier<Boolean> xButton, yButton, aButton, bButton;
+    private final Trigger xButton, yButton, aButton, bButton;
 
     public IntakeControllerCmd(Intake intake, Shooter shooter, Operations operations, 
-            Supplier<Boolean> xButton, Supplier<Boolean> yButton, Supplier<Boolean> aButton, Supplier<Boolean> bButton) {
+            Trigger xButton, Trigger yButton, Trigger aButton, Trigger bButton) {
         m_intake = intake;
         m_shooter = shooter;
         m_operations = operations;
@@ -35,7 +36,7 @@ public class IntakeControllerCmd extends Command{
     public void execute() {
         m_intake.updateIntake();
 
-        if (xButton.get()) {
+        if (xButton.getAsBoolean()) {
             m_intake.lowerAndRunIntake();
         } else {
             m_intake.raiseAndStopIntake();

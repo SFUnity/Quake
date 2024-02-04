@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.OperationsConstants;
 import frc.robot.commands.CircleAutoCmd;
+import frc.robot.commands.IntakeControllerCmd;
 import frc.robot.commands.StraightAutoCmd;
 import frc.robot.commands.SwerveJoystickCmd;
 import frc.robot.subsystems.Intake;
@@ -59,7 +60,7 @@ public class RobotContainer {
 
         m_operations.setDefaultCommand(m_operations.setToRainbow());
 
-        m_intake.setDefaultCommand(m_intake.runUpdateIntake());
+        m_intake.setDefaultCommand(new IntakeControllerCmd(m_intake, m_shooter, m_operations, m_operationsController.x(), m_operationsController.y(), m_operationsController.a(), m_operationsController.b()));
 
         m_shooter.setDefaultCommand(m_shooter.runUpdateShooter());
 
