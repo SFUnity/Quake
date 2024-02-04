@@ -68,6 +68,7 @@ public class RobotContainer {
 
   private void configureBindings() {
     new Trigger(m_driverController.a()).onTrue(new InstantCommand(() -> m_swerveSubsystem.zeroHeading()));
+    new Trigger(m_driverController.x()).onTrue(m_swerveSubsystem.SetXCommand());
   }
   
   public SwerveSubsystem getSwerveSubsystem() {
