@@ -29,7 +29,7 @@ public class IntakeControllerCmd extends Command{
 
     @Override
     public void initialize() { //start lower intake
-        m_intake.lowerAndRunIntake();
+        m_intake.raiseAndStopIntake();
     }
 
     @Override
