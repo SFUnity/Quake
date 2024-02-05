@@ -23,7 +23,6 @@ public class RealSwerveModule implements AutoCloseable, SwerveModule {
     private final CANSparkMax m_turningMotor;
 
     private final RelativeEncoder m_driveEncoder;
-    private final RelativeEncoder m_turningEncoder;
 
     private final CANcoder m_absoluteEncoder;
     private final boolean kAbsoluteEncoderReversed;
@@ -43,7 +42,6 @@ public class RealSwerveModule implements AutoCloseable, SwerveModule {
         m_turningMotor.setInverted(turningMotorReversed);
 
         m_driveEncoder = m_driveMotor.getEncoder();
-        m_turningEncoder = m_turningMotor.getEncoder();
         
         m_driveEncoder.setPositionConversionFactor((DriveConstants.kWheelDiameterMeters * Math.PI) / DriveConstants.kDriveEncoderPositionConversionFactor);
         m_driveEncoder.setVelocityConversionFactor((DriveConstants.kWheelDiameterMeters * Math.PI) / DriveConstants.kDriveEncoderPositionConversionFactor / 60.0);
@@ -106,7 +104,6 @@ public class RealSwerveModule implements AutoCloseable, SwerveModule {
     @Override
     public void resetEncoders() {
         m_driveEncoder.setPosition(0);
-        m_turningEncoder.setPosition(getAbsoluteEncoderRotations());
     }
 
     public double getAbsoluteEncoderRotations() {
