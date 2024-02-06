@@ -26,6 +26,9 @@ public class IntakeControllerCmd extends Command{
     }
 
     @Override
+    /**
+     * @return: begins the lower intake and sets the command controller to angle
+     */
     public void initialize() { //start lower intake
         m_intake.raiseAndStopIntake();
     }
@@ -62,6 +65,9 @@ public class IntakeControllerCmd extends Command{
     }
 
     @Override
+    /** 
+     * @return: ends program, stopping the intake and rotation of the command controller
+    */
     public void end(boolean interrupted) {
         super.end(interrupted);
         m_intake.stopIntakeRotation();
