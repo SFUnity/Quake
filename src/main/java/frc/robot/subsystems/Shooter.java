@@ -46,20 +46,19 @@ public class Shooter extends SubsystemBase {
     }
 
    
-
     public void shoot() {
         setShooterMotors(1);
     }
 
+    /**
+     * returns whether there is a note in the shooter
+     * @return Boolean value of if there is a note in shooter
+     */
     public boolean isNoteInShooter() {
-        
-        if(m_shooterDistanceSensor.isRangeValid()) {
-            return m_shooterDistanceSensor.getRange() <= ShooterConstants.kShooterDistanceRange;
-        } else {
-            return false;
-        }
+        return m_shooterDistanceSensor.isRangeValid() && m_shooterDistanceSensor.getRange() <= ShooterConstants.kShooterDistanceRange;
     }
 
+    
     public void rollersIntake() {
         startRollerMotors(ShooterConstants.kRollerIntakeSpeed);
     }
@@ -94,8 +93,8 @@ public class Shooter extends SubsystemBase {
     }
 
     /**
-     * 
-     * @param distanceFromTarget
+     * gets angle to aim shooter
+     * @param distanceFromTarget meters
      * @return retruns vertical angle to target in degrees
      */
     public double getAimAngle(Double distanceFromTarget) {
