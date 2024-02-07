@@ -50,9 +50,9 @@ public class RobotContainer {
         configureBindings();
 
         // Add commands to the autonomous command chooser
-        m_autoChooser.setDefaultOption("Straight Auto", m_straightAuto);
+        m_autoChooser.setDefaultOption("Straight Path Auto", m_straightPathAuto);
+        m_autoChooser.addOption("Straight Auto", m_straightAuto);
         m_autoChooser.addOption("Circle Auto", m_circleAuto);
-        m_autoChooser.addOption("Straight Path Auto", m_straightPathAuto);
 
         // Add options to the field oriented chooser
         m_fieldOrientedChooser.setDefaultOption("Field Oriented", true);
@@ -77,6 +77,6 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-      return m_straightPathAuto;
+      return m_autoChooser.getSelected();
   }  
 }
