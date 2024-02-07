@@ -1,18 +1,1 @@
-[
-  {
-    "name": "/Shuffleboard/Swerve Subsystem/translation P",
-    "type": "double",
-    "value": 0.5,
-    "properties": {
-      "persistent": true
-    }
-  },
-  {
-    "name": "/Shuffleboard/Swerve Subsystem/rotation P",
-    "type": "double",
-    "value": 0.5,
-    "properties": {
-      "persistent": true
-    }
-  }
-]
+[]

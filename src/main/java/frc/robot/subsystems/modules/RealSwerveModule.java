@@ -73,7 +73,7 @@ public class RealSwerveModule implements AutoCloseable, SwerveModule {
         double desiredTurnSpeed = turningPidController.calculate(getAbsoluteEncoderRad(), state.angle.getRadians());
         m_turningMotor.set(desiredTurnSpeed);
 
-        double normalizedSpeed = state.speedMetersPerSecond / 5.00; // 6500 = max rpm of motor
+        double normalizedSpeed = state.speedMetersPerSecond / 5.00; // 5 mps = max speed of module
         m_driveMotor.set(normalizedSpeed);
 
         desiredState = state;

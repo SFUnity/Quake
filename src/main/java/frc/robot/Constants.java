@@ -15,6 +15,7 @@ public final class Constants {
     public static final double kTurningEncoderRPM2RadPerSec = kTurningEncoderRot2Rad / 60;
     public static final double kPTurning = 0.25; // *
     public static final double kPDrive = 0.05; // *
+    public static final double kMaxModuleSpeedMPS = 5.05; // Change for krakens
   }
 
   public static final class DriveConstants {
