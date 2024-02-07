@@ -1,7 +1,6 @@
 package frc.robot.subsystems.modules;
 
 import com.ctre.phoenix6.hardware.CANcoder;
-import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
@@ -58,26 +57,6 @@ public class RealSwerveModule implements AutoCloseable, SwerveModule {
         resetEncoders(); // Resets encoders every time the robot boots up
     }
 
-    // // ! For testing purposes only
-    // public RealSwerveModule(CANSparkMax driveMotor, CANSparkMax turningMotor, 
-    //         AnalogInput absoluteEncoder, double absoluteEncoderOffset, boolean absoluteEncoderReversed) {
-       
-    //     m_driveMotor = driveMotor;
-    //     m_turningMotor = turningMotor;
-
-    //     m_driveEncoder = m_driveMotor.getEncoder();
-    //     m_turningEncoder = m_turningMotor.getEncoder();
-        
-    //     kAbsoluteEncoderOffset = absoluteEncoderOffset;
-    //     kAbsoluteEncoderReversed = absoluteEncoderReversed;
-    //     m_absoluteEncoder = absoluteEncoder;
-
-    //     turningPidController = new PIDController(ModuleConstants.kPTurning, 0, 0); // Consider adding the kI & kD
-    //     turningPidController.enableContinuousInput(-Math.PI, Math.PI);
-
-    //     resetEncoders();
-    // }
-
     @Override
     public SwerveModuleState getState() {
         return new SwerveModuleState(getDriveVelocity(), new Rotation2d(getAbsoluteEncoderRad()));
@@ -94,7 +73,6 @@ public class RealSwerveModule implements AutoCloseable, SwerveModule {
         double desiredTurnSpeed = turningPidController.calculate(getAbsoluteEncoderRad(), state.angle.getRadians());
         m_turningMotor.set(desiredTurnSpeed);
 
-        double desiredSpeedRpm = state.speedMetersPerSecond / (DriveConstants.kWheelDiameterMeters * Math.PI) * 60;
         double normalizedSpeed = state.speedMetersPerSecond / 5.00; // 6500 = max rpm of motor
         m_driveMotor.set(normalizedSpeed);
 
