@@ -15,7 +15,7 @@ public class AmpShooterCmd extends Command{
     private Boolean shootingNote = false;
     private final Trigger xButton, yButton, aButton, bButton;
 
-    public AmpShooterCmd(Shooter shooter, Operations operations, Trigger xButton, Trigger yButton, Trigger aButton, Trigger bButton) { // TODO Get input from visual
+    public ShooterCmd(Shooter shooter, Operations operations, Trigger xButton, Trigger yButton, Trigger aButton, Trigger bButton) { // TODO Get input from visual
         m_shooter = shooter;
         m_operations = operations;
         this.xButton = xButton;
@@ -34,18 +34,18 @@ public class AmpShooterCmd extends Command{
         m_shooter.updateShooter();
 
         //TODO visual distance input should not be a constant
-        m_shooter.setShooterToAngle(ShooterConstants.kDesiredAngleForAmp); // TODO add visual
+        m_shooter.setShooterToAngle(shooterConstants.kDesiredAngleForAmp)); // TODO add visual
 
         if(m_shooter.shooterDoneUpdating && m_shooter.isNoteInShooter() && !shootingNote) {
             m_operations.setRGB(LEDConstants.kNoteInShooter[0], LEDConstants.kNoteInShooter[1], LEDConstants.kNoteInShooter[2]);
         }
 
-        if(bButton.getAsBoolean()){
+        if(aButton.getAsBoolean()){
             shootingNote = true;
         }
 
         if (shootingNote && m_shooter.isNoteInShooter()) {
-            m_shooter.setShooterMotors(1); //1 should equal 100%
+            m_shooter.setShooterMotors(1); //TODO: this should equal some random percentage%
             m_shooter.startRollerMotors(1);
             m_operations.setRGB(0, 0, 0);
         } else {
