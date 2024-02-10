@@ -64,8 +64,8 @@ public class ShooterCmd extends Command{
             m_shooter.setShooterMotors(1); //1 should equal 100%
             m_shooter.startRollerMotors(1);
             m_operations.setRGB(0, 0, 0);
-        }else if(shootingAmp && m_shooter.isNoteInShooter()){
-            m_shooter.setShooterMotors(0.5); //1 should equal to some percentage
+        } else if(shootingAmp && m_shooter.isNoteInShooter()) {
+            m_shooter.setShooterMotors(ShooterConstants.kAmpShootingSpeed); //TODO should equal to some percentage
             m_shooter.startRollerMotors(1);
             m_operations.setRGB(0, 0, 0);
         } else {
