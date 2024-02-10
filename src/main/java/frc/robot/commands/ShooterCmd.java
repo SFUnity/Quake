@@ -13,6 +13,8 @@ public class ShooterCmd extends Command{
     private final Shooter m_shooter;
     private final Operations m_operations;
     private Boolean shootingNote = false;
+
+    private Boolean shootingAmp = false;
     private final Trigger xButton, yButton, aButton, bButton;
 
     public ShooterCmd(Shooter shooter, Operations operations, Trigger xButton, Trigger yButton, Trigger aButton, Trigger bButton) { // TODO Get input from visual
@@ -34,7 +36,7 @@ public class ShooterCmd extends Command{
         m_shooter.updateShooter();
 
         //TODO visual distance input should not be a constant
-        m_shooter.setShooterToAngle(m_shooter.getAimAngle(ShooterConstants.kVisualDistanceInput)); // TODO add visual
+        
 
         if(m_shooter.shooterDoneUpdating && m_shooter.isNoteInShooter() && !shootingNote) {
             m_operations.setRGB(LEDConstants.kNoteInShooter[0], LEDConstants.kNoteInShooter[1], LEDConstants.kNoteInShooter[2]);
@@ -42,16 +44,29 @@ public class ShooterCmd extends Command{
 
         if(bButton.getAsBoolean()){
             shootingNote = true;
+
+            m_shooter.setShooterToAngle(m_shooter.getAimAngle(ShooterConstants.kVisualDistanceInput)); // TODO add visual
+        }
+
+        if(aButton.getAsBoolean()){
+            shootingAmp = true;
+
+            m_shooter.setShooterToAngle(m_shooter.getAimAngle(ShooterConstants.kDesiredAmpAngle)); // TODO add visual
         }
 
         if (shootingNote && m_shooter.isNoteInShooter()) {
             m_shooter.setShooterMotors(1); //1 should equal 100%
             m_shooter.startRollerMotors(1);
             m_operations.setRGB(0, 0, 0);
+        }else if(shootingAmp && m_shooter.isNoteInShooter){
+            m_shooter.setShooterMotors(0.5); //1 should equal to some percentage
+            m_shooter.startRollerMotors(1);
+            m_operations.setRGB(0, 0, 0);
         } else {
             m_shooter.stopShooterMotors();
             m_shooter.stopRollerMotors();
             shootingNote = false;
+            shootingAmp = false;
         }
     }
 
