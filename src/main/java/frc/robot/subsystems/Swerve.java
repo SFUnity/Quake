@@ -272,7 +272,7 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
     /**
      * @return heading in degrees from -180 to 180
      */
-    public static double getHeading() {
+    public double getHeading() {
         // Normalizes the heading to be between -180 and 180
         return Rotation2d.fromDegrees(m_gyro.getAngle()).getDegrees();
     }
