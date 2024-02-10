@@ -116,11 +116,14 @@ public final class Constants {
     
     public static final Double kShooterDistanceRange = 2.0; //TODO needs to be updated with measured values
     public static final Double kHeightOfSpeaker = 5.125; //TODO needs to be updated
-    public static Double kVisualDistanceInput = 6.0; //TODO needs to be updated
-    public static Double kDesiredAmpAngle = 65.0;
-    public static Double kAmpShootingSpeed = 0.5; //TODO needs to be updated
+    public static final Double kVisualDistanceInput = 6.0; //TODO needs to be updated
     
-    public static Double kRollerIntakeSpeed = 1.0; //TODO needs to be updated
+    public static final Double kDesiredAmpAngle = 65.0;
+    public static final Double kAmpShootingSpeed = 0.5; //TODO needs to be updated
+
+    public static final Double kRollerIntakeSpeed = 1.0; //TODO needs to be updated
+
+    public static final Double kShooterReadySpeed = 0.8; //TODO needs to be updated
    
   }
 
