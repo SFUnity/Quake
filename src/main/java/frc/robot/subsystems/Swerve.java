@@ -69,7 +69,6 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
         DriveConstants.kBackRightDriveAbsoluteEncoderReversed);
     
 
-    private final PIDController m_horizontal_pidController;
     private final List<SwerveModule> modules = List.of(m_frontLeft, m_frontRight, m_backLeft, m_backRight);
 
     private Pigeon2 m_gyro = new Pigeon2(0);
