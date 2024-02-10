@@ -17,6 +17,7 @@ public class ShooterCmd extends Command{
     private final Swerve m_swerve;
     private Boolean shootingNote = false;
     
+    
 
     private Boolean shootingAmp = false;
     private final Trigger xButton, yButton, aButton, bButton;
