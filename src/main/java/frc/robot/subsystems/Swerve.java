@@ -67,7 +67,9 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
         DriveConstants.kBackRightTurningEncoderReversed,
         DriveConstants.kBackRightDriveAbsoluteEncoderPort,
         DriveConstants.kBackRightDriveAbsoluteEncoderReversed);
+    
 
+    private final PIDController m_horizontal_pidController;
     private final List<SwerveModule> modules = List.of(m_frontLeft, m_frontRight, m_backLeft, m_backRight);
 
     private Pigeon2 m_gyro = new Pigeon2(0);
@@ -226,6 +228,25 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
         m_backRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
     }
 
+    public Command turnToSpeaker(double speakerAngleFromVision) { //TODO get actual angle from vision
+        double desiredAngle = 0;
+        double currentAngle = m_gyro.getAngle();
+        desiredAngle = 
+
+        return run(
+            () -> {
+                double constrainedAngleDegrees = Rotation2d.fromDegrees(desiredAngleDegrees).getDegrees();
+                double turningSpeedDegrees = turnToAnglePID.calculate(m_gyro.getYaw().getValueAsDouble(), constrainedAngleDegrees);
+                // double turningSpeedRadians = Units.degreesToRadians(turningSpeedDegrees);
+                ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(0, 0, turningSpeedDegrees, getRotation2d());
+                this.setModuleStates(DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds));
+            })
+        .until(() -> turnToAnglePID.atSetpoint())
+        .finallyDo(interrupted -> {
+            this.stopModules(); 
+        });
+    }
+
     /**
      * @param desiredStates
      */
@@ -251,7 +272,7 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
     /**
      * @return heading in degrees from -180 to 180
      */
-    public double getHeading() {
+    public static double getHeading() {
         // Normalizes the heading to be between -180 and 180
         return Rotation2d.fromDegrees(m_gyro.getAngle()).getDegrees();
     }
@@ -313,6 +334,10 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
         m_backRight.close();
         m_gyro.close();
     }
+
+
+
+    
 
     
 }
