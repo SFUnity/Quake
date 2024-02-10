@@ -6,11 +6,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Swerve;
 
 public class CircleAutoCmd extends Command {
-    private final Swerve m_swerveSubsystem;
+    private final Swerve m_swerve;
 
-    public CircleAutoCmd(Swerve swerveSubsystem) {
-        m_swerveSubsystem = swerveSubsystem;
-        addRequirements(swerveSubsystem);
+    public CircleAutoCmd(Swerve swerve) {
+        m_swerve = swerve;
+        addRequirements(swerve);
     }
 
     @Override
@@ -21,12 +21,12 @@ public class CircleAutoCmd extends Command {
                 new SwerveModuleState(1.0, Rotation2d.fromDegrees(-135)),
                 new SwerveModuleState(1.0, Rotation2d.fromDegrees(-45))
         };
-        m_swerveSubsystem.setModuleStates(module_states);
+        m_swerve.setModuleStates(module_states);
     }
     
     @Override
     public void end(boolean interrupted) {
-        m_swerveSubsystem.stopModules();
+        m_swerve.stopModules();
     }
 
     @Override

@@ -88,17 +88,43 @@ public final class Constants {
     public static final Double kTurningMotorMaxSpeed = 10.0;
 
     public static final int kIntakeAngleMotorEncoderPort = 4;
-    public static final Double kIntakeAngleMotorEncoderOffset = 0.0; //TODO needs to be updated
+    public static final Double kIntakeAngleMotorEncoderOffset = 0.0; //TODO needs to be updated with measured values
+    public static final Double kDistanceActivationThresholdMin = 0.5; //TODO needs to be updated with measued values
+    public static final Double kIntakeLowweredAngle = 0.0; //TODO needs to be updated with measued values
+    public static final Double kIntakeRaisedAngle = Math.PI/2; //TODO needs to be updated with measued values
     
+    public static final int kIndexerMotorPort = 0; //TODO needs to be updated
+  }
+
+  public static final class OperationsConstants{
+    public static final int kIndexMotorID = 13;
+    public static final Double kClimberMotorMaxSpeed = 10.0; //TODO needs to be updated with measured values
+    public static final int kOperationControllerPort = 0; //TODO needs to be updated with correct values
   }
 
   public static final class ShooterConstants {
 
     public static final int kShooterAngleMotor = 11;
     public static final int kShooterFlywheelMotor = 12;
+    public static final int kShooterRollerMotor = 13;
 
     public static final int kShooterAngleMotorEncoderPort = 5;
-    public static final Double kTurningMotorMaxSpeed = 10.0;
-    public static final Double kShooterAngleMotorEncoderOffset = 0.0;
+    public static final Double kShooterAngleMotorEncoderOffset = 0.0; //TODO needs to be updated with measured values
+    public static final Double kShooterMotorMaxSpeed = 10.0; //TODO needs to be updated with measured values
+
+    public static final Double kShooterStartingAngle = 0.0; //TODO needs to be updated with measured values
+    
+    public static final Double kShooterDistanceRange = 2.0; //TODO needs to be updated with measured values
+    public static final Double kHeightOfSpeaker = 5.125; //TODO needs to be updated
+    public static Double kVisualDistanceInput = 6.0; //TODO needs to be updated
+    public static Double kDesiredAmpAngle = 65.0;
+
+    public static Double kRollerIntakeSpeed = 1.0; //TODO needs to be updated
   }
+
+  public static final class LEDConstants {
+    public static final int[] kNoteInShooter = {0, 255, 0};
+    public static final int[] kNoteInIndexer = {0, 0, 255};
+  }
+
 }

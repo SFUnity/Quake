@@ -10,26 +10,26 @@ import frc.robot.Constants.ControllerConstants;
 import frc.robot.subsystems.Swerve;
 
 public class SwerveJoystickCmd extends Command {
-    private final Swerve m_swerveSubsystem;
+    private final Swerve m_swerve;
     private final Supplier<Double> xSpdFunction, ySpdFunction, turningSpdFunction;
     private final Boolean fieldOrientedFunction;
 
     /**
-     * @param swerveSubsystem
+     * @param swerve
      * @param xSpdFunction
      * @param ySpdFunction
      * @param turningSpdFunction
      * @param fieldOrientedFunction
      */
-    public SwerveJoystickCmd(Swerve swerveSubsystem,
+    public SwerveJoystickCmd(Swerve swerve,
             Supplier<Double> xSpdFunction, Supplier<Double> ySpdFunction, 
             Supplier<Double> turningSpdFunction, Boolean fieldOrientedFunction) {
-        m_swerveSubsystem = swerveSubsystem;
+        m_swerve = swerve;
         this.xSpdFunction = xSpdFunction;
         this.ySpdFunction = ySpdFunction;
         this.turningSpdFunction = turningSpdFunction;
         this.fieldOrientedFunction = fieldOrientedFunction;
-        addRequirements(swerveSubsystem);
+        addRequirements(swerve);
     }
 
     @Override
@@ -52,7 +52,7 @@ public class SwerveJoystickCmd extends Command {
         SwerveModuleState[] moduleStates = 
         DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
 
-        m_swerveSubsystem.setModuleStates(moduleStates);
+        m_swerve.setModuleStates(moduleStates);
     }
 
     public double applyDeadBand(double speed) {
@@ -62,7 +62,7 @@ public class SwerveJoystickCmd extends Command {
     public ChassisSpeeds speedsToChassisSpeeds(double xSpeed, double ySpeed, double turningSpeed, boolean fieldOriented) {
         if (fieldOriented) {
             return ChassisSpeeds.fromFieldRelativeSpeeds(
-                    xSpeed, ySpeed, turningSpeed, m_swerveSubsystem.getRotation2d());
+                    xSpeed, ySpeed, turningSpeed, m_swerve.getRotation2d());
         } else {
             return new ChassisSpeeds(xSpeed, ySpeed, turningSpeed);
         }
@@ -70,7 +70,7 @@ public class SwerveJoystickCmd extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        m_swerveSubsystem.stopModules();
+        m_swerve.stopModules();
     }
 
     @Override

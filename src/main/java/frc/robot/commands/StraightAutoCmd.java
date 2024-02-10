@@ -6,11 +6,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Swerve;
 
 public class StraightAutoCmd extends Command {
-    private final Swerve m_swerveSubsystem;
+    private final Swerve m_swerve;
 
-    public StraightAutoCmd(Swerve swerveSubsystem) {
-        m_swerveSubsystem = swerveSubsystem;
-        addRequirements(swerveSubsystem);
+    public StraightAutoCmd(Swerve swerve) {
+        m_swerve = swerve;
+        addRequirements(swerve);
     }
 
     @Override
@@ -21,12 +21,12 @@ public class StraightAutoCmd extends Command {
                 new SwerveModuleState(1.0, new Rotation2d(0, 0)),
                 new SwerveModuleState(1.0, new Rotation2d(0, 0))
         };
-        m_swerveSubsystem.setModuleStates(module_states);
+        m_swerve.setModuleStates(module_states);
     }
     
     @Override
     public void end(boolean interrupted) {
-        m_swerveSubsystem.stopModules();
+        m_swerve.stopModules();
     }
 
     @Override

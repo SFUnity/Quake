@@ -11,25 +11,36 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.ControllerConstants;
+import frc.robot.Constants.OperationsConstants;
 import frc.robot.commands.CircleAutoCmd;
+import frc.robot.commands.IntakeControllerCmd;
+import frc.robot.commands.ShooterCmd;
 import frc.robot.commands.StraightAutoCmd;
 import frc.robot.commands.SwerveJoystickCmd;
+import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Operations;
 import frc.robot.subsystems.Swerve;
 
 
 public class RobotContainer {
-    private final Swerve m_swerveSubsystem = new Swerve();
+    private final Swerve m_swerve = new Swerve();
 
     private Operations m_operations = new Operations();
 
+    private Intake m_intake = new Intake();
+
+    private Shooter m_shooter = new Shooter();
+
     private final CommandXboxController m_driverController = new CommandXboxController(
                     ControllerConstants.kDriverControllerPort);
+    private final CommandXboxController m_operationsController = new CommandXboxController(
+                    OperationsConstants.kOperationControllerPort);
 
     // Auto Commands Chooser
-    private final Command m_straightAuto = new StraightAutoCmd(m_swerveSubsystem);
+    private final Command m_straightAuto = new StraightAutoCmd(m_swerve);
 
-    private final Command m_circleAuto = new CircleAutoCmd(m_swerveSubsystem);
+    private final Command m_circleAuto = new CircleAutoCmd(m_swerve);
 
     private final Command m_straightPathAuto = new PathPlannerAuto("Test Auto");
 
@@ -41,14 +52,18 @@ public class RobotContainer {
     public ShuffleboardTab mainTab = Shuffleboard.getTab("Main");
 
     public RobotContainer() {
-        m_swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
-                m_swerveSubsystem,
+        m_swerve.setDefaultCommand(new SwerveJoystickCmd(
+                m_swerve,
                 () -> -m_driverController.getLeftY(),
                 () -> -m_driverController.getLeftX(),
                 () -> m_driverController.getRightX(),
                 true));
 
         m_operations.setDefaultCommand(m_operations.setToRainbow());
+
+        m_intake.setDefaultCommand(new IntakeControllerCmd(m_intake, m_shooter, m_operations, m_operationsController.x(), m_operationsController.y(), m_operationsController.a(), m_operationsController.b()));
+
+        m_shooter.setDefaultCommand(new ShooterCmd(m_shooter, m_operations, m_swerve, m_operationsController.x(), m_operationsController.y(), m_operationsController.a(), m_operationsController.b()));
 
         configureBindings();
 
@@ -65,18 +80,21 @@ public class RobotContainer {
         mainTab.add(m_autoChooser);
         mainTab.add(m_fieldOrientedChooser);
 
-        SmartDashboard.putData(m_swerveSubsystem);
+        SmartDashboard.putData(m_swerve);
         SmartDashboard.putData(m_straightAuto);
         SmartDashboard.putData(m_circleAuto);
-        SmartDashboard.putData(m_swerveSubsystem.TurnToAngle(45));
+        SmartDashboard.putData(m_swerve.TurnToAngle(45));
     }
 
   private void configureBindings() {
-    new Trigger(m_driverController.a()).onTrue(new InstantCommand(() -> m_swerveSubsystem.zeroHeading()));
+    new Trigger(m_driverController.a()).onTrue(new InstantCommand(() -> m_swerve.zeroHeading()));
+    //new Trigger(m_operationsController.)
   }
+
+
   
-  public Swerve getSwerveSubsystem() {
-      return m_swerveSubsystem;
+  public Swerve getSwerve() {
+      return m_swerve;
   }
 
   public Command getAutonomousCommand() {
