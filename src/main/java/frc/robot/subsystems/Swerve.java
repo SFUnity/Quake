@@ -229,9 +229,9 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
     }
 
     public Command turnToSpeaker(double speakerAngleFromVision) { //TODO get actual angle from vision
-        double desiredAngle = 0;
+        
         double currentAngle = m_gyro.getAngle();
-        desiredAngle = currentAngle - speakerAngleFromVision; //TODO may be wrong
+        final desiredAngle = currentAngle - speakerAngleFromVision; //TODO may be wrong
 
         return run(
             () -> {
