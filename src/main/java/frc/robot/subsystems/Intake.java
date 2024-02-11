@@ -24,7 +24,6 @@ public class Intake extends SubsystemBase{
 
     private final Rev2mDistanceSensor distOnboard;
     private Double angle = 0.0;
-    private boolean intakeRunning = false;
 
     public Intake() {
         // add port
@@ -103,7 +102,6 @@ public class Intake extends SubsystemBase{
      */
     public void startIntake() {
         runIntake(1);
-        intakeRunning = true;
     }
 
     /**
@@ -111,7 +109,6 @@ public class Intake extends SubsystemBase{
      */
     public void stopIntake() {
         m_IntakeFlywheelMotor.stopMotor();
-        intakeRunning = false;
     }
 
     /**

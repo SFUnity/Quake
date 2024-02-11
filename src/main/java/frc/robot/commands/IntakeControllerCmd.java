@@ -12,7 +12,7 @@ public class IntakeControllerCmd extends Command{
     private final Intake m_intake;
     private final Shooter m_shooter;
     private final Operations m_operations;
-    private final Trigger xButton, yButton, aButton, bButton;
+    private final Trigger xButton, yButton;
 
     public IntakeControllerCmd(Intake intake, Shooter shooter, Operations operations, 
             Trigger xButton, Trigger yButton, Trigger aButton, Trigger bButton) {
@@ -21,8 +21,6 @@ public class IntakeControllerCmd extends Command{
         m_operations = operations;
         this.xButton = xButton;
         this.yButton = yButton;
-        this.aButton = aButton;
-        this.bButton = bButton;
     }
 
     @Override

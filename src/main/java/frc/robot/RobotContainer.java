@@ -64,7 +64,7 @@ public class RobotContainer {
 
         m_intake.setDefaultCommand(new IntakeControllerCmd(m_intake, m_shooter, m_operations, m_operationsController.x(), m_operationsController.y(), m_operationsController.a(), m_operationsController.b()));
 
-        m_shooter.setDefaultCommand(new ShooterCmd(m_shooter, m_operations, m_swerve, m_operationsController.x(), m_operationsController.y(), m_operationsController.a(), m_operationsController.b()));
+        m_shooter.setDefaultCommand(new ShooterCmd(m_shooter, m_operations, m_operationsController.x(), m_operationsController.y(), m_operationsController.a(), m_operationsController.b()));
 
         configureBindings();
 

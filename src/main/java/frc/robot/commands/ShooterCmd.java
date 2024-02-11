@@ -1,11 +1,8 @@
 package frc.robot.commands;
 
-import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.Operations;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.LEDConstants;
@@ -14,22 +11,18 @@ public class ShooterCmd extends Command{
 
     private final Shooter m_shooter;
     private final Operations m_operations;
-    private final Swerve m_swerve;
     private boolean shootingNote = false;
     private boolean automaticShooting = true;
     
     
 
     private boolean shootingAmp = false;
-    private final Trigger xButton, yButton, aButton, bButton;
+    private final Trigger aButton, bButton;
 
-    public ShooterCmd(Shooter shooter, Operations operations, Swerve swerve, Trigger xButton, Trigger yButton, Trigger aButton, Trigger bButton) { // TODO Get input from visual
+    public ShooterCmd(Shooter shooter, Operations operations, Trigger xButton, Trigger yButton, Trigger aButton, Trigger bButton) { // TODO Get input from visual
         m_shooter = shooter;
         m_operations = operations;
-        m_swerve = swerve;
 
-        this.xButton = xButton;
-        this.yButton = yButton;
         this.aButton = aButton;
         this.bButton = bButton;
     }

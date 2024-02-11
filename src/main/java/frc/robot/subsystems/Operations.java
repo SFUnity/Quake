@@ -1,22 +1,11 @@
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
-
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
-import frc.robot.Constants.OperationsConstants;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Operations extends SubsystemBase{
-    
-    private final CANSparkMax m_operationsMotor;
-    private final RelativeEncoder m_operationsEncoder;
-
-    private final PIDController m_climberPID = new PIDController(0.05, 0, 0); //mess around with this later
 
     // PWM port 9
     // Must be a PWM header, not MXP or DIO
@@ -27,22 +16,12 @@ public class Operations extends SubsystemBase{
     private int m_rainbowFirstPixelHue;
 
     public Operations() {
-        m_operationsMotor = new CANSparkMax(OperationsConstants.kIndexMotorID, MotorType.kBrushless);
-        m_operationsEncoder = m_operationsMotor.getEncoder();
-
-        
         // Length is expensive to set, so only set it once, then just update data
         m_led.setLength(m_ledBuffer.getLength());
 
         // Set the data
         m_led.setData(m_ledBuffer);
         m_led.start();
-
-        
-    }
-
-    public void setOperationsSpeed(double speed){
-           m_operationsMotor.set(speed); 
     }
 
     public void rainbow() {
@@ -85,9 +64,5 @@ public class Operations extends SubsystemBase{
 
     public void lowerRobot() {
 
-    }
-
-    // Operation Fuctions
-
-   
+    }   
 }
