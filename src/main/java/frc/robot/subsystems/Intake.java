@@ -24,7 +24,7 @@ public class Intake extends SubsystemBase{
 
     private final Rev2mDistanceSensor distOnboard;
     private Double angle = 0.0;
-    private Boolean intakeRunning = false;
+    private boolean intakeRunning = false;
 
     public Intake() {
         // add port
@@ -67,9 +67,9 @@ public class Intake extends SubsystemBase{
     }
 
     /**
-     * returns a Boolean based on if there is currently a note in the indexer or not
+     * returns a boolean based on if there is currently a note in the indexer or not
      */
-    public Boolean noteInIndexer() {
+    public boolean noteInIndexer() {
         return distOnboard.isRangeValid() && distOnboard.getRange() < IntakeConstants.kDistanceActivationThresholdMin;
     }
 

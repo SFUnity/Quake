@@ -85,20 +85,20 @@ public final class Constants {
 
     public static final int kIntakeAngleMotorPort = 9;
     public static final int kIntakeRollersMotorPort = 10;
-    public static final Double kTurningMotorMaxSpeed = 10.0;
+    public static final double kTurningMotorMaxSpeed = 10.0;
 
     public static final int kIntakeAngleMotorEncoderPort = 4;
-    public static final Double kIntakeAngleMotorEncoderOffset = 0.0; //TODO needs to be updated with measured values
-    public static final Double kDistanceActivationThresholdMin = 0.5; //TODO needs to be updated with measued values
-    public static final Double kIntakeLowweredAngle = 0.0; //TODO needs to be updated with measued values
-    public static final Double kIntakeRaisedAngle = Math.PI/2; //TODO needs to be updated with measued values
+    public static final double kIntakeAngleMotorEncoderOffset = 0.0; //TODO needs to be updated with measured values
+    public static final double kDistanceActivationThresholdMin = 0.5; //TODO needs to be updated with measued values
+    public static final double kIntakeLowweredAngle = 0.0; //TODO needs to be updated with measued values
+    public static final double kIntakeRaisedAngle = Math.PI/2; //TODO needs to be updated with measued values
     
     public static final int kIndexerMotorPort = 0; //TODO needs to be updated
   }
 
   public static final class OperationsConstants{
     public static final int kIndexMotorID = 13;
-    public static final Double kClimberMotorMaxSpeed = 10.0; //TODO needs to be updated with measured values
+    public static final double kClimberMotorMaxSpeed = 10.0; //TODO needs to be updated with measured values
     public static final int kOperationControllerPort = 0; //TODO needs to be updated with correct values
   }
 
@@ -109,21 +109,22 @@ public final class Constants {
     public static final int kShooterRollerMotor = 13;
 
     public static final int kShooterAngleMotorEncoderPort = 5;
-    public static final Double kShooterAngleMotorEncoderOffset = 0.0; //TODO needs to be updated with measured values
-    public static final Double kShooterMotorMaxSpeed = 10.0; //TODO needs to be updated with measured values
+    public static final double kShooterAngleMotorEncoderOffset = 0.0; //TODO needs to be updated with measured values
+    public static final double kShooterMotorMaxSpeed = 10.0; //TODO needs to be updated with measured values
 
-    public static final Double kShooterStartingAngle = 0.0; //TODO needs to be updated with measured values
+    public static final double kShooterStartingAngle = 0.0; //TODO needs to be updated with measured values
     
-    public static final Double kShooterDistanceRange = 2.0; //TODO needs to be updated with measured values
-    public static final Double kHeightOfSpeaker = 5.125; //TODO needs to be updated
-    public static final Double kVisualDistanceInput = 6.0; //TODO needs to be updated
+    public static final double kShooterDistanceRange = 2.0; //TODO needs to be updated with measured values
+    public static final double kShooterManualAngle = 0.0; //TODO needs to be set
+    public static final double kHeightOfSpeaker = 5.125; //TODO needs to be updated
+    public static final double kVisualDistanceInput = 6.0; //TODO needs to be updated
     
-    public static final Double kDesiredAmpAngle = 65.0;
-    public static final Double kAmpShootingSpeed = 0.5; //TODO needs to be updated
+    public static final double kDesiredAmpAngle = 65.0;
+    public static final double kAmpShootingSpeed = 0.5; //TODO needs to be updated
 
-    public static final Double kRollerIntakeSpeed = 1.0; //TODO needs to be updated
+    public static final double kRollerIntakeSpeed = 1.0; //TODO needs to be updated
 
-    public static final Double kShooterReadySpeed = 0.8; //TODO needs to be updated
+    public static final double kShooterReadySpeed = 0.8; //TODO needs to be updated
    
   }
 

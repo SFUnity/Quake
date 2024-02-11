@@ -15,11 +15,12 @@ public class ShooterCmd extends Command{
     private final Shooter m_shooter;
     private final Operations m_operations;
     private final Swerve m_swerve;
-    private Boolean shootingNote = false;
+    private boolean shootingNote = false;
+    private boolean automaticShooting = true;
     
     
 
-    private Boolean shootingAmp = false;
+    private boolean shootingAmp = false;
     private final Trigger xButton, yButton, aButton, bButton;
 
     public ShooterCmd(Shooter shooter, Operations operations, Swerve swerve, Trigger xButton, Trigger yButton, Trigger aButton, Trigger bButton) { // TODO Get input from visual
@@ -49,13 +50,27 @@ public class ShooterCmd extends Command{
             m_operations.setRGB(LEDConstants.kNoteInShooter[0], LEDConstants.kNoteInShooter[1], LEDConstants.kNoteInShooter[2]);
         }
 
-        if(bButton.getAsBoolean()){
-            shootingNote = true;
-
-            m_shooter.setShooterToAngle(m_shooter.getAimAngle(ShooterConstants.kVisualDistanceInput)); // TODO add visual
+        if (!automaticShooting && !shootingAmp) {
+            m_shooter.setShooterToAngle(ShooterConstants.kShooterManualAngle);;
         }
 
-        if(aButton.getAsBoolean()){
+        if (bButton.getAsBoolean()) {
+            shootingNote = true;
+
+            if (automaticShooting) {
+                m_shooter.setShooterToAngle(m_shooter.getAimAngle(ShooterConstants.kVisualDistanceInput)); // TODO add visual
+            }
+        }
+
+        /*
+        // TODO updated with keybind
+        // toggles automatic shooting
+        if (false) {
+            automaticShooting = !automaticShooting;
+        }
+        */
+
+        if (aButton.getAsBoolean()) {
             shootingAmp = true;
 
             m_shooter.setShooterToAngle(m_shooter.getAimAngle(ShooterConstants.kDesiredAmpAngle)); // TODO add visual

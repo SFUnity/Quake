@@ -29,7 +29,7 @@ public class Shooter extends SubsystemBase {
 
     public final RelativeEncoder m_flywheelEncoder;
 
-    public Boolean shooterDoneUpdating;
+    public boolean shooterDoneUpdating;
 
     public Shooter() {
         m_pidController =  new PIDController(0.5,0,0);
@@ -53,7 +53,7 @@ public class Shooter extends SubsystemBase {
 
     /**
      * returns whether there is a note in the shooter
-     * @return Boolean value of if there is a note in shooter
+     * @return boolean value of if there is a note in shooter
      */
     public boolean isNoteInShooter() {
         return m_shooterDistanceSensor.isRangeValid() && m_shooterDistanceSensor.getRange() <= ShooterConstants.kShooterDistanceRange;
