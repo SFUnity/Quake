@@ -308,6 +308,10 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
         });
     }
 
+    public Command SetXCommand() {
+        return run(() -> setX());
+    }
+
     @Override
     public void close() throws Exception {
         m_frontLeft.close();
