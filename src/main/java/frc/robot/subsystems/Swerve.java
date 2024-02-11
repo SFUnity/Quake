@@ -227,25 +227,7 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
         m_backRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
     }
 
-    public Command turnToSpeaker(double speakerAngleFromVision, double xSpeed, double ySpeed) { //TODO get actual angle from vision
-        
-        double currentAngle = m_gyro.getAngle();
-        final double desiredAngle = currentAngle - speakerAngleFromVision; //TODO may be wrong
-
-        return run(
-            () -> {
-                double constrainedAngleDegrees = Rotation2d.fromDegrees(desiredAngle).getDegrees();
-                double turningSpeedDegrees = turnToAnglePID.calculate(m_gyro.getYaw().getValueAsDouble(), constrainedAngleDegrees);
-                // double turningSpeedRadians = Units.degreesToRadians(turningSpeedDegrees);
-                ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, turningSpeedDegrees, getRotation2d());
-                this.setModuleStates(DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds));
-            })
-        .until(() -> turnToAnglePID.atSetpoint())
-        .finallyDo(interrupted -> {
-            this.stopModules(); 
-        });
-    }
-
+    
     /**
      * @param desiredStates
      */
@@ -255,19 +237,19 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
         m_frontRight.setDesiredState(desiredStates[1]);
         m_backLeft.setDesiredState(desiredStates[2]);
         m_backRight.setDesiredState(desiredStates[3]);
-
+        
         for (int i = 0; i < modules.size(); i++) {
             desiredModuleStates[i] = desiredStates[i].angle.getDegrees();
             desiredModuleStates[i + 1] = desiredStates[i].speedMetersPerSecond;
         }
-
+        
         m_desiredStatesPublisher.set(desiredModuleStates);
     }
-
+    
     public void zeroHeading() {
         m_gyro.reset();
     }
-
+    
     /**
      * @return heading in degrees from -180 to 180
      */
@@ -275,13 +257,13 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
         // Normalizes the heading to be between -180 and 180
         return Rotation2d.fromDegrees(m_gyro.getAngle()).getDegrees();
     }
-
+    
     public void simulate(){
         gyroSim.addYaw(Units.radiansToDegrees(DriveConstants.kDriveKinematics.toChassisSpeeds(getModuleStates()).omegaRadiansPerSecond) 
         * (DriveConstants.kGyroReversed ? -1.0 : 1.0) * 0.02);
         headingEntry.setDouble(getHeading());
     }
-
+    
     private SwerveModuleState[] getModuleStates() {
         return new SwerveModuleState[] {
             m_frontLeft.getState(),
@@ -290,19 +272,34 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
             m_backRight.getState(),
         };
     }
-
+    
     /**
      * @return robot heading as a rotation2d
      */
     public Rotation2d getRotation2d() {
         return Rotation2d.fromDegrees(m_gyro.getYaw().getValueAsDouble());
     }
-
+    
     public void stopModules() {
         m_frontLeft.stopMotors();
         m_frontRight.stopMotors();
         m_backLeft.stopMotors();
         m_backRight.stopMotors();
+    }
+
+    /**
+     * @param desiredAngleDegrees
+     * @return turning speed in degrees
+     */
+    // Still a little fast
+    public double turnToAngleSpeed(double desiredAngleDegrees) {
+        if (turnToAnglePID.atSetpoint()) {
+            return 0;
+        } else {
+            double constrainedAngleDegrees = Rotation2d.fromDegrees(desiredAngleDegrees).getDegrees();
+            double turningSpeedDegrees = turnToAnglePID.calculate(m_gyro.getYaw().getValueAsDouble(), constrainedAngleDegrees);
+            return turningSpeedDegrees;
+        }
     }
 
     /**
@@ -313,10 +310,7 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
     public Command TurnToAngle(double desiredAngleDegrees) {
         return run(
             () -> {
-                double constrainedAngleDegrees = Rotation2d.fromDegrees(desiredAngleDegrees).getDegrees();
-                double turningSpeedDegrees = turnToAnglePID.calculate(m_gyro.getYaw().getValueAsDouble(), constrainedAngleDegrees);
-                // double turningSpeedRadians = Units.degreesToRadians(turningSpeedDegrees);
-                ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(0, 0, turningSpeedDegrees, getRotation2d());
+                ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(0, 0, this.turnToAngleSpeed(desiredAngleDegrees), getRotation2d());
                 this.setModuleStates(DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds));
             })
         .until(() -> turnToAnglePID.atSetpoint())
