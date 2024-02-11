@@ -57,6 +57,7 @@ public class RobotContainer {
                 () -> -m_driverController.getLeftY(),
                 () -> -m_driverController.getLeftX(),
                 () -> m_driverController.getRightX(),
+                m_driverController.b(),
                 true));
 
         m_operations.setDefaultCommand(m_operations.setToRainbow());

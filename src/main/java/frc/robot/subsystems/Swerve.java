@@ -227,7 +227,7 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
         m_backRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
     }
 
-    public Command turnToSpeaker(double speakerAngleFromVision) { //TODO get actual angle from vision
+    public Command turnToSpeaker(double speakerAngleFromVision, double xSpeed, double ySpeed) { //TODO get actual angle from vision
         
         double currentAngle = m_gyro.getAngle();
         final double desiredAngle = currentAngle - speakerAngleFromVision; //TODO may be wrong
@@ -237,7 +237,7 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
                 double constrainedAngleDegrees = Rotation2d.fromDegrees(desiredAngle).getDegrees();
                 double turningSpeedDegrees = turnToAnglePID.calculate(m_gyro.getYaw().getValueAsDouble(), constrainedAngleDegrees);
                 // double turningSpeedRadians = Units.degreesToRadians(turningSpeedDegrees);
-                ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(0, 0, turningSpeedDegrees, getRotation2d());
+                ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, turningSpeedDegrees, getRotation2d());
                 this.setModuleStates(DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds));
             })
         .until(() -> turnToAnglePID.atSetpoint())

@@ -5,13 +5,15 @@ import java.util.function.Supplier;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.DriveConstants;
-import frc.robot.Constants.ControllerConstants;
 import frc.robot.subsystems.Swerve;
+import lib.DriverUtil;
 
 public class SwerveJoystickCmd extends Command {
     private final Swerve m_swerve;
     private final Supplier<Double> xSpdFunction, ySpdFunction, turningSpdFunction;
+    private final Trigger turnToSpeakerFunction;
     private final Boolean fieldOrientedFunction;
 
     /**
@@ -23,28 +25,30 @@ public class SwerveJoystickCmd extends Command {
      */
     public SwerveJoystickCmd(Swerve swerve,
             Supplier<Double> xSpdFunction, Supplier<Double> ySpdFunction, 
-            Supplier<Double> turningSpdFunction, Boolean fieldOrientedFunction) {
+            Supplier<Double> turningSpdFunction, Trigger turnToSpeakerFunction, Boolean fieldOrientedFunction) {
         m_swerve = swerve;
         this.xSpdFunction = xSpdFunction;
         this.ySpdFunction = ySpdFunction;
         this.turningSpdFunction = turningSpdFunction;
+        this.turnToSpeakerFunction = turnToSpeakerFunction;
         this.fieldOrientedFunction = fieldOrientedFunction;
         addRequirements(swerve);
     }
 
     @Override
     public void execute() {
-        double xSpeed = xSpdFunction.get();
-        double ySpeed = ySpdFunction.get();
+        double[] driveSpeeds = DriverUtil.getDriveSpeeds(xSpdFunction, ySpdFunction);
+        double xSpeed = driveSpeeds[0];
+        double ySpeed = driveSpeeds[1];
         double turningSpeed = turningSpdFunction.get();
 
-        xSpeed = this.applyDeadBand(xSpeed);
-        ySpeed = this.applyDeadBand(ySpeed);
-        turningSpeed = this.applyDeadBand(turningSpeed);
+        if (turnToSpeakerFunction.getAsBoolean()) {
+            m_swerve.turnToSpeaker(0, xSpeed, ySpeed); //TODO get input from vision
+        }
+
+        turningSpeed = DriverUtil.applyDeadBand(turningSpeed);
         
         // Modified speeds
-        xSpeed *= 0.3;
-        ySpeed *= 0.3;
         turningSpeed *= -0.6;
         
         ChassisSpeeds chassisSpeeds = speedsToChassisSpeeds(xSpeed, ySpeed, turningSpeed, fieldOrientedFunction);
@@ -53,10 +57,6 @@ public class SwerveJoystickCmd extends Command {
         DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
 
         m_swerve.setModuleStates(moduleStates);
-    }
-
-    public double applyDeadBand(double speed) {
-        return Math.abs(speed) > ControllerConstants.kDeadband ? speed : 0.0;
     }
 
     public ChassisSpeeds speedsToChassisSpeeds(double xSpeed, double ySpeed, double turningSpeed, boolean fieldOriented) {
