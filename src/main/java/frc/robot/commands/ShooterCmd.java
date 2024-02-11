@@ -13,8 +13,6 @@ public class ShooterCmd extends Command{
     private final Operations m_operations;
     private boolean shootingNote = false;
     private boolean automaticShooting = true;
-    
-    
 
     private boolean shootingAmp = false;
     private final Trigger aButton, bButton;
@@ -25,6 +23,8 @@ public class ShooterCmd extends Command{
 
         this.aButton = aButton;
         this.bButton = bButton;
+
+        addRequirements(shooter, operations);
     }
 
     @Override

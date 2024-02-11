@@ -21,6 +21,8 @@ public class IntakeControllerCmd extends Command{
         m_operations = operations;
         this.xButton = xButton;
         this.yButton = yButton;
+
+        addRequirements(intake, shooter, operations);
     }
 
     @Override
