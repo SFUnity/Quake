@@ -50,6 +50,10 @@ public class LEDs extends SubsystemBase{
         return runOnce(() -> this.setRGB(LEDConstants.kShootingNote[0], LEDConstants.kShootingNote[1], LEDConstants.kShootingNote[2]));
     }
 
+    public Command defaultPattern() {
+        return runOnce(() -> this.setRGB(LEDConstants.kDefault[0], LEDConstants.kDefault[1], LEDConstants.kDefault[2]));
+    }
+
     public void rainbow() {
         // For every pixel
         for (var i = 0; i < m_ledBuffer.getLength(); i++) {

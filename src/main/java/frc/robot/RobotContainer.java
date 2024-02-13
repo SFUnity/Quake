@@ -62,8 +62,6 @@ public class RobotContainer {
                 m_driverController.b(),
                 true));
 
-        m_LEDs.setDefaultCommand(m_LEDs.setToRainbow());
-
         m_intake.setDefaultCommand(new IntakeCmd(m_intake, m_operationsController.x(), m_operationsController.y(), m_operationsController.a(), m_operationsController.b()));
 
         m_shooter.setDefaultCommand(m_shooterDefaultCommand);
@@ -99,11 +97,13 @@ public class RobotContainer {
     new Trigger(() -> m_shooterDefaultCommand.noteInShooter()).onTrue(m_LEDs.NoteInShooterPattern());
     new Trigger(() -> m_shooterDefaultCommand.shootingNote()).onTrue(m_LEDs.ShootingNotePattern());
   }
-
-
   
   public Swerve getSwerve() {
       return m_swerve;
+  }
+
+  public LEDs getLEDs() {
+      return m_LEDs;
   }
 
   public Command getAutonomousCommand() {
