@@ -5,16 +5,16 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.LEDConstants;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.Operations;
+import frc.robot.subsystems.LEDs;
 
-public class IntakeControllerCmd extends Command{
+public class IntakeCmd extends Command{
 
     private final Intake m_intake;
     private final Shooter m_shooter;
-    private final Operations m_operations;
+    private final LEDs m_operations;
     private final Trigger xButton, yButton;
 
-    public IntakeControllerCmd(Intake intake, Shooter shooter, Operations operations, 
+    public IntakeCmd(Intake intake, Shooter shooter, LEDs operations, 
             Trigger xButton, Trigger yButton, Trigger aButton, Trigger bButton) {
         m_intake = intake;
         m_shooter = shooter;

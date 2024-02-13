@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Operations extends SubsystemBase{
+public class LEDs extends SubsystemBase{
 
     // PWM port 9
     // Must be a PWM header, not MXP or DIO
@@ -15,7 +15,7 @@ public class Operations extends SubsystemBase{
     private final AddressableLEDBuffer m_ledBuffer = new AddressableLEDBuffer(60);
     private int m_rainbowFirstPixelHue;
 
-    public Operations() {
+    public LEDs() {
         // Length is expensive to set, so only set it once, then just update data
         m_led.setLength(m_ledBuffer.getLength());
 

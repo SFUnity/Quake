@@ -13,20 +13,20 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.OperationsConstants;
 import frc.robot.commands.CircleAutoCmd;
-import frc.robot.commands.IntakeControllerCmd;
+import frc.robot.commands.IntakeCmd;
 import frc.robot.commands.ShooterCmd;
 import frc.robot.commands.StraightAutoCmd;
 import frc.robot.commands.SwerveJoystickCmd;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.Operations;
+import frc.robot.subsystems.LEDs;
 import frc.robot.subsystems.Swerve;
 
 
 public class RobotContainer {
     private final Swerve m_swerve = new Swerve();
 
-    private Operations m_operations = new Operations();
+    private LEDs m_operations = new LEDs();
 
     private Intake m_intake = new Intake();
 
@@ -62,7 +62,7 @@ public class RobotContainer {
 
         m_operations.setDefaultCommand(m_operations.setToRainbow());
 
-        m_intake.setDefaultCommand(new IntakeControllerCmd(m_intake, m_shooter, m_operations, m_operationsController.x(), m_operationsController.y(), m_operationsController.a(), m_operationsController.b()));
+        m_intake.setDefaultCommand(new IntakeCmd(m_intake, m_shooter, m_operations, m_operationsController.x(), m_operationsController.y(), m_operationsController.a(), m_operationsController.b()));
 
         m_shooter.setDefaultCommand(new ShooterCmd(m_shooter, m_operations, m_operationsController.x(), m_operationsController.y(), m_operationsController.a(), m_operationsController.b()));
 
