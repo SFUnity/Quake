@@ -3,30 +3,26 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.LEDs;
 import frc.robot.Constants.ShooterConstants;
-import frc.robot.Constants.LEDConstants;
 
 public class ShooterCmd extends Command{
 
     private final Shooter m_shooter;
-    private final LEDs m_LEDs;
-    private boolean shootingNote = false;
+    public boolean shootingNote = false;
     private boolean automaticShooting = true;
 
-    private boolean shootingAmp = false;
+    public boolean shootingAmp = false;
     private final Trigger aButton, bButton, xButton, yButton;
 
-    public ShooterCmd(Shooter shooter, LEDs LEDs, Trigger xButton, Trigger yButton, Trigger aButton, Trigger bButton) { // TODO Get input from visual
+    public ShooterCmd(Shooter shooter, Trigger xButton, Trigger yButton, Trigger aButton, Trigger bButton) { // TODO Get input from visual
         m_shooter = shooter;
-        m_LEDs = LEDs;
 
         this.aButton = aButton;
         this.bButton = bButton;
         this.xButton = xButton;
         this.yButton = yButton;
 
-        addRequirements(shooter, LEDs);
+        addRequirements(shooter);
     }
 
     @Override
@@ -39,11 +35,6 @@ public class ShooterCmd extends Command{
         m_shooter.updateShooter();
 
         //TODO visual distance input should not be a constant
-        
-
-        if(m_shooter.shooterDoneUpdating && m_shooter.isNoteInShooter() && !shootingNote) {
-            m_LEDs.setRGB(LEDConstants.kNoteInShooter[0], LEDConstants.kNoteInShooter[1], LEDConstants.kNoteInShooter[2]);
-        }
 
         if (!automaticShooting && !shootingAmp) {
             m_shooter.setShooterToAngle(ShooterConstants.kShooterManualAngle);;
@@ -78,11 +69,9 @@ public class ShooterCmd extends Command{
         if (shootingNote && m_shooter.isNoteInShooter()) {
             m_shooter.setShooterMotors(1); //1 should equal 100%
             m_shooter.startRollerMotors(1);
-            m_LEDs.setRGB(0, 0, 0);
         } else if(shootingAmp && m_shooter.isNoteInShooter()) {
             m_shooter.setShooterMotors(ShooterConstants.kAmpShootingSpeed); //TODO should equal to some percentage
             m_shooter.startRollerMotors(1);
-            m_LEDs.setRGB(0, 0, 0);
         } else if (m_shooter.isNoteInShooter()) {
             m_shooter.setShooterMotors(ShooterConstants.kShooterReadySpeed);
         } else {
@@ -90,6 +79,18 @@ public class ShooterCmd extends Command{
             m_shooter.stopRollerMotors();
             shootingNote = false;
             shootingAmp = false;
+        }
+    }
+
+    public boolean noteInShooter() {
+        return m_shooter.shooterDoneUpdating && m_shooter.isNoteInShooter() && !shootingNote;
+    }
+
+    public boolean shootingNote() {
+        if (shootingNote || shootingAmp && m_shooter.isNoteInShooter()) {
+            return true;
+        } else {
+            return false;
         }
     }
 

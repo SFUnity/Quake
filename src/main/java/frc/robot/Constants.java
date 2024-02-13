@@ -131,6 +131,7 @@ public final class Constants {
   public static final class LEDConstants {
     public static final int[] kNoteInShooter = {0, 255, 0};
     public static final int[] kNoteInIndexer = {0, 0, 255};
+    public static final int[] kShootingNote = {0, 0, 0};
   }
 
 }

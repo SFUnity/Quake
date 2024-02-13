@@ -26,16 +26,18 @@ import frc.robot.subsystems.Swerve;
 public class RobotContainer {
     private final Swerve m_swerve = new Swerve();
 
-    private LEDs m_LEDs = new LEDs();
+    private final LEDs m_LEDs = new LEDs();
 
-    private Intake m_intake = new Intake();
+    private final Intake m_intake = new Intake();
 
-    private Shooter m_shooter = new Shooter();
+    private final Shooter m_shooter = new Shooter();
 
     private final CommandXboxController m_driverController = new CommandXboxController(
                     ControllerConstants.kDriverControllerPort);
     private final CommandXboxController m_operationsController = new CommandXboxController(
                     OperationsConstants.kOperationControllerPort);
+
+    private final ShooterCmd m_shooterDefaultCommand = new ShooterCmd(m_shooter, m_operationsController.x(), m_operationsController.y(), m_operationsController.a(), m_operationsController.b());
 
     // Auto Commands Chooser
     private final Command m_straightAuto = new StraightAutoCmd(m_swerve);
@@ -64,7 +66,7 @@ public class RobotContainer {
 
         m_intake.setDefaultCommand(new IntakeCmd(m_intake, m_operationsController.x(), m_operationsController.y(), m_operationsController.a(), m_operationsController.b()));
 
-        m_shooter.setDefaultCommand(new ShooterCmd(m_shooter, m_LEDs, m_operationsController.x(), m_operationsController.y(), m_operationsController.a(), m_operationsController.b()));
+        m_shooter.setDefaultCommand(m_shooterDefaultCommand);
 
         configureBindings();
 
@@ -94,6 +96,8 @@ public class RobotContainer {
 
     // LED Triggers
     new Trigger(() -> m_intake.noteInIndexer()).onTrue(m_LEDs.NoteInIndexerPattern());
+    new Trigger(() -> m_shooterDefaultCommand.noteInShooter()).onTrue(m_LEDs.NoteInShooterPattern());
+    new Trigger(() -> m_shooterDefaultCommand.shootingNote()).onTrue(m_LEDs.ShootingNotePattern());
   }
 
 
