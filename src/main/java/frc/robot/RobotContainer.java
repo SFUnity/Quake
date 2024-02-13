@@ -34,7 +34,7 @@ public class RobotContainer {
 
     private final CommandXboxController m_driverController = new CommandXboxController(
                     ControllerConstants.kDriverControllerPort);
-    private final CommandXboxController m_LEDsController = new CommandXboxController(
+    private final CommandXboxController m_operationsController = new CommandXboxController(
                     OperationsConstants.kOperationControllerPort);
 
     // Auto Commands Chooser
@@ -62,9 +62,9 @@ public class RobotContainer {
 
         m_LEDs.setDefaultCommand(m_LEDs.setToRainbow());
 
-        m_intake.setDefaultCommand(new IntakeCmd(m_intake, m_shooter, m_LEDsController.x(), m_LEDsController.y(), m_LEDsController.a(), m_LEDsController.b()));
+        m_intake.setDefaultCommand(new IntakeCmd(m_intake, m_operationsController.x(), m_operationsController.y(), m_operationsController.a(), m_operationsController.b()));
 
-        m_shooter.setDefaultCommand(new ShooterCmd(m_shooter, m_LEDs, m_LEDsController.x(), m_LEDsController.y(), m_LEDsController.a(), m_LEDsController.b()));
+        m_shooter.setDefaultCommand(new ShooterCmd(m_shooter, m_LEDs, m_operationsController.x(), m_operationsController.y(), m_operationsController.a(), m_operationsController.b()));
 
         configureBindings();
 
@@ -89,6 +89,8 @@ public class RobotContainer {
 
   private void configureBindings() {
     new Trigger(m_driverController.a()).onTrue(new InstantCommand(() -> m_swerve.zeroHeading()));
+
+    new Trigger(() -> m_shooter.isNoteInShooter()).onTrue(new InstantCommand(m_intake::stopIndexer, m_intake));
 
     // LED Triggers
     new Trigger(() -> m_intake.noteInIndexer()).onTrue(m_LEDs.NoteInIndexerPattern());

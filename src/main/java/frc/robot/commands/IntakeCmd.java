@@ -3,22 +3,19 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Shooter;
 
 public class IntakeCmd extends Command{
 
     private final Intake m_intake;
-    private final Shooter m_shooter;
     private final Trigger xButton, yButton;
 
-    public IntakeCmd(Intake intake, Shooter shooter, 
+    public IntakeCmd(Intake intake, 
             Trigger xButton, Trigger yButton, Trigger aButton, Trigger bButton) {
         m_intake = intake;
-        m_shooter = shooter;
         this.xButton = xButton;
         this.yButton = yButton;
 
-        addRequirements(intake, shooter);
+        addRequirements(intake);
     }
 
     @Override
@@ -40,10 +37,6 @@ public class IntakeCmd extends Command{
         }
 
         if (yButton.getAsBoolean()) {
-            m_intake.stopIndexer();
-        }
-
-        if (m_shooter.isNoteInShooter()) {
             m_intake.stopIndexer();
         }
     }
