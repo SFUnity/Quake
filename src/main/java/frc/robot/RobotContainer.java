@@ -26,7 +26,7 @@ import frc.robot.subsystems.Swerve;
 public class RobotContainer {
     private final Swerve m_swerve = new Swerve();
 
-    private LEDs m_operations = new LEDs();
+    private LEDs m_LEDs = new LEDs();
 
     private Intake m_intake = new Intake();
 
@@ -34,7 +34,7 @@ public class RobotContainer {
 
     private final CommandXboxController m_driverController = new CommandXboxController(
                     ControllerConstants.kDriverControllerPort);
-    private final CommandXboxController m_operationsController = new CommandXboxController(
+    private final CommandXboxController m_LEDsController = new CommandXboxController(
                     OperationsConstants.kOperationControllerPort);
 
     // Auto Commands Chooser
@@ -60,11 +60,11 @@ public class RobotContainer {
                 m_driverController.b(),
                 true));
 
-        m_operations.setDefaultCommand(m_operations.setToRainbow());
+        m_LEDs.setDefaultCommand(m_LEDs.setToRainbow());
 
-        m_intake.setDefaultCommand(new IntakeCmd(m_intake, m_shooter, m_operationsController.x(), m_operationsController.y(), m_operationsController.a(), m_operationsController.b()));
+        m_intake.setDefaultCommand(new IntakeCmd(m_intake, m_shooter, m_LEDsController.x(), m_LEDsController.y(), m_LEDsController.a(), m_LEDsController.b()));
 
-        m_shooter.setDefaultCommand(new ShooterCmd(m_shooter, m_operations, m_operationsController.x(), m_operationsController.y(), m_operationsController.a(), m_operationsController.b()));
+        m_shooter.setDefaultCommand(new ShooterCmd(m_shooter, m_LEDs, m_LEDsController.x(), m_LEDsController.y(), m_LEDsController.a(), m_LEDsController.b()));
 
         configureBindings();
 
@@ -91,7 +91,7 @@ public class RobotContainer {
     new Trigger(m_driverController.a()).onTrue(new InstantCommand(() -> m_swerve.zeroHeading()));
 
     // LED Triggers
-    new Trigger(() -> m_intake.noteInIndexer()).onTrue(m_operations.NoteInIndexerPattern());
+    new Trigger(() -> m_intake.noteInIndexer()).onTrue(m_LEDs.NoteInIndexerPattern());
   }
 
 

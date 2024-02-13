@@ -10,7 +10,7 @@ import frc.robot.Constants.LEDConstants;
 public class ShooterCmd extends Command{
 
     private final Shooter m_shooter;
-    private final LEDs m_operations;
+    private final LEDs m_LEDs;
     private boolean shootingNote = false;
     private boolean automaticShooting = true;
 
@@ -19,7 +19,7 @@ public class ShooterCmd extends Command{
 
     public ShooterCmd(Shooter shooter, LEDs operations, Trigger xButton, Trigger yButton, Trigger aButton, Trigger bButton) { // TODO Get input from visual
         m_shooter = shooter;
-        m_operations = operations;
+        m_LEDs = operations;
 
         this.aButton = aButton;
         this.bButton = bButton;
@@ -40,7 +40,7 @@ public class ShooterCmd extends Command{
         
 
         if(m_shooter.shooterDoneUpdating && m_shooter.isNoteInShooter() && !shootingNote) {
-            m_operations.setRGB(LEDConstants.kNoteInShooter[0], LEDConstants.kNoteInShooter[1], LEDConstants.kNoteInShooter[2]);
+            m_LEDs.setRGB(LEDConstants.kNoteInShooter[0], LEDConstants.kNoteInShooter[1], LEDConstants.kNoteInShooter[2]);
         }
 
         if (!automaticShooting && !shootingAmp) {
@@ -72,11 +72,11 @@ public class ShooterCmd extends Command{
         if (shootingNote && m_shooter.isNoteInShooter()) {
             m_shooter.setShooterMotors(1); //1 should equal 100%
             m_shooter.startRollerMotors(1);
-            m_operations.setRGB(0, 0, 0);
+            m_LEDs.setRGB(0, 0, 0);
         } else if(shootingAmp && m_shooter.isNoteInShooter()) {
             m_shooter.setShooterMotors(ShooterConstants.kAmpShootingSpeed); //TODO should equal to some percentage
             m_shooter.startRollerMotors(1);
-            m_operations.setRGB(0, 0, 0);
+            m_LEDs.setRGB(0, 0, 0);
         } else if (m_shooter.isNoteInShooter()) {
             m_shooter.setShooterMotors(ShooterConstants.kShooterReadySpeed);
         } else {
