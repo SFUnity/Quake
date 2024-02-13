@@ -17,16 +17,16 @@ public class ShooterCmd extends Command{
     private boolean shootingAmp = false;
     private final Trigger aButton, bButton, xButton, yButton;
 
-    public ShooterCmd(Shooter shooter, LEDs operations, Trigger xButton, Trigger yButton, Trigger aButton, Trigger bButton) { // TODO Get input from visual
+    public ShooterCmd(Shooter shooter, LEDs LEDs, Trigger xButton, Trigger yButton, Trigger aButton, Trigger bButton) { // TODO Get input from visual
         m_shooter = shooter;
-        m_LEDs = operations;
+        m_LEDs = LEDs;
 
         this.aButton = aButton;
         this.bButton = bButton;
         this.xButton = xButton;
         this.yButton = yButton;
 
-        addRequirements(shooter, operations);
+        addRequirements(shooter, LEDs);
     }
 
     @Override

@@ -35,7 +35,7 @@ public class Intake extends SubsystemBase{
 
     /**
      * command to run the update intake function
-     * placeholder since intake will have a customized default command that implements the operations controller
+     * placeholder since intake will have a customized default command
      */
     public Command runUpdateIntake() {
         return run(() -> this.updateIntake());
