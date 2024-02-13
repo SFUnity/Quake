@@ -55,14 +55,4 @@ public class LEDs extends SubsystemBase{
     public Command setToRainbow() {
         return run(() -> this.rainbow());
     }
-
-
-    // Climber
-    public void raiseRobot() {
-
-    }
-
-    public void lowerRobot() {
-
-    }   
 }
