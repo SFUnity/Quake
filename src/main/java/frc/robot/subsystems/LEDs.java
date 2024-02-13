@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.LEDConstants;
 
 public class LEDs extends SubsystemBase{
 
@@ -24,6 +25,23 @@ public class LEDs extends SubsystemBase{
         m_led.start();
     }
 
+    public void setGreen() {
+        setRGB(0, 255, 0);
+    }
+    
+    public void setRGB(int r, int g, int b) {
+        for (var i = 0; i < m_ledBuffer.getLength(); i++) {
+            // Sets the specified LED to the RGB values for red
+            m_ledBuffer.setRGB(i, r, g, b);
+         }
+         
+         m_led.setData(m_ledBuffer);
+    }
+
+    public Command NoteInIndexerPattern() {
+        return runOnce(() -> this.setRGB(LEDConstants.kNoteInIndexer[0], LEDConstants.kNoteInIndexer[1], LEDConstants.kNoteInIndexer[2]));
+    }
+
     public void rainbow() {
         // For every pixel
         for (var i = 0; i < m_ledBuffer.getLength(); i++) {
@@ -37,19 +55,6 @@ public class LEDs extends SubsystemBase{
         m_rainbowFirstPixelHue += 3;
         // Check bounds
         m_rainbowFirstPixelHue %= 180;
-      }
-
-    public void setGreen() {
-        setRGB(0, 255, 0);
-    }
-    
-    public void setRGB(int r, int g, int b) {
-        for (var i = 0; i < m_ledBuffer.getLength(); i++) {
-            // Sets the specified LED to the RGB values for red
-            m_ledBuffer.setRGB(i, r, g, b);
-         }
-         
-         m_led.setData(m_ledBuffer);
     }
 
     public Command setToRainbow() {

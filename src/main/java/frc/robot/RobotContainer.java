@@ -62,7 +62,7 @@ public class RobotContainer {
 
         m_operations.setDefaultCommand(m_operations.setToRainbow());
 
-        m_intake.setDefaultCommand(new IntakeCmd(m_intake, m_shooter, m_operations, m_operationsController.x(), m_operationsController.y(), m_operationsController.a(), m_operationsController.b()));
+        m_intake.setDefaultCommand(new IntakeCmd(m_intake, m_shooter, m_operationsController.x(), m_operationsController.y(), m_operationsController.a(), m_operationsController.b()));
 
         m_shooter.setDefaultCommand(new ShooterCmd(m_shooter, m_operations, m_operationsController.x(), m_operationsController.y(), m_operationsController.a(), m_operationsController.b()));
 
@@ -89,6 +89,9 @@ public class RobotContainer {
 
   private void configureBindings() {
     new Trigger(m_driverController.a()).onTrue(new InstantCommand(() -> m_swerve.zeroHeading()));
+
+    // LED Triggers
+    new Trigger(() -> m_intake.noteInIndexer()).onTrue(m_operations.NoteInIndexerPattern());
   }
 
 

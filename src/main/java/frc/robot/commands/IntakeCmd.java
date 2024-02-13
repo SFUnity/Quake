@@ -2,27 +2,23 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.Constants.LEDConstants;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.LEDs;
 
 public class IntakeCmd extends Command{
 
     private final Intake m_intake;
     private final Shooter m_shooter;
-    private final LEDs m_operations;
     private final Trigger xButton, yButton;
 
-    public IntakeCmd(Intake intake, Shooter shooter, LEDs operations, 
+    public IntakeCmd(Intake intake, Shooter shooter, 
             Trigger xButton, Trigger yButton, Trigger aButton, Trigger bButton) {
         m_intake = intake;
         m_shooter = shooter;
-        m_operations = operations;
         this.xButton = xButton;
         this.yButton = yButton;
 
-        addRequirements(intake, shooter, operations);
+        addRequirements(intake, shooter);
     }
 
     @Override
@@ -47,10 +43,6 @@ public class IntakeCmd extends Command{
         if (yButton.getAsBoolean()) {
             m_intake.stopIndexer();
             m_shooter.stopRollerMotors();
-        }
-
-        if (m_intake.noteInIndexer()) {
-            m_operations.setRGB(LEDConstants.kNoteInIndexer[0], LEDConstants.kNoteInIndexer[1], LEDConstants.kNoteInIndexer[2]);
         }
 
         if (m_shooter.isNoteInShooter()) {
