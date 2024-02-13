@@ -15,7 +15,7 @@ public class ShooterCmd extends Command{
     private boolean automaticShooting = true;
 
     private boolean shootingAmp = false;
-    private final Trigger aButton, bButton;
+    private final Trigger aButton, bButton, xButton, yButton;
 
     public ShooterCmd(Shooter shooter, LEDs operations, Trigger xButton, Trigger yButton, Trigger aButton, Trigger bButton) { // TODO Get input from visual
         m_shooter = shooter;
@@ -23,6 +23,8 @@ public class ShooterCmd extends Command{
 
         this.aButton = aButton;
         this.bButton = bButton;
+        this.xButton = xButton;
+        this.yButton = yButton;
 
         addRequirements(shooter, operations);
     }
@@ -55,13 +57,17 @@ public class ShooterCmd extends Command{
             }
         }
 
-        /*
-        // TODO updated with keybind
-        // toggles automatic shooting
-        if (false) {
-            automaticShooting = !automaticShooting;
+        if (xButton.getAsBoolean()) {
+            m_shooter.rollersIntake();
         }
-        */
+
+        if (yButton.getAsBoolean()) {
+            m_shooter.stopRollerMotors();
+        }
+
+        if (m_shooter.isNoteInShooter()) {
+            m_shooter.stopRollerMotors();
+        }
 
         if (aButton.getAsBoolean()) {
             shootingAmp = true;

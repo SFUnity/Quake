@@ -35,18 +35,15 @@ public class IntakeCmd extends Command{
 
         if (xButton.getAsBoolean()) {
             m_intake.lowerAndRunIntake();
-            m_shooter.rollersIntake();
         } else {
             m_intake.raiseAndStopIntake();
         }
 
         if (yButton.getAsBoolean()) {
             m_intake.stopIndexer();
-            m_shooter.stopRollerMotors();
         }
 
         if (m_shooter.isNoteInShooter()) {
-            m_shooter.stopRollerMotors();
             m_intake.stopIndexer();
         }
     }

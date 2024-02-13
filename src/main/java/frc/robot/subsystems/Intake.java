@@ -15,8 +15,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Intake extends SubsystemBase{
     private final CANSparkMax m_IntakeAngleMotor = new CANSparkMax(IntakeConstants.kIntakeAngleMotorPort, MotorType.kBrushless);
-    private final CANSparkMax m_IntakeFlywheelMotor = new CANSparkMax(IntakeConstants.kIntakeRollersMotorPort, MotorType.kBrushless);
-    private final CANSparkMax m_IndexerFlywheelMotor = new CANSparkMax(IntakeConstants.kIndexerMotorPort, MotorType.kBrushless);
+    private final CANSparkMax m_IntakeMotor = new CANSparkMax(IntakeConstants.kIntakeRollersMotorPort, MotorType.kBrushless);
+    private final CANSparkMax m_IndexerMotor = new CANSparkMax(IntakeConstants.kIndexerMotorPort, MotorType.kBrushless);
     
     private final CANcoder m_encoder = new CANcoder(IntakeConstants.kIntakeAngleMotorEncoderPort);
 
@@ -35,7 +35,6 @@ public class Intake extends SubsystemBase{
 
     /**
      * command to run the update intake function
-     * <br><br>
      * placeholder since intake will have a customized default command that implements the operations controller
      */
     public Command runUpdateIntake() {
@@ -44,7 +43,6 @@ public class Intake extends SubsystemBase{
 
     /**
      * updates intake angle with pid loops
-     * <br><br>
      * called periodically from IntakeControllerCmd
      */
     public void updateIntake() {
@@ -53,16 +51,6 @@ public class Intake extends SubsystemBase{
         } else {
             stopIntakeRotation();
         }
-        
-        /*
-        if (intakeRunning) {
-            runIntake(1);
-
-            if (distOnboard.isRangeValid() && distOnboard.getRange() < IntakeConstants.kDistanceActivationThresholdMin) {
-                stopIntake();
-            }
-        }
-        */
     }
 
     /**
@@ -85,8 +73,8 @@ public class Intake extends SubsystemBase{
      * @param speed -1 to 1, speed as a percentage of max speed
      */
     public void runIntake(double speed) {
-        m_IntakeFlywheelMotor.set(speed>0 ? Math.min(speed, 1.0) : Math.max(speed, -1.0)); //don't set higher than 1, don't set lower than -1
-        m_IndexerFlywheelMotor.set(speed>0 ? Math.min(speed, 1.0) : Math.max(speed, -1.0));
+        m_IntakeMotor.set(Math.max(-1, Math.min(1, speed)));
+        m_IndexerMotor.set(Math.max(-1, Math.min(1, speed)));
     }
 
     /**
@@ -98,28 +86,28 @@ public class Intake extends SubsystemBase{
     }
 
     /**
-     * start running the intake and indexer flywheel motors
+     * start running the intake and indexer  motors
      */
     public void startIntake() {
         runIntake(1);
     }
 
     /**
-     * stop the intake flywheel motors
+     * stop the intake motors
      */
     public void stopIntake() {
-        m_IntakeFlywheelMotor.stopMotor();
+        m_IntakeMotor.stopMotor();
     }
 
     /**
-     * stop the indexer flywheel motors
+     * stop the indexer motors
      */
     public void stopIndexer() {
-        m_IndexerFlywheelMotor.stopMotor();
+        m_IndexerMotor.stopMotor();
     }
 
     /**
-     * stop intake and indexer flywheel motors
+     * stop intake and indexer motors
      */
     public void stopAll() {
         stopIntake();
@@ -149,8 +137,7 @@ public class Intake extends SubsystemBase{
     
     /**
      * lowers intake to angle set in constants 
-     * <br><br>
-     * sets the intake and indexer flywheel motors to max speed
+     * sets the intake and indexer  motors to max speed
      */
     public void lowerAndRunIntake() {
         setIntakeToAngle(IntakeConstants.kIntakeLowweredAngle);
@@ -159,8 +146,7 @@ public class Intake extends SubsystemBase{
     
     /**
      * raises intake to angle set in constants 
-     * <br><br>
-     * turns the intake flywheel motor off, but doesn't affect indexer flywheel motor
+     * turns the intake  motor off, but doesn't affect indexer  motor
      */
     public void raiseAndStopIntake() {
         setIntakeToAngle(IntakeConstants.kIntakeRaisedAngle);
