@@ -1,0 +1,29 @@
+package frc.robot.commands;
+
+import frc.robot.subsystems.LimelightSubsystem;
+
+public class AlignToTag extends Command {
+    private final limelightSubsystem m_limelight1;
+    private final limelightSubsystem m_limelight2;
+
+    public AlignToTag(limelightSubsystem limelight1, limelightSubsystem, limelight2) {
+        m_limelight1 = limelight1;
+        m_limelight2 = limelight2;
+    }
+
+    @Override
+    public void execute() {
+        xOffset1 = m_limelight1.getTargetOffsetX();
+        xOffset2 = m_limelight2.getTargetOffsetX();
+    }
+    
+    @Override
+    public void end(boolean interrupted) {
+
+    }
+
+    @Override
+    public boolean isFinished() {
+        return false;
+    }
+}
