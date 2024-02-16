@@ -109,14 +109,13 @@ public final class Constants {
     public static final int kShooterRollerMotor = 13;
 
     public static final int kShooterAngleMotorEncoderPort = 5;
-    public static final double kShooterAngleMotorEncoderOffset = 0.0; //TODO needs to be updated with measured values
     public static final double kShooterMotorMaxSpeed = 10.0; //TODO needs to be updated with measured values
 
     public static final double kShooterStartingAngle = 0.0; //TODO needs to be updated with measured values
     
     public static final double kShooterDistanceRange = 2.0; //TODO needs to be updated with measured values
     public static final double kShooterManualAngle = 0.0; //TODO needs to be set
-    public static final double kHeightOfSpeaker = 5.125; //TODO needs to be updated
+    public static final int kHeightOfSpeakerInches = 78;
     public static final double kVisualDistanceInput = 6.0; //TODO needs to be updated
     
     public static final double kDesiredAmpAngle = 65.0;

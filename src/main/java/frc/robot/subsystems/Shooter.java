@@ -98,7 +98,7 @@ public class Shooter extends SubsystemBase {
      * @return retruns vertical angle to target in degrees
      */
     public double getAimAngle(Double distanceFromTarget) {
-        double heightOfTarget = ShooterConstants.kHeightOfSpeaker;  // TODO MEASURE PROPER HEIGHT
+        double heightOfTarget = ShooterConstants.kHeightOfSpeakerInches;  // TODO MEASURE PROPER HEIGHT
         double angleRad = Math.atan(heightOfTarget / distanceFromTarget);
         double angleDeg = Math.toDegrees(angleRad);
         return angleDeg;
@@ -109,8 +109,8 @@ public class Shooter extends SubsystemBase {
     }
 
     public void updateShooter() {
-        if (m_encoder.getAbsolutePosition().getValueAsDouble() - ShooterConstants.kShooterAngleMotorEncoderOffset - desiredAngle > 1.0) {
-            startAngleMotors(m_pidController.calculate(m_encoder.getAbsolutePosition().getValueAsDouble() - ShooterConstants.kShooterAngleMotorEncoderOffset, desiredAngle) / ShooterConstants.kShooterMotorMaxSpeed);
+        if (m_encoder.getAbsolutePosition().getValueAsDouble() - desiredAngle > 1.0) {
+            startAngleMotors(m_pidController.calculate(m_encoder.getAbsolutePosition().getValueAsDouble(), desiredAngle) / ShooterConstants.kShooterMotorMaxSpeed);
         } else {
             stopAngleMotors();
             shooterDoneUpdating = true;
