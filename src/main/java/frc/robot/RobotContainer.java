@@ -37,7 +37,7 @@ public class RobotContainer {
     private final CommandXboxController m_operationsController = new CommandXboxController(
                     OperationsConstants.kOperationControllerPort);
 
-    private final ShooterCmd m_shooterDefaultCommand = new ShooterCmd(m_shooter, m_operationsController.x(), m_operationsController.y(), m_operationsController.a(), m_operationsController.b());
+    private final ShooterCmd m_shooterDefaultCommand = new ShooterCmd(m_shooter, m_operationsController.x(), m_operationsController.y(), m_operationsController.a(), m_operationsController.b(), m_operationsController.leftBumper());
 
     // Auto Commands Chooser
     private final Command m_straightAuto = new StraightAutoCmd(m_swerve);
