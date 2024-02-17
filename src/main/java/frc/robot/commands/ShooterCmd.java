@@ -80,7 +80,7 @@ public class ShooterCmd extends Command{
             m_shooter.startRollerMotors(1);
         } else if(shootingAmp && m_shooter.isNoteInShooter() && m_shooter.shooterDoneUpdating) {
             m_shooter.setShooterMotors(ShooterConstants.kAmpShootingSpeed); //TODO should equal to some percentage
-            m_shooter.startRollerMotors(1);
+            m_shooter.startRollerMotors(ShooterConstants.kAmpShootingSpeed);
         } else if (m_shooter.isNoteInShooter()) {
             m_shooter.setShooterMotors(ShooterConstants.kShooterReadySpeed);
         } else {
