@@ -1,6 +1,7 @@
 package frc.robot.subsystems.modules;
 
 import com.ctre.phoenix6.hardware.CANcoder;
+import com.ctre.phoenix6.hardware.TalonFX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkLowLevel.MotorType;
@@ -16,10 +17,10 @@ import lib.SwerveModule;
 
 public class RealSwerveModule implements AutoCloseable, SwerveModule {
     
-    private final CANSparkMax m_driveMotor;
+    private final TalonFX m_driveMotor;
     private final CANSparkMax m_turningMotor;
 
-    private final RelativeEncoder m_driveEncoder;
+    private final RelativeEncoder m_turningEncoder;
 
     private final CANcoder m_absoluteEncoder;
     private final boolean kAbsoluteEncoderReversed;
@@ -31,13 +32,13 @@ public class RealSwerveModule implements AutoCloseable, SwerveModule {
     public RealSwerveModule(int kDriveMotorId, int kTurningMotorId, boolean driveMotorReversed, boolean turningMotorReversed,
             int absoluteEncoderId, boolean absoluteEncoderReversed) {
         
-        m_driveMotor = new CANSparkMax(kDriveMotorId, MotorType.kBrushless);
+        m_driveMotor = new TalonFX(kDriveMotorId);
         m_turningMotor = new CANSparkMax(kTurningMotorId, MotorType.kBrushless);
 
         m_driveMotor.setInverted(driveMotorReversed);
         m_turningMotor.setInverted(turningMotorReversed);
 
-        m_driveEncoder = m_driveMotor.getEncoder();
+        m_turningEncoder = m_turningMotor.getEncoder();
 
         kAbsoluteEncoderReversed = absoluteEncoderReversed;
         m_absoluteEncoder = new CANcoder(absoluteEncoderId);
@@ -71,7 +72,8 @@ public class RealSwerveModule implements AutoCloseable, SwerveModule {
 
     @Override
     public void resetEncoders() {
-        m_driveEncoder.setPosition(0);
+        m_driveMotor.setPosition(0);
+        m_turningEncoder.setPosition(getAbsoluteEncoderRotations());
     }
 
     public double getAbsoluteEncoderRotations() {
@@ -91,11 +93,11 @@ public class RealSwerveModule implements AutoCloseable, SwerveModule {
     }
 
     public double getDrivePosition() {
-        return m_driveEncoder.getPosition();
+        return m_driveMotor.getPosition().getValueAsDouble();
     }
 
     public double getDriveVelocity() {
-        return m_driveEncoder.getVelocity();
+        return m_driveMotor.getVelocity().getValueAsDouble();
     }
 
     @Override
