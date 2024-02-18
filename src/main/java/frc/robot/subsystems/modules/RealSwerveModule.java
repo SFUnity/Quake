@@ -1,5 +1,6 @@
 package frc.robot.subsystems.modules;
 
+import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.revrobotics.CANSparkMax;
@@ -18,6 +19,7 @@ import lib.SwerveModule;
 public class RealSwerveModule implements AutoCloseable, SwerveModule {
     
     private final TalonFX m_driveMotor;
+    private final DutyCycleOut m_driveRequest = new DutyCycleOut(0);
     private final CANSparkMax m_turningMotor;
 
     private final RelativeEncoder m_turningEncoder;
@@ -32,7 +34,7 @@ public class RealSwerveModule implements AutoCloseable, SwerveModule {
     public RealSwerveModule(int kDriveMotorId, int kTurningMotorId, boolean driveMotorReversed, boolean turningMotorReversed,
             int absoluteEncoderId, boolean absoluteEncoderReversed) {
         
-        m_driveMotor = new TalonFX(kDriveMotorId);
+        m_driveMotor = new TalonFX(kDriveMotorId, "rio");
         m_turningMotor = new CANSparkMax(kTurningMotorId, MotorType.kBrushless);
 
         m_driveMotor.setInverted(driveMotorReversed);
@@ -64,7 +66,7 @@ public class RealSwerveModule implements AutoCloseable, SwerveModule {
         state = SwerveModuleState.optimize(state, getState().angle);
         double desiredTurnSpeed = turningPidController.calculate(getAbsoluteEncoderRad(), state.angle.getRadians());
         m_turningMotor.set(desiredTurnSpeed);
-        m_driveMotor.set(state.speedMetersPerSecond);
+        m_driveMotor.setControl(m_driveRequest.withOutput(state.speedMetersPerSecond));
 
         desiredState = state;
         SmartDashboard.putString("Swerve[" + m_absoluteEncoder.getDeviceID() + "] state", state.toString());
