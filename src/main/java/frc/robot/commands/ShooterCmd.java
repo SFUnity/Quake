@@ -70,6 +70,7 @@ public class ShooterCmd extends Command{
 
         if (m_shooter.isNoteInShooter()) {
             m_shooter.stopRollerMotors();
+            rollersRolling = false;
         }
 
         if (aButton.getAsBoolean()) {
