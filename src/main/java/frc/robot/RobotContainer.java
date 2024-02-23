@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.ControllerConstants;
-import frc.robot.Constants.OperationsConstants;
 import frc.robot.commands.CircleAutoCmd;
 // import frc.robot.commands.IntakeCmd;
 import frc.robot.commands.ShooterCmd;
@@ -35,9 +34,7 @@ public class RobotContainer {
     private final CommandXboxController m_driverController = new CommandXboxController(
                     ControllerConstants.kDriverControllerPort);
     private final CommandXboxController m_operationsController = new CommandXboxController(
-                    OperationsConstants.kOperationControllerPort);
-
-    private final ShooterCmd m_shooterDefaultCommand = new ShooterCmd(m_shooter, m_operationsController.x(), m_operationsController.y(), m_operationsController.a(), m_operationsController.b(), m_operationsController.leftBumper());
+                    ControllerConstants.kOperationControllerPort);
 
     // Auto Commands Chooser
     private final Command m_straightAuto = new StraightAutoCmd(m_swerve);
@@ -64,7 +61,13 @@ public class RobotContainer {
 
         // m_intake.setDefaultCommand(new IntakeCmd(m_intake, m_operationsController.x(), m_operationsController.y(), m_operationsController.a(), m_operationsController.b()));
 
-        m_shooter.setDefaultCommand(m_shooterDefaultCommand);
+        m_shooter.setDefaultCommand(new ShooterCmd(
+                m_shooter, 
+                m_operationsController.x(), 
+                m_operationsController.y(), 
+                m_operationsController.a(), 
+                m_operationsController.b(), 
+                m_operationsController.leftBumper()));
 
         configureBindings();
 

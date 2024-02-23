@@ -77,6 +77,7 @@ public final class Constants {
 
   public static final class ControllerConstants {
     public static final int kDriverControllerPort = 0;
+    public static final int kOperationControllerPort = 1;
 
     public static final double kDeadband = 0.05;
   }
@@ -91,17 +92,11 @@ public final class Constants {
     public static final int kIntakeAngleMotorEncoderPort = 4;
 
     public static final double kDistanceActivationThresholdMin = 0.5; //TODO needs to be updated with measued values
-    public static final double kIntakeLoweredAngle = 0.0; //TODO needs to be updated with measued values
+    public static final double kIntakeLoweredAngleRadians = 0.0; //TODO needs to be updated with measued values
     public static final double kIntakeRaisedAngleRadians = Math.PI/2; //TODO needs to be updated with measued values
     
     public static final double kIndexerMotorMaxSpeed = 10.0;
-    public static final int kIndexerMotorPort = 0; //TODO needs to be updated
-  }
-
-  public static final class OperationsConstants{
-    public static final int kIndexMotorID = 13;
-    public static final double kClimberMotorMaxSpeed = 10.0; //TODO needs to be updated with measured values
-    public static final int kOperationControllerPort = 0; //TODO needs to be updated with correct values
+    public static final int kIndexerMotorPort = 13; //TODO needs to be updated
   }
 
   public static final class ShooterConstants {
