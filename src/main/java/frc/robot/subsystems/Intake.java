@@ -13,24 +13,26 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 
-public class Intake extends SubsystemBase{
-    private final CANSparkMax m_IntakeAngleMotor = new CANSparkMax(IntakeConstants.kIntakeAngleMotorPort, MotorType.kBrushless);
-    private final CANSparkMax m_IntakeMotor = new CANSparkMax(IntakeConstants.kIntakeRollersMotorPort, MotorType.kBrushless);
-    private final CANSparkMax m_IndexerMotor = new CANSparkMax(IntakeConstants.kIndexerMotorPort, MotorType.kBrushless);
+public class Intake extends SubsystemBase implements AutoCloseable {
+    private final CANSparkMax m_intakeAngleMotor = new CANSparkMax(IntakeConstants.kIntakeAngleMotorPort, MotorType.kBrushless);
+    private final CANSparkMax m_intakeMotor = new CANSparkMax(IntakeConstants.kIntakeRollersMotorPort, MotorType.kBrushless);
+    private final CANSparkMax m_indexerMotor = new CANSparkMax(IntakeConstants.kIndexerMotorPort, MotorType.kBrushless);
     
     private final CANcoder m_encoder = new CANcoder(IntakeConstants.kIntakeAngleMotorEncoderPort);
 
-    private final PIDController m_IntakePID = new PIDController(0.05, 0, 0); //mess around with this later
+    private final PIDController m_intakePID = new PIDController(0.05, 0, 0); //mess around with this later
 
     private final Rev2mDistanceSensor distOnboard;
-    private Double angle = 0.0;
+    private double angle = 0.0;
+
+    private final double toleranceDegrees = 1.0;
 
     public Intake() {
         // add port
         distOnboard = new Rev2mDistanceSensor(Port.kOnboard);
         distOnboard.setAutomaticMode(true);
         
-        angle = IntakeConstants.kIntakeRaisedAngle;
+        angle = IntakeConstants.kIntakeRaisedAngleRadians;
     }
 
     /**
@@ -46,8 +48,8 @@ public class Intake extends SubsystemBase{
      * called periodically from IntakeControllerCmd
      */
     public void updateIntake() {
-        if (Math.abs(m_encoder.getAbsolutePosition().getValueAsDouble() - IntakeConstants.kIntakeAngleMotorEncoderOffset - angle) > 1.0) {
-            moveIntake(m_IntakePID.calculate(m_encoder.getAbsolutePosition().getValueAsDouble() - IntakeConstants.kIntakeAngleMotorEncoderOffset, angle) / IntakeConstants.kTurningMotorMaxSpeed);
+        if (Math.abs(m_encoder.getAbsolutePosition().getValueAsDouble() - angle) > toleranceDegrees) {
+            moveIntake(m_intakePID.calculate(m_encoder.getAbsolutePosition().getValueAsDouble(), angle) / IntakeConstants.kTurningMotorMaxSpeed);
         } else {
             stopIntakeRotation();
         }
@@ -65,7 +67,7 @@ public class Intake extends SubsystemBase{
      * @param speed -1 to 1, speed as a percentage of max speed
      */
     public void moveIntake(double speed) {
-        m_IntakeAngleMotor.set(speed>0 ? Math.min(speed, 1.0) : Math.max(speed, -1.0));
+        m_intakeAngleMotor.set(speed > 0 ? Math.min(speed, 1.0) : Math.max(speed, -1.0));
     }
 
     /**
@@ -73,8 +75,8 @@ public class Intake extends SubsystemBase{
      * @param speed -1 to 1, speed as a percentage of max speed
      */
     public void runIntake(double speed) {
-        m_IntakeMotor.set(Math.max(-1, Math.min(1, speed)));
-        m_IndexerMotor.set(Math.max(-1, Math.min(1, speed)));
+        m_intakeMotor.set(Math.max(-1, Math.min(1, speed)));
+        m_indexerMotor.set(Math.max(-1, Math.min(1, speed)));
     }
 
     /**
@@ -96,14 +98,14 @@ public class Intake extends SubsystemBase{
      * stop the intake motors
      */
     public void stopIntake() {
-        m_IntakeMotor.stopMotor();
+        m_intakeMotor.stopMotor();
     }
 
     /**
      * stop the indexer motors
      */
     public void stopIndexer() {
-        m_IndexerMotor.stopMotor();
+        m_indexerMotor.stopMotor();
     }
 
     /**
@@ -118,21 +120,21 @@ public class Intake extends SubsystemBase{
      * stop the intake rotation motor
      */
     public void stopIntakeRotation() {
-        m_IntakeAngleMotor.stopMotor();
+        m_intakeAngleMotor.stopMotor();
     }
 
     /**
      * lowers intake to angle set in constants
      */
     public void lowerIntake() {
-        setIntakeToAngle(IntakeConstants.kIntakeLowweredAngle);
+        setIntakeToAngle(IntakeConstants.kIntakeLoweredAngle);
     }
     
     /**
      * raises intake to angle set in constants
      */
     public void raiseIntake() {
-        setIntakeToAngle(IntakeConstants.kIntakeRaisedAngle);
+        setIntakeToAngle(IntakeConstants.kIntakeRaisedAngleRadians);
     }
     
     /**
@@ -140,7 +142,7 @@ public class Intake extends SubsystemBase{
      * sets the intake and indexer  motors to max speed
      */
     public void lowerAndRunIntake() {
-        setIntakeToAngle(IntakeConstants.kIntakeLowweredAngle);
+        setIntakeToAngle(IntakeConstants.kIntakeLoweredAngle);
         startIntake();
     }
     
@@ -149,7 +151,14 @@ public class Intake extends SubsystemBase{
      * turns the intake  motor off, but doesn't affect indexer  motor
      */
     public void raiseAndStopIntake() {
-        setIntakeToAngle(IntakeConstants.kIntakeRaisedAngle);
+        setIntakeToAngle(IntakeConstants.kIntakeRaisedAngleRadians);
         stopIntake();
+    }
+
+    @Override
+    public void close() {
+        m_intakeAngleMotor.close();
+        m_intakeMotor.close();
+        m_indexerMotor.close();
     }
 }
