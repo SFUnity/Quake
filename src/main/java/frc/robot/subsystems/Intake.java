@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 
-public class Intake extends SubsystemBase implements AutoCloseable {
+public class Intake extends SubsystemBase {
     private final CANSparkMax m_intakeAngleMotor = new CANSparkMax(IntakeConstants.kIntakeAngleMotorPort, MotorType.kBrushless);
     private final CANSparkMax m_intakeRollerMotor = new CANSparkMax(IntakeConstants.kIntakeRollersMotorPort, MotorType.kBrushless);
     private final CANSparkMax m_indexerMotor = new CANSparkMax(IntakeConstants.kIndexerMotorPort, MotorType.kBrushless);
@@ -153,12 +153,5 @@ public class Intake extends SubsystemBase implements AutoCloseable {
     public void raiseAndStopIntake() {
         setIntakeToAngle(IntakeConstants.kIntakeRaisedAngleRadians);
         stopIntake();
-    }
-
-    @Override
-    public void close() {
-        m_intakeAngleMotor.close();
-        m_intakeRollerMotor.close();
-        m_indexerMotor.close();
     }
 }

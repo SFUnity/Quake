@@ -14,7 +14,7 @@ import frc.robot.Constants.ShooterConstants;
 
 
 
-public class Shooter extends SubsystemBase implements AutoCloseable {
+public class Shooter extends SubsystemBase {
     private final CANSparkMax m_shooterAngleMotor; 
     private final CANSparkMax m_shooterFlywheelMotor;
     private final CANSparkMax m_shooterRollerMotor;
@@ -119,12 +119,5 @@ public class Shooter extends SubsystemBase implements AutoCloseable {
 
     public Command runUpdateShooter() {
         return run(() -> updateShooter());
-    }
-
-    @Override
-    public void close() {
-        m_shooterAngleMotor.close();
-        m_shooterFlywheelMotor.close();
-        m_shooterRollerMotor.close();
     }
 }
