@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Intake extends SubsystemBase implements AutoCloseable {
     private final CANSparkMax m_intakeAngleMotor = new CANSparkMax(IntakeConstants.kIntakeAngleMotorPort, MotorType.kBrushless);
-    private final CANSparkMax m_intakeMotor = new CANSparkMax(IntakeConstants.kIntakeRollersMotorPort, MotorType.kBrushless);
+    private final CANSparkMax m_intakeRollerMotor = new CANSparkMax(IntakeConstants.kIntakeRollersMotorPort, MotorType.kBrushless);
     private final CANSparkMax m_indexerMotor = new CANSparkMax(IntakeConstants.kIndexerMotorPort, MotorType.kBrushless);
     
     private final CANcoder m_encoder = new CANcoder(IntakeConstants.kIntakeAngleMotorEncoderPort);
@@ -23,7 +23,7 @@ public class Intake extends SubsystemBase implements AutoCloseable {
     private final PIDController m_intakePID = new PIDController(0.05, 0, 0); //mess around with this later
 
     private final Rev2mDistanceSensor distOnboard;
-    private double angle = 0.0;
+    private double desiredAngle = 0.0;
 
     private final double toleranceDegrees = 1.0;
 
@@ -32,7 +32,7 @@ public class Intake extends SubsystemBase implements AutoCloseable {
         distOnboard = new Rev2mDistanceSensor(Port.kOnboard);
         distOnboard.setAutomaticMode(true);
         
-        angle = IntakeConstants.kIntakeRaisedAngleRadians;
+        desiredAngle = IntakeConstants.kIntakeRaisedAngleRadians;
     }
 
     /**
@@ -48,8 +48,8 @@ public class Intake extends SubsystemBase implements AutoCloseable {
      * called periodically from IntakeControllerCmd
      */
     public void updateIntake() {
-        if (Math.abs(m_encoder.getAbsolutePosition().getValueAsDouble() - angle) > toleranceDegrees) {
-            moveIntake(m_intakePID.calculate(m_encoder.getAbsolutePosition().getValueAsDouble(), angle) / IntakeConstants.kTurningMotorMaxSpeed);
+        if (Math.abs(m_encoder.getAbsolutePosition().getValueAsDouble() - desiredAngle) > toleranceDegrees) {
+            moveIntake(m_intakePID.calculate(m_encoder.getAbsolutePosition().getValueAsDouble(), desiredAngle) / IntakeConstants.kTurningMotorMaxSpeed);
         } else {
             stopIntakeRotation();
         }
@@ -67,7 +67,7 @@ public class Intake extends SubsystemBase implements AutoCloseable {
      * @param speed -1 to 1, speed as a percentage of max speed
      */
     public void moveIntake(double speed) {
-        m_intakeAngleMotor.set(speed > 0 ? Math.min(speed, 1.0) : Math.max(speed, -1.0));
+        m_intakeAngleMotor.set(speed / IntakeConstants.kIntakeAngleMotorMaxSpeed);
     }
 
     /**
@@ -75,16 +75,16 @@ public class Intake extends SubsystemBase implements AutoCloseable {
      * @param speed -1 to 1, speed as a percentage of max speed
      */
     public void runIntake(double speed) {
-        m_intakeMotor.set(Math.max(-1, Math.min(1, speed)));
-        m_indexerMotor.set(Math.max(-1, Math.min(1, speed)));
+        m_intakeRollerMotor.set(speed / IntakeConstants.kIntakeRollerMotorMaxSpeed);
+        m_indexerMotor.set(speed / IntakeConstants.kIndexerMotorMaxSpeed);
     }
 
     /**
      * sets the angle variable to a certain value which will cause the pid loops to rotate the intake to that angle
-     * @param angle radians
+     * @param desiredAngle radians
      */
-    public void setIntakeToAngle(double angle) {
-        this.angle = angle;
+    public void setIntakeToAngle(double desiredAngle) {
+        this.desiredAngle = desiredAngle;
     }
 
     /**
@@ -98,7 +98,7 @@ public class Intake extends SubsystemBase implements AutoCloseable {
      * stop the intake motors
      */
     public void stopIntake() {
-        m_intakeMotor.stopMotor();
+        m_intakeRollerMotor.stopMotor();
     }
 
     /**
@@ -158,7 +158,7 @@ public class Intake extends SubsystemBase implements AutoCloseable {
     @Override
     public void close() {
         m_intakeAngleMotor.close();
-        m_intakeMotor.close();
+        m_intakeRollerMotor.close();
         m_indexerMotor.close();
     }
 }

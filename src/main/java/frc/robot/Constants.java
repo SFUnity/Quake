@@ -82,16 +82,19 @@ public final class Constants {
   }
 
   public static final class IntakeConstants {
+    public static final double kTurningMotorMaxSpeed = 10.0;
+    public static final double kIntakeRollerMotorMaxSpeed = 10.0;
+    public static final double kIntakeAngleMotorMaxSpeed = 10.0;
 
     public static final int kIntakeAngleMotorPort = 9;
     public static final int kIntakeRollersMotorPort = 10;
-    public static final double kTurningMotorMaxSpeed = 10.0;
-
     public static final int kIntakeAngleMotorEncoderPort = 4;
+
     public static final double kDistanceActivationThresholdMin = 0.5; //TODO needs to be updated with measued values
     public static final double kIntakeLoweredAngle = 0.0; //TODO needs to be updated with measued values
     public static final double kIntakeRaisedAngleRadians = Math.PI/2; //TODO needs to be updated with measued values
     
+    public static final double kIndexerMotorMaxSpeed = 10.0;
     public static final int kIndexerMotorPort = 0; //TODO needs to be updated
   }
 
