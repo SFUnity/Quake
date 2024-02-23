@@ -19,14 +19,14 @@ import frc.robot.commands.StraightAutoCmd;
 import frc.robot.commands.SwerveJoystickCmd;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.LEDs;
+// import frc.robot.subsystems.LEDs;
 import frc.robot.subsystems.Swerve;
 
 
 public class RobotContainer {
     private final Swerve m_swerve = new Swerve();
 
-    private final LEDs m_LEDs = new LEDs();
+    // private final LEDs m_LEDs = new LEDs();
 
     private final Intake m_intake = new Intake();
 
@@ -93,18 +93,18 @@ public class RobotContainer {
     new Trigger(() -> m_shooter.isNoteInShooter()).onTrue(new InstantCommand(m_intake::stopIndexer, m_intake));
 
     // LED Triggers
-    new Trigger(() -> m_intake.noteInIndexer()).onTrue(m_LEDs.NoteInIndexerPattern());
-    new Trigger(() -> m_shooterDefaultCommand.noteInShooter()).onTrue(m_LEDs.NoteInShooterPattern());
-    new Trigger(() -> m_shooterDefaultCommand.shootingNote()).onTrue(m_LEDs.ShootingNotePattern());
+    // new Trigger(() -> m_intake.noteInIndexer()).onTrue(m_LEDs.NoteInIndexerPattern());
+    // new Trigger(() -> m_shooterDefaultCommand.noteInShooter()).onTrue(m_LEDs.NoteInShooterPattern());
+    // new Trigger(() -> m_shooterDefaultCommand.shootingNote()).onTrue(m_LEDs.ShootingNotePattern());
   }
   
   public Swerve getSwerve() {
       return m_swerve;
   }
 
-  public LEDs getLEDs() {
-      return m_LEDs;
-  }
+//   public LEDs getLEDs() {
+//       return m_LEDs;
+//   }
 
   public Command getAutonomousCommand() {
       return m_autoChooser.getSelected();
