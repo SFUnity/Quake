@@ -13,11 +13,11 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.OperationsConstants;
 import frc.robot.commands.CircleAutoCmd;
-import frc.robot.commands.IntakeCmd;
+// import frc.robot.commands.IntakeCmd;
 import frc.robot.commands.ShooterCmd;
 import frc.robot.commands.StraightAutoCmd;
 import frc.robot.commands.SwerveJoystickCmd;
-import frc.robot.subsystems.Intake;
+// import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 // import frc.robot.subsystems.LEDs;
 import frc.robot.subsystems.Swerve;
@@ -28,7 +28,7 @@ public class RobotContainer {
 
     // private final LEDs m_LEDs = new LEDs();
 
-    private final Intake m_intake = new Intake();
+    // private final Intake m_intake = new Intake();
 
     private final Shooter m_shooter = new Shooter();
 
@@ -62,7 +62,7 @@ public class RobotContainer {
                 m_driverController.b(),
                 true));
 
-        m_intake.setDefaultCommand(new IntakeCmd(m_intake, m_operationsController.x(), m_operationsController.y(), m_operationsController.a(), m_operationsController.b()));
+        // m_intake.setDefaultCommand(new IntakeCmd(m_intake, m_operationsController.x(), m_operationsController.y(), m_operationsController.a(), m_operationsController.b()));
 
         m_shooter.setDefaultCommand(m_shooterDefaultCommand);
 
@@ -90,7 +90,7 @@ public class RobotContainer {
   private void configureBindings() {
     new Trigger(m_driverController.a()).onTrue(new InstantCommand(() -> m_swerve.zeroHeading()));
 
-    new Trigger(() -> m_shooter.isNoteInShooter()).onTrue(new InstantCommand(m_intake::stopIndexer, m_intake));
+    // new Trigger(() -> m_shooter.isNoteInShooter()).onTrue(new InstantCommand(m_intake::stopIndexer, m_intake));
 
     // LED Triggers
     // new Trigger(() -> m_intake.noteInIndexer()).onTrue(m_LEDs.NoteInIndexerPattern());
