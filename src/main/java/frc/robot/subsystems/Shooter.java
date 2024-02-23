@@ -29,6 +29,7 @@ public class Shooter extends SubsystemBase {
     public final RelativeEncoder m_flywheelEncoder;
 
     public boolean shooterDoneUpdating;
+    private final double kAngleToleranceDegrees = 1.0;
 
     public Shooter() {
         m_anglePidController =  new PIDController(0.5,0,0);
@@ -113,8 +114,8 @@ public class Shooter extends SubsystemBase {
     }
 
     public void updateShooter() {
-        if (m_encoder.getAbsolutePosition().getValueAsDouble() - desiredAngleDegrees > 1.0) {
-            startAngleMotors(m_anglePidController.calculate(m_encoder.getAbsolutePosition().getValueAsDouble(), desiredAngleDegrees) / ShooterConstants.kShooterMotorMaxSpeed);
+        if (m_encoder.getAbsolutePosition().getValueAsDouble() - desiredAngleDegrees > kAngleToleranceDegrees) {
+            startAngleMotors(m_anglePidController.calculate(m_encoder.getAbsolutePosition().getValueAsDouble(), desiredAngleDegrees));
         } else {
             stopAngleMotors();
             shooterDoneUpdating = true;

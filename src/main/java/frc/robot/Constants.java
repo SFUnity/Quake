@@ -100,13 +100,11 @@ public final class Constants {
   }
 
   public static final class ShooterConstants {
-
     public static final int kShooterAngleMotor = 11;
     public static final int kShooterFlywheelMotor = 12;
     public static final int kShooterRollerMotor = 13;
 
     public static final int kShooterAngleMotorEncoderPort = 5;
-    public static final double kShooterMotorMaxSpeed = 10.0; //TODO needs to be updated with measured values
 
     public static final double kShooterStartingAngle = 0.0; //TODO needs to be updated with measured values
     
