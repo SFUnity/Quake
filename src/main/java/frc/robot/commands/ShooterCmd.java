@@ -54,7 +54,7 @@ public class ShooterCmd extends Command{
             shootingSpeaker = true;
 
             if (automaticShooting) {
-                m_shooter.setShooterToAngle(m_shooter.getAimAngle(ShooterConstants.kVisualDistanceInput)); // TODO add visual
+                m_shooter.setShooterToAngle(ShooterConstants.kVisualDistanceInput); // TODO add visual
             }
         }
 
@@ -76,7 +76,7 @@ public class ShooterCmd extends Command{
         if (aButton.getAsBoolean()) {
             shootingAmp = true;
 
-            m_shooter.setShooterToAngle(m_shooter.getAimAngle(ShooterConstants.kDesiredAmpAngleDegrees)); // TODO add visual
+            m_shooter.setShooterToAngle(ShooterConstants.kDesiredAmpAngleDegrees); // TODO add visual
         }
 
         if (shootingSpeaker && m_shooter.isNoteInShooter() && m_shooter.shooterDoneUpdating) {
