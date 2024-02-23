@@ -8,8 +8,8 @@ import frc.robot.Constants.ShooterConstants;
 public class ShooterCmd extends Command{
 
     private final Shooter m_shooter;
-    public boolean shootingNote = false;
-    private boolean automaticShooting = true;
+    public boolean shootingSpeaker = false;
+    private boolean automaticShooting = false;
     private boolean autoTogglePressed = false;
 
     public boolean shootingAmp = false;
@@ -38,19 +38,19 @@ public class ShooterCmd extends Command{
 
         //TODO visual distance input should not be a constant
 
-        if (autoToggle.getAsBoolean() && !autoTogglePressed) {
-            automaticShooting = !automaticShooting;
-            autoTogglePressed = true;
-        } else if (!autoToggle.getAsBoolean()) {
-            autoTogglePressed = false;
-        }
+        // if (autoToggle.getAsBoolean() && !autoTogglePressed) {
+        //     automaticShooting = !automaticShooting;
+        //     autoTogglePressed = true;
+        // } else if (!autoToggle.getAsBoolean()) {
+        //     autoTogglePressed = false;
+        // }
 
         if (!automaticShooting && !shootingAmp) {
-            m_shooter.setShooterToAngle(ShooterConstants.kShooterManualAngle);
+            m_shooter.setShooterToAngle(ShooterConstants.kShooterManualAngleDegrees);
         }
 
         if (bButton.getAsBoolean()) {
-            shootingNote = true;
+            shootingSpeaker = true;
 
             if (automaticShooting) {
                 m_shooter.setShooterToAngle(m_shooter.getAimAngle(ShooterConstants.kVisualDistanceInput)); // TODO add visual
@@ -72,10 +72,10 @@ public class ShooterCmd extends Command{
         if (aButton.getAsBoolean()) {
             shootingAmp = true;
 
-            m_shooter.setShooterToAngle(m_shooter.getAimAngle(ShooterConstants.kDesiredAmpAngle)); // TODO add visual
+            m_shooter.setShooterToAngle(m_shooter.getAimAngle(ShooterConstants.kDesiredAmpAngleDegrees)); // TODO add visual
         }
 
-        if (shootingNote && m_shooter.isNoteInShooter() && m_shooter.shooterDoneUpdating) {
+        if (shootingSpeaker && m_shooter.isNoteInShooter() && m_shooter.shooterDoneUpdating) {
             m_shooter.setShooterMotors(1); //1 should equal 100%
             m_shooter.startRollerMotors(1);
         } else if(shootingAmp && m_shooter.isNoteInShooter() && m_shooter.shooterDoneUpdating) {
@@ -86,17 +86,17 @@ public class ShooterCmd extends Command{
         } else {
             m_shooter.stopShooterMotors();
             m_shooter.stopRollerMotors();
-            shootingNote = false;
+            shootingSpeaker = false;
             shootingAmp = false;
         }
     }
 
     public boolean noteInShooter() {
-        return m_shooter.shooterDoneUpdating && m_shooter.isNoteInShooter() && !shootingNote;
+        return m_shooter.shooterDoneUpdating && m_shooter.isNoteInShooter() && !shootingSpeaker;
     }
 
-    public boolean shootingNote() {
-        return (shootingNote || shootingAmp) && m_shooter.isNoteInShooter();
+    public boolean shootingSpeaker() {
+        return (shootingSpeaker || shootingAmp) && m_shooter.isNoteInShooter();
     }
 
     @Override

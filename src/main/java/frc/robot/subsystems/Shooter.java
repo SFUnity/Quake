@@ -20,10 +20,10 @@ public class Shooter extends SubsystemBase {
     private final CANSparkMax m_shooterRollerMotor;
 
     private final CANcoder m_encoder;
-    private final PIDController m_pidController;
+    private final PIDController m_anglePidController;
     
     private final Rev2mDistanceSensor m_shooterDistanceSensor;
-    private double desiredAngle;
+    private double desiredAngleDegrees;
     
 
     public final RelativeEncoder m_flywheelEncoder;
@@ -31,7 +31,7 @@ public class Shooter extends SubsystemBase {
     public boolean shooterDoneUpdating;
 
     public Shooter() {
-        m_pidController =  new PIDController(0.5,0,0);
+        m_anglePidController =  new PIDController(0.5,0,0);
         
         m_shooterDistanceSensor = new Rev2mDistanceSensor(Port.kOnboard);
 
@@ -39,7 +39,7 @@ public class Shooter extends SubsystemBase {
         m_shooterFlywheelMotor = new CANSparkMax(ShooterConstants.kShooterFlywheelMotor, MotorType.kBrushless);
         m_shooterRollerMotor = new CANSparkMax(ShooterConstants.kShooterRollerMotor, MotorType.kBrushless);
 
-        m_encoder = new CANcoder(ShooterConstants.kShooterAngleMotorEncoderPort);
+        m_encoder = new CANcoder(ShooterConstants.kShooterAngleMotorEncoderPort); // TODO set encoder resolution to be in degrees
         m_flywheelEncoder = m_shooterFlywheelMotor.getEncoder();
         
         shooterDoneUpdating = false;
@@ -104,13 +104,17 @@ public class Shooter extends SubsystemBase {
         return angleDeg;
     }
 
+    /**
+     * sets the setpoint of the shooter
+     * @param angle angle in degrees
+     */
     public void setShooterToAngle(double angle) {
-        this.desiredAngle = angle;
+        this.desiredAngleDegrees = angle;
     }
 
     public void updateShooter() {
-        if (m_encoder.getAbsolutePosition().getValueAsDouble() - desiredAngle > 1.0) {
-            startAngleMotors(m_pidController.calculate(m_encoder.getAbsolutePosition().getValueAsDouble(), desiredAngle) / ShooterConstants.kShooterMotorMaxSpeed);
+        if (m_encoder.getAbsolutePosition().getValueAsDouble() - desiredAngleDegrees > 1.0) {
+            startAngleMotors(m_anglePidController.calculate(m_encoder.getAbsolutePosition().getValueAsDouble(), desiredAngleDegrees) / ShooterConstants.kShooterMotorMaxSpeed);
         } else {
             stopAngleMotors();
             shooterDoneUpdating = true;
