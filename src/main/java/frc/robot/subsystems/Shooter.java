@@ -9,7 +9,6 @@ import com.revrobotics.Rev2mDistanceSensor.Port;
 
 import edu.wpi.first.math.controller.PIDController;
 import com.revrobotics.Rev2mDistanceSensor.Unit;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ShooterConstants;
 
@@ -82,12 +81,8 @@ public class Shooter extends SubsystemBase {
         m_shooterRollerMotor.stopMotor();
     }
 
-    public void stopShooterMotors() {
+    public void stopFlywheelMotors() {
         m_shooterFlywheelMotor.stopMotor();
-    }
-
-    public void startAngleMotors(double speed) {
-        m_shooterAngleMotor.set(speed);
     }
 
     public void stopAngleMotors() {
@@ -114,21 +109,11 @@ public class Shooter extends SubsystemBase {
         m_anglePidController.setSetpoint(angle);
     }
 
-    public void updateShooter() {
-        if (m_anglePidController.atSetpoint()) {
-            stopAngleMotors();
-        } else {
-            startAngleMotors(m_anglePidController.calculate(m_angleEncoder.getAbsolutePosition().getValueAsDouble()));
-        }
-
-        if (m_flywheePidController.atSetpoint()) {
-            stopShooterMotors();
-        } else {
-            m_shooterFlywheelMotor.set(m_flywheePidController.calculate(m_flywheelEncoder.getVelocity()));
-        }
+    public void setAngleMotorSpeeds() {
+        m_shooterAngleMotor.set(m_anglePidController.calculate(m_angleEncoder.getAbsolutePosition().getValueAsDouble()));
     }
 
-    public Command runUpdateShooter() {
-        return run(() -> updateShooter());
+    public void setFlywheelMotorSpeed() {
+        m_shooterFlywheelMotor.set(m_flywheePidController.calculate(m_flywheelEncoder.getVelocity()));
     }
 }

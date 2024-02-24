@@ -34,8 +34,6 @@ public class ShooterCmd extends Command{
 
     @Override
     public void execute() {
-        m_shooter.updateShooter();
-
         //TODO visual distance input should not be a constant
 
         // if (autoToggle.getAsBoolean() && !autoTogglePressed) {
@@ -66,12 +64,15 @@ public class ShooterCmd extends Command{
         // Set flywheel speeds
         if (shootingSpeaker && m_shooter.isNoteInShooter()) {
             m_shooter.shootSpeaker();
+            m_shooter.setFlywheelMotorSpeed();
         } else if(shootingAmp && m_shooter.isNoteInShooter()) {
             m_shooter.shootAmp();
+            m_shooter.setFlywheelMotorSpeed();
         } else if (m_shooter.isNoteInShooter()) {
             m_shooter.readyShooter();
+            m_shooter.setFlywheelMotorSpeed();
         } else {
-            m_shooter.stopShooterMotors();
+            m_shooter.stopFlywheelMotors();
             shootingSpeaker = false;
             shootingAmp = false;
         }
@@ -86,6 +87,8 @@ public class ShooterCmd extends Command{
         } else {
             m_shooter.stopRollerMotors();
         }
+
+        m_shooter.setAngleMotorSpeeds();
     }
 
     public boolean noteInShooter() {
@@ -103,7 +106,7 @@ public class ShooterCmd extends Command{
 
     @Override
     public void end(boolean interrupted) {
-        m_shooter.stopShooterMotors();
+        m_shooter.stopFlywheelMotors();
         m_shooter.stopRollerMotors();
         m_shooter.stopAngleMotors();
     }
