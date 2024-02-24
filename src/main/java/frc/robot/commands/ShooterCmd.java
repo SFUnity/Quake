@@ -11,7 +11,6 @@ public class ShooterCmd extends Command{
     public boolean shootingSpeaker = false;
     private boolean automaticShooting = false;
     private boolean autoTogglePressed = false; // will be used later
-    private boolean rollersRolling = false; // Is being used
 
     public boolean shootingAmp = false;
     private final Trigger aButton, bButton, xButton, yButton, autoToggle;
@@ -59,18 +58,7 @@ public class ShooterCmd extends Command{
         }
 
         if (xButton.getAsBoolean()) {
-            if (rollersRolling = true) {
-                m_shooter.stopRollerMotors();
-                rollersRolling = false;
-            } else {
-                m_shooter.rollersIntake();
-                rollersRolling = true;
-            }
-        }
-
-        if (m_shooter.isNoteInShooter()) {
-            m_shooter.stopRollerMotors();
-            rollersRolling = false;
+            m_shooter.rollersIntake();
         }
 
         if (aButton.getAsBoolean()) {

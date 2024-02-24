@@ -18,16 +18,12 @@ public class Shooter extends SubsystemBase {
     private final CANSparkMax m_shooterFlywheelMotor;
     private final CANSparkMax m_shooterRollerMotor;
 
-    private final CANcoder m_encoder;
-    private final PIDController m_anglePidController;
+    private final CANcoder m_angleEncoder;
+    public final RelativeEncoder m_flywheelEncoder;
     
     private final Rev2mDistanceSensor m_shooterDistanceSensor;
-    private double desiredAngleDegrees;
-
-    public final RelativeEncoder m_flywheelEncoder;
-
-    private final double kAngleToleranceDegrees = 1.0;
-
+    
+    private final PIDController m_anglePidController;
     private final PIDController m_flywheePidController;
 
     public Shooter() {        
@@ -38,7 +34,7 @@ public class Shooter extends SubsystemBase {
         m_shooterFlywheelMotor = new CANSparkMax(ShooterConstants.kShooterFlywheelMotor, MotorType.kBrushless);
         m_shooterRollerMotor = new CANSparkMax(ShooterConstants.kShooterRollerMotor, MotorType.kBrushless);
         
-        m_encoder = new CANcoder(ShooterConstants.kShooterAngleMotorEncoderPort); // TODO set encoder resolution to be in degrees
+        m_angleEncoder = new CANcoder(ShooterConstants.kShooterAngleMotorEncoderPort); // TODO set encoder resolution to be in degrees
         m_flywheelEncoder = m_shooterFlywheelMotor.getEncoder();
 
         m_anglePidController =  new PIDController(0.5,0,0);
@@ -115,14 +111,20 @@ public class Shooter extends SubsystemBase {
      * @param angle angle in degrees
      */
     public void setShooterToAngle(double angle) {
-        this.desiredAngleDegrees = angle;
+        m_anglePidController.setSetpoint(angle);
     }
 
     public void updateShooter() {
-        if (m_encoder.getAbsolutePosition().getValueAsDouble() - desiredAngleDegrees > kAngleToleranceDegrees) {
-            startAngleMotors(m_anglePidController.calculate(m_encoder.getAbsolutePosition().getValueAsDouble(), desiredAngleDegrees));
-        } else {
+        if (m_anglePidController.atSetpoint()) {
             stopAngleMotors();
+        } else {
+            startAngleMotors(m_anglePidController.calculate(m_angleEncoder.getAbsolutePosition().getValueAsDouble()));
+        }
+
+        if (m_flywheePidController.atSetpoint()) {
+            stopShooterMotors();
+        } else {
+            m_shooterFlywheelMotor.set(m_flywheePidController.calculate(m_flywheelEncoder.getVelocity()));
         }
     }
 
