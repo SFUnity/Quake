@@ -8,6 +8,7 @@ import com.revrobotics.Rev2mDistanceSensor;
 import com.revrobotics.Rev2mDistanceSensor.Port;
 
 import edu.wpi.first.math.controller.PIDController;
+import com.revrobotics.Rev2mDistanceSensor.Unit;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ShooterConstants;
@@ -31,6 +32,7 @@ public class Shooter extends SubsystemBase {
 
     public Shooter() {        
         m_shooterDistanceSensor = new Rev2mDistanceSensor(Port.kOnboard);
+        m_shooterDistanceSensor.setDistanceUnits(Unit.kInches);
         
         m_shooterAngleMotor = new CANSparkMax(ShooterConstants.kShooterAngleMotor, MotorType.kBrushless);
         m_shooterFlywheelMotor = new CANSparkMax(ShooterConstants.kShooterFlywheelMotor, MotorType.kBrushless);
@@ -69,7 +71,7 @@ public class Shooter extends SubsystemBase {
      * @return boolean value of if there is a note in shooter
      */
     public boolean isNoteInShooter() {
-        return m_shooterDistanceSensor.isRangeValid() && m_shooterDistanceSensor.getRange() <= ShooterConstants.kShooterDistanceRange;
+        return m_shooterDistanceSensor.isRangeValid() && m_shooterDistanceSensor.getRange() <= ShooterConstants.kShooterDistanceRangeInches;
     }
     
     public void rollersIntake() {
