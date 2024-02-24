@@ -22,31 +22,46 @@ public class Shooter extends SubsystemBase {
     
     private final Rev2mDistanceSensor m_shooterDistanceSensor;
     private double desiredAngleDegrees;
-    
 
     public final RelativeEncoder m_flywheelEncoder;
 
-    public boolean shooterDoneUpdating;
     private final double kAngleToleranceDegrees = 1.0;
 
-    public Shooter() {
-        m_anglePidController =  new PIDController(0.5,0,0);
-        
-        m_shooterDistanceSensor = new Rev2mDistanceSensor(Port.kOnboard);
+    private final PIDController m_flywheePidController;
 
+    public Shooter() {        
+        m_shooterDistanceSensor = new Rev2mDistanceSensor(Port.kOnboard);
+        
         m_shooterAngleMotor = new CANSparkMax(ShooterConstants.kShooterAngleMotor, MotorType.kBrushless);
         m_shooterFlywheelMotor = new CANSparkMax(ShooterConstants.kShooterFlywheelMotor, MotorType.kBrushless);
         m_shooterRollerMotor = new CANSparkMax(ShooterConstants.kShooterRollerMotor, MotorType.kBrushless);
-
+        
         m_encoder = new CANcoder(ShooterConstants.kShooterAngleMotorEncoderPort); // TODO set encoder resolution to be in degrees
         m_flywheelEncoder = m_shooterFlywheelMotor.getEncoder();
-        
-        shooterDoneUpdating = false;
+
+        m_anglePidController =  new PIDController(0.5,0,0);
+        m_anglePidController.setTolerance(ShooterConstants.kAngleToleranceDegrees);
+        m_anglePidController.setSetpoint(ShooterConstants.kShooterStartingAngle);
+
+        m_flywheePidController = new PIDController(0.5, 0, 0);
+        m_flywheePidController.setTolerance(ShooterConstants.kFlywheelToleranceRPM);
+        m_flywheePidController.setSetpoint(0);
     }
 
-   
-    public void shoot() {
-        setShooterMotors(1);
+    public void shootSpeaker() {
+        m_flywheePidController.setSetpoint(ShooterConstants.kShooterDefaultSpeedRPM);
+    }
+
+    public void shootAmp() {
+        m_flywheePidController.setSetpoint(ShooterConstants.kAmpShootingSpeedRPM);
+    }
+
+    public void readyShooter() {
+        m_flywheePidController.setSetpoint(ShooterConstants.kShooterReadySpeedRPM);
+    }
+
+    public boolean shooterDoneUpdating() {
+        return m_flywheePidController.atSetpoint() && m_anglePidController.atSetpoint();
     }
 
     /**
@@ -58,7 +73,7 @@ public class Shooter extends SubsystemBase {
     }
     
     public void rollersIntake() {
-        m_shooterRollerMotor.set(ShooterConstants.kRollerIntakeSpeed);
+        m_shooterRollerMotor.set(ShooterConstants.kRollerIntakeSpeedPercent);
     }
 
     public void rollersShooting() {
@@ -79,11 +94,6 @@ public class Shooter extends SubsystemBase {
 
     public void stopAngleMotors() {
         m_shooterAngleMotor.stopMotor();
-    }
-
-    public void setShooterMotors(double speed) {
-        m_shooterFlywheelMotor.set(speed);
-        shooterDoneUpdating = false;
     }
 
     /**
@@ -111,7 +121,6 @@ public class Shooter extends SubsystemBase {
             startAngleMotors(m_anglePidController.calculate(m_encoder.getAbsolutePosition().getValueAsDouble(), desiredAngleDegrees));
         } else {
             stopAngleMotors();
-            shooterDoneUpdating = true;
         }
     }
 

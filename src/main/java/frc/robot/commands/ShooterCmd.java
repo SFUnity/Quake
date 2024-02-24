@@ -10,8 +10,8 @@ public class ShooterCmd extends Command{
     private final Shooter m_shooter;
     public boolean shootingSpeaker = false;
     private boolean automaticShooting = false;
-    private boolean autoTogglePressed = false;
-    private boolean rollersRolling = false;
+    private boolean autoTogglePressed = false; // will be used later
+    private boolean rollersRolling = false; // Is being used
 
     public boolean shootingAmp = false;
     private final Trigger aButton, bButton, xButton, yButton, autoToggle;
@@ -79,24 +79,31 @@ public class ShooterCmd extends Command{
             m_shooter.setShooterToAngle(ShooterConstants.kDesiredAmpAngleDegrees); // TODO add visual
         }
 
-        if (shootingSpeaker && m_shooter.isNoteInShooter() && m_shooter.shooterDoneUpdating) {
-            m_shooter.setShooterMotors(1); //1 should equal 100%
-            m_shooter.rollersIntake();
-        } else if(shootingAmp && m_shooter.isNoteInShooter() && m_shooter.shooterDoneUpdating) {
-            m_shooter.setShooterMotors(ShooterConstants.kAmpShootingSpeed); //TODO should equal to some percentage
-            m_shooter.rollersShooting();
+        // Set flywheel speeds
+        if (shootingSpeaker && m_shooter.isNoteInShooter()) {
+            m_shooter.shootSpeaker();
+        } else if(shootingAmp && m_shooter.isNoteInShooter()) {
+            m_shooter.shootAmp();
         } else if (m_shooter.isNoteInShooter()) {
-            m_shooter.setShooterMotors(ShooterConstants.kShooterReadySpeedRPM);
+            m_shooter.readyShooter();
         } else {
             m_shooter.stopShooterMotors();
-            m_shooter.stopRollerMotors();
             shootingSpeaker = false;
             shootingAmp = false;
+        }
+
+        // Set roller speeds
+        if (shootingSpeaker && m_shooter.isNoteInShooter() && m_shooter.shooterDoneUpdating()) {
+            m_shooter.rollersShooting();
+        } else if (shootingAmp && m_shooter.isNoteInShooter() && m_shooter.shooterDoneUpdating()) {
+            m_shooter.rollersShooting();
+        } else {
+            m_shooter.stopRollerMotors();
         }
     }
 
     public boolean noteInShooter() {
-        return m_shooter.shooterDoneUpdating && m_shooter.isNoteInShooter() && !shootingSpeaker;
+        return m_shooter.shooterDoneUpdating() && m_shooter.isNoteInShooter() && !shootingSpeaker;
     }
 
     public boolean shootingSpeaker() {

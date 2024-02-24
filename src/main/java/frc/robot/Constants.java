@@ -105,21 +105,23 @@ public final class Constants {
     public static final int kShooterRollerMotor = 13;
 
     public static final int kShooterAngleMotorEncoderPort = 5;
-
-    public static final double kShooterStartingAngle = 0.0; //TODO needs to be updated with measured values
     
+    public static final double kAngleToleranceDegrees = 1;
+    public static final double kShooterStartingAngle = 0.0; //TODO needs to be updated with measured values
+    public static final double kShooterManualAngleDegrees = 60.0; //TODO needs to be set
+    public static final double kDesiredAmpAngleDegrees = 65;
+    
+    public static final double kRollerIntakeSpeedPercent = 1.0; //TODO needs to be updated
+    public static final double kRollerShootingSpeedPercent = 1.0; //TODO needs to be updated
+    
+    public static final double kAmpShootingSpeedRPM = 4000; //TODO needs to be updated
+    public static final double kShooterReadySpeedRPM = 4000; //TODO needs to be updated
+    public static final double kShooterDefaultSpeedRPM = 4000; //TODO needs to be updated
+    public static final double kFlywheelToleranceRPM = 20; //TODO needs to be updated
+
     public static final double kShooterDistanceRange = 2.0; //TODO needs to be updated with measured values
-    public static final double kShooterManualAngleDegrees = 0.0; //TODO needs to be set
     public static final int kHeightOfSpeakerInches = 78;
     public static final double kVisualDistanceInput = 6.0; //TODO needs to be updated
-    
-    public static final double kDesiredAmpAngleDegrees = 65;
-    public static final double kAmpShootingSpeed = 0.5; //TODO needs to be updated
-
-    public static final double kRollerIntakeSpeed = 1.0; //TODO needs to be updated
-
-    public static final double kShooterReadySpeed = 0.8; //TODO needs to be updated
-   
   }
 
   public static final class LEDConstants {
