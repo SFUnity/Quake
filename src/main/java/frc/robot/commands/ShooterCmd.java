@@ -81,12 +81,12 @@ public class ShooterCmd extends Command{
 
         if (shootingSpeaker && m_shooter.isNoteInShooter() && m_shooter.shooterDoneUpdating) {
             m_shooter.setShooterMotors(1); //1 should equal 100%
-            m_shooter.startRollerMotors(1);
+            m_shooter.rollersIntake();
         } else if(shootingAmp && m_shooter.isNoteInShooter() && m_shooter.shooterDoneUpdating) {
             m_shooter.setShooterMotors(ShooterConstants.kAmpShootingSpeed); //TODO should equal to some percentage
-            m_shooter.startRollerMotors(ShooterConstants.kAmpShootingSpeed);
+            m_shooter.rollersShooting();
         } else if (m_shooter.isNoteInShooter()) {
-            m_shooter.setShooterMotors(ShooterConstants.kShooterReadySpeed);
+            m_shooter.setShooterMotors(ShooterConstants.kShooterReadySpeedRPM);
         } else {
             m_shooter.stopShooterMotors();
             m_shooter.stopRollerMotors();

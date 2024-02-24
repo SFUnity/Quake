@@ -12,8 +12,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ShooterConstants;
 
-
-
 public class Shooter extends SubsystemBase {
     private final CANSparkMax m_shooterAngleMotor; 
     private final CANSparkMax m_shooterFlywheelMotor;
@@ -58,18 +56,13 @@ public class Shooter extends SubsystemBase {
     public boolean isNoteInShooter() {
         return m_shooterDistanceSensor.isRangeValid() && m_shooterDistanceSensor.getRange() <= ShooterConstants.kShooterDistanceRange;
     }
-
     
     public void rollersIntake() {
-        startRollerMotors(ShooterConstants.kRollerIntakeSpeed);
+        m_shooterRollerMotor.set(ShooterConstants.kRollerIntakeSpeed);
     }
 
     public void rollersShooting() {
-        startRollerMotors(1);
-    }
-
-    public void startRollerMotors(double speed) {
-        m_shooterRollerMotor.set(speed);
+        m_shooterRollerMotor.set(1);
     }
 
     public void stopRollerMotors() {
