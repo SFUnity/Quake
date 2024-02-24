@@ -57,10 +57,6 @@ public class ShooterCmd extends Command{
             }
         }
 
-        if (xButton.getAsBoolean()) {
-            m_shooter.rollersIntake();
-        }
-
         if (aButton.getAsBoolean()) {
             shootingAmp = true;
 
@@ -85,6 +81,8 @@ public class ShooterCmd extends Command{
             m_shooter.rollersShooting();
         } else if (shootingAmp && m_shooter.isNoteInShooter() && m_shooter.shooterDoneUpdating()) {
             m_shooter.rollersShooting();
+        } else if (xButton.getAsBoolean()) {
+            m_shooter.rollersIntake();
         } else {
             m_shooter.stopRollerMotors();
         }
