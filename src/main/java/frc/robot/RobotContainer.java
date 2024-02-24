@@ -75,7 +75,6 @@ public class RobotContainer {
         
         m_intake.setDefaultCommand(new IntakeCmd(
                 m_intake,
-                m_shooter, 
                 m_operationsController.x(), 
                 m_operationsController.y(), 
                 m_operationsController.a(), 
@@ -105,7 +104,7 @@ public class RobotContainer {
   private void configureBindings() {
     new Trigger(m_driverController.a()).onTrue(new InstantCommand(() -> m_swerve.zeroHeading()));
 
-    // new Trigger(() -> m_shooter.isNoteInShooter()).onTrue(new InstantCommand(m_intake::stopIndexer, m_intake));
+    new Trigger(() -> m_shooter.isNoteInShooter()).onTrue(new InstantCommand(m_intake::stopIndexer, m_intake));
 
     // LED Triggers
     // new Trigger(() -> m_intake.noteInIndexer()).onTrue(m_LEDs.NoteInIndexerPattern());

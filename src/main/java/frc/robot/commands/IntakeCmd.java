@@ -8,13 +8,11 @@ import frc.robot.subsystems.Shooter;
 public class IntakeCmd extends Command{
 
     private final Intake m_intake;
-    private final Shooter m_shooter;
     private final Trigger xButton, yButton;
 
-    public IntakeCmd(Intake intake, Shooter shooter,
+    public IntakeCmd(Intake intake,
             Trigger xButton, Trigger yButton, Trigger aButton, Trigger bButton) {
         m_intake = intake;
-        m_shooter = shooter;
         this.xButton = xButton;
         this.yButton = yButton;
 
@@ -38,10 +36,6 @@ public class IntakeCmd extends Command{
             m_intake.startIndexer();
         } else {
             //m_intake.raiseAndStopIntake();
-        }
-
-        if (m_shooter.isNoteInShooter()) {
-            m_intake.stopIndexer();
         }
 
         if (yButton.getAsBoolean()) {
