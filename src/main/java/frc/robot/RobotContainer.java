@@ -12,12 +12,10 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.commands.CircleAutoCmd;
-import frc.robot.commands.IntakeCmd;
 // import frc.robot.commands.IntakeCmd;
 import frc.robot.commands.ShooterCmd;
 import frc.robot.commands.StraightAutoCmd;
 import frc.robot.commands.SwerveJoystickCmd;
-import frc.robot.subsystems.Intake;
 // import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 // import frc.robot.subsystems.LEDs;
@@ -32,8 +30,6 @@ public class RobotContainer {
     // private final Intake m_intake = new Intake();
 
     private final Shooter m_shooter = new Shooter();
-
-    private final Intake m_intake = new Intake();
 
     private final CommandXboxController m_driverController = new CommandXboxController(
                     ControllerConstants.kDriverControllerPort);
@@ -63,8 +59,6 @@ public class RobotContainer {
                 m_driverController.b(),
                 true));
 
-        // m_intake.setDefaultCommand(new IntakeCmd(m_intake, m_operationsController.x(), m_operationsController.y(), m_operationsController.a(), m_operationsController.b()));
-
         m_shooter.setDefaultCommand(new ShooterCmd(
                 m_shooter, 
                 m_operationsController.x(), 
@@ -73,12 +67,12 @@ public class RobotContainer {
                 m_operationsController.b(), 
                 m_operationsController.leftBumper()));
         
-        m_intake.setDefaultCommand(new IntakeCmd(
-                m_intake,
-                m_operationsController.x(), 
-                m_operationsController.y(), 
-                m_operationsController.a(), 
-                m_operationsController.b()));
+        // m_intake.setDefaultCommand(new IntakeCmd(
+        //         m_intake,
+        //         m_operationsController.x(), 
+        //         m_operationsController.y(), 
+        //         m_operationsController.a(), 
+        //         m_operationsController.b()));
 
         configureBindings();
 
@@ -104,7 +98,7 @@ public class RobotContainer {
   private void configureBindings() {
     new Trigger(m_driverController.a()).onTrue(new InstantCommand(() -> m_swerve.zeroHeading()));
 
-    new Trigger(() -> m_shooter.isNoteInShooter()).onTrue(new InstantCommand(m_intake::stopIndexer, m_intake));
+    // new Trigger(() -> m_shooter.isNoteInShooter()).onTrue(new InstantCommand(m_intake::stopIndexer, m_intake));
 
     // LED Triggers
     // new Trigger(() -> m_intake.noteInIndexer()).onTrue(m_LEDs.NoteInIndexerPattern());
