@@ -22,12 +22,12 @@ public class Intake extends SubsystemBase{
 
     // private final PIDController m_IntakePID = new PIDController(0.05, 0, 0); //mess around with this later
 
-    // private final Rev2mDistanceSensor distOnboard;
+    private final Rev2mDistanceSensor distOnboard;
 
     public Intake() {
         // add port
-        // distOnboard = new Rev2mDistanceSensor(Port.kOnboard);
-        // distOnboard.setAutomaticMode(true);
+        distOnboard = new Rev2mDistanceSensor(Port.kOnboard);
+        distOnboard.setAutomaticMode(true);
         
     }
 
@@ -50,9 +50,9 @@ public class Intake extends SubsystemBase{
     /**
      * returns a boolean based on if there is currently a note in the indexer or not
      */
-    // public boolean noteInIndexer() {
-    //     return distOnboard.isRangeValid() && distOnboard.getRange() < IntakeConstants.kDistanceActivationThresholdMin;
-    // }
+    public boolean noteInIndexer() {
+        return distOnboard.isRangeValid() && distOnboard.getRange() < IntakeConstants.kDistanceActivationThresholdMin;
+    }
 
     // /**
     //  * rotates intake at specified speed
