@@ -63,7 +63,7 @@ public class ShooterCmd extends Command{
 
         // Set flywheel speeds
         if (yButton.getAsBoolean()) {
-            m_shooter.stopRollerMotors();
+            m_shooter.stopFlywheelMotors();
         } else if (shootingSpeaker && m_shooter.isNoteInShooter()) {
             m_shooter.shootSpeaker();
             m_shooter.setFlywheelMotorSpeed();
