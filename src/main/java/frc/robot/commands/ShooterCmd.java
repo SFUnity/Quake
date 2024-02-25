@@ -51,14 +51,16 @@ public class ShooterCmd extends Command{
             shootingSpeaker = true;
 
             if (automaticShooting) {
-                m_shooter.setShooterToAngle(ShooterConstants.kVisualDistanceInput); // TODO add visual
+                m_shooter.setShooterToAngle(ShooterConstants.kVisualDistanceInput);
+            } else {
+                m_shooter.setShooterToAngle(ShooterConstants.kShooterManualAngleDegrees);
             }
         }
 
         if (aButton.getAsBoolean()) {
             shootingAmp = true;
 
-            m_shooter.setShooterToAngle(ShooterConstants.kDesiredAmpAngleDegrees); // TODO add visual
+            m_shooter.setShooterToAngle(ShooterConstants.kDesiredAmpAngleDegrees);
         }
 
         // Set flywheel speeds
@@ -87,7 +89,7 @@ public class ShooterCmd extends Command{
         } else if (shootingAmp && m_shooter.isNoteInShooter() && m_shooter.shooterDoneUpdating()) {
             m_shooter.rollersShooting();
         } else if (xButton.getAsBoolean()) {
-            m_shooter.rollersIntake();
+            m_shooter.rollersIntakeFromFlywheels();
         } else {
             m_shooter.stopRollerMotors();
         }

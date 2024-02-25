@@ -38,13 +38,17 @@ public class Shooter extends SubsystemBase {
 
         m_anglePidController =  new PIDController(0.5,0,0);
         m_anglePidController.setTolerance(ShooterConstants.kAngleToleranceDegrees);
-        m_anglePidController.setSetpoint(ShooterConstants.kShooterStartingAngle);
+        m_anglePidController.setSetpoint(ShooterConstants.kSourceAngleDegrees);
 
         m_flywheePidController = new PIDController(0.5, 0, 0);
         m_flywheePidController.setTolerance(ShooterConstants.kFlywheelToleranceRPM);
         m_flywheePidController.setSetpoint(0);
     }
 
+    public void flywheelsIntake() {
+        m_flywheePidController.setSetpoint(ShooterConstants.kFlywheelIntakeSpeedRPM);
+    }
+    
     public void shootSpeaker() {
         m_flywheePidController.setSetpoint(ShooterConstants.kShooterDefaultSpeedRPM);
     }
@@ -69,7 +73,11 @@ public class Shooter extends SubsystemBase {
         return m_shooterDistanceSensor.isRangeValid() && m_shooterDistanceSensor.getRange() <= ShooterConstants.kShooterDistanceRangeInches;
     }
     
-    public void rollersIntake() {
+    public void rollersIntakeFromFlywheels() {
+        m_shooterRollerMotor.set(-ShooterConstants.kRollerIntakeSpeedPercent);
+    }
+    
+    public void rollersIntakeFromIndexer() {
         m_shooterRollerMotor.set(ShooterConstants.kRollerIntakeSpeedPercent);
     }
 
