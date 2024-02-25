@@ -17,7 +17,7 @@ public class ClimberCmd extends Command {
 
     @Override
     public void initialize() {
-        
+        m_climber.resetEncoders();
     }
 
     @Override

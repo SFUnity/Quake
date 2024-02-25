@@ -101,9 +101,10 @@ public final class Constants {
   }
 
   public static final class ClimberConstants {
-    public static final int kClimberMotorId = 15; //TODO needs to be updated with correct values
-    public static final double kClimberHeight = 10.0; //TODO needs to be updated with correct values
-    public static final double kClimberMotorMaxSpeed = 10.0; //TODO needs to be updated with correct values
+    public static final int kClimberMotorIdL = 15; //TODO needs to be updated with correct values
+    public static final int kClimberMotorIdR = 16; //TODO needs to be updated with correct values
+    public static final double kClimberDistanceConversionRate = 0.001; //TODO needs to be updated with correct values
+    public static final double kClimbHeight = 10.0; //TODO needs to be updated with correct values
   }
 
   public static final class ShooterConstants {
