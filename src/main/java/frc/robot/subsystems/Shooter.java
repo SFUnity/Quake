@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix6.hardware.CANcoder;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
@@ -18,7 +17,7 @@ public class Shooter extends SubsystemBase {
     private final CANSparkMax m_shooterTopFlywheelMotor;
     private final CANSparkMax m_shooterRollerMotor;
 
-    private final CANcoder m_angleEncoder;
+    private final RelativeEncoder m_angleEncoder;
     public final RelativeEncoder m_bottomFlywheelEncoder;
     public final RelativeEncoder m_topFlywheelEncoder;
     
@@ -36,7 +35,8 @@ public class Shooter extends SubsystemBase {
         m_shooterTopFlywheelMotor = new CANSparkMax(ShooterConstants.kShooterTopFlywheelMotorID, MotorType.kBrushless);
         m_shooterRollerMotor = new CANSparkMax(ShooterConstants.kShooterRollerMotor, MotorType.kBrushless);
         
-        m_angleEncoder = new CANcoder(ShooterConstants.kShooterAngleMotorEncoderPort); // TODO set encoder resolution to be in degrees
+        m_angleEncoder = m_shooterAngleMotor.getEncoder();
+        m_angleEncoder.setPositionConversionFactor(1/36/360);
         m_bottomFlywheelEncoder = m_shooterBottomFlywheelMotor.getEncoder();
         m_topFlywheelEncoder = m_shooterTopFlywheelMotor.getEncoder();
 
@@ -123,7 +123,7 @@ public class Shooter extends SubsystemBase {
     }
 
     public void setAngleMotorSpeeds() {
-        m_shooterAngleMotor.set(m_anglePidController.calculate(m_angleEncoder.getAbsolutePosition().getValueAsDouble()));
+        m_shooterAngleMotor.set(m_anglePidController.calculate(m_angleEncoder.getPosition()));
     }
 
     public void setFlywheelMotorSpeed() {
