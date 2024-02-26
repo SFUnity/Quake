@@ -119,7 +119,7 @@ public final class Constants {
     public static final double kAmpShootingSpeedRPM = 4000; //TODO needs to be updated
     public static final double kShooterReadySpeedRPM = 4000; //TODO needs to be updated
     public static final double kShooterDefaultSpeedRPM = 4000; //TODO needs to be updated
-    public static final double kFlywheelToleranceRPM = 20; //TODO needs to be updated
+    public static final double kFlywheelToleranceRPM = 10; //TODO needs to be updated
 
     public static final double kShooterDistanceRangeInches = 2.0; //TODO needs to be updated with measured values
     public static final int kHeightOfSpeakerInches = 78;
