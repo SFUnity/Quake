@@ -101,7 +101,8 @@ public final class Constants {
 
   public static final class ShooterConstants {
     public static final int kShooterAngleMotor = 11;
-    public static final int kShooterFlywheelMotor = 12;
+    public static final int kShooterBottomFlywheelMotorID = 5;
+    public static final int kShooterTopFlywheelMotorID = 6;
     public static final int kShooterRollerMotor = 13;
 
     public static final int kShooterAngleMotorEncoderPort = 5;

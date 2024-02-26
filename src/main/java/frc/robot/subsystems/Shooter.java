@@ -14,11 +14,13 @@ import frc.robot.Constants.ShooterConstants;
 
 public class Shooter extends SubsystemBase {
     private final CANSparkMax m_shooterAngleMotor; 
-    private final CANSparkMax m_shooterFlywheelMotor;
+    private final CANSparkMax m_shooterBottomFlywheelMotor;
+    private final CANSparkMax m_shooterTopFlywheelMotor;
     private final CANSparkMax m_shooterRollerMotor;
 
     private final CANcoder m_angleEncoder;
-    public final RelativeEncoder m_flywheelEncoder;
+    public final RelativeEncoder m_bottomFlywheelEncoder;
+    public final RelativeEncoder m_topFlywheelEncoder;
     
     private final Rev2mDistanceSensor m_shooterDistanceSensor;
     
@@ -30,11 +32,13 @@ public class Shooter extends SubsystemBase {
         m_shooterDistanceSensor.setDistanceUnits(Unit.kInches);
         
         m_shooterAngleMotor = new CANSparkMax(ShooterConstants.kShooterAngleMotor, MotorType.kBrushless);
-        m_shooterFlywheelMotor = new CANSparkMax(ShooterConstants.kShooterFlywheelMotor, MotorType.kBrushless);
+        m_shooterBottomFlywheelMotor = new CANSparkMax(ShooterConstants.kShooterBottomFlywheelMotorID, MotorType.kBrushless);
+        m_shooterTopFlywheelMotor = new CANSparkMax(ShooterConstants.kShooterTopFlywheelMotorID, MotorType.kBrushless);
         m_shooterRollerMotor = new CANSparkMax(ShooterConstants.kShooterRollerMotor, MotorType.kBrushless);
         
         m_angleEncoder = new CANcoder(ShooterConstants.kShooterAngleMotorEncoderPort); // TODO set encoder resolution to be in degrees
-        m_flywheelEncoder = m_shooterFlywheelMotor.getEncoder();
+        m_bottomFlywheelEncoder = m_shooterBottomFlywheelMotor.getEncoder();
+        m_topFlywheelEncoder = m_shooterTopFlywheelMotor.getEncoder();
 
         m_anglePidController =  new PIDController(0.5,0,0);
         m_anglePidController.setTolerance(ShooterConstants.kAngleToleranceDegrees);
@@ -90,7 +94,8 @@ public class Shooter extends SubsystemBase {
     }
 
     public void stopFlywheelMotors() {
-        m_shooterFlywheelMotor.stopMotor();
+        m_shooterBottomFlywheelMotor.stopMotor();
+        m_shooterTopFlywheelMotor.stopMotor();
     }
 
     public void stopAngleMotors() {
@@ -122,6 +127,7 @@ public class Shooter extends SubsystemBase {
     }
 
     public void setFlywheelMotorSpeed() {
-        m_shooterFlywheelMotor.set(m_flywheePidController.calculate(m_flywheelEncoder.getVelocity()));
+        m_shooterBottomFlywheelMotor.set(m_flywheePidController.calculate(m_bottomFlywheelEncoder.getVelocity()));
+        m_shooterTopFlywheelMotor.set(-m_flywheePidController.calculate(m_topFlywheelEncoder.getVelocity()));
     }
 }
