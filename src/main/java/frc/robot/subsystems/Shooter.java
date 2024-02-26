@@ -44,7 +44,7 @@ public class Shooter extends SubsystemBase {
         m_anglePidController.setTolerance(ShooterConstants.kAngleToleranceDegrees);
         m_anglePidController.setSetpoint(ShooterConstants.kSourceAngleDegrees);
 
-        m_flywheePidController = new PIDController(0.5, 0, 0);
+        m_flywheePidController = new PIDController(0.0002, 0.0000001, 0.02);
         m_flywheePidController.setTolerance(ShooterConstants.kFlywheelToleranceRPM);
         m_flywheePidController.setSetpoint(0);
     }
