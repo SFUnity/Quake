@@ -8,6 +8,8 @@ import com.revrobotics.Rev2mDistanceSensor.Port;
 
 import edu.wpi.first.math.controller.PIDController;
 import com.revrobotics.Rev2mDistanceSensor.Unit;
+
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ShooterConstants;
 
@@ -127,5 +129,18 @@ public class Shooter extends SubsystemBase {
     public void setFlywheelMotorSpeed() {
         m_shooterBottomFlywheelMotor.set(m_flywheePidController.calculate(m_bottomFlywheelEncoder.getVelocity()));
         m_shooterTopFlywheelMotor.set(-m_flywheePidController.calculate(m_topFlywheelEncoder.getVelocity()));
+    }
+
+    // Auto Commands
+    public Command readyShootAmpCommand() {
+        return runOnce(() -> readyShootAmp());
+    }
+
+    public Command readyShootSpeakerCommand() {
+        return runOnce(() -> readyShootSpeaker());
+    }
+
+    public Command putNoteIntoFlywheelsCommand() {
+        return runOnce(() -> putNoteIntoFlywheels());
     }
 }
