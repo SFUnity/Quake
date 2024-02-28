@@ -56,5 +56,6 @@ public class IntakeCmd extends Command{
     public void end(boolean interrupted) {
         m_intake.stopIntakeRotation();
         m_intake.stopIndexer();
+        m_intake.stopIntakeRollers();
     }
 }
