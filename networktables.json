@@ -38,5 +38,13 @@
     "properties": {
       "persistent": true
     }
+  },
+  {
+    "name": "/Shuffleboard/Swerve Subsystem/turnToAngle I",
+    "type": "double",
+    "value": 0.01,
+    "properties": {
+      "persistent": true
+    }
   }
 ]

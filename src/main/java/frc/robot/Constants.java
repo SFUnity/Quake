@@ -47,8 +47,8 @@ public final class Constants {
     public static final int kBackLeftTurningMotorPort = 3;
     public static final int kBackRightTurningMotorPort = 1;
 
-    // PDHPort = 9
-    // RoboRioPort = 0
+    // PDHId = 9
+    // RoboRioId = 0
 
     public static final boolean kFrontLeftTurningEncoderReversed = true;
     public static final boolean kFrontRightTurningEncoderReversed = true;
@@ -64,20 +64,88 @@ public final class Constants {
     public static final int kFrontRightDriveAbsoluteEncoderPort = 1;
     public static final int kBackLeftDriveAbsoluteEncoderPort = 3;
     public static final int kBackRightDriveAbsoluteEncoderPort = 2;
+    
+    public static final int kShooterEncoderId = 4;
 
     public static final boolean kFrontLeftDriveAbsoluteEncoderReversed = false;
     public static final boolean kFrontRightDriveAbsoluteEncoderReversed = false;
     public static final boolean kBackLeftDriveAbsoluteEncoderReversed = false;
     public static final boolean kBackRightDriveAbsoluteEncoderReversed = false;
+
+    public static final double kFrontLeftDriveAbsoluteEncoderOffset = 0.007;
+    public static final double kBackLeftDriveAbsoluteEncoderOffset = 0.014;
+    public static final double kFrontRightDriveAbsoluteEncoderOffset = 0.451;
+    public static final double kBackRightDriveAbsoluteEncoderOffset = 0.245; // good
     /* */
 
     public static final double kPhysicalMaxSpeedMetersPerSecond = 13.00;
     public static final double kMaxRPM = 6500;
   }
 
-  public static final class OperatorConstants {
-    public static final int kDriverControllerPort = 0;
+  public static final class ControllerConstants {
+    public static final int kDriverControllerId = 0;
+    public static final int kOperationControllerId = 1;
 
     public static final double kDeadband = 0.05;
   }
+
+  public static final class IntakeConstants {
+    public static final int kIntakeAngleMotorId = 9;
+    public static final int kIntakeRollersMotorId = 10;
+    public static final int kIntakeAngleMotorEncoderId = 4;
+
+    public static final double kIntakeRollerSpeedPercent = 1.0;
+
+    public static final double kDistanceActivationThresholdMin = 0.5; //TODO needs to be updated with measued values
+
+    public static final double kIntakeLoweredAngleDegrees = 90; //TODO needs to be updated with measued values
+    public static final double kIntakeRaisedAngleDegrees = 0;
+    public static final double kIntakeAngleToleranceDegrees = 2;
+    
+    public static final int kIndexerMotorId = 13; //TODO needs to be updated
+    public static final double kIndexerIntakeSpeedPercent = 0.5;
+    public static final double kIndexerShootingSpeedPercent = 1.0;
+  }
+
+  public static final class ClimberConstants {
+    public static final int kClimberMotorIdL = 15; //TODO needs to be updated with correct values
+    public static final int kClimberMotorIdR = 16; //TODO needs to be updated with correct values
+    public static final double kClimberDistanceConversionRate = 0.001; //TODO needs to be updated with correct values
+    public static final double kClimbHeight = 10.0; //TODO needs to be updated with correct values
+  }
+
+  public static final class ShooterConstants {
+    public static final int kShooterAngleMotor = 11;
+    public static final int kShooterBottomFlywheelMotorID = 5;
+    public static final int kShooterTopFlywheelMotorID = 6;
+    public static final int kShooterRollerMotor = 13;
+
+    public static final int kShooterAngleMotorEncoderId = 5;
+    
+    public static final double kAngleToleranceDegrees = 1;
+    public static final double kShooterManualAngleDegrees = 60; //TODO needs to be set
+    public static final double kDesiredAmpAngleDegrees = 65;
+    public static final double kSourceAngleDegrees = 60; //TODO needs to be updated with measured values
+    
+    public static final double kRollerIntakeSpeedPercent = 1.0; //TODO needs to be updated
+    public static final double kRollerShootingSpeedPercent = 1.0; //TODO needs to be updated
+    
+    public static final double kFlywheelIntakeSpeedRPM = -500; //TODO needs to be updated
+    public static final double kAmpShootingSpeedRPM = 4000; //TODO needs to be updated
+    public static final double kShooterReadySpeedRPM = 4000; //TODO needs to be updated
+    public static final double kShooterDefaultSpeedRPM = 4000; //TODO needs to be updated
+    public static final double kFlywheelToleranceRPM = 10; //TODO needs to be updated
+
+    public static final double kShooterDistanceRangeInches = 2.0; //TODO needs to be updated with measured values
+    public static final int kHeightOfSpeakerInches = 78;
+    public static final double kVisualDistanceInput = 6.0; //TODO needs to be updated
+  }
+
+  public static final class LEDConstants {
+    public static final int[] kDefault = {255, 255, 255};
+    public static final int[] kNoteInShooter = {0, 255, 0};
+    public static final int[] kNoteInIndexer = {0, 0, 255};
+    public static final int[] kShootingNote = {0, 0, 0};
+  }
+
 }

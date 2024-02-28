@@ -5,13 +5,15 @@ import java.util.function.Supplier;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.DriveConstants;
-import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.Swerve;
 
 public class SwerveJoystickCmd extends Command {
     private final Swerve m_swerve;
     private final Supplier<Double> xSpdFunction, ySpdFunction, turningSpdFunction;
+    private final Trigger turnToSpeakerFunction;
     private final Boolean fieldOrientedFunction;
 
     /**
@@ -36,7 +38,6 @@ public class SwerveJoystickCmd extends Command {
     public void execute() {
         double xSpeed = xSpdFunction.get();
         double ySpeed = ySpdFunction.get();
-        double turningSpeed = turningSpdFunction.get();
 
         xSpeed = this.applyDeadBand(xSpeed);
         ySpeed = this.applyDeadBand(ySpeed);
@@ -54,7 +55,7 @@ public class SwerveJoystickCmd extends Command {
     }
 
     public double applyDeadBand(double speed) {
-        return Math.abs(speed) > OperatorConstants.kDeadband ? speed : 0.0;
+        return Math.abs(speed) > ControllerConstants.kDeadband ? speed : 0.0;
     }
 
     public ChassisSpeeds speedsToChassisSpeeds(double xSpeed, double ySpeed, double turningSpeed, boolean fieldOriented) {

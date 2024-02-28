@@ -12,18 +12,31 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.Constants.OperatorConstants;
+import frc.robot.Constants.ControllerConstants;
 import frc.robot.commands.CircleAutoCmd;
+// import frc.robot.commands.IntakeCmd;
+import frc.robot.commands.ShooterCmd;
 import frc.robot.commands.StraightAutoCmd;
 import frc.robot.commands.SwerveJoystickCmd;
+// import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Shooter;
+// import frc.robot.subsystems.LEDs;
 import frc.robot.subsystems.Swerve;
 
 
 public class RobotContainer {
     private final Swerve m_swerve = new Swerve();
 
+    // private final LEDs m_LEDs = new LEDs();
+
+    // private final Intake m_intake = new Intake();
+
+    private final Shooter m_shooter = new Shooter();
+
     private final CommandXboxController m_driverController = new CommandXboxController(
-                    OperatorConstants.kDriverControllerPort);
+                    ControllerConstants.kDriverControllerId);
+    private final CommandXboxController m_operationsController = new CommandXboxController(
+                    ControllerConstants.kOperationControllerId);
 
     // Auto Commands Chooser
     private final Command m_straightAuto = new StraightAutoCmd(m_swerve);
@@ -46,6 +59,20 @@ public class RobotContainer {
                 () -> -m_driverController.getLeftX(),
                 () -> m_driverController.getRightX(),
                 true));
+
+        m_shooter.setDefaultCommand(new ShooterCmd(
+                m_shooter, 
+                m_operationsController.x(), 
+                m_operationsController.y(),
+                m_operationsController.leftBumper(),
+                m_operationsController.rightBumper()));
+        
+        // m_intake.setDefaultCommand(new IntakeCmd(
+        //         m_intake,
+        //         m_operationsController.x(), 
+        //         m_operationsController.y(), 
+        //         m_operationsController.a(), 
+        //         m_operationsController.b()));
 
         configureBindings();
 
@@ -71,11 +98,22 @@ public class RobotContainer {
     private void configureBindings() {
         new Trigger(m_driverController.x()).whileTrue(m_swerve.SetXCommand());
         new Trigger(m_driverController.a()).onTrue(new InstantCommand(() -> m_swerve.resetPose(new Pose2d(2, 2, new Rotation2d(0)))).andThen(() -> m_swerve.resetHeading()));
+
+        // new Trigger(() -> m_shooter.isNoteInShooter()).onTrue(new InstantCommand(m_intake::stopIndexer, m_intake));
+
+        // LED Triggers
+        // new Trigger(() -> m_intake.noteInIndexer()).onTrue(m_LEDs.NoteInIndexerPattern());
+        // new Trigger(() -> m_shooterDefaultCommand.noteInShooter()).onTrue(m_LEDs.NoteInShooterPattern());
+        // new Trigger(() -> m_shooterDefaultCommand.shootingNote()).onTrue(m_LEDs.ShootingNotePattern());
     }
-    
+
     public Swerve getSwerve() {
         return m_swerve;
     }
+
+//     public LEDs getLEDs() {
+//         return m_LEDs;
+//     }
 
     public Command getAutonomousCommand() {
         return m_autoChooser.getSelected();
