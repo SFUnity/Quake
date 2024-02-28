@@ -1,10 +1,10 @@
 package frc.robot.subsystems.modules;
 
-import com.ctre.phoenix6.controls.DutyCycleOut;
+import com.ctre.phoenix6.configs.FeedbackConfigs;
+import com.ctre.phoenix6.configs.TalonFXConfigurator;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -13,16 +13,14 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ModuleConstants;
 import lib.SwerveModule;
 
 public class RealSwerveModule implements AutoCloseable, SwerveModule {
     
     private final TalonFX m_driveMotor;
-    private final DutyCycleOut m_driveRequest = new DutyCycleOut(0);
     private final CANSparkMax m_turningMotor;
-
-    private final RelativeEncoder m_turningEncoder;
 
     private final CANcoder m_absoluteEncoder;
     private final boolean kAbsoluteEncoderReversed;
@@ -34,17 +32,14 @@ public class RealSwerveModule implements AutoCloseable, SwerveModule {
     public RealSwerveModule(int kDriveMotorId, int kTurningMotorId, boolean driveMotorReversed, boolean turningMotorReversed,
             int absoluteEncoderId, boolean absoluteEncoderReversed) {
         
-        m_driveMotor = new TalonFX(kDriveMotorId, "rio");
         m_turningMotor = new CANSparkMax(kTurningMotorId, MotorType.kBrushless);
-
-        m_driveMotor.setInverted(driveMotorReversed);
         m_turningMotor.setInverted(turningMotorReversed);
-
-        m_turningEncoder = m_turningMotor.getEncoder();
-        
-        // m_driveMotor.setPositionConversionFactor((DriveConstants.kWheelDiameterMeters * Math.PI) / DriveConstants.kDriveEncoderPositionConversionFactor);
-        // m_driveMotor.setVelocityConversionFactor((DriveConstants.kWheelDiameterMeters * Math.PI) / DriveConstants.kDriveEncoderPositionConversionFactor / 60.0);
-        // RotorToSensorRatio needs to be set in the config
+                
+        m_driveMotor = new TalonFX(kDriveMotorId, "rio");
+        TalonFXConfigurator configurator = m_driveMotor.getConfigurator();
+        FeedbackConfigs feedbackConfigs = new FeedbackConfigs().withRotorToSensorRatio(DriveConstants.kDriveEncoderPositionConversionFactor / (DriveConstants.kWheelDiameterMeters * Math.PI));
+        configurator.apply(feedbackConfigs);
+        m_driveMotor.setInverted(driveMotorReversed);
 
         kAbsoluteEncoderReversed = absoluteEncoderReversed;
         m_absoluteEncoder = new CANcoder(absoluteEncoderId);
@@ -72,7 +67,7 @@ public class RealSwerveModule implements AutoCloseable, SwerveModule {
         m_turningMotor.set(desiredTurnSpeed);
 
         double normalizedSpeed = state.speedMetersPerSecond / ModuleConstants.kMaxModuleSpeedMPS;
-        m_driveMotor.setControl(m_driveRequest.withOutput(normalizedSpeed));
+        m_driveMotor.set(normalizedSpeed);
 
         desiredState = state;
         SmartDashboard.putString("Swerve[" + m_absoluteEncoder.getDeviceID() + "] state", state.toString());
@@ -81,7 +76,6 @@ public class RealSwerveModule implements AutoCloseable, SwerveModule {
     @Override
     public void resetEncoders() {
         m_driveMotor.setPosition(0);
-        m_turningEncoder.setPosition(getAbsoluteEncoderRotations());
     }
 
     public double getAbsoluteEncoderRotations() {
