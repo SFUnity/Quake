@@ -5,11 +5,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.Shooter;
 
 public class ShooterCmd extends Command{
-
     private final Shooter m_shooter;
-    public boolean shootingSpeaker = false;
-
-    public boolean shootingAmp = false;
     private final Trigger leftBumper, rightBumper, xButton, yButton;
 
     public ShooterCmd(Shooter shooter, Trigger xButton, Trigger yButton, Trigger leftBumper, Trigger rightBumper) {
@@ -54,14 +50,6 @@ public class ShooterCmd extends Command{
         } else {
             m_shooter.setAngleMotorSpeeds();
         }
-    }
-
-    public boolean noteInShooter() {
-        return m_shooter.shooterDoneUpdating() && m_shooter.isNoteInShooter() && !shootingSpeaker;
-    }
-
-    public boolean shootingSpeaker() {
-        return (shootingSpeaker || shootingAmp) && m_shooter.isNoteInShooter();
     }
 
     @Override

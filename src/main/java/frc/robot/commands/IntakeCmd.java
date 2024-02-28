@@ -7,13 +7,13 @@ import frc.robot.subsystems.Intake;
 public class IntakeCmd extends Command{
 
     private final Intake m_intake;
-    private final Trigger xButton, yButton;
+    private final Trigger aButton, bButton;
 
     public IntakeCmd(Intake intake,
-            Trigger xButton, Trigger yButton, Trigger aButton, Trigger bButton) {
+            Trigger aButton, Trigger bButton) {
         m_intake = intake;
-        this.xButton = xButton;
-        this.yButton = yButton;
+        this.aButton = aButton;
+        this.bButton = bButton;
 
         addRequirements(intake);
     }
@@ -30,17 +30,17 @@ public class IntakeCmd extends Command{
     @Override
     public void execute() {
         // set indexer and intake roller speeds
-        if (yButton.getAsBoolean()) {
+        if (bButton.getAsBoolean()) {
             m_intake.stopIndexer();
             m_intake.stopIntakeRollers();
-        } else if (xButton.getAsBoolean()) {
+        } else if (aButton.getAsBoolean()) {
             m_intake.lowerAndRunIntake();
         } else {
             m_intake.raiseAndStopIntake();
         }
 
         // set intake angle motor speeds
-        if (!yButton.getAsBoolean()) {
+        if (!bButton.getAsBoolean()) {
             m_intake.setAngleMotorSpeeds();
         } else {
             m_intake.stopIntakeRotation();
