@@ -38,7 +38,7 @@ public class Shooter extends SubsystemBase {
         m_shooterRollerMotor = new CANSparkMax(ShooterConstants.kShooterRollerMotor, MotorType.kBrushless);
         
         m_angleEncoder = m_shooterAngleMotor.getEncoder();
-        m_angleEncoder.setPositionConversionFactor(1/36/360);
+        m_angleEncoder.setPositionConversionFactor(1/36/360); // 36:1 gear ratio and 360 degrees per rotation
         m_bottomFlywheelEncoder = m_shooterBottomFlywheelMotor.getEncoder();
         m_topFlywheelEncoder = m_shooterTopFlywheelMotor.getEncoder();
 
@@ -104,7 +104,7 @@ public class Shooter extends SubsystemBase {
      * @return retruns vertical angle to target in degrees
      */
     public double getAimAngle(Double distanceFromTarget) {
-        double heightOfTarget = ShooterConstants.kHeightOfSpeakerInches;  // TODO MEASURE PROPER HEIGHT
+        double heightOfTarget = ShooterConstants.kHeightOfSpeakerInches;
         double angleRad = Math.atan(heightOfTarget / distanceFromTarget);
         double angleDeg = Math.toDegrees(angleRad);
         return angleDeg;
