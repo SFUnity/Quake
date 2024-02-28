@@ -1,5 +1,6 @@
 package frc.robot;
 
+import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -32,6 +33,11 @@ public class RobotContainer {
     // private final Intake m_intake = new Intake();
 
     private final Shooter m_shooter = new Shooter();
+
+    NamedCommands.registerCommand("ampShoot", m_shooter.readyShootAmpCommand); 
+    NamedCommands.registerCommand("speakerShoot", m_shooter.readyShootSpeakerCommand);
+    NamedCommands.registerCommand("putNoteInFlywheels", m_shooter.putNoteIntoFlywheelsCommand);
+
 
     private final CommandXboxController m_driverController = new CommandXboxController(
                     ControllerConstants.kDriverControllerId);
