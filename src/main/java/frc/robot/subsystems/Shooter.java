@@ -77,10 +77,6 @@ public class Shooter extends SubsystemBase {
         return m_shooterDistanceSensor.isRangeValid() && m_shooterDistanceSensor.getRange() <= ShooterConstants.kShooterDistanceRangeInches;
     }
     
-    public void rollersIntakeFromFlywheels() {
-        m_shooterRollerMotor.set(-ShooterConstants.kRollerIntakeSpeedPercent);
-    }
-    
     public void rollersIntakeFromIndexer() {
         m_shooterRollerMotor.set(ShooterConstants.kRollerIntakeSpeedPercent);
     }
