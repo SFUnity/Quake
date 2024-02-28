@@ -91,11 +91,13 @@ public final class Constants {
 
     public static final double kDistanceActivationThresholdMin = 0.5; //TODO needs to be updated with measued values
 
-    public static final double kIntakeLoweredAngleRadians = 0.0; //TODO needs to be updated with measued values
-    public static final double kIntakeRaisedAngleRadians = Math.PI/2; //TODO needs to be updated with measued values
+    public static final double kIntakeLoweredAngleDegrees = 0.0; //TODO needs to be updated with measued values
+    public static final double kIntakeRaisedAngleDegrees = 90; //TODO needs to be updated with measued values
+    public static final double kIntakeAngleToleranceDegrees = 2;
     
     public static final int kIndexerMotorId = 13; //TODO needs to be updated
-    public static final double kIndexerRollerSpeedPercent = 0.5;
+    public static final double kIndexerIntakeSpeedPercent = 0.5;
+    public static final double kIndexerShootingSpeedPercent = 1.0;
   }
 
   public static final class ShooterConstants {

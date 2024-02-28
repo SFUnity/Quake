@@ -26,60 +26,29 @@ public class Intake extends SubsystemBase{
         m_angleEncoder = new CANcoder(IntakeConstants.kIntakeAngleMotorEncoderId);
 
         m_intakeAnglePidController = new PIDController(0.05, 0, 0);
+        m_intakeAnglePidController.setTolerance(IntakeConstants.kIntakeAngleToleranceDegrees);
     }
 
     /**
      * updates intake angle with pid loops
-     * called periodically from IntakeControllerCmd
      */
     public void updateIntake() {
-        moveIntake(m_intakeAnglePidController.calculate(m_angleEncoder.getAbsolutePosition().getValueAsDouble()));
+        m_intakeAngleMotor.set(m_intakeAnglePidController.calculate(m_angleEncoder.getAbsolutePosition().getValueAsDouble()));
     }
 
     /**
-     * rotates intake at specified speed
-     * @param speed -1 to 1, speed as a percentage of max speed
-     */
-    public void moveIntake(double speed) {
-        m_intakeAngleMotor.set(speed>0 ? Math.min(speed, 1.0) : Math.max(speed, -1.0));
-    }
-
-    /**
-     * runs intake and indexer at specified speed
+     * runs intake and indexer motors at intake speed
      */
     public void intakeNote() {
         m_intakeMotor.set(IntakeConstants.kIntakeRollerSpeedPercent);
-        m_indexerMotor.set(IntakeConstants.kIndexerRollerSpeedPercent);
-    }
-
-    public void runIndexer(double speed) {
-        m_indexerMotor.set(Math.max(-1, Math.min(1, speed)));
+        m_indexerMotor.set(IntakeConstants.kIndexerIntakeSpeedPercent);
     }
 
     /**
-     * sets the angle variable to a certain value which will cause the pid loops to rotate the intake to that angle
-     * @param angle radians
+     * runs indexer at shooting speed
      */
-    public void setIntakeToAngle(double angle) {
-        m_intakeAnglePidController.setSetpoint(angle);
-    }
-
-    /**
-     * start running the intake and indexer  motors
-     */
-    public void startIntake() {
-        m_intakeMotor.set(1);
-    }
-
-    public void startIndexer() {
-        runIndexer(1);
-    }
-
-    /**
-     * stop the intake motors
-     */
-    public void stopIntake() {
-        m_intakeMotor.stopMotor();
+    public void shootNote() {
+        m_indexerMotor.set(IntakeConstants.kIndexerShootingSpeedPercent);
     }
 
     /**
@@ -88,13 +57,28 @@ public class Intake extends SubsystemBase{
     public void stopIndexer() {
         m_indexerMotor.stopMotor();
     }
+    
+    /**
+     * raises intake to angle set in constants
+     */
+    public void raiseIntake() {
+        m_intakeAnglePidController.setSetpoint(IntakeConstants.kIntakeRaisedAngleDegrees);
+    }
+    
+    /**
+     * lowers intake to angle set in constants 
+     * sets the intake and indexer  motors to max speed
+     */
+    public void lowerAndRunIntake() {
+        m_intakeAnglePidController.setSetpoint(IntakeConstants.kIntakeLoweredAngleDegrees);
+        m_intakeMotor.set(IntakeConstants.kIntakeRollerSpeedPercent);
+    }
 
     /**
-     * stop intake and indexer motors
+     * stop the intake motors
      */
-    public void stopAll() {
-        stopIntake();
-        stopIndexer();
+    public void stopIntakeRollers() {
+        m_intakeMotor.stopMotor();
     }
 
     /**
@@ -103,36 +87,14 @@ public class Intake extends SubsystemBase{
     public void stopIntakeRotation() {
         m_intakeAngleMotor.stopMotor();
     }
-
-    /**
-     * lowers intake to angle set in constants
-     */
-    public void lowerIntake() {
-        setIntakeToAngle(IntakeConstants.kIntakeLoweredAngleRadians);
-    }
-    
-    /**
-     * raises intake to angle set in constants
-     */
-    public void raiseIntake() {
-        setIntakeToAngle(IntakeConstants.kIntakeRaisedAngleRadians);
-    }
-    
-    /**
-     * lowers intake to angle set in constants 
-     * sets the intake and indexer  motors to max speed
-     */
-    public void lowerAndRunIntake() {
-        lowerIntake();
-        startIntake();
-    }
     
     /**
      * raises intake to angle set in constants 
      * turns the intake  motor off, but doesn't affect indexer  motor
      */
     public void raiseAndStopIntake() {
-        raiseIntake();
-        stopIntake();
+        stopIndexer();
+        stopIntakeRollers();
+        stopIntakeRotation();
     }
 }
