@@ -31,18 +31,18 @@ public final class Constants {
 
     public static final boolean kGyroReversed = true;
 
-    public static final int kFrontLeftDriveMotorPort = 1;
-    public static final int kFrontRightDriveMotorPort = 3;
-    public static final int kBackLeftDriveMotorPort = 5;
-    public static final int kBackRightDriveMotorPort = 7;
+    public static final int kFrontLeftDriveMotorId = 1;
+    public static final int kFrontRightDriveMotorId = 3;
+    public static final int kBackLeftDriveMotorId = 5;
+    public static final int kBackRightDriveMotorId = 7;
 
-    public static final int kFrontLeftTurningMotorPort = 2;
-    public static final int kFrontRightTurningMotorPort = 4;
-    public static final int kBackLeftTurningMotorPort = 6;
-    public static final int kBackRightTurningMotorPort = 8;
+    public static final int kFrontLeftTurningMotorId = 2;
+    public static final int kFrontRightTurningMotorId = 4;
+    public static final int kBackLeftTurningMotorId = 6;
+    public static final int kBackRightTurningMotorId = 8;
 
-    // PDHPort = 9
-    // RoboRioPort = 0
+    // PDHId = 9
+    // RoboRioId = 0
 
     public static final boolean kFrontLeftTurningEncoderReversed = true;
     public static final boolean kFrontRightTurningEncoderReversed = true;
@@ -54,12 +54,12 @@ public final class Constants {
     public static final boolean kBackLeftDriveEncoderReversed = false;
     public static final boolean kBackRightDriveEncoderReversed = false;
 
-    public static final int kFrontLeftDriveAbsoluteEncoderPort = 1;
-    public static final int kFrontRightDriveAbsoluteEncoderPort = 0;
-    public static final int kBackLeftDriveAbsoluteEncoderPort = 2;
-    public static final int kBackRightDriveAbsoluteEncoderPort = 3;
+    public static final int kFrontLeftDriveAbsoluteEncoderId = 1;
+    public static final int kFrontRightDriveAbsoluteEncoderId = 0;
+    public static final int kBackLeftDriveAbsoluteEncoderId = 2;
+    public static final int kBackRightDriveAbsoluteEncoderId = 3;
     
-    public static final int kShooterEncoderPort = 4;
+    public static final int kShooterEncoderId = 4;
 
     public static final boolean kFrontLeftDriveAbsoluteEncoderReversed = false;
     public static final boolean kFrontRightDriveAbsoluteEncoderReversed = false;
@@ -76,8 +76,8 @@ public final class Constants {
   }
 
   public static final class ControllerConstants {
-    public static final int kDriverControllerPort = 0;
-    public static final int kOperationControllerPort = 1;
+    public static final int kDriverControllerId = 0;
+    public static final int kOperationControllerId = 1;
 
     public static final double kDeadband = 0.05;
   }
@@ -87,16 +87,16 @@ public final class Constants {
     public static final double kIntakeRollerMotorMaxSpeed = 10.0;
     public static final double kIntakeAngleMotorMaxSpeed = 10.0;
 
-    public static final int kIntakeAngleMotorPort = 9;
-    public static final int kIntakeRollersMotorPort = 10;
-    public static final int kIntakeAngleMotorEncoderPort = 4;
+    public static final int kIntakeAngleMotorId = 9;
+    public static final int kIntakeRollersMotorId = 10;
+    public static final int kIntakeAngleMotorEncoderId = 4;
 
     public static final double kDistanceActivationThresholdMin = 0.5; //TODO needs to be updated with measued values
     public static final double kIntakeLoweredAngleRadians = 0.0; //TODO needs to be updated with measued values
     public static final double kIntakeRaisedAngleRadians = Math.PI/2; //TODO needs to be updated with measued values
     
     public static final double kIndexerMotorMaxSpeed = 10.0;
-    public static final int kIndexerMotorPort = 13; //TODO needs to be updated
+    public static final int kIndexerMotorId = 13; //TODO needs to be updated
   }
 
   public static final class ShooterConstants {
@@ -105,7 +105,7 @@ public final class Constants {
     public static final int kShooterTopFlywheelMotorID = 6;
     public static final int kShooterRollerMotor = 13;
 
-    public static final int kShooterAngleMotorEncoderPort = 5;
+    public static final int kShooterAngleMotorEncoderId = 5;
     
     public static final double kAngleToleranceDegrees = 1;
     public static final double kShooterManualAngleDegrees = 60; //TODO needs to be set

@@ -37,35 +37,35 @@ import com.pathplanner.lib.util.*;
 
 public class Swerve extends SubsystemBase implements AutoCloseable {
     private final SwerveModule m_frontLeft = SwerveModule.create(
-        DriveConstants.kFrontLeftDriveMotorPort,
-        DriveConstants.kFrontLeftTurningMotorPort,
+        DriveConstants.kFrontLeftDriveMotorId,
+        DriveConstants.kFrontLeftTurningMotorId,
         DriveConstants.kFrontLeftDriveEncoderReversed,
         DriveConstants.kFrontLeftTurningEncoderReversed,
-        DriveConstants.kFrontLeftDriveAbsoluteEncoderPort,
+        DriveConstants.kFrontLeftDriveAbsoluteEncoderId,
         DriveConstants.kFrontLeftDriveAbsoluteEncoderReversed);
 
     private final SwerveModule m_frontRight = SwerveModule.create(
-        DriveConstants.kFrontRightDriveMotorPort,
-        DriveConstants.kFrontRightTurningMotorPort,
+        DriveConstants.kFrontRightDriveMotorId,
+        DriveConstants.kFrontRightTurningMotorId,
         DriveConstants.kFrontRightDriveEncoderReversed,
         DriveConstants.kFrontRightTurningEncoderReversed,
-        DriveConstants.kFrontRightDriveAbsoluteEncoderPort,
+        DriveConstants.kFrontRightDriveAbsoluteEncoderId,
         DriveConstants.kFrontRightDriveAbsoluteEncoderReversed);
 
     private final SwerveModule m_backLeft = SwerveModule.create(
-        DriveConstants.kBackLeftDriveMotorPort,
-        DriveConstants.kBackLeftTurningMotorPort,
+        DriveConstants.kBackLeftDriveMotorId,
+        DriveConstants.kBackLeftTurningMotorId,
         DriveConstants.kBackLeftDriveEncoderReversed,
         DriveConstants.kBackLeftTurningEncoderReversed,
-        DriveConstants.kBackLeftDriveAbsoluteEncoderPort,
+        DriveConstants.kBackLeftDriveAbsoluteEncoderId,
         DriveConstants.kBackLeftDriveAbsoluteEncoderReversed);
 
     private final SwerveModule m_backRight = SwerveModule.create(
-        DriveConstants.kBackRightDriveMotorPort,
-        DriveConstants.kBackRightTurningMotorPort,
+        DriveConstants.kBackRightDriveMotorId,
+        DriveConstants.kBackRightTurningMotorId,
         DriveConstants.kBackRightDriveEncoderReversed,
         DriveConstants.kBackRightTurningEncoderReversed,
-        DriveConstants.kBackRightDriveAbsoluteEncoderPort,
+        DriveConstants.kBackRightDriveAbsoluteEncoderId,
         DriveConstants.kBackRightDriveAbsoluteEncoderReversed);
     
 

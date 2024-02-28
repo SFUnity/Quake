@@ -32,9 +32,9 @@ public class RobotContainer {
     private final Shooter m_shooter = new Shooter();
 
     private final CommandXboxController m_driverController = new CommandXboxController(
-                    ControllerConstants.kDriverControllerPort);
+                    ControllerConstants.kDriverControllerId);
     private final CommandXboxController m_operationsController = new CommandXboxController(
-                    ControllerConstants.kOperationControllerPort);
+                    ControllerConstants.kOperationControllerId);
 
     // Auto Commands Chooser
     private final Command m_straightAuto = new StraightAutoCmd(m_swerve);

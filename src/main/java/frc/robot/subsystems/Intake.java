@@ -2,35 +2,24 @@ package frc.robot.subsystems;
 import frc.robot.Constants.IntakeConstants;
 
 import com.ctre.phoenix6.hardware.CANcoder;
+import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
-
-import com.revrobotics.*;
-
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 
 public class Intake extends SubsystemBase{
-    private final CANSparkMax m_intakeAngleMotor = new CANSparkMax(IntakeConstants.kIntakeAngleMotorPort, MotorType.kBrushless);
-    private final CANSparkMax m_intakeMotor = new CANSparkMax(IntakeConstants.kIntakeRollersMotorPort, MotorType.kBrushless);
-    private final CANSparkMax m_indexerMotor = new CANSparkMax(IntakeConstants.kIndexerMotorPort, MotorType.kBrushless);
+    private final CANSparkMax m_intakeAngleMotor = new CANSparkMax(IntakeConstants.kIntakeAngleMotorId, MotorType.kBrushless);
+    private final CANSparkMax m_intakeMotor = new CANSparkMax(IntakeConstants.kIntakeRollersMotorId, MotorType.kBrushless);
+    private final CANSparkMax m_indexerMotor = new CANSparkMax(IntakeConstants.kIndexerMotorId, MotorType.kBrushless);
     
-    private final CANcoder m_angleEncoder = new CANcoder(IntakeConstants.kIntakeAngleMotorEncoderPort);
+    private final CANcoder m_angleEncoder = new CANcoder(IntakeConstants.kIntakeAngleMotorEncoderId);
 
     private final PIDController m_intakeAnglePidController = new PIDController(0.05, 0, 0); //mess around with this later
 
     public Intake() {
         
-    }
-
-    /**
-     * command to run the update intake function
-     * placeholder since intake will have a customized default command
-     */
-    public Command runUpdateIntake() {
-        return run(() -> this.updateIntake());
     }
 
     /**
