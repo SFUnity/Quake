@@ -34,11 +34,6 @@ public class RobotContainer {
 
     private final Shooter m_shooter = new Shooter();
 
-    NamedCommands.registerCommand("ampShoot", m_shooter.readyShootAmpCommand); 
-    NamedCommands.registerCommand("speakerShoot", m_shooter.readyShootSpeakerCommand);
-    NamedCommands.registerCommand("putNoteInFlywheels", m_shooter.putNoteIntoFlywheelsCommand);
-
-
     private final CommandXboxController m_driverController = new CommandXboxController(
                     ControllerConstants.kDriverControllerId);
     private final CommandXboxController m_operationsController = new CommandXboxController(
@@ -49,7 +44,7 @@ public class RobotContainer {
 
     private final Command m_circleAuto = new CircleAutoCmd(m_swerve);
 
-    private final Command m_straightPathAuto = new PathPlannerAuto("Test Auto");
+    private final Command m_straightPathAuto;
 
     SendableChooser<Command> m_autoChooser = new SendableChooser<>();
 
@@ -77,6 +72,12 @@ public class RobotContainer {
         //         m_intake,
         //         m_operationsController.a(), 
         //         m_operationsController.b()));
+
+        NamedCommands.registerCommand("ampShoot", m_shooter.readyShootAmpCommand()); 
+        NamedCommands.registerCommand("speakerShoot", m_shooter.readyShootSpeakerCommand());
+        NamedCommands.registerCommand("putNoteInFlywheels", m_shooter.putNoteIntoFlywheelsCommand());
+
+        m_straightPathAuto = new PathPlannerAuto("Test Auto");
 
         configureBindings();
 
