@@ -10,16 +10,22 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 
 public class Intake extends SubsystemBase{
-    private final CANSparkMax m_intakeAngleMotor = new CANSparkMax(IntakeConstants.kIntakeAngleMotorId, MotorType.kBrushless);
-    private final CANSparkMax m_intakeMotor = new CANSparkMax(IntakeConstants.kIntakeRollersMotorId, MotorType.kBrushless);
-    private final CANSparkMax m_indexerMotor = new CANSparkMax(IntakeConstants.kIndexerMotorId, MotorType.kBrushless);
+    private final CANSparkMax m_intakeAngleMotor;
+    private final CANSparkMax m_intakeMotor;
+    private final CANSparkMax m_indexerMotor;
     
-    private final CANcoder m_angleEncoder = new CANcoder(IntakeConstants.kIntakeAngleMotorEncoderId);
+    private final CANcoder m_angleEncoder;
 
-    private final PIDController m_intakeAnglePidController = new PIDController(0.05, 0, 0); //mess around with this later
+    private final PIDController m_intakeAnglePidController;
 
     public Intake() {
-        
+        m_intakeAngleMotor = new CANSparkMax(IntakeConstants.kIntakeAngleMotorId, MotorType.kBrushless);
+        m_intakeMotor = new CANSparkMax(IntakeConstants.kIntakeRollersMotorId, MotorType.kBrushless);
+        m_indexerMotor = new CANSparkMax(IntakeConstants.kIndexerMotorId, MotorType.kBrushless);
+
+        m_angleEncoder = new CANcoder(IntakeConstants.kIntakeAngleMotorEncoderId);
+
+        m_intakeAnglePidController = new PIDController(0.05, 0, 0);
     }
 
     /**
@@ -40,11 +46,10 @@ public class Intake extends SubsystemBase{
 
     /**
      * runs intake and indexer at specified speed
-     * @param speed -1 to 1, speed as a percentage of max speed
      */
-    public void runIntake(double speed) {
-        m_intakeMotor.set(Math.max(-1, Math.min(1, speed)));
-        m_indexerMotor.set(Math.max(-1, Math.min(1, speed)));
+    public void intakeNote() {
+        m_intakeMotor.set(IntakeConstants.kIntakeRollerSpeedPercent);
+        m_indexerMotor.set(IntakeConstants.kIndexerRollerSpeedPercent);
     }
 
     public void runIndexer(double speed) {
@@ -63,7 +68,7 @@ public class Intake extends SubsystemBase{
      * start running the intake and indexer  motors
      */
     public void startIntake() {
-        runIntake(1);
+        m_intakeMotor.set(1);
     }
 
     public void startIndexer() {
