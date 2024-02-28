@@ -6,12 +6,12 @@ import frc.robot.subsystems.Climber;
 
 public class ClimberCmd extends Command {
     private final Climber m_climber;
-    private final Trigger climbeTrigger, decendTrigger;
+    private final Trigger climbTrigger, decendTrigger;
     private boolean buttonPressed = false;
 
     public ClimberCmd(Climber climber, Trigger climbTrigger, Trigger decendTrigger) {
         m_climber = climber;
-        this.climbeTrigger = climbTrigger;
+        this.climbTrigger = climbTrigger;
         this.decendTrigger = decendTrigger;
     }
 
@@ -22,13 +22,13 @@ public class ClimberCmd extends Command {
 
     @Override
     public void execute() {
-        if (climbeTrigger.getAsBoolean() && !buttonPressed) {
+        if (climbTrigger.getAsBoolean() && !buttonPressed) {
             m_climber.climb();
             buttonPressed = true;
         } else if (decendTrigger.getAsBoolean() && !buttonPressed) {
-            m_climber.decend();
+            m_climber.descend();
             buttonPressed = true;
-        } else if (!climbeTrigger.getAsBoolean() && !decendTrigger.getAsBoolean()) {
+        } else if (!climbTrigger.getAsBoolean() && !decendTrigger.getAsBoolean()) {
             buttonPressed = false;
         }
 
@@ -44,5 +44,4 @@ public class ClimberCmd extends Command {
     public void end(boolean interrupted) {
         m_climber.stopAll();
     }
-
 }

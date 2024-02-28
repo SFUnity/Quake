@@ -31,14 +31,14 @@ public class Climber extends SubsystemBase{
         speed = m_climberControllerPID.calculate(position);
 
         m_climberMotorL.set(speed);
-        m_climberMotorR.set(-speed);
+        m_climberMotorR.set(speed);
     }
 
     public void climb() {
         m_climberControllerPID.setSetpoint(ClimberConstants.kClimbHeight);
     }
 
-    public void decend() {
+    public void descend() {
         m_climberControllerPID.setSetpoint(0.0);
     }
 
