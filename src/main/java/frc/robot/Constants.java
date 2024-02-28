@@ -14,6 +14,8 @@ public final class Constants {
     public static final double kDriveEncoderRPM2MeterPerSec = kDriveEncoderRot2Meter / 60;
     public static final double kTurningEncoderRPM2RadPerSec = kTurningEncoderRot2Rad / 60;
     public static final double kPTurning = 0.25; // *
+    public static final double kPDrive = 0.05; // *
+    public static final double kMaxModuleSpeedMPS = 5.05; // Change for krakens
   }
 
   public static final class DriveConstants {
@@ -27,6 +29,10 @@ public final class Constants {
         new Translation2d(-kWheelBase / 2, kTrackWidth / 2),
         new Translation2d(-kWheelBase / 2, -kTrackWidth / 2)
     };
+
+
+    public static final double kDriveEncoderPositionConversionFactor = 6.12;
+    public static final double kWheelDiameterMeters = 0.1016;
     public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(kModuleOffset);
 
     public static final boolean kGyroReversed = true;
@@ -66,6 +72,7 @@ public final class Constants {
     /* */
 
     public static final double kPhysicalMaxSpeedMetersPerSecond = 13.00;
+    public static final double kMaxRPM = 6500;
   }
 
   public static final class OperatorConstants {

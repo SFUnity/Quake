@@ -41,6 +41,10 @@ public class RealSwerveModule implements AutoCloseable, SwerveModule {
         m_turningMotor.setInverted(turningMotorReversed);
 
         m_turningEncoder = m_turningMotor.getEncoder();
+        
+        // m_driveMotor.setPositionConversionFactor((DriveConstants.kWheelDiameterMeters * Math.PI) / DriveConstants.kDriveEncoderPositionConversionFactor);
+        // m_driveMotor.setVelocityConversionFactor((DriveConstants.kWheelDiameterMeters * Math.PI) / DriveConstants.kDriveEncoderPositionConversionFactor / 60.0);
+        // RotorToSensorRatio needs to be set in the config
 
         kAbsoluteEncoderReversed = absoluteEncoderReversed;
         m_absoluteEncoder = new CANcoder(absoluteEncoderId);
@@ -66,7 +70,9 @@ public class RealSwerveModule implements AutoCloseable, SwerveModule {
         state = SwerveModuleState.optimize(state, getState().angle);
         double desiredTurnSpeed = turningPidController.calculate(getAbsoluteEncoderRad(), state.angle.getRadians());
         m_turningMotor.set(desiredTurnSpeed);
-        m_driveMotor.setControl(m_driveRequest.withOutput(state.speedMetersPerSecond));
+
+        double normalizedSpeed = state.speedMetersPerSecond / ModuleConstants.kMaxModuleSpeedMPS;
+        m_driveMotor.setControl(m_driveRequest.withOutput(normalizedSpeed));
 
         desiredState = state;
         SmartDashboard.putString("Swerve[" + m_absoluteEncoder.getDeviceID() + "] state", state.toString());
@@ -94,10 +100,16 @@ public class RealSwerveModule implements AutoCloseable, SwerveModule {
         return desiredState;
     }
 
+    /**
+     * @return The position of the drive motor in meters
+     */
     public double getDrivePosition() {
         return m_driveMotor.getPosition().getValueAsDouble();
     }
 
+    /**
+     * @return The velocity of the drive motor in meters per second
+    */
     public double getDriveVelocity() {
         return m_driveMotor.getVelocity().getValueAsDouble();
     }

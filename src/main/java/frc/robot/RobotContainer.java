@@ -2,6 +2,8 @@ package frc.robot;
 
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -48,9 +50,9 @@ public class RobotContainer {
         configureBindings();
 
         // Add commands to the autonomous command chooser
-        m_autoChooser.setDefaultOption("Straight Auto", m_straightAuto);
+        m_autoChooser.setDefaultOption("Straight Path Auto", m_straightPathAuto);
+        m_autoChooser.addOption("Straight Auto", m_straightAuto);
         m_autoChooser.addOption("Circle Auto", m_circleAuto);
-        m_autoChooser.addOption("Straight Path Auto", m_straightPathAuto);
 
         // Add options to the field oriented chooser
         m_fieldOrientedChooser.setDefaultOption("Field Oriented", true);
@@ -66,16 +68,16 @@ public class RobotContainer {
         SmartDashboard.putData(m_swerve.TurnToAngle(45));
     }
 
-  private void configureBindings() {
-    new Trigger(m_driverController.a()).onTrue(new InstantCommand(() -> m_swerve.zeroHeading()));
-    new Trigger(m_driverController.x()).whileTrue(m_swerve.SetXCommand());
-  }
-  
-  public Swerve getSwerve() {
-      return m_swerve;
-  }
+    private void configureBindings() {
+        new Trigger(m_driverController.x()).whileTrue(m_swerve.SetXCommand());
+        new Trigger(m_driverController.a()).onTrue(new InstantCommand(() -> m_swerve.resetPose(new Pose2d(2, 2, new Rotation2d(0)))).andThen(() -> m_swerve.resetHeading()));
+    }
+    
+    public Swerve getSwerve() {
+        return m_swerve;
+    }
 
-  public Command getAutonomousCommand() {
-      return m_autoChooser.getSelected();
-  }  
+    public Command getAutonomousCommand() {
+        return m_autoChooser.getSelected();
+    }  
 }
