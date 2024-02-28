@@ -47,7 +47,7 @@ public final class Constants {
     public static final int kBackLeftTurningMotorId = 3;
     public static final int kBackRightTurningMotorId = 1;
 
-    // PDHId = 9
+    // PdhId = 9
     // RoboRioId = 0
 
     public static final boolean kFrontLeftTurningEncoderReversed = true;
@@ -64,22 +64,13 @@ public final class Constants {
     public static final int kFrontRightDriveAbsoluteEncoderId = 1;
     public static final int kBackLeftDriveAbsoluteEncoderId = 3;
     public static final int kBackRightDriveAbsoluteEncoderId = 2;
-    
-    public static final int kShooterEncoderId = 4;
 
     public static final boolean kFrontLeftDriveAbsoluteEncoderReversed = false;
     public static final boolean kFrontRightDriveAbsoluteEncoderReversed = false;
     public static final boolean kBackLeftDriveAbsoluteEncoderReversed = false;
     public static final boolean kBackRightDriveAbsoluteEncoderReversed = false;
 
-    public static final double kFrontLeftDriveAbsoluteEncoderOffset = 0.007;
-    public static final double kBackLeftDriveAbsoluteEncoderOffset = 0.014;
-    public static final double kFrontRightDriveAbsoluteEncoderOffset = 0.451;
-    public static final double kBackRightDriveAbsoluteEncoderOffset = 0.245; // good
-    /* */
-
     public static final double kPhysicalMaxSpeedMetersPerSecond = 13.00;
-    public static final double kMaxRPM = 6500;
   }
 
   public static final class ControllerConstants {
