@@ -15,11 +15,11 @@ public class Climber extends SubsystemBase{
     private double speed, position = 0.0;
 
     public Climber() {
-        m_climberMotorL = new CANSparkMax(ClimberConstants.kClimberMotorPortL, MotorType.kBrushless);
+        m_climberMotorL = new CANSparkMax(ClimberConstants.kClimberMotorIdL, MotorType.kBrushless);
         m_climberEncoderL = m_climberMotorL.getEncoder();
         m_climberEncoderL.setPositionConversionFactor(ClimberConstants.kClimberDistanceConversionRate);
 
-        m_climberMotorR = new CANSparkMax(ClimberConstants.kClimberMotorPortR, MotorType.kBrushless);
+        m_climberMotorR = new CANSparkMax(ClimberConstants.kClimberMotorIdR, MotorType.kBrushless);
         m_climberEncoderR = m_climberMotorR.getEncoder();
         m_climberEncoderR.setPositionConversionFactor(ClimberConstants.kClimberDistanceConversionRate);
         
