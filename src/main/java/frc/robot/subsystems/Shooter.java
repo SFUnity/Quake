@@ -40,7 +40,7 @@ public class Shooter extends SubsystemBase {
         m_bottomFlywheelEncoder = m_shooterBottomFlywheelMotor.getEncoder();
         m_topFlywheelEncoder = m_shooterTopFlywheelMotor.getEncoder();
 
-        m_anglePidController =  new PIDController(0.5,0,0);
+        m_anglePidController =  new PIDController(0.05,0,0);
         m_anglePidController.setTolerance(ShooterConstants.kAngleToleranceDegrees);
         m_anglePidController.setSetpoint(ShooterConstants.kSourceAngleDegrees);
 
