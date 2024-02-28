@@ -31,14 +31,15 @@ public class IntakeCmd extends Command{
         //m_intake.updateIntake();
 
         if (xButton.getAsBoolean()) {
-            //m_intake.lowerAndRunIntake();
-            m_intake.startIndexer();
+            m_intake.lowerAndRunIntake();
         } else {
-            //m_intake.raiseAndStopIntake();
+            m_intake.raiseAndStopIntake();
         }
 
         if (yButton.getAsBoolean()) {
             m_intake.stopIndexer();
+            m_intake.stopIntakeRollers();
+            m_intake.stopIntakeRotation();
         }
     }
 

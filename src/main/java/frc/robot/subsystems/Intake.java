@@ -16,7 +16,7 @@ public class Intake extends SubsystemBase{
     
     private final CANcoder m_angleEncoder;
 
-    private final PIDController m_intakeAnglePidController;
+    private final PIDController m_AnglePidController;
 
     public Intake() {
         m_intakeAngleMotor = new CANSparkMax(IntakeConstants.kIntakeAngleMotorId, MotorType.kBrushless);
@@ -25,30 +25,15 @@ public class Intake extends SubsystemBase{
 
         m_angleEncoder = new CANcoder(IntakeConstants.kIntakeAngleMotorEncoderId);
 
-        m_intakeAnglePidController = new PIDController(0.05, 0, 0);
-        m_intakeAnglePidController.setTolerance(IntakeConstants.kIntakeAngleToleranceDegrees);
+        m_AnglePidController = new PIDController(0.05, 0, 0);
+        m_AnglePidController.setTolerance(IntakeConstants.kIntakeAngleToleranceDegrees);
     }
 
     /**
      * updates intake angle with pid loops
      */
-    public void updateIntake() {
-        m_intakeAngleMotor.set(m_intakeAnglePidController.calculate(m_angleEncoder.getAbsolutePosition().getValueAsDouble()));
-    }
-
-    /**
-     * runs intake and indexer motors at intake speed
-     */
-    public void intakeNote() {
-        m_intakeMotor.set(IntakeConstants.kIntakeRollerSpeedPercent);
-        m_indexerMotor.set(IntakeConstants.kIndexerIntakeSpeedPercent);
-    }
-
-    /**
-     * runs indexer at shooting speed
-     */
-    public void shootNote() {
-        m_indexerMotor.set(IntakeConstants.kIndexerShootingSpeedPercent);
+    public void setAngleMotorSpeeds() {
+        m_intakeAngleMotor.set(m_AnglePidController.calculate(m_angleEncoder.getAbsolutePosition().getValueAsDouble()));
     }
 
     /**
@@ -62,7 +47,7 @@ public class Intake extends SubsystemBase{
      * raises intake to angle set in constants
      */
     public void raiseIntake() {
-        m_intakeAnglePidController.setSetpoint(IntakeConstants.kIntakeRaisedAngleDegrees);
+        m_AnglePidController.setSetpoint(IntakeConstants.kIntakeRaisedAngleDegrees);
     }
     
     /**
@@ -70,8 +55,9 @@ public class Intake extends SubsystemBase{
      * sets the intake and indexer  motors to max speed
      */
     public void lowerAndRunIntake() {
-        m_intakeAnglePidController.setSetpoint(IntakeConstants.kIntakeLoweredAngleDegrees);
+        m_AnglePidController.setSetpoint(IntakeConstants.kIntakeLoweredAngleDegrees);
         m_intakeMotor.set(IntakeConstants.kIntakeRollerSpeedPercent);
+        m_indexerMotor.set(IntakeConstants.kIndexerIntakeSpeedPercent);
     }
 
     /**

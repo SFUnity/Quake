@@ -28,11 +28,6 @@ public class ShooterCmd extends Command{
     }
 
     @Override
-    public void initialize() {
-        
-    }
-
-    @Override
     public void execute() {
         //TODO visual distance input should not be a constant
 
