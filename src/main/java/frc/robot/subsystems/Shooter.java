@@ -123,7 +123,7 @@ public class Shooter extends SubsystemBase {
     }
 
     public void setFlywheelMotorSpeed() {
-        m_shooterBottomFlywheelMotor.set(m_flywheePidController.calculate(m_bottomFlywheelEncoder.getVelocity()));
+        m_shooterBottomFlywheelMotor.set(m_flywheePidController.calculate(Math.abs(m_bottomFlywheelEncoder.getVelocity())));
         m_shooterTopFlywheelMotor.set(-m_flywheePidController.calculate(Math.abs(m_topFlywheelEncoder.getVelocity())));
     }
 
