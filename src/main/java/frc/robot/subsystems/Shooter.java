@@ -53,16 +53,14 @@ public class Shooter extends SubsystemBase {
         m_flywheePidController.setSetpoint(ShooterConstants.kFlywheelIntakeSpeedRPM);
     }
     
-    public void shootSpeaker() {
+    public void readyShootSpeaker() {
         m_flywheePidController.setSetpoint(ShooterConstants.kShooterDefaultSpeedRPM);
+        m_anglePidController.setSetpoint(ShooterConstants.kShooterManualAngleDegrees);
     }
 
-    public void shootAmp() {
+    public void readyShootAmp() {
         m_flywheePidController.setSetpoint(ShooterConstants.kAmpShootingSpeedRPM);
-    }
-
-    public void readyShooter() {
-        m_flywheePidController.setSetpoint(ShooterConstants.kShooterReadySpeedRPM);
+        m_anglePidController.setSetpoint(ShooterConstants.kDesiredAmpAngleDegrees);
     }
 
     public boolean shooterDoneUpdating() {
@@ -85,7 +83,7 @@ public class Shooter extends SubsystemBase {
         m_shooterRollerMotor.set(ShooterConstants.kRollerIntakeSpeedPercent);
     }
 
-    public void rollersShooting() {
+    public void putNoteIntoFlywheels() {
         m_shooterRollerMotor.set(1);
     }
 

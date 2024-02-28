@@ -62,10 +62,9 @@ public class RobotContainer {
         m_shooter.setDefaultCommand(new ShooterCmd(
                 m_shooter, 
                 m_operationsController.x(), 
-                m_operationsController.y(), 
-                m_operationsController.a(), 
-                m_operationsController.b(), 
-                m_operationsController.leftBumper()));
+                m_operationsController.y(),
+                m_operationsController.leftBumper(),
+                m_operationsController.rightBumper()));
         
         // m_intake.setDefaultCommand(new IntakeCmd(
         //         m_intake,
