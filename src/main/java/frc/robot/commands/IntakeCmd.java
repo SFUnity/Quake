@@ -29,18 +29,21 @@ public class IntakeCmd extends Command{
 
     @Override
     public void execute() {
+        // set indexer and intake roller speeds
         if (yButton.getAsBoolean()) {
             m_intake.stopIndexer();
             m_intake.stopIntakeRollers();
-            m_intake.stopIntakeRotation();
         } else if (xButton.getAsBoolean()) {
             m_intake.lowerAndRunIntake();
         } else {
             m_intake.raiseAndStopIntake();
         }
 
+        // set intake angle motor speeds
         if (!yButton.getAsBoolean()) {
             m_intake.setAngleMotorSpeeds();
+        } else {
+            m_intake.stopIntakeRotation();
         }
     }
 
