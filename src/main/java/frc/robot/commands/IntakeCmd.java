@@ -22,24 +22,25 @@ public class IntakeCmd extends Command{
     /**
      * @return: begins the lower intake and sets the command controller to angle
      */
-    public void initialize() { //start lower intake
+    public void initialize() {
         m_intake.raiseAndStopIntake();
+        m_intake.stopIndexer();
     }
 
     @Override
     public void execute() {
-        //m_intake.updateIntake();
-
-        if (xButton.getAsBoolean()) {
+        if (yButton.getAsBoolean()) {
+            m_intake.stopIndexer();
+            m_intake.stopIntakeRollers();
+            m_intake.stopIntakeRotation();
+        } else if (xButton.getAsBoolean()) {
             m_intake.lowerAndRunIntake();
         } else {
             m_intake.raiseAndStopIntake();
         }
 
-        if (yButton.getAsBoolean()) {
-            m_intake.stopIndexer();
-            m_intake.stopIntakeRollers();
-            m_intake.stopIntakeRotation();
+        if (!yButton.getAsBoolean()) {
+            m_intake.setAngleMotorSpeeds();
         }
     }
 

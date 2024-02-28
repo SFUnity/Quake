@@ -16,7 +16,7 @@ public class Intake extends SubsystemBase{
     
     private final CANcoder m_angleEncoder;
 
-    private final PIDController m_AnglePidController;
+    private final PIDController m_anglePidController;
 
     public Intake() {
         m_intakeAngleMotor = new CANSparkMax(IntakeConstants.kIntakeAngleMotorId, MotorType.kBrushless);
@@ -25,15 +25,15 @@ public class Intake extends SubsystemBase{
 
         m_angleEncoder = new CANcoder(IntakeConstants.kIntakeAngleMotorEncoderId);
 
-        m_AnglePidController = new PIDController(0.05, 0, 0);
-        m_AnglePidController.setTolerance(IntakeConstants.kIntakeAngleToleranceDegrees);
+        m_anglePidController = new PIDController(0.05, 0, 0);
+        m_anglePidController.setTolerance(IntakeConstants.kIntakeAngleToleranceDegrees);
     }
 
     /**
      * updates intake angle with pid loops
      */
     public void setAngleMotorSpeeds() {
-        m_intakeAngleMotor.set(m_AnglePidController.calculate(m_angleEncoder.getAbsolutePosition().getValueAsDouble()));
+        m_intakeAngleMotor.set(m_anglePidController.calculate(m_angleEncoder.getAbsolutePosition().getValueAsDouble()));
     }
 
     /**
@@ -44,18 +44,11 @@ public class Intake extends SubsystemBase{
     }
     
     /**
-     * raises intake to angle set in constants
-     */
-    public void raiseIntake() {
-        m_AnglePidController.setSetpoint(IntakeConstants.kIntakeRaisedAngleDegrees);
-    }
-    
-    /**
      * lowers intake to angle set in constants 
      * sets the intake and indexer  motors to max speed
      */
     public void lowerAndRunIntake() {
-        m_AnglePidController.setSetpoint(IntakeConstants.kIntakeLoweredAngleDegrees);
+        m_anglePidController.setSetpoint(IntakeConstants.kIntakeLoweredAngleDegrees);
         m_intakeMotor.set(IntakeConstants.kIntakeRollerSpeedPercent);
         m_indexerMotor.set(IntakeConstants.kIndexerIntakeSpeedPercent);
     }
@@ -79,8 +72,7 @@ public class Intake extends SubsystemBase{
      * turns the intake  motor off, but doesn't affect indexer  motor
      */
     public void raiseAndStopIntake() {
-        stopIndexer();
-        stopIntakeRollers();
-        stopIntakeRotation();
+        m_anglePidController.setSetpoint(IntakeConstants.kIntakeRaisedAngleDegrees);
+        m_intakeMotor.stopMotor();
     }
 }

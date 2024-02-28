@@ -91,8 +91,8 @@ public final class Constants {
 
     public static final double kDistanceActivationThresholdMin = 0.5; //TODO needs to be updated with measued values
 
-    public static final double kIntakeLoweredAngleDegrees = 0.0; //TODO needs to be updated with measued values
-    public static final double kIntakeRaisedAngleDegrees = 90; //TODO needs to be updated with measued values
+    public static final double kIntakeLoweredAngleDegrees = 90; //TODO needs to be updated with measued values
+    public static final double kIntakeRaisedAngleDegrees = 0;
     public static final double kIntakeAngleToleranceDegrees = 2;
     
     public static final int kIndexerMotorId = 13; //TODO needs to be updated
