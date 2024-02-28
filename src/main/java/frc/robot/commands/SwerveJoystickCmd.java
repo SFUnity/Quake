@@ -25,12 +25,11 @@ public class SwerveJoystickCmd extends Command {
      */
     public SwerveJoystickCmd(Swerve swerve,
             Supplier<Double> xSpdFunction, Supplier<Double> ySpdFunction, 
-            Supplier<Double> turningSpdFunction, Trigger turnToSpeakerFunction, Boolean fieldOrientedFunction) {
+            Supplier<Double> turningSpdFunction, Boolean fieldOrientedFunction) {
         m_swerve = swerve;
         this.xSpdFunction = xSpdFunction;
         this.ySpdFunction = ySpdFunction;
         this.turningSpdFunction = turningSpdFunction;
-        this.turnToSpeakerFunction = turnToSpeakerFunction;
         this.fieldOrientedFunction = fieldOrientedFunction;
         addRequirements(swerve);
     }
@@ -42,20 +41,10 @@ public class SwerveJoystickCmd extends Command {
 
         xSpeed = this.applyDeadBand(xSpeed);
         ySpeed = this.applyDeadBand(ySpeed);
-            
-        // Modify speeds
-        xSpeed *= 0.3;
-        ySpeed *= 0.3;
-
-        double turningSpeed;
-        if (turnToSpeakerFunction.getAsBoolean()) {
-            turningSpeed = m_swerve.turnToAngleSpeed(0); //TODO get input from vision
-        } else {
-            turningSpeed = turningSpdFunction.get();
-            turningSpeed = this.applyDeadBand(turningSpeed);
-            // Modify turning speed
-            turningSpeed *= -0.6;
-        }
+        turningSpeed = this.applyDeadBand(turningSpeed);
+        
+        // Modified speeds
+        turningSpeed *= -1.0;
         
         ChassisSpeeds chassisSpeeds = speedsToChassisSpeeds(xSpeed, ySpeed, turningSpeed, fieldOrientedFunction);
 

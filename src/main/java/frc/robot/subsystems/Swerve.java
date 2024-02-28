@@ -26,10 +26,10 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.FieldObject2d;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.ModuleConstants;
 import lib.SwerveModule;
 import com.pathplanner.lib.auto.*;
 import com.pathplanner.lib.util.*;
@@ -76,14 +76,14 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
 
     SwerveDrivePoseEstimator poseEstimator = new SwerveDrivePoseEstimator(
         DriveConstants.kDriveKinematics,
-        Rotation2d.fromDegrees(m_gyro.getAngle()),
+        Rotation2d.fromDegrees(m_gyro.getYaw().getValueAsDouble()),
         new SwerveModulePosition[] {
             m_frontLeft.getPosition(),
             m_frontRight.getPosition(),
             m_backLeft.getPosition(),
             m_backRight.getPosition()
         }, 
-        new Pose2d(new Translation2d(4,4), new Rotation2d())
+        new Pose2d(new Translation2d(2,2), new Rotation2d())
     );
 
     private double[] desiredModuleStates = { 0, 0, 0, 0, 0, 0, 0, 0 };
@@ -108,6 +108,14 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
     private GenericEntry turnToAnglePEntry = swerveTab.addPersistent("turnToAngle P", 0.05).getEntry();
     private GenericEntry turnToAngleIEntry = swerveTab.addPersistent("turnToAngle I", 0.01).getEntry();
     private PIDController turnToAnglePID = new PIDController(turnToAnglePEntry.getDouble(0.05), turnToAngleIEntry.getDouble(0.05), 0);
+
+    private GenericEntry autoTranslationPEntry = swerveTab.addPersistent("Auto Translation P", 0.05).getEntry();
+    private GenericEntry autoTranslationIEntry = swerveTab.addPersistent("Auto Translation I", 0.00).getEntry();
+    private GenericEntry autoTranslationDEntry = swerveTab.addPersistent("Auto Translation D", 0.01).getEntry();
+
+    private GenericEntry autoRotationPEntry = swerveTab.addPersistent("Auto Rotation P", 0.05).getEntry();
+    private GenericEntry autoRotationIEntry = swerveTab.addPersistent("Auto Rotation I", 0.00).getEntry();
+    private GenericEntry autoRotationDEntry = swerveTab.addPersistent("Auto Rotation D", 0.01).getEntry();
 
     public Swerve() {
         /* Threads are units of code. These threads call the zeroHeading method 1 sec 
@@ -140,9 +148,9 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
             this::getRobotRelativeChassisSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
             this::driveRobotRelative, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
             new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
-                    new PIDConstants(0.5, 0.0, 0.0), // Translation PID constants
-                    new PIDConstants(0.5, 0.0, 0.0), // Rotation PID constants
-                    0.5, // Max module speed, in m/s
+                    new PIDConstants(autoTranslationPEntry.getDouble(0.05), autoTranslationIEntry.getDouble(0.01), autoTranslationDEntry.getDouble(0.0)), // Translation PID constants
+                    new PIDConstants(autoRotationPEntry.getDouble(0.05), autoRotationIEntry.getDouble(0.01), autoRotationDEntry.getDouble(0.0)), // Rotation PID constants
+                    ModuleConstants.kMaxModuleSpeedMPS, // Max module speed, in m/s
                     0.3, // Drive base radius in meters. Distance from robot center to furthest module.
                     new ReplanningConfig(false, false) // Default path replanning config. See the API for the options here
             ),
@@ -151,14 +159,19 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
                 // This will flip the path being followed to the red side of the field.
                 // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
 
-                var alliance = DriverStation.getAlliance();
-                if (alliance.isPresent()) {
+                // var alliance = DriverStation.getAlliance();
+                /* if (alliance.isPresent()) {
                     return alliance.get() == DriverStation.Alliance.Red;
                 }
+                */
                 return false;
             },
             this // Reference to this subsystem to set requirements
         );
+    }
+
+    public void resetHeading() {
+        m_gyro.reset();
     }
 
     public Pose2d getPose() {
@@ -167,7 +180,7 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
 
     public void resetPose(Pose2d pose) {
         poseEstimator.resetPosition(
-            Rotation2d.fromDegrees(m_gyro.getAngle()),
+            Rotation2d.fromDegrees(m_gyro.getYaw().getValueAsDouble()),
             new SwerveModulePosition[] {
                 m_frontLeft.getPosition(),
                 m_frontRight.getPosition(),
@@ -180,7 +193,7 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
 
     public void updatePoseEstimator(){
         poseEstimator.update(
-            Rotation2d.fromDegrees(m_gyro.getAngle()),
+            Rotation2d.fromDegrees(m_gyro.getYaw().getValueAsDouble()),
             new SwerveModulePosition[] {
                 m_frontLeft.getPosition(),
                 m_frontRight.getPosition(),
@@ -263,7 +276,10 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
         * (DriveConstants.kGyroReversed ? -1.0 : 1.0) * 0.02);
         headingEntry.setDouble(getHeading());
     }
-    
+
+    /**
+     * @return the module states
+     */
     private SwerveModuleState[] getModuleStates() {
         return new SwerveModuleState[] {
             m_frontLeft.getState(),
@@ -319,6 +335,10 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
         });
     }
 
+    public Command SetXCommand() {
+        return run(() -> setX());
+    }
+
     @Override
     public void close() throws Exception {
         m_frontLeft.close();
@@ -327,10 +347,4 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
         m_backRight.close();
         m_gyro.close();
     }
-
-
-
-    
-
-    
 }

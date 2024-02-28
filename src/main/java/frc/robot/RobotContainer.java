@@ -2,6 +2,8 @@ package frc.robot;
 
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -56,7 +58,6 @@ public class RobotContainer {
                 () -> -m_driverController.getLeftY(),
                 () -> -m_driverController.getLeftX(),
                 () -> m_driverController.getRightX(),
-                m_driverController.b(),
                 true));
 
         m_shooter.setDefaultCommand(new ShooterCmd(
@@ -76,9 +77,9 @@ public class RobotContainer {
         configureBindings();
 
         // Add commands to the autonomous command chooser
-        m_autoChooser.setDefaultOption("Straight Auto", m_straightAuto);
+        m_autoChooser.setDefaultOption("Straight Path Auto", m_straightPathAuto);
+        m_autoChooser.addOption("Straight Auto", m_straightAuto);
         m_autoChooser.addOption("Circle Auto", m_circleAuto);
-        m_autoChooser.addOption("Straight Path Auto", m_straightPathAuto);
 
         // Add options to the field oriented chooser
         m_fieldOrientedChooser.setDefaultOption("Field Oriented", true);
@@ -94,26 +95,27 @@ public class RobotContainer {
         SmartDashboard.putData(m_swerve.TurnToAngle(45));
     }
 
-  private void configureBindings() {
-    new Trigger(m_driverController.a()).onTrue(new InstantCommand(() -> m_swerve.zeroHeading()));
+    private void configureBindings() {
+        new Trigger(m_driverController.x()).whileTrue(m_swerve.SetXCommand());
+        new Trigger(m_driverController.a()).onTrue(new InstantCommand(() -> m_swerve.resetPose(new Pose2d(2, 2, new Rotation2d(0)))).andThen(() -> m_swerve.resetHeading()));
 
-    // new Trigger(() -> m_shooter.isNoteInShooter()).onTrue(new InstantCommand(m_intake::stopIndexer, m_intake));
+        // new Trigger(() -> m_shooter.isNoteInShooter()).onTrue(new InstantCommand(m_intake::stopIndexer, m_intake));
 
-    // LED Triggers
-    // new Trigger(() -> m_intake.noteInIndexer()).onTrue(m_LEDs.NoteInIndexerPattern());
-    // new Trigger(() -> m_shooterDefaultCommand.noteInShooter()).onTrue(m_LEDs.NoteInShooterPattern());
-    // new Trigger(() -> m_shooterDefaultCommand.shootingNote()).onTrue(m_LEDs.ShootingNotePattern());
-  }
-  
-  public Swerve getSwerve() {
-      return m_swerve;
-  }
+        // LED Triggers
+        // new Trigger(() -> m_intake.noteInIndexer()).onTrue(m_LEDs.NoteInIndexerPattern());
+        // new Trigger(() -> m_shooterDefaultCommand.noteInShooter()).onTrue(m_LEDs.NoteInShooterPattern());
+        // new Trigger(() -> m_shooterDefaultCommand.shootingNote()).onTrue(m_LEDs.ShootingNotePattern());
+    }
 
-  // public LEDs getLEDs() {
-  //     return m_LEDs;
-  // }
+    public Swerve getSwerve() {
+        return m_swerve;
+    }
 
-  public Command getAutonomousCommand() {
-      return m_autoChooser.getSelected();
-  }  
+//     public LEDs getLEDs() {
+//         return m_LEDs;
+//     }
+
+    public Command getAutonomousCommand() {
+        return m_autoChooser.getSelected();
+    }  
 }

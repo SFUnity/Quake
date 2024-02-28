@@ -37,18 +37,44 @@ public interface SwerveModule extends Sendable {
 
   double getAbsoluteEncoderRotations();
 
+  /**
+   * Stops the motors of the swerve module.
+   */
   public default void stopMotors() {}
 
+  /**
+   * Closes the swerve module.
+   * @throws Exception
+   */
   public default void close() throws Exception {}
 
+  /**
+   * Returns the current state of the swerve module.
+   * @return
+   */
   public SwerveModuleState getState();
 
+  /**
+   * Returns the current position of the swerve module.
+   * @return
+   */
   public SwerveModulePosition getPosition();
 
+  /**
+   * Sets the desired state of the swerve module.
+   * @param _desiredState
+   */
   public void setDesiredState(SwerveModuleState _desiredState);
 
+  /**
+   * Returns the desired state of the swerve module.
+   * @return
+   */
   public SwerveModuleState getDesiredState();
 
+  /**
+   * Resets the encoders of the swerve module.
+   */
   public void resetEncoders();
 
   @Override
