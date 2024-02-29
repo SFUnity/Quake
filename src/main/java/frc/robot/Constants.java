@@ -93,14 +93,14 @@ public final class Constants {
     public static final double kIntakeRaisedAngleDegrees = 0;
     public static final double kIntakeAngleToleranceDegrees = 2;
     
-    public static final int kIndexerMotorId = 13; //TODO needs to be updated
+    public static final int kIndexerMotorId = 11;
     public static final double kIndexerIntakeSpeedPercent = 0.5;
     public static final double kIndexerShootingSpeedPercent = 1.0;
   }
 
   public static final class ClimberConstants {
-    public static final int kClimberMotorIdL = 15; //TODO needs to be updated with correct values
-    public static final int kClimberMotorIdR = 16; //TODO needs to be updated with correct values
+    public static final int kClimberMotorIdL = 12; //TODO needs to be updated with correct values
+    public static final int kClimberMotorIdR = 13; //TODO needs to be updated with correct values
     public static final double kClimberDistanceConversionRate = 0.001; //TODO needs to be updated with correct values
     public static final double kClimbHeight = 10.0; //TODO needs to be updated with correct values
   }
