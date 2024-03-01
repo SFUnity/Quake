@@ -3,6 +3,7 @@ import frc.robot.Constants.IntakeConstants;
 
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -14,7 +15,7 @@ public class Intake extends SubsystemBase{
     private final CANSparkMax m_intakeMotor;
     private final CANSparkMax m_indexerMotor;
     
-    private final CANcoder m_angleEncoder;
+    private final RelativeEncoder m_angleEncoder;
 
     private final PIDController m_anglePidController;
 
@@ -23,7 +24,9 @@ public class Intake extends SubsystemBase{
         m_intakeMotor = new CANSparkMax(IntakeConstants.kIntakeRollersMotorId, MotorType.kBrushless);
         m_indexerMotor = new CANSparkMax(IntakeConstants.kIndexerMotorId, MotorType.kBrushless);
 
-        m_angleEncoder = new CANcoder(IntakeConstants.kIntakeAngleMotorEncoderId);
+        //m_angleEncoder = new CANcoder(IntakeConstants.kIntakeAngleMotorEncoderId);
+        m_angleEncoder = m_intakeAngleMotor.getEncoder();
+        m_angleEncoder.setPositionConversionFactor((1/15)*(24/42)*(12/34)/360); // 1:15 gearbox, then a 24:42 and 12:34 gear reduction / 360 degrees
 
         m_anglePidController = new PIDController(0.05, 0, 0);
         m_anglePidController.setTolerance(IntakeConstants.kIntakeAngleToleranceDegrees);
@@ -33,7 +36,7 @@ public class Intake extends SubsystemBase{
      * updates intake angle with pid loops
      */
     public void setAngleMotorSpeeds() {
-        m_intakeAngleMotor.set(m_anglePidController.calculate(m_angleEncoder.getAbsolutePosition().getValueAsDouble()));
+        m_intakeAngleMotor.set(m_anglePidController.calculate(m_angleEncoder.getPosition()));
     }
 
     /**
