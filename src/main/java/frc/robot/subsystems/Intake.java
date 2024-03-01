@@ -1,12 +1,12 @@
 package frc.robot.subsystems;
 import frc.robot.Constants.IntakeConstants;
 
-import com.ctre.phoenix6.hardware.CANcoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkPIDController;
+import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 
@@ -17,7 +17,9 @@ public class Intake extends SubsystemBase{
     
     private final RelativeEncoder m_angleEncoder;
 
-    private final PIDController m_anglePidController;
+    private final SparkPIDController m_anglePidController;
+
+    private double desiredAngle;
 
     public Intake() {
         m_intakeAngleMotor = new CANSparkMax(IntakeConstants.kIntakeAngleMotorId, MotorType.kBrushless);
@@ -28,15 +30,16 @@ public class Intake extends SubsystemBase{
         m_angleEncoder = m_intakeAngleMotor.getEncoder();
         m_angleEncoder.setPositionConversionFactor((1/15)*(24/42)*(12/34)/360); // 1:15 gearbox, then a 24:42 and 12:34 gear reduction / 360 degrees
 
-        m_anglePidController = new PIDController(0.05, 0, 0);
-        m_anglePidController.setTolerance(IntakeConstants.kIntakeAngleToleranceDegrees);
+        desiredAngle = IntakeConstants.kIntakeRaisedAngleRevRotations;
+        m_anglePidController = m_intakeAngleMotor.getPIDController();
+        this.setAngleMotorSpeeds();
     }
 
     /**
      * updates intake angle with pid loops
      */
     public void setAngleMotorSpeeds() {
-        m_intakeAngleMotor.set(m_anglePidController.calculate(m_angleEncoder.getPosition()));
+        m_anglePidController.setReference(desiredAngle, ControlType.kPosition);
     }
 
     /**
@@ -51,7 +54,7 @@ public class Intake extends SubsystemBase{
      * sets the intake and indexer  motors to max speed
      */
     public void lowerAndRunIntake() {
-        m_anglePidController.setSetpoint(IntakeConstants.kIntakeLoweredAngleDegrees);
+        desiredAngle = IntakeConstants.kIntakeLoweredAngleRevRotations;
         m_intakeMotor.set(IntakeConstants.kIntakeRollerSpeedPercent);
         m_indexerMotor.set(IntakeConstants.kIndexerIntakeSpeedPercent);
     }
@@ -75,7 +78,7 @@ public class Intake extends SubsystemBase{
      * turns the intake  motor off, but doesn't affect indexer  motor
      */
     public void raiseAndStopIntake() {
-        m_anglePidController.setSetpoint(IntakeConstants.kIntakeRaisedAngleDegrees);
+        desiredAngle = IntakeConstants.kIntakeRaisedAngleRevRotations;
         m_intakeMotor.stopMotor();
     }
 }

@@ -47,7 +47,7 @@ public class Shooter extends SubsystemBase {
         m_bottomFlywheelEncoder = m_shooterBottomFlywheelMotor.getEncoder();
         m_topFlywheelEncoder = m_shooterTopFlywheelMotor.getEncoder();
 
-        desiredAngle = ShooterConstants.kShooterManualAngleDegrees;
+        desiredAngle = ShooterConstants.kShooterManualAngleRevRotations;
         m_anglePidController = m_shooterAngleMotor.getPIDController();
         this.setAngleMotorSpeeds();
 
@@ -63,12 +63,12 @@ public class Shooter extends SubsystemBase {
     
     public void readyShootSpeaker() {
         desiredSpeed = ShooterConstants.kShooterDefaultSpeedRPM;
-        desiredAngle = ShooterConstants.kShooterManualAngleDegrees;
+        desiredAngle = ShooterConstants.kShooterManualAngleRevRotations;
     }
 
     public void readyShootAmp() {
         desiredAngle = ShooterConstants.kAmpShootingSpeedRPM;
-        desiredAngle = ShooterConstants.kDesiredAmpAngleDegrees;
+        desiredAngle = ShooterConstants.kDesiredAmpAngleRevRotations;
     }
 
     /**
@@ -117,7 +117,7 @@ public class Shooter extends SubsystemBase {
     }
 
     public void setFlywheelMotorSpeed() {
-        m_bottomFlywheePidController.setReference(desiredSpeed, ControlType.kVelocity, 1);
+        m_bottomFlywheePidController.setReference(desiredSpeed, ControlType.kVelocity);
         m_topFlywheePidController.setReference(desiredSpeed, ControlType.kVelocity, 2);
     }
 
