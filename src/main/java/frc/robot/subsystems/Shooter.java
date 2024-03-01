@@ -8,7 +8,6 @@ import com.revrobotics.Rev2mDistanceSensor;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.Rev2mDistanceSensor.Port;
 
-import edu.wpi.first.math.controller.PIDController;
 import com.revrobotics.Rev2mDistanceSensor.Unit;
 
 import edu.wpi.first.wpilibj2.command.Command;
@@ -28,9 +27,11 @@ public class Shooter extends SubsystemBase {
     private final Rev2mDistanceSensor m_shooterDistanceSensor;
     
     private final SparkPIDController m_anglePidController;
-    private final PIDController m_flywheePidController;
+    private final SparkPIDController m_topFlywheePidController;
+    private final SparkPIDController m_bottomFlywheePidController;
 
     private double desiredAngle;
+    private double desiredSpeed;
 
     public Shooter() {        
         m_shooterDistanceSensor = new Rev2mDistanceSensor(Port.kOnboard);
@@ -50,27 +51,24 @@ public class Shooter extends SubsystemBase {
         m_anglePidController = m_shooterAngleMotor.getPIDController();
         this.setAngleMotorSpeeds();
 
-        m_flywheePidController = new PIDController(0.0002, 0.0000001, 0.02);
-        m_flywheePidController.setTolerance(ShooterConstants.kFlywheelToleranceRPM);
-        m_flywheePidController.setSetpoint(0);
+        desiredSpeed = 0;
+        m_bottomFlywheePidController = m_shooterBottomFlywheelMotor.getPIDController();
+        m_topFlywheePidController = m_shooterTopFlywheelMotor.getPIDController();
+        this.setFlywheelMotorSpeed();
     }
 
     public void flywheelsIntake() {
-        m_flywheePidController.setSetpoint(ShooterConstants.kFlywheelIntakeSpeedRPM);
+        desiredSpeed = ShooterConstants.kFlywheelIntakeSpeedRPM;
     }
     
     public void readyShootSpeaker() {
-        m_flywheePidController.setSetpoint(ShooterConstants.kShooterDefaultSpeedRPM);
+        desiredSpeed = ShooterConstants.kShooterDefaultSpeedRPM;
         desiredAngle = ShooterConstants.kShooterManualAngleDegrees;
     }
 
     public void readyShootAmp() {
-        m_flywheePidController.setSetpoint(ShooterConstants.kAmpShootingSpeedRPM);
+        desiredAngle = ShooterConstants.kAmpShootingSpeedRPM;
         desiredAngle = ShooterConstants.kDesiredAmpAngleDegrees;
-    }
-
-    public boolean shooterDoneUpdating() {
-        return m_flywheePidController.atSetpoint();
     }
 
     /**
@@ -119,8 +117,8 @@ public class Shooter extends SubsystemBase {
     }
 
     public void setFlywheelMotorSpeed() {
-        m_shooterBottomFlywheelMotor.set(m_flywheePidController.calculate(Math.abs(m_bottomFlywheelEncoder.getVelocity())));
-        m_shooterTopFlywheelMotor.set(-m_flywheePidController.calculate(Math.abs(m_topFlywheelEncoder.getVelocity())));
+        m_bottomFlywheePidController.setReference(desiredSpeed, ControlType.kVelocity, 1);
+        m_topFlywheePidController.setReference(desiredSpeed, ControlType.kVelocity, 2);
     }
 
     // Auto Commands
