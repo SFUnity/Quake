@@ -114,9 +114,9 @@ public final class Constants {
     public static final int kShooterAngleMotorEncoderId = 5;
     
     public static final double kAngleToleranceDegrees = 1;
-    public static final double kShooterManualAngleDegrees = 60; //TODO needs to be set
-    public static final double kDesiredAmpAngleDegrees = 65;
-    public static final double kSourceAngleDegrees = 60; //TODO needs to be updated with measured values
+    public static final double kShooterManualAngleDegrees = 16; //TODO needs to be set
+    public static final double kDesiredAmpAngleDegrees = 10;
+    public static final double kSourceAngleDegrees = 12; //TODO needs to be updated with measured values
     
     public static final double kRollerIntakeSpeedPercent = 1.0; //TODO needs to be updated
     public static final double kRollerShootingSpeedPercent = 1.0; //TODO needs to be updated

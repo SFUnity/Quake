@@ -23,6 +23,7 @@ import frc.robot.commands.SwerveJoystickCmd;
 import frc.robot.subsystems.Shooter;
 // import frc.robot.subsystems.LEDs;
 import frc.robot.subsystems.Swerve;
+import frc.robot.subsystems.TestingSubsystem;
 
 
 public class RobotContainer {
@@ -31,6 +32,8 @@ public class RobotContainer {
     // private final LEDs m_LEDs = new LEDs();
 
     // private final Intake m_intake = new Intake();
+
+    private final TestingSubsystem m_testingSubsystem = new TestingSubsystem();
 
     private final Shooter m_shooter = new Shooter();
 
@@ -61,6 +64,7 @@ public class RobotContainer {
                 () -> m_driverController.getRightX(),
                 true));
 
+        // m_shooter.setDefaultCommand(m_shooter.setToAngleCommand());
         m_shooter.setDefaultCommand(new ShooterCmd(
                 m_shooter, 
                 m_operationsController.x(), 

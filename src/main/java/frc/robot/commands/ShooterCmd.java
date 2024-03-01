@@ -31,18 +31,18 @@ public class ShooterCmd extends Command {
         }
 
         // Set flywheel and roller speeds
-        if (yButton.getAsBoolean()) {
-            m_shooter.stopFlywheelMotors();
-            m_shooter.stopRollerMotors();
-        } else if (m_shooter.isNoteInShooter()) {
-            m_shooter.setFlywheelMotorSpeed();
-            if (xButton.getAsBoolean()) {
-                m_shooter.putNoteIntoFlywheels();
-            }
-        } else {
-            m_shooter.stopFlywheelMotors();
-            m_shooter.stopRollerMotors();
-        }
+        // if (yButton.getAsBoolean()) {
+        //     m_shooter.stopFlywheelMotors();
+        //     m_shooter.stopRollerMotors();
+        // } else if (m_shooter.isNoteInShooter()) {
+        //     m_shooter.setFlywheelMotorSpeed();
+        //     if (xButton.getAsBoolean()) {
+        //         m_shooter.putNoteIntoFlywheels();
+        //     }
+        // } else {
+        //     m_shooter.stopFlywheelMotors();
+        //     m_shooter.stopRollerMotors();
+        // }
 
         // Set angle speeds
         if (yButton.getAsBoolean()) {
