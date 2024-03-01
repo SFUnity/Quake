@@ -219,6 +219,8 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
             var transform = new Transform2d(DriveConstants.kModuleOffset[i], modules.get(i).getPosition().angle);
             modules2d[i].setPose(getPose().transformBy(transform));
         }
+
+        headingEntry.setDouble(getHeading());
     }
 
     public ChassisSpeeds getRobotRelativeChassisSpeeds() {
