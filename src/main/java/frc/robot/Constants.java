@@ -89,9 +89,8 @@ public final class Constants {
 
     public static final double kDistanceActivationThresholdMin = 0.5; //TODO needs to be updated with measued values
 
-    public static final double kIntakeLoweredAngleDegrees = 90; //TODO needs to be updated with measued values
-    public static final double kIntakeRaisedAngleDegrees = 0;
-    public static final double kIntakeAngleToleranceDegrees = 2;
+    public static final double kIntakeLoweredAngleRevRotations = 90; //TODO needs to be updated with measued values
+    public static final double kIntakeRaisedAngleRevRotations = 0;
     
     public static final int kIndexerMotorId = 11;
     public static final double kIndexerIntakeSpeedPercent = 0.5;
@@ -113,10 +112,9 @@ public final class Constants {
 
     public static final int kShooterAngleMotorEncoderId = 5;
     
-    public static final double kAngleToleranceDegrees = 1;
-    public static final double kShooterManualAngleDegrees = 60; //TODO needs to be set
-    public static final double kDesiredAmpAngleDegrees = 65;
-    public static final double kSourceAngleDegrees = 60; //TODO needs to be updated with measured values
+    public static final double kShooterManualAngleRevRotations = 16; //TODO needs to be set
+    public static final double kDesiredAmpAngleRevRotations = 10; //TODO needs to be set
+    public static final double kSourceAngleRevRotations = 12; //TODO needs to be updated with measured values
     
     public static final double kRollerIntakeSpeedPercent = 1.0; //TODO needs to be updated
     public static final double kRollerShootingSpeedPercent = 1.0; //TODO needs to be updated
