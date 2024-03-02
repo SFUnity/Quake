@@ -7,12 +7,12 @@ import frc.robot.subsystems.Intake;
 public class IntakeCmd extends Command{
 
     private final Intake m_intake;
-    private final Trigger cross, triangle;
+    private final Trigger circle, triangle;
 
     public IntakeCmd(Intake intake,
-            Trigger cross, Trigger triangle) {
+            Trigger circle, Trigger triangle) {
         m_intake = intake;
-        this.cross = cross;
+        this.circle = circle;
         this.triangle = triangle;
 
         addRequirements(intake);
@@ -33,7 +33,7 @@ public class IntakeCmd extends Command{
         if (triangle.getAsBoolean()) {
             m_intake.stopIndexer();
             m_intake.stopIntakeRollers();
-        } else if (cross.getAsBoolean()) {
+        } else if (circle.getAsBoolean()) {
             m_intake.lowerAndRunIntake();
         } else {
             m_intake.raiseAndStopIntake();
