@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.ControllerConstants;
@@ -36,7 +37,7 @@ public class RobotContainer {
 
     private final CommandXboxController m_driverController = new CommandXboxController(
                     ControllerConstants.kDriverControllerId);
-    private final CommandXboxController m_operationsController = new CommandXboxController(
+    private final CommandPS5Controller m_operationsController = new CommandPS5Controller(
                     ControllerConstants.kOperationControllerId);
 
     // Auto Commands Chooser
@@ -63,15 +64,15 @@ public class RobotContainer {
 
         m_shooter.setDefaultCommand(new ShooterCmd(
                 m_shooter, 
-                m_operationsController.x(), 
-                m_operationsController.y(),
-                m_operationsController.leftBumper(),
-                m_operationsController.rightBumper()));
+                m_operationsController.square(), 
+                m_operationsController.triangle(),
+                m_operationsController.L1(),
+                m_operationsController.R1()));
         
         // m_intake.setDefaultCommand(new IntakeCmd(
         //         m_intake,
-        //         m_operationsController.a(), 
-        //         m_operationsController.b()));
+        //         m_operationsController.cross(), 
+        //         m_operationsController.triangle()));
 
         NamedCommands.registerCommand("ampShoot", m_shooter.readyShootAmpCommand()); 
         NamedCommands.registerCommand("speakerShoot", m_shooter.readyShootSpeakerCommand());

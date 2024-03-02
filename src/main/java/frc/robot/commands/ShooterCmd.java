@@ -6,15 +6,15 @@ import frc.robot.subsystems.Shooter;
 
 public class ShooterCmd extends Command {
     private final Shooter m_shooter;
-    private final Trigger leftBumper, rightBumper, xButton, yButton;
+    private final Trigger leftBumper, rightBumper, square, triangle;
 
-    public ShooterCmd(Shooter shooter, Trigger xButton, Trigger yButton, Trigger leftBumper, Trigger rightBumper) {
+    public ShooterCmd(Shooter shooter, Trigger square, Trigger triangle, Trigger leftBumper, Trigger rightBumper) {
         m_shooter = shooter;
 
         this.leftBumper = leftBumper;
         this.rightBumper = rightBumper;
-        this.xButton = xButton;
-        this.yButton = yButton;
+        this.square = square;
+        this.triangle = triangle;
 
         addRequirements(shooter);
     }
@@ -31,12 +31,12 @@ public class ShooterCmd extends Command {
         }
 
         // Set flywheel and roller speeds
-        if (yButton.getAsBoolean()) {
+        if (triangle.getAsBoolean()) {
             m_shooter.stopFlywheelMotors();
             m_shooter.stopRollerMotors();
         } else if (m_shooter.isNoteInShooter()) {
             m_shooter.setFlywheelMotorSpeed();
-            if (xButton.getAsBoolean()) {
+            if (square.getAsBoolean()) {
                 m_shooter.putNoteIntoFlywheels();
             }
         } else {
@@ -45,7 +45,7 @@ public class ShooterCmd extends Command {
         }
 
         // Set angle speeds
-        if (yButton.getAsBoolean()) {
+        if (triangle.getAsBoolean()) {
             m_shooter.stopAngleMotors();
         } else {
             m_shooter.setAngleMotorSpeeds();

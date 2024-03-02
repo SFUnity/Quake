@@ -7,13 +7,13 @@ import frc.robot.subsystems.Intake;
 public class IntakeCmd extends Command{
 
     private final Intake m_intake;
-    private final Trigger aButton, bButton;
+    private final Trigger cross, triangle;
 
     public IntakeCmd(Intake intake,
-            Trigger aButton, Trigger bButton) {
+            Trigger cross, Trigger triangle) {
         m_intake = intake;
-        this.aButton = aButton;
-        this.bButton = bButton;
+        this.cross = cross;
+        this.triangle = triangle;
 
         addRequirements(intake);
     }
@@ -30,17 +30,17 @@ public class IntakeCmd extends Command{
     @Override
     public void execute() {
         // set indexer and intake roller speeds
-        if (bButton.getAsBoolean()) {
+        if (triangle.getAsBoolean()) {
             m_intake.stopIndexer();
             m_intake.stopIntakeRollers();
-        } else if (aButton.getAsBoolean()) {
+        } else if (cross.getAsBoolean()) {
             m_intake.lowerAndRunIntake();
         } else {
             m_intake.raiseAndStopIntake();
         }
 
         // set intake angle motor speeds
-        if (!bButton.getAsBoolean()) {
+        if (!triangle.getAsBoolean()) {
             m_intake.setAngleMotorSpeeds();
         } else {
             m_intake.stopIntakeRotation();
