@@ -31,7 +31,8 @@ public class Shooter extends SubsystemBase {
     private final SparkPIDController m_bottomFlywheePidController;
 
     private double desiredAngle;
-    private double desiredSpeed;
+    private double desiredSpeedBottom;
+    private double desiredSpeedTop;
 
     public Shooter() {        
         m_shooterDistanceSensor = new Rev2mDistanceSensor(Port.kOnboard);
@@ -51,23 +52,28 @@ public class Shooter extends SubsystemBase {
         m_anglePidController = m_shooterAngleMotor.getPIDController();
         this.setAngleMotorSpeeds();
 
-        desiredSpeed = 0;
+        desiredSpeedBottom = 0;
+        desiredSpeedTop = 0;
         m_bottomFlywheePidController = m_shooterBottomFlywheelMotor.getPIDController();
         m_topFlywheePidController = m_shooterTopFlywheelMotor.getPIDController();
         this.setFlywheelMotorSpeed();
     }
 
     public void flywheelsIntake() {
-        desiredSpeed = ShooterConstants.kFlywheelIntakeSpeedRPM;
+        desiredSpeedBottom = ShooterConstants.kFlywheelIntakeSpeedRPM;
+        desiredSpeedTop = ShooterConstants.kFlywheelIntakeSpeedRPM;
+
     }
     
     public void readyShootSpeaker() {
-        desiredSpeed = ShooterConstants.kShooterDefaultSpeedRPM;
+        desiredSpeedBottom = ShooterConstants.kShooterDefaultSpeedRPM;
+        desiredSpeedTop = ShooterConstants.kShooterDefaultSpeedRPM;
         desiredAngle = ShooterConstants.kShooterManualAngleRevRotations;
     }
 
     public void readyShootAmp() {
-        desiredAngle = ShooterConstants.kAmpShootingSpeedRPM;
+        desiredSpeedBottom = ShooterConstants.kAmpShootingSpeedBottomRPM;
+        desiredSpeedTop = ShooterConstants.kAmpShootingSpeedTopRPM;
         desiredAngle = ShooterConstants.kDesiredAmpAngleRevRotations;
     }
 
@@ -117,8 +123,8 @@ public class Shooter extends SubsystemBase {
     }
 
     public void setFlywheelMotorSpeed() {
-        m_bottomFlywheePidController.setReference(desiredSpeed, ControlType.kVelocity);
-        m_topFlywheePidController.setReference(desiredSpeed, ControlType.kVelocity, 2);
+        m_bottomFlywheePidController.setReference(desiredSpeedBottom, ControlType.kVelocity);
+        m_topFlywheePidController.setReference(desiredSpeedTop, ControlType.kVelocity, 2);
     }
 
     // Auto Commands

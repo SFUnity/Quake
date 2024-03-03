@@ -89,8 +89,8 @@ public final class Constants {
 
     public static final double kDistanceActivationThresholdMin = 0.5; //TODO needs to be updated with measued values
 
-    public static final double kIntakeLoweredAngleRevRotations = 90; //TODO needs to be updated with measued values
-    public static final double kIntakeRaisedAngleRevRotations = 0;
+    public static final double kIntakeLoweredAngleRevRotations = 26;
+    public static final double kIntakeRaisedAngleRevRotations = -2;
     
     public static final int kIndexerMotorId = 11;
     public static final double kIndexerIntakeSpeedPercent = 0.5;
@@ -113,14 +113,15 @@ public final class Constants {
     public static final int kShooterAngleMotorEncoderId = 5;
     
     public static final double kShooterManualAngleRevRotations = 16; //TODO needs to be set
-    public static final double kDesiredAmpAngleRevRotations = 10; //TODO needs to be set
+    public static final double kDesiredAmpAngleRevRotations = 17;
     public static final double kSourceAngleRevRotations = 12; //TODO needs to be updated with measured values
     
     public static final double kRollerIntakeSpeedPercent = 1.0; //TODO needs to be updated
-    public static final double kRollerShootingSpeedPercent = 1.0; //TODO needs to be updated
+    public static final double kRollerShootingSpeedPercent = 1.0;
     
     public static final double kFlywheelIntakeSpeedRPM = -500; //TODO needs to be updated
-    public static final double kAmpShootingSpeedRPM = 4000; //TODO needs to be updated
+    public static final double kAmpShootingSpeedBottomRPM = 1370;
+    public static final double kAmpShootingSpeedTopRPM = 1310;
     public static final double kShooterReadySpeedRPM = 4000; //TODO needs to be updated
     public static final double kShooterDefaultSpeedRPM = 4000; //TODO needs to be updated
     public static final double kFlywheelToleranceRPM = 10; //TODO needs to be updated
