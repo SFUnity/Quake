@@ -59,10 +59,14 @@ public class Shooter extends SubsystemBase {
         this.setFlywheelMotorSpeed();
     }
 
-    public void intakeNote() {
+    public void intakeNote(boolean intakeWorking) {
         desiredSpeedBottom = ShooterConstants.kFlywheelIntakeSpeedRPM;
         desiredSpeedTop = ShooterConstants.kFlywheelIntakeSpeedRPM;
-        desiredAngle = 0;
+        if (intakeWorking) {
+            desiredAngle = 0;
+        } else {
+            desiredAngle = ShooterConstants.kSourceAngleRevRotations;
+        }
     }
     
     public void readyShootSpeaker() {

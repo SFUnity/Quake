@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.Shooter;
@@ -7,8 +8,9 @@ import frc.robot.subsystems.Shooter;
 public class ShooterCmd extends Command {
     private final Shooter m_shooter;
     private final Trigger leftBumper, rightBumper, square, cross, circle;
+    private GenericEntry intakeWorking;
 
-    public ShooterCmd(Shooter shooter, Trigger square, Trigger cross, Trigger circle, Trigger leftBumper, Trigger rightBumper) {
+    public ShooterCmd(Shooter shooter, Trigger square, Trigger cross, Trigger circle, Trigger leftBumper, Trigger rightBumper, GenericEntry intakeWorkingEntry) {
         m_shooter = shooter;
 
         this.leftBumper = leftBumper;
@@ -16,6 +18,7 @@ public class ShooterCmd extends Command {
         this.square = square;
         this.cross = cross;
         this.circle = circle;
+        intakeWorking = intakeWorkingEntry;
 
         addRequirements(shooter);
     }
@@ -33,7 +36,7 @@ public class ShooterCmd extends Command {
 
         // Set flywheel and roller speeds
         if (circle.getAsBoolean()) {
-            m_shooter.intakeNote();
+            m_shooter.intakeNote(intakeWorking.getBoolean(true));
             m_shooter.setFlywheelMotorSpeed();
             m_shooter.stopRollerMotors();
         } else if (cross.getAsBoolean()) {

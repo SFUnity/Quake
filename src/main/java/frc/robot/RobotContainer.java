@@ -5,6 +5,7 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -59,6 +60,9 @@ public class RobotContainer {
 
     public ShuffleboardTab mainTab = Shuffleboard.getTab("Main");
 
+    private ShuffleboardTab operationsTab = Shuffleboard.getTab("Operations");
+    private GenericEntry intakeWorking = operationsTab.add("Intake Working", true).getEntry();
+
     public RobotContainer() {
         m_swerve.setDefaultCommand(new SwerveJoystickCmd(
                 m_swerve,
@@ -73,11 +77,13 @@ public class RobotContainer {
                 m_operationsController.cross(),
                 m_operationsController.circle(),
                 m_operationsController.L1(),
-                m_operationsController.R1()));
+                m_operationsController.R1(),
+                intakeWorking));
         
         m_intake.setDefaultCommand(new IntakeCmd(
                 m_intake,
-                m_operationsController.circle()));
+                m_operationsController.circle(),
+                intakeWorking));
 
         NamedCommands.registerCommand("ampShoot", m_shooter.readyShootAmpCommand()); 
         NamedCommands.registerCommand("speakerShoot", m_shooter.readyShootSpeakerCommand());

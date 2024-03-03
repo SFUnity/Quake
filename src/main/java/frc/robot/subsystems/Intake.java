@@ -72,6 +72,10 @@ public class Intake extends SubsystemBase{
         m_intakeMotor.stopMotor();
     }
 
+    public void safetyRaiseIntake() {
+        m_anglePidController.setReference(IntakeConstants.kIntakeRaisedAngleRevRotations, ControlType.kPosition);
+    }
+
     public Command noteInShooterCommand() {
         return run(() -> {
             stopIndexer();
