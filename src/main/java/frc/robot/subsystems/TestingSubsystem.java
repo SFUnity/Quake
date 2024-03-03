@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix6.hardware.CANcoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
@@ -12,15 +11,11 @@ public class TestingSubsystem extends SubsystemBase {
     private final CANSparkMax m_intakeAngleMotor;
     private final CANSparkMax m_intakeMotor;
     private final CANSparkMax m_indexerMotor;
-    
-    private final CANcoder m_angleEncoder;
 
     public TestingSubsystem() {
         m_intakeAngleMotor = new CANSparkMax(IntakeConstants.kIntakeAngleMotorId, MotorType.kBrushless);
         m_intakeMotor = new CANSparkMax(IntakeConstants.kIntakeRollersMotorId, MotorType.kBrushless);
         m_indexerMotor = new CANSparkMax(IntakeConstants.kIndexerMotorId, MotorType.kBrushless);
-
-        m_angleEncoder = new CANcoder(IntakeConstants.kIntakeAngleMotorEncoderId);
     }
 
     public Command defaultCmd() {
