@@ -85,7 +85,7 @@ public final class Constants {
     public static final int kIntakeRollersMotorId = 10;
     public static final int kIntakeAngleMotorEncoderId = 4;
 
-    public static final double kIntakeRollerSpeedPercent = 1.0;
+    public static final double kIntakeRollerSpeedPercent = 1.0; //TODO needs to be updated with measured values
 
     public static final double kDistanceActivationThresholdMin = 0.5; //TODO needs to be updated with measued values
 
@@ -93,8 +93,7 @@ public final class Constants {
     public static final double kIntakeRaisedAngleRevRotations = -2;
     
     public static final int kIndexerMotorId = 11;
-    public static final double kIndexerIntakeSpeedPercent = 0.5;
-    public static final double kIndexerShootingSpeedPercent = 1.0;
+    public static final double kIndexerIntakeSpeedPercent = 0.5; //TODO needs to be updated with measured values
   }
 
   public static final class ClimberConstants {
@@ -122,9 +121,7 @@ public final class Constants {
     public static final double kFlywheelIntakeSpeedRPM = -500; //TODO needs to be updated
     public static final double kAmpShootingSpeedBottomRPM = 1370;
     public static final double kAmpShootingSpeedTopRPM = 1310;
-    public static final double kShooterReadySpeedRPM = 4000; //TODO needs to be updated
     public static final double kShooterDefaultSpeedRPM = 4000; //TODO needs to be updated
-    public static final double kFlywheelToleranceRPM = 10; //TODO needs to be updated
 
     public static final double kShooterDistanceRangeInches = 2.0; //TODO needs to be updated with measured values
     public static final int kHeightOfSpeakerInches = 78;
