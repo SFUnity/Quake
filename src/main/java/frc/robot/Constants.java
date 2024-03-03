@@ -111,7 +111,7 @@ public final class Constants {
 
     public static final int kShooterAngleMotorEncoderId = 5;
     
-    public static final double kShooterManualAngleRevRotations = 16; //TODO needs to be set
+    public static final double kSpeakerManualAngleRevRotations = 16;
     public static final double kDesiredAmpAngleRevRotations = 17;
     public static final double kSourceAngleRevRotations = 12; //TODO needs to be updated with measured values
     
@@ -121,7 +121,7 @@ public final class Constants {
     public static final double kFlywheelIntakeSpeedRPM = -500; //TODO needs to be updated
     public static final double kAmpShootingSpeedBottomRPM = 1370;
     public static final double kAmpShootingSpeedTopRPM = 1310;
-    public static final double kShooterDefaultSpeedRPM = 4000; //TODO needs to be updated
+    public static final double kShooterDefaultSpeedRPM = 4000;
 
     public static final double kShooterDistanceRangeInches = 2.0; //TODO needs to be updated with measured values
     public static final int kHeightOfSpeakerInches = 78;
