@@ -11,20 +11,21 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.Command.InterruptionBehavior;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.commands.CircleAutoCmd;
-// import frc.robot.commands.IntakeCmd;
+import frc.robot.commands.IntakeCmd;
 import frc.robot.commands.ShooterCmd;
 import frc.robot.commands.StraightAutoCmd;
 import frc.robot.commands.SwerveJoystickCmd;
-// import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 // import frc.robot.subsystems.LEDs;
 import frc.robot.subsystems.Swerve;
-import frc.robot.subsystems.TestingSubsystem;
+// import frc.robot.subsystems.TestingSubsystem;
 
 
 public class RobotContainer {
@@ -32,9 +33,10 @@ public class RobotContainer {
 
     // private final LEDs m_LEDs = new LEDs();
 
-    // private final Intake m_intake = new Intake();
+    private final Intake m_intake = new Intake();
 
-    private final TestingSubsystem m_testingSubsystem = new TestingSubsystem();
+    // TODO remove TestingSubsystem
+    // private final TestingSubsystem m_testingSubsystem = new TestingSubsystem();
 
     private final Shooter m_shooter = new Shooter();
 
@@ -65,7 +67,6 @@ public class RobotContainer {
                 () -> m_driverController.getRightX(),
                 true));
 
-        // m_shooter.setDefaultCommand(m_shooter.setToAngleCommand());
         m_shooter.setDefaultCommand(new ShooterCmd(
                 m_shooter, 
                 m_operationsController.square(), 
@@ -74,10 +75,10 @@ public class RobotContainer {
                 m_operationsController.L1(),
                 m_operationsController.R1()));
         
-        // m_intake.setDefaultCommand(new IntakeCmd(
-        //         m_intake,
-        //         m_operationsController.circle(), 
-        //         m_operationsController.triangle()));
+        m_intake.setDefaultCommand(new IntakeCmd(
+                m_intake,
+                m_operationsController.circle(), 
+                m_operationsController.triangle()));
 
         NamedCommands.registerCommand("ampShoot", m_shooter.readyShootAmpCommand()); 
         NamedCommands.registerCommand("speakerShoot", m_shooter.readyShootSpeakerCommand());
@@ -110,7 +111,7 @@ public class RobotContainer {
         new Trigger(m_driverController.x()).whileTrue(m_swerve.SetXCommand());
         new Trigger(m_driverController.a()).onTrue(new InstantCommand(() -> m_swerve.resetPose(new Pose2d(2, 2, new Rotation2d(0)))).andThen(() -> m_swerve.resetHeading()));
 
-        // new Trigger(() -> m_shooter.isNoteInShooter()).onTrue(new InstantCommand(m_intake::stopIndexer, m_intake));
+        new Trigger(() -> m_shooter.isNoteInShooter()).whileTrue(m_intake.noteInShooterCommand().withInterruptBehavior(InterruptionBehavior.kCancelIncoming));
 
         // LED Triggers
         // new Trigger(() -> m_intake.noteInIndexer()).onTrue(m_LEDs.NoteInIndexerPattern());

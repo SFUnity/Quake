@@ -7,6 +7,7 @@ import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 
@@ -80,5 +81,13 @@ public class Intake extends SubsystemBase{
     public void raiseAndStopIntake() {
         desiredAngle = IntakeConstants.kIntakeRaisedAngleRevRotations;
         m_intakeMotor.stopMotor();
+    }
+
+    public Command noteInShooterCommand() {
+        return run(() -> {
+            raiseAndStopIntake();
+            stopIndexer();
+            setAngleMotorSpeeds();
+        });
     }
 }
