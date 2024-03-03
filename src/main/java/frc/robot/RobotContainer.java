@@ -107,9 +107,9 @@ public class RobotContainer {
         mainTab.add(m_fieldOrientedChooser);
 
         SmartDashboard.putData(m_swerve);
-        SmartDashboard.putData(m_straightAuto);
-        SmartDashboard.putData(m_circleAuto);
-        SmartDashboard.putData(m_swerve.TurnToAngle(45));
+        // SmartDashboard.putData(m_straightAuto);
+        // SmartDashboard.putData(m_circleAuto);
+        // SmartDashboard.putData(m_swerve.TurnToAngle(45));
     }
 
     private void configureBindings() {

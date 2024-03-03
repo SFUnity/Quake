@@ -101,21 +101,21 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
     private DoubleArrayPublisher m_desiredStatesPublisher = m_desiredStatesTopic.publish();
 
     public ShuffleboardTab swerveTab = Shuffleboard.getTab("Swerve Subsystem");
-    public ShuffleboardTab odometryTab = Shuffleboard.getTab("Odometry");
+    public ShuffleboardTab mainTab = Shuffleboard.getTab("Main");
 
-    private GenericEntry headingEntry = odometryTab.add("Heading", 0).withWidget(BuiltInWidgets.kGyro).getEntry();
+    private GenericEntry headingEntry = mainTab.add("Heading", 0).withWidget(BuiltInWidgets.kGyro).getEntry();
     
-    private GenericEntry turnToAnglePEntry = swerveTab.addPersistent("turnToAngle P", 0.05).getEntry();
-    private GenericEntry turnToAngleIEntry = swerveTab.addPersistent("turnToAngle I", 0.01).getEntry();
-    private PIDController turnToAnglePID = new PIDController(turnToAnglePEntry.getDouble(0.05), turnToAngleIEntry.getDouble(0.05), 0);
+    // private GenericEntry turnToAnglePEntry = swerveTab.addPersistent("turnToAngle P", 0.05).getEntry();
+    // private GenericEntry turnToAngleIEntry = swerveTab.addPersistent("turnToAngle I", 0.01).getEntry();
+    private PIDController turnToAnglePID = new PIDController(0.05, 0, 0);
 
-    private GenericEntry autoTranslationPEntry = swerveTab.addPersistent("Auto Translation P", 0.05).getEntry();
-    private GenericEntry autoTranslationIEntry = swerveTab.addPersistent("Auto Translation I", 0.00).getEntry();
-    private GenericEntry autoTranslationDEntry = swerveTab.addPersistent("Auto Translation D", 0.01).getEntry();
+    // private GenericEntry autoTranslationPEntry = swerveTab.addPersistent("Auto Translation P", 0.05).getEntry();
+    // private GenericEntry autoTranslationIEntry = swerveTab.addPersistent("Auto Translation I", 0.00).getEntry();
+    // private GenericEntry autoTranslationDEntry = swerveTab.addPersistent("Auto Translation D", 0.01).getEntry();
 
-    private GenericEntry autoRotationPEntry = swerveTab.addPersistent("Auto Rotation P", 0.05).getEntry();
-    private GenericEntry autoRotationIEntry = swerveTab.addPersistent("Auto Rotation I", 0.00).getEntry();
-    private GenericEntry autoRotationDEntry = swerveTab.addPersistent("Auto Rotation D", 0.01).getEntry();
+    // private GenericEntry autoRotationPEntry = swerveTab.addPersistent("Auto Rotation P", 0.05).getEntry();
+    // private GenericEntry autoRotationIEntry = swerveTab.addPersistent("Auto Rotation I", 0.00).getEntry();
+    // private GenericEntry autoRotationDEntry = swerveTab.addPersistent("Auto Rotation D", 0.01).getEntry();
 
     public Swerve() {
         /* Threads are units of code. These threads call the zeroHeading method 1 sec 
@@ -135,7 +135,7 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
         turnToAnglePID.enableContinuousInput(-180, 180);
         turnToAnglePID.setTolerance(0.1);
 
-        odometryTab.add("Field", field2d);
+        mainTab.add("Field", field2d);
 
         swerveTab.add("Front Left", m_frontLeft);
         swerveTab.add("Front Right", m_frontRight);
@@ -148,8 +148,8 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
             this::getRobotRelativeChassisSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
             this::driveRobotRelative, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
             new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
-                    new PIDConstants(autoTranslationPEntry.getDouble(0.05), autoTranslationIEntry.getDouble(0.01), autoTranslationDEntry.getDouble(0.0)), // Translation PID constants
-                    new PIDConstants(autoRotationPEntry.getDouble(0.05), autoRotationIEntry.getDouble(0.01), autoRotationDEntry.getDouble(0.0)), // Rotation PID constants
+                    new PIDConstants(0.05, 0.01, 0.0), // Translation PID constants
+                    new PIDConstants(0.05, 0.01, 0.0), // Rotation PID constants
                     ModuleConstants.kMaxModuleSpeedMPS, // Max module speed, in m/s
                     0.3, // Drive base radius in meters. Distance from robot center to furthest module.
                     new ReplanningConfig(false, false) // Default path replanning config. See the API for the options here
