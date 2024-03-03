@@ -34,9 +34,6 @@ public class IntakeCmd extends Command{
         } else {
             m_intake.raiseAndStopIntake();
         }
-
-        // set intake angle motor speeds
-        m_intake.setAngleMotorSpeeds();
     }
 
     @Override

@@ -20,8 +20,6 @@ public class Intake extends SubsystemBase{
 
     private final SparkPIDController m_anglePidController;
 
-    private double desiredAngle;
-
     public Intake() {
         m_intakeAngleMotor = new CANSparkMax(IntakeConstants.kIntakeAngleMotorId, MotorType.kBrushless);
         m_intakeMotor = new CANSparkMax(IntakeConstants.kIntakeRollersMotorId, MotorType.kBrushless);
@@ -31,16 +29,7 @@ public class Intake extends SubsystemBase{
         m_angleEncoder = m_intakeAngleMotor.getEncoder();
         m_angleEncoder.setPositionConversionFactor((1/15)*(24/42)*(12/34)/360); // 1:15 gearbox, then a 24:42 and 12:34 gear reduction / 360 degrees
 
-        desiredAngle = IntakeConstants.kIntakeRaisedAngleRevRotations;
         m_anglePidController = m_intakeAngleMotor.getPIDController();
-        this.setAngleMotorSpeeds();
-    }
-
-    /**
-     * updates intake angle with pid loops
-     */
-    public void setAngleMotorSpeeds() {
-        m_anglePidController.setReference(desiredAngle, ControlType.kPosition);
     }
 
     /**
@@ -55,7 +44,7 @@ public class Intake extends SubsystemBase{
      * sets the intake and indexer  motors to max speed
      */
     public void lowerAndRunIntake() {
-        desiredAngle = IntakeConstants.kIntakeLoweredAngleRevRotations;
+        m_anglePidController.setReference(IntakeConstants.kIntakeLoweredAngleRevRotations, ControlType.kPosition);
         m_intakeMotor.set(IntakeConstants.kIntakeRollerSpeedPercent);
         m_indexerMotor.set(IntakeConstants.kIndexerIntakeSpeedPercent);
     }
@@ -79,7 +68,7 @@ public class Intake extends SubsystemBase{
      * turns the intake  motor off, but doesn't affect indexer  motor
      */
     public void raiseAndStopIntake() {
-        desiredAngle = IntakeConstants.kIntakeRaisedAngleRevRotations;
+        m_anglePidController.setReference(IntakeConstants.kIntakeRaisedAngleRevRotations, ControlType.kPosition);
         m_intakeMotor.stopMotor();
     }
 
@@ -87,7 +76,6 @@ public class Intake extends SubsystemBase{
         return run(() -> {
             stopIndexer();
             raiseAndStopIntake();
-            setAngleMotorSpeeds();
         });
     }
 }
