@@ -85,8 +85,8 @@ public class Intake extends SubsystemBase{
 
     public Command noteInShooterCommand() {
         return run(() -> {
-            raiseAndStopIntake();
             stopIndexer();
+            raiseAndStopIntake();
             setAngleMotorSpeeds();
         });
     }
