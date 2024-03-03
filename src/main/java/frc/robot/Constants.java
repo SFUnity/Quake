@@ -42,10 +42,10 @@ public final class Constants {
     public static final int kBackLeftDriveMotorId = 2;
     public static final int kBackRightDriveMotorId = 3;
 
-    public static final int kFrontLeftTurningMotorId = 2;
-    public static final int kFrontRightTurningMotorId = 4;
-    public static final int kBackLeftTurningMotorId = 3;
-    public static final int kBackRightTurningMotorId = 1;
+    public static final int kFrontLeftTurningMotorId = 52;
+    public static final int kFrontRightTurningMotorId = 54;
+    public static final int kBackLeftTurningMotorId = 53;
+    public static final int kBackRightTurningMotorId = 51;
 
     // PdhId = 9
     // RoboRioId = 0
