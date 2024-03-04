@@ -110,7 +110,8 @@ public final class Constants {
     
     public static final double kRollerShootingSpeedPercent = 1.0;
     
-    public static final double kFlywheelIntakeSpeedRPM = -750; //TODO needs to be updated
+    public static final double kFlywheelMaxSpeedRPM = 5676;
+    public static final double kFlywheelIntakeSpeedRPM = -750;
     public static final double kAmpShootingSpeedBottomRPM = 1370;
     public static final double kAmpShootingSpeedTopRPM = 1310;
     public static final double kShooterDefaultSpeedRPM = 4000;
