@@ -6,6 +6,7 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -61,7 +62,7 @@ public class RobotContainer {
     public ShuffleboardTab mainTab = Shuffleboard.getTab("Main");
 
     private ShuffleboardTab operationsTab = Shuffleboard.getTab("Operations");
-    private GenericEntry intakeWorkingEntry = operationsTab.add("Intake Working", true).getEntry();
+    private GenericEntry intakeWorkingEntry = operationsTab.add("Intake Working", true).withWidget(BuiltInWidgets.kToggleButton).getEntry();
 
     public RobotContainer() {
         m_swerve.setDefaultCommand(new SwerveJoystickCmd(
