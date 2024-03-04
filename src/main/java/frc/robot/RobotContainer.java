@@ -70,7 +70,6 @@ public class RobotContainer {
 
         m_shooter.setDefaultCommand(new ShooterCmd(
                 m_shooter, 
-                m_operationsController.square(), 
                 m_operationsController.cross(),
                 m_operationsController.circle(),
                 m_operationsController.L1(),
@@ -81,6 +80,7 @@ public class RobotContainer {
                 m_intake,
                 m_operationsController.circle(),
                 m_operationsController.triangle(),
+                m_operationsController.cross(),
                 intakeWorkingEntry));
 
         NamedCommands.registerCommand("ampShoot", m_shooter.readyShootAmpCommand()); 
