@@ -78,7 +78,7 @@ public class RobotContainer {
         
         m_intake.setDefaultCommand(new IntakeCmd(
                 m_intake,
-                m_operationsController.circle(),
+                m_operationsController.square(),
                 m_operationsController.triangle(),
                 m_operationsController.cross(),
                 intakeWorkingEntry));

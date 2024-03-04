@@ -68,6 +68,14 @@ public class Shooter extends SubsystemBase {
         this.setFlywheelMotorSpeed();
     }
 
+    @Override
+    public void periodic() {
+        super.periodic();
+        bottomFlywheelSpeedEntry.setDouble(m_bottomFlywheelEncoder.getVelocity());
+        topFlywheelSpeedEntry.setDouble(m_topFlywheelEncoder.getVelocity());
+        angleEntry.setDouble(m_angleEncoder.getPosition());
+    }
+
     public void intakeNote(boolean intakeWorking) {
         m_bottomFlywheePidController.setReference(ShooterConstants.kFlywheelIntakeSpeedRPM, ControlType.kVelocity);
         m_topFlywheePidController.setReference(ShooterConstants.kFlywheelIntakeSpeedRPM, ControlType.kVelocity);
@@ -129,14 +137,11 @@ public class Shooter extends SubsystemBase {
 
     public void setAngleMotorSpeeds() {
         m_anglePidController.setReference(desiredAngle, ControlType.kPosition);
-        angleEntry.setDouble(m_angleEncoder.getPosition());
     }
 
     public void setFlywheelMotorSpeed() {
         m_bottomFlywheePidController.setReference(desiredSpeedBottom, ControlType.kVelocity);
         m_topFlywheePidController.setReference(desiredSpeedTop, ControlType.kVelocity);
-        bottomFlywheelSpeedEntry.setDouble(m_bottomFlywheelEncoder.getVelocity());
-        topFlywheelSpeedEntry.setDouble(m_topFlywheelEncoder.getVelocity());
     }
 
     // Auto Commands

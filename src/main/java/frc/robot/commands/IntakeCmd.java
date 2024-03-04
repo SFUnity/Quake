@@ -8,12 +8,12 @@ import frc.robot.subsystems.Intake;
 public class IntakeCmd extends Command{
 
     private final Intake m_intake;
-    private final Trigger circle, triangle, cross;
+    private final Trigger square, triangle, cross;
     private GenericEntry intakeWorkingEntry;
 
-    public IntakeCmd(Intake intake, Trigger circle, Trigger triangle, Trigger cross, GenericEntry intakeWorkingEntry) {
+    public IntakeCmd(Intake intake, Trigger square, Trigger triangle, Trigger cross, GenericEntry intakeWorkingEntry) {
         m_intake = intake;
-        this.circle = circle;
+        this.square = square;
         this.triangle = triangle;
         this.cross = cross;
         this.intakeWorkingEntry = intakeWorkingEntry;
@@ -42,7 +42,7 @@ public class IntakeCmd extends Command{
             m_intake.lowerAndOuttake();
         } else if (cross.getAsBoolean()) {
             m_intake.runIndexer();
-            if (circle.getAsBoolean()) {
+            if (square.getAsBoolean()) {
                 m_intake.lowerAndRunIntake();
             } else {
                 m_intake.raiseAndStopIntake();

@@ -7,6 +7,9 @@ import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
+import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -20,6 +23,10 @@ public class Intake extends SubsystemBase{
 
     private final SparkPIDController m_anglePidController;
 
+    private ShuffleboardTab operationsTab = Shuffleboard.getTab("Operations");
+    private GenericEntry angleEntry = operationsTab.add("Intake Angle", 0).getEntry();
+
+
     public Intake() {
         m_intakeAngleMotor = new CANSparkMax(IntakeConstants.kIntakeAngleMotorId, MotorType.kBrushless);
         m_intakeMotor = new CANSparkMax(IntakeConstants.kIntakeRollersMotorId, MotorType.kBrushless);
@@ -30,6 +37,12 @@ public class Intake extends SubsystemBase{
         m_angleEncoder.setPositionConversionFactor((1/15)*(24/42)*(12/34)/360); // 1:15 gearbox, then a 24:42 and 12:34 gear reduction / 360 degrees
 
         m_anglePidController = m_intakeAngleMotor.getPIDController();
+    }
+
+    @Override
+    public void periodic() {
+        super.periodic();
+        angleEntry.setDouble(m_angleEncoder.getPosition());
     }
 
     public void runIndexer() {
