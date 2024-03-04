@@ -60,12 +60,12 @@ public class Shooter extends SubsystemBase {
     }
 
     public void intakeNote(boolean intakeWorking) {
-        desiredSpeedBottom = ShooterConstants.kFlywheelIntakeSpeedRPM;
-        desiredSpeedTop = ShooterConstants.kFlywheelIntakeSpeedRPM;
+        m_bottomFlywheePidController.setReference(ShooterConstants.kFlywheelIntakeSpeedRPM, ControlType.kVelocity);
+        m_topFlywheePidController.setReference(ShooterConstants.kFlywheelIntakeSpeedRPM, ControlType.kVelocity);
         if (intakeWorking) {
-            desiredAngle = 0;
+            m_anglePidController.setReference(0, ControlType.kPosition);
         } else {
-            desiredAngle = ShooterConstants.kSourceAngleRevRotations;
+            m_anglePidController.setReference(ShooterConstants.kSourceAngleRevRotations, ControlType.kPosition);
         }
     }
     
@@ -124,7 +124,7 @@ public class Shooter extends SubsystemBase {
 
     public void setFlywheelMotorSpeed() {
         m_bottomFlywheePidController.setReference(desiredSpeedBottom, ControlType.kVelocity);
-        m_topFlywheePidController.setReference(desiredSpeedTop, ControlType.kVelocity, 2);
+        m_topFlywheePidController.setReference(desiredSpeedTop, ControlType.kVelocity);
     }
 
     // Auto Commands

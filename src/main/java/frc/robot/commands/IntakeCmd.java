@@ -8,12 +8,13 @@ import frc.robot.subsystems.Intake;
 public class IntakeCmd extends Command{
 
     private final Intake m_intake;
-    private final Trigger circle;
+    private final Trigger circle, triangle;
     private GenericEntry intakeWorkingEntry;
 
-    public IntakeCmd(Intake intake, Trigger circle, GenericEntry intakeWorkingEntry) {
+    public IntakeCmd(Intake intake, Trigger circle, Trigger triangle, GenericEntry intakeWorkingEntry) {
         m_intake = intake;
         this.circle = circle;
+        this.triangle = triangle;
         this.intakeWorkingEntry = intakeWorkingEntry;
 
         addRequirements(intake);
@@ -37,7 +38,12 @@ public class IntakeCmd extends Command{
             return;
         // set indexer and intake roller speeds
         } else if (circle.getAsBoolean()) {
-            m_intake.lowerAndRunIntake();
+            m_intake.runIndexer();
+            if (triangle.getAsBoolean()) {
+                m_intake.lowerAndRunIntake();
+            } else {
+                m_intake.raiseAndStopIntake();
+            }
         } else {
             m_intake.raiseAndStopIntake();
         }

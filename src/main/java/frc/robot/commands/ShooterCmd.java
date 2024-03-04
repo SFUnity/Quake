@@ -8,9 +8,9 @@ import frc.robot.subsystems.Shooter;
 public class ShooterCmd extends Command {
     private final Shooter m_shooter;
     private final Trigger leftBumper, rightBumper, square, cross, circle;
-    private GenericEntry intakeWorking;
+    private GenericEntry intakeWorkingEntry;
 
-    public ShooterCmd(Shooter shooter, Trigger square, Trigger cross, Trigger circle, Trigger leftBumper, Trigger rightBumper, GenericEntry intakeWorkingEntry) {
+    public ShooterCmd(Shooter shooter, Trigger square, Trigger cross, Trigger circle, Trigger leftBumper, Trigger rightBumper, GenericEntry intakeWorkingEntryEntry) {
         m_shooter = shooter;
 
         this.leftBumper = leftBumper;
@@ -18,7 +18,7 @@ public class ShooterCmd extends Command {
         this.square = square;
         this.cross = cross;
         this.circle = circle;
-        intakeWorking = intakeWorkingEntry;
+        this.intakeWorkingEntry = intakeWorkingEntryEntry;
 
         addRequirements(shooter);
     }
@@ -36,23 +36,20 @@ public class ShooterCmd extends Command {
 
         // Set flywheel and roller speeds
         if (circle.getAsBoolean()) {
-            m_shooter.intakeNote(intakeWorking.getBoolean(true));
-            m_shooter.setFlywheelMotorSpeed();
+            m_shooter.intakeNote(intakeWorkingEntry.getBoolean(true));
             m_shooter.stopRollerMotors();
-        } else if (cross.getAsBoolean()) {
-            m_shooter.setFlywheelMotorSpeed();
-            if (square.getAsBoolean()) {
-                m_shooter.putNoteIntoFlywheels();
-            } else {
-                m_shooter.stopRollerMotors();
-            }
+        } else if (square.getAsBoolean()) {
+            m_shooter.putNoteIntoFlywheels();
         } else {
             m_shooter.stopFlywheelMotors();
             m_shooter.stopRollerMotors();
         }
 
         // Set angle speeds
-        m_shooter.setAngleMotorSpeeds();
+        if (!circle.getAsBoolean()) {
+            m_shooter.setAngleMotorSpeeds();
+            m_shooter.setFlywheelMotorSpeed();
+        }
     }
 
     @Override

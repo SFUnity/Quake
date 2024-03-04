@@ -32,6 +32,10 @@ public class Intake extends SubsystemBase{
         m_anglePidController = m_intakeAngleMotor.getPIDController();
     }
 
+    public void runIndexer() {
+        m_indexerMotor.set(IntakeConstants.kIndexerIntakeSpeedPercent);
+    }
+
     /**
      * stop the indexer motors
      */
@@ -41,12 +45,11 @@ public class Intake extends SubsystemBase{
     
     /**
      * lowers intake to angle set in constants 
-     * sets the intake and indexer  motors to max speed
+     * sets the intake motors to speed
      */
     public void lowerAndRunIntake() {
         m_anglePidController.setReference(IntakeConstants.kIntakeLoweredAngleRevRotations, ControlType.kPosition);
         m_intakeMotor.set(IntakeConstants.kIntakeRollerSpeedPercent);
-        m_indexerMotor.set(IntakeConstants.kIndexerIntakeSpeedPercent);
     }
 
     /**

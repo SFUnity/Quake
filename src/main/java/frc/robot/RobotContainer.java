@@ -61,7 +61,7 @@ public class RobotContainer {
     public ShuffleboardTab mainTab = Shuffleboard.getTab("Main");
 
     private ShuffleboardTab operationsTab = Shuffleboard.getTab("Operations");
-    private GenericEntry intakeWorking = operationsTab.add("Intake Working", true).getEntry();
+    private GenericEntry intakeWorkingEntry = operationsTab.add("Intake Working", true).getEntry();
 
     public RobotContainer() {
         m_swerve.setDefaultCommand(new SwerveJoystickCmd(
@@ -78,12 +78,13 @@ public class RobotContainer {
                 m_operationsController.circle(),
                 m_operationsController.L1(),
                 m_operationsController.R1(),
-                intakeWorking));
+                intakeWorkingEntry));
         
         m_intake.setDefaultCommand(new IntakeCmd(
                 m_intake,
                 m_operationsController.circle(),
-                intakeWorking));
+                m_operationsController.triangle(),
+                intakeWorkingEntry));
 
         NamedCommands.registerCommand("ampShoot", m_shooter.readyShootAmpCommand()); 
         NamedCommands.registerCommand("speakerShoot", m_shooter.readyShootSpeakerCommand());
