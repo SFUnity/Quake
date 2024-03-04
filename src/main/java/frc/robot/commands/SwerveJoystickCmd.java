@@ -4,6 +4,9 @@ import java.util.function.Supplier;
 
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.DriveConstants;
@@ -13,6 +16,10 @@ public class SwerveJoystickCmd extends Command {
     private final Swerve m_swerve;
     private final Supplier<Double> xSpdFunction, ySpdFunction, turningSpdFunction;
     private final Boolean fieldOrientedFunction;
+
+    private ShuffleboardTab swerveTab = Shuffleboard.getTab("Swerve Subsystem");
+    private GenericEntry driveSpeedEntry = swerveTab.addPersistent("Drive Speed Multiplication", 1).getEntry();
+    private GenericEntry turnSpeedEntry = swerveTab.addPersistent("Turn Speed Multiplication", 1).getEntry();
 
     /**
      * @param swerve
@@ -43,7 +50,9 @@ public class SwerveJoystickCmd extends Command {
         turningSpeed = this.applyDeadBand(turningSpeed);
         
         // Modified speeds
-        turningSpeed *= -1.0;
+        xSpeed *= driveSpeedEntry.getDouble(1);
+        ySpeed *= driveSpeedEntry.getDouble(1);
+        turningSpeed *= -turnSpeedEntry.getDouble(1);
         
         ChassisSpeeds chassisSpeeds = speedsToChassisSpeeds(xSpeed, ySpeed, turningSpeed, fieldOrientedFunction);
 
