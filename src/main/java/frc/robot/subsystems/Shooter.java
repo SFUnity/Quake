@@ -40,6 +40,7 @@ public class Shooter extends SubsystemBase {
     private ShuffleboardTab operationsTab = Shuffleboard.getTab("Operations");
     private GenericEntry bottomFlywheelSpeedEntry = operationsTab.add("Bottom Speed", 0).getEntry();
     private GenericEntry topFlywheelSpeedEntry = operationsTab.add("Top Speed", 0).getEntry();
+    private GenericEntry angleEntry = operationsTab.add("Angle", 0).getEntry();
 
 
     public Shooter() {        
@@ -128,6 +129,7 @@ public class Shooter extends SubsystemBase {
 
     public void setAngleMotorSpeeds() {
         m_anglePidController.setReference(desiredAngle, ControlType.kPosition);
+        angleEntry.setDouble(m_angleEncoder.getPosition());
     }
 
     public void setFlywheelMotorSpeed() {
