@@ -70,7 +70,6 @@ public class RealSwerveModule implements AutoCloseable, SwerveModule {
         m_driveMotor.set(normalizedSpeed);
 
         desiredState = state;
-        SmartDashboard.putString("Swerve[" + m_absoluteEncoder.getDeviceID() + "] state", state.toString());
     }
 
     @Override

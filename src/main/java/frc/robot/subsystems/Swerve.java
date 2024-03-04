@@ -137,11 +137,6 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
 
         mainTab.add("Field", field2d);
 
-        swerveTab.add("Front Left", m_frontLeft);
-        swerveTab.add("Front Right", m_frontRight);
-        swerveTab.add("Back Left", m_backLeft);
-        swerveTab.add("Back Right", m_backRight);
-
         AutoBuilder.configureHolonomic(
             this::getPose, // Robot pose supplier
             this::resetPose, // Method to reset odometry (will be called if your auto has a starting pose)
