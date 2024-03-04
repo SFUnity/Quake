@@ -27,7 +27,6 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 // import frc.robot.subsystems.LEDs;
 import frc.robot.subsystems.Swerve;
-// import frc.robot.subsystems.TestingSubsystem;
 
 
 public class RobotContainer {
@@ -36,9 +35,6 @@ public class RobotContainer {
     // private final LEDs m_LEDs = new LEDs();
 
     private final Intake m_intake = new Intake();
-
-    // TODO remove TestingSubsystem
-    // private final TestingSubsystem m_testingSubsystem = new TestingSubsystem();
 
     private final Shooter m_shooter = new Shooter();
 
