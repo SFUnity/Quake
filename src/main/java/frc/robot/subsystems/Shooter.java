@@ -10,6 +10,9 @@ import com.revrobotics.Rev2mDistanceSensor.Port;
 
 import com.revrobotics.Rev2mDistanceSensor.Unit;
 
+import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ShooterConstants;
@@ -33,6 +36,12 @@ public class Shooter extends SubsystemBase {
     private double desiredAngle;
     private double desiredSpeedBottom;
     private double desiredSpeedTop;
+
+    private ShuffleboardTab operationsTab = Shuffleboard.getTab("Operations");
+    private GenericEntry bottomFlywheelSpeedEntry = operationsTab.add("Bottom Speed", 0).getEntry();
+    private GenericEntry topFlywheelSpeedEntry = operationsTab.add("Top Speed", 0).getEntry();
+    private GenericEntry angleEntry = operationsTab.add("Angle", 0).getEntry();
+
 
     public Shooter() {        
         m_shooterDistanceSensor = new Rev2mDistanceSensor(Port.kOnboard);
@@ -120,11 +129,14 @@ public class Shooter extends SubsystemBase {
 
     public void setAngleMotorSpeeds() {
         m_anglePidController.setReference(desiredAngle, ControlType.kPosition);
+        angleEntry.setDouble(m_angleEncoder.getPosition());
     }
 
     public void setFlywheelMotorSpeed() {
         m_bottomFlywheePidController.setReference(desiredSpeedBottom, ControlType.kVelocity);
         m_topFlywheePidController.setReference(desiredSpeedTop, ControlType.kVelocity);
+        bottomFlywheelSpeedEntry.setDouble(m_bottomFlywheelEncoder.getVelocity());
+        topFlywheelSpeedEntry.setDouble(m_topFlywheelEncoder.getVelocity());
     }
 
     // Auto Commands

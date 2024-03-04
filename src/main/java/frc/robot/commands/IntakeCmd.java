@@ -49,6 +49,7 @@ public class IntakeCmd extends Command{
             }
         } else {
             m_intake.raiseAndStopIntake();
+            m_intake.stopIndexer();
         }
     }
 
