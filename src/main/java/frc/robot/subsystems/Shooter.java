@@ -77,10 +77,10 @@ public class Shooter extends SubsystemBase {
     }
 
     public void intakeNote(boolean intakeWorking) {
-        // m_bottomFlywheePidController.setReference(ShooterConstants.kFlywheelIntakeSpeedRPM, ControlType.kVelocity);
-        // m_topFlywheePidController.setReference(ShooterConstants.kFlywheelIntakeSpeedRPM, ControlType.kVelocity);
-        m_shooterBottomFlywheelMotor.set(ShooterConstants.kFlywheelIntakeSpeedRPM / ShooterConstants.kFlywheelMaxSpeedRPM);
-        m_shooterTopFlywheelMotor.set(ShooterConstants.kFlywheelIntakeSpeedRPM / ShooterConstants.kFlywheelMaxSpeedRPM);
+        m_bottomFlywheePidController.setReference(ShooterConstants.kFlywheelIntakeSpeedRPM, ControlType.kVelocity);
+        m_topFlywheePidController.setReference(ShooterConstants.kFlywheelIntakeSpeedRPM, ControlType.kVelocity);
+        // m_shooterBottomFlywheelMotor.set(ShooterConstants.kFlywheelIntakeSpeedRPM / ShooterConstants.kFlywheelMaxSpeedRPM);
+        // m_shooterTopFlywheelMotor.set(ShooterConstants.kFlywheelIntakeSpeedRPM / ShooterConstants.kFlywheelMaxSpeedRPM);
         if (intakeWorking) {
             m_anglePidController.setReference(0, ControlType.kPosition);
         } else {
@@ -142,10 +142,10 @@ public class Shooter extends SubsystemBase {
     }
 
     public void setFlywheelMotorSpeed() {
-        // m_bottomFlywheePidController.setReference(desiredSpeedBottom, ControlType.kVelocity);
-        // m_topFlywheePidController.setReference(desiredSpeedTop, ControlType.kVelocity);
-        m_shooterBottomFlywheelMotor.set(desiredSpeedBottom / ShooterConstants.kFlywheelMaxSpeedRPM);
-        m_shooterTopFlywheelMotor.set(desiredSpeedTop / ShooterConstants.kFlywheelMaxSpeedRPM);
+        m_bottomFlywheePidController.setReference(desiredSpeedBottom, ControlType.kVelocity);
+        m_topFlywheePidController.setReference(desiredSpeedTop, ControlType.kVelocity);
+        // m_shooterBottomFlywheelMotor.set(desiredSpeedBottom / ShooterConstants.kFlywheelMaxSpeedRPM);
+        // m_shooterTopFlywheelMotor.set(desiredSpeedTop / ShooterConstants.kFlywheelMaxSpeedRPM);
     }
 
     // Auto Commands

@@ -18,8 +18,8 @@ public class SwerveJoystickCmd extends Command {
     private final Boolean fieldOrientedFunction;
 
     private ShuffleboardTab swerveTab = Shuffleboard.getTab("Swerve Subsystem");
-    private GenericEntry driveSpeedEntry = swerveTab.addPersistent("Drive Speed Multiplication", 1).getEntry();
-    private GenericEntry turnSpeedEntry = swerveTab.addPersistent("Turn Speed Multiplication", 1).getEntry();
+    private GenericEntry driveSpeedEntry = swerveTab.addPersistent("Drive Speed Multiplication", 1).withSize(2, 1).withPosition(0, 0).getEntry();
+    private GenericEntry turnSpeedEntry = swerveTab.addPersistent("Turn Speed Multiplication", 1).withSize(2, 1).withPosition(2, 0).getEntry();
 
     /**
      * @param swerve
