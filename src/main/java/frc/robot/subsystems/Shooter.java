@@ -142,8 +142,9 @@ public class Shooter extends SubsystemBase {
     }
 
     public void setFlywheelMotorSpeed() {
-        m_bottomFlywheePidController.setReference(desiredSpeedBottom, ControlType.kVelocity);
-        m_topFlywheePidController.setReference(desiredSpeedTop, ControlType.kVelocity);
+        double stupidStupidFlywheelSpeedFixBecauseIDontKnowWhatsWrong = 2;
+        m_bottomFlywheePidController.setReference(stupidStupidFlywheelSpeedFixBecauseIDontKnowWhatsWrong*desiredSpeedBottom, ControlType.kVelocity);
+        m_topFlywheePidController.setReference(stupidStupidFlywheelSpeedFixBecauseIDontKnowWhatsWrong*desiredSpeedTop, ControlType.kVelocity);
         // m_shooterBottomFlywheelMotor.set(desiredSpeedBottom / ShooterConstants.kFlywheelMaxSpeedRPM);
         // m_shooterTopFlywheelMotor.set(desiredSpeedTop / ShooterConstants.kFlywheelMaxSpeedRPM);
     }
