@@ -87,8 +87,6 @@ public final class Constants {
 
     public static final double kIntakeRollerSpeedPercent = 1.0;
 
-    public static final double kDistanceActivationThresholdMin = 0.5; //TODO needs to be updated with measued values
-
     public static final double kIntakeLoweredAngleRevRotations = 25;
     public static final double kIntakeRaisedAngleRevRotations = 0;
     
@@ -116,7 +114,7 @@ public final class Constants {
     public static final double kAmpShootingSpeedTopRPM = 1317;
     public static final double kShooterDefaultSpeedRPM = 5000;
     
-    public static final double kShooterDistanceRangeInches = 2.0; //TODO needs to be updated with measured values
+    public static final double kShooterDistanceRangeInches = 0.5; //TODO needs to be updated with measured values
   }
   
   public static final class ClimberConstants {

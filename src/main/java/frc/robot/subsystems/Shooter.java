@@ -11,6 +11,7 @@ import com.revrobotics.Rev2mDistanceSensor.Port;
 import com.revrobotics.Rev2mDistanceSensor.Unit;
 
 import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -42,6 +43,7 @@ public class Shooter extends SubsystemBase {
     private GenericEntry topFlywheelSpeedEntry = operationsTab.add("Top Speed", 0).getEntry();
     private GenericEntry angleEntry = operationsTab.add("Shooter Angle", 0).getEntry();
     private GenericEntry distanceSensorEntry = operationsTab.add("Distance sensor", -2).getEntry();
+    private GenericEntry noteInShooterEntry = operationsTab.add("Note In Shooter?", false).getEntry();
 
 
     public Shooter() {        
@@ -77,6 +79,7 @@ public class Shooter extends SubsystemBase {
         topFlywheelSpeedEntry.setDouble(m_topFlywheelEncoder.getVelocity());
         angleEntry.setDouble(m_angleEncoder.getPosition());
         distanceSensorEntry.setDouble(m_shooterDistanceSensor.GetRange());
+        noteInShooterEntry.setBoolean(isNoteInShooter());
     }
 
     public void intakeNote(boolean intakeWorking) {
