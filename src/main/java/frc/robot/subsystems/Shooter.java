@@ -10,16 +10,12 @@ import com.revrobotics.Rev2mDistanceSensor.Port;
 
 import com.revrobotics.Rev2mDistanceSensor.Unit;
 
-import edu.wpi.first.math.proto.System;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ShooterConstants;
-
-import java.util.*;
 
 public class Shooter extends SubsystemBase {
     private final CANSparkMax m_shooterAngleMotor; 
@@ -44,8 +40,8 @@ public class Shooter extends SubsystemBase {
     private ShuffleboardTab operationsTab = Shuffleboard.getTab("Operations");
     private GenericEntry bottomFlywheelSpeedEntry = operationsTab.add("Bottom Speed", 0).getEntry();
     private GenericEntry topFlywheelSpeedEntry = operationsTab.add("Top Speed", 0).getEntry();
-    private GenericEntry angleEntry = operationsTab.add("Angle", 0).getEntry();
-    private GenericEntry distanceSensor = operationsTab.add("distance sensor", -2).getEntry();
+    private GenericEntry angleEntry = operationsTab.add("Shooter Angle", 0).getEntry();
+    private GenericEntry distanceSensorEntry = operationsTab.add("Distance sensor", -2).getEntry();
 
 
     public Shooter() {        
@@ -80,7 +76,7 @@ public class Shooter extends SubsystemBase {
         bottomFlywheelSpeedEntry.setDouble(m_bottomFlywheelEncoder.getVelocity());
         topFlywheelSpeedEntry.setDouble(m_topFlywheelEncoder.getVelocity());
         angleEntry.setDouble(m_angleEncoder.getPosition());
-        distanceSensor.setDouble(m_shooterDistanceSensor.GetRange());
+        distanceSensorEntry.setDouble(m_shooterDistanceSensor.GetRange());
     }
 
     public void intakeNote(boolean intakeWorking) {
@@ -137,12 +133,12 @@ public class Shooter extends SubsystemBase {
      * @param distanceFromTarget meters
      * @return retruns vertical angle to target in degrees
      */
-    public double getAimAngle(Double distanceFromTarget) {
-        double heightOfTarget = ShooterConstants.kHeightOfSpeakerInches;
-        double angleRad = Math.atan(heightOfTarget / distanceFromTarget);
-        double angleDeg = Math.toDegrees(angleRad);
-        return angleDeg;
-    }
+    // public double getAimAngle(Double distanceFromTarget) {
+    //     double heightOfTarget = ShooterConstants.kHeightOfSpeakerInches;
+    //     double angleRad = Math.atan(heightOfTarget / distanceFromTarget);
+    //     double angleDeg = Math.toDegrees(angleRad);
+    //     return angleDeg;
+    // }
 
     public void setAngleMotorSpeeds() {
         m_anglePidController.setReference(desiredAngle, ControlType.kPosition);

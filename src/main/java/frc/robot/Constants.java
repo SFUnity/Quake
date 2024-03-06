@@ -106,7 +106,7 @@ public final class Constants {
     
     public static final double kSpeakerManualAngleRevRotations = 16;
     public static final double kDesiredAmpAngleRevRotations = 19;
-    public static final double kSourceAngleRevRotations = 16; //TODO needs to be updated with measured values
+    public static final double kSourceAngleRevRotations = 17; //TODO needs to be updated with measured values
     
     public static final double kRollerShootingSpeedPercent = 1.0;
     
@@ -117,8 +117,6 @@ public final class Constants {
     public static final double kShooterDefaultSpeedRPM = 5000;
     
     public static final double kShooterDistanceRangeInches = 2.0; //TODO needs to be updated with measured values
-    public static final int kHeightOfSpeakerInches = 78;
-    public static final double kVisualDistanceInput = 6.0; //TODO needs to be updated
   }
   
   public static final class ClimberConstants {
