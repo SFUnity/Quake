@@ -114,7 +114,7 @@ public final class Constants {
     public static final double kAmpShootingSpeedTopRPM = 1317;
     public static final double kShooterDefaultSpeedRPM = 5000;
     
-    public static final double kShooterDistanceRangeInches = 0.5; //TODO needs to be updated with measured values
+    public static final double kShooterDistanceRangeInches = 2.5; //TODO needs to be updated with measured values
   }
   
   public static final class ClimberConstants {
