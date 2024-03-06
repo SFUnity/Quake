@@ -164,6 +164,10 @@ public class Shooter extends SubsystemBase {
     }
 
     public Command putNoteIntoFlywheelsCommand() {
-        return runOnce(() -> putNoteIntoFlywheels());
+        return runOnce(() -> {
+            putNoteIntoFlywheels();
+            setAngleMotorSpeeds();
+            setFlywheelMotorSpeed();
+        });
     }
 }
