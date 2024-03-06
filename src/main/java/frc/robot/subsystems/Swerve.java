@@ -135,7 +135,7 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
         turnToAnglePID.enableContinuousInput(-180, 180);
         turnToAnglePID.setTolerance(0.1);
 
-        mainTab.add("Field", field2d);
+        mainTab.add("Field", field2d).withSize(5, 3).withPosition(0, 0);
 
         AutoBuilder.configureHolonomic(
             this::getPose, // Robot pose supplier

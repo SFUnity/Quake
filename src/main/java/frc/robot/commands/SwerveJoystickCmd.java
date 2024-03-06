@@ -21,14 +21,26 @@ public class SwerveJoystickCmd extends Command {
     private final Boolean fieldOrientedFunction;
 
     private ShuffleboardTab swerveTab = Shuffleboard.getTab("Swerve Subsystem");
+    private ShuffleboardTab driversTab = Shuffleboard.getTab("Drivers");
+    
     private GenericEntry driveSpeedEntry = swerveTab.addPersistent("Drive Normal", 1).withSize(2, 1).withPosition(0, 0).getEntry();
     private GenericEntry turnSpeedEntry = swerveTab.addPersistent("Turn Normal", 1).withSize(2, 1).withPosition(2, 0).getEntry();
+    
     private GenericEntry driveSpeedFastEntry = swerveTab.addPersistent("Drive Fast", 1).withSize(2, 1).withPosition(0, 1).getEntry();
     private GenericEntry turnSpeedFastEntry = swerveTab.addPersistent("Turn Fast", 1).withSize(2, 1).withPosition(2, 1).getEntry();
-    private GenericEntry goingFastEntry = swerveTab.add("Going Fast?", false).withSize(2, 1).withPosition(4, 1).getEntry();
+    
     private GenericEntry driveSpeedSlowEntry = swerveTab.addPersistent("Drive Slow", 1).withSize(2, 1).withPosition(0, 2).getEntry();
-    private GenericEntry turnSpeedSlowEntry = swerveTab.addPersistent("Turn Slow", 1).withSize(2, 1).withPosition(2, 2).getEntry();
-    private GenericEntry goingSlowEntry = swerveTab.add("Going Slow?", false).withSize(2, 1).withPosition(4, 2).getEntry();
+    private GenericEntry turnSpeedSlowEntry = swerveTab.addPersistent("Turn Slow", 1).withSize(1, 1).withPosition(2, 2).getEntry();
+    
+    private GenericEntry goingFastEntry = driversTab.add("Going Fast?", false)
+                                                    .withSize(2, 1)
+                                                    .withPosition(0, 1)
+                                                    .getEntry();
+
+    private GenericEntry goingSlowEntry = driversTab.add("Going Slow?", false)
+                                                    .withSize(2, 1)
+                                                    .withPosition(0, 2)                                                    
+                                                    .getEntry();
 
     /**
      * @param swerve

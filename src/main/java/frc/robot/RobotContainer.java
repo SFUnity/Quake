@@ -57,8 +57,12 @@ public class RobotContainer {
 
     public ShuffleboardTab mainTab = Shuffleboard.getTab("Main");
 
-    private ShuffleboardTab operationsTab = Shuffleboard.getTab("Operations");
-    private GenericEntry intakeWorkingEntry = operationsTab.add("Intake Working", true).withWidget(BuiltInWidgets.kToggleButton).getEntry();
+    private ShuffleboardTab driversTab = Shuffleboard.getTab("Drivers");
+    private GenericEntry intakeWorkingEntry = driversTab.add("Intake Working", true)
+                                                        .withWidget(BuiltInWidgets.kToggleButton)
+                                                        .withSize(3, 2)
+                                                        .withPosition(2, 0)
+                                                        .getEntry();
 
     public RobotContainer() {
         m_swerve.setDefaultCommand(new SwerveJoystickCmd(
@@ -103,8 +107,12 @@ public class RobotContainer {
         m_fieldOrientedChooser.addOption("Robot Oriented", false);
 
         // Put the choosers on the dashboard
-        mainTab.add(m_autoChooser);
-        mainTab.add(m_fieldOrientedChooser);
+        driversTab.add(m_autoChooser)
+                  .withSize(2, 1)
+                  .withPosition(0, 0);
+        driversTab.add(m_fieldOrientedChooser)
+                  .withSize(2, 1)
+                  .withPosition(0, 3);
 
         SmartDashboard.putData(m_swerve);
         SmartDashboard.putNumber("distance sensor", m_shooter.m_shooterDistanceSensor.getRange());

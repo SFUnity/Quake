@@ -11,6 +11,7 @@ import com.revrobotics.Rev2mDistanceSensor.Port;
 import com.revrobotics.Rev2mDistanceSensor.Unit;
 
 import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -38,12 +39,22 @@ public class Shooter extends SubsystemBase {
     private double desiredSpeedTop;
 
     private ShuffleboardTab operationsTab = Shuffleboard.getTab("Operations");
+    private ShuffleboardTab driversTab = Shuffleboard.getTab("Drivers");
     private GenericEntry bottomFlywheelSpeedEntry = operationsTab.add("Bottom Speed", 0).getEntry();
     private GenericEntry topFlywheelSpeedEntry = operationsTab.add("Top Speed", 0).getEntry();
     private GenericEntry angleEntry = operationsTab.add("Shooter Angle", 0).getEntry();
     private GenericEntry distanceSensorEntry = operationsTab.add("Distance sensor", -2).getEntry();
-    private GenericEntry noteInShooterEntry = operationsTab.add("Note In Shooter?", false).getEntry();
+    
+    private GenericEntry noteInShooterEntry = driversTab.add("Note In Shooter?", false)
+                                                        .withSize(5, 4)
+                                                        .withPosition(5, 0)
+                                                        .getEntry();
 
+    private GenericEntry distanceSensorWorkingEntry = driversTab.add("Distance Sensor Working", true)
+                                                                .withWidget(BuiltInWidgets.kToggleButton)
+                                                                .withSize(3, 2)
+                                                                .withPosition(2, 2)
+                                                                .getEntry();
 
     public Shooter() {        
         m_shooterDistanceSensor = new Rev2mDistanceSensor(Port.kOnboard);
@@ -110,7 +121,11 @@ public class Shooter extends SubsystemBase {
      * @return boolean value of if there is a note in shooter
      */
     public boolean isNoteInShooter() {
-        return m_shooterDistanceSensor.isRangeValid() && m_shooterDistanceSensor.getRange() <= ShooterConstants.kShooterDistanceRangeInches;
+        if (distanceSensorWorkingEntry.getBoolean(true)) {
+            return m_shooterDistanceSensor.isRangeValid() && m_shooterDistanceSensor.getRange() <= ShooterConstants.kShooterDistanceRangeInches;
+        } else {
+            return false;
+        }
     }
 
     public void putNoteIntoFlywheels() {
