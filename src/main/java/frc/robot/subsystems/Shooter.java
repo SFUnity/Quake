@@ -27,7 +27,7 @@ public class Shooter extends SubsystemBase {
     public final RelativeEncoder m_bottomFlywheelEncoder;
     public final RelativeEncoder m_topFlywheelEncoder;
     
-    private final Rev2mDistanceSensor m_shooterDistanceSensor;
+    public final Rev2mDistanceSensor m_shooterDistanceSensor;
     
     private final SparkPIDController m_anglePidController;
     private final SparkPIDController m_topFlywheePidController;

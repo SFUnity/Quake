@@ -33,10 +33,10 @@ public class RobotContainer {
     private final Swerve m_swerve = new Swerve();
 
     // private final LEDs m_LEDs = new LEDs();
-
-    private final Intake m_intake = new Intake();
-
     private final Shooter m_shooter = new Shooter();
+
+    private final Intake m_intake = new Intake(m_shooter);
+
 
     private final CommandXboxController m_driverController = new CommandXboxController(
                     ControllerConstants.kDriverControllerId);
@@ -105,6 +105,7 @@ public class RobotContainer {
         mainTab.add(m_fieldOrientedChooser);
 
         SmartDashboard.putData(m_swerve);
+        SmartDashboard.putNumber("distance sensor", m_shooter.m_shooterDistanceSensor.getRange());
         // SmartDashboard.putData(m_straightAuto);
         // SmartDashboard.putData(m_circleAuto);
         // SmartDashboard.putData(m_swerve.TurnToAngle(45));

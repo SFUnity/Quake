@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 import frc.robot.Constants.IntakeConstants;
+import frc.robot.Constants.ShooterConstants;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
@@ -26,8 +27,10 @@ public class Intake extends SubsystemBase{
     private ShuffleboardTab operationsTab = Shuffleboard.getTab("Operations");
     private GenericEntry angleEntry = operationsTab.add("Intake Angle", 0).getEntry();
 
+    private final Shooter m_shooter;
 
-    public Intake() {
+
+    public Intake(Shooter shooter) {
         m_intakeAngleMotor = new CANSparkMax(IntakeConstants.kIntakeAngleMotorId, MotorType.kBrushless);
         m_intakeMotor = new CANSparkMax(IntakeConstants.kIntakeRollersMotorId, MotorType.kBrushless);
         m_indexerMotor = new CANSparkMax(IntakeConstants.kIndexerMotorId, MotorType.kBrushless);
@@ -37,6 +40,8 @@ public class Intake extends SubsystemBase{
         m_angleEncoder.setPositionConversionFactor((1/15)*(24/42)*(12/34)/360); // 1:15 gearbox, then a 24:42 and 12:34 gear reduction / 360 degrees
 
         m_anglePidController = m_intakeAngleMotor.getPIDController();
+
+        m_shooter = shooter;
     }
 
     @Override
@@ -46,7 +51,9 @@ public class Intake extends SubsystemBase{
     }
 
     public void runIndexer() {
-        m_indexerMotor.set(IntakeConstants.kIndexerIntakeSpeedPercent);
+        if (!(m_shooter.m_shooterDistanceSensor.getRange() <= ShooterConstants.kShooterDistanceRangeInches)) {
+            m_indexerMotor.set(IntakeConstants.kIndexerIntakeSpeedPercent);
+        }
     }
 
     /**
