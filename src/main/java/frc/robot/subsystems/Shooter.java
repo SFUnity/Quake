@@ -10,12 +10,16 @@ import com.revrobotics.Rev2mDistanceSensor.Port;
 
 import com.revrobotics.Rev2mDistanceSensor.Unit;
 
+import edu.wpi.first.math.proto.System;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ShooterConstants;
+
+import java.util.*;
 
 public class Shooter extends SubsystemBase {
     private final CANSparkMax m_shooterAngleMotor; 
@@ -41,11 +45,13 @@ public class Shooter extends SubsystemBase {
     private GenericEntry bottomFlywheelSpeedEntry = operationsTab.add("Bottom Speed", 0).getEntry();
     private GenericEntry topFlywheelSpeedEntry = operationsTab.add("Top Speed", 0).getEntry();
     private GenericEntry angleEntry = operationsTab.add("Angle", 0).getEntry();
+    private GenericEntry distanceSensor = operationsTab.add("distance sensor", -2).getEntry();
 
 
     public Shooter() {        
         m_shooterDistanceSensor = new Rev2mDistanceSensor(Port.kOnboard);
         m_shooterDistanceSensor.setDistanceUnits(Unit.kInches);
+        m_shooterDistanceSensor.setAutomaticMode(true);
         
         m_shooterAngleMotor = new CANSparkMax(ShooterConstants.kShooterAngleMotor, MotorType.kBrushless);
         m_shooterBottomFlywheelMotor = new CANSparkMax(ShooterConstants.kShooterBottomFlywheelMotorID, MotorType.kBrushless);
@@ -74,6 +80,7 @@ public class Shooter extends SubsystemBase {
         bottomFlywheelSpeedEntry.setDouble(m_bottomFlywheelEncoder.getVelocity());
         topFlywheelSpeedEntry.setDouble(m_topFlywheelEncoder.getVelocity());
         angleEntry.setDouble(m_angleEncoder.getPosition());
+        distanceSensor.setDouble(m_shooterDistanceSensor.GetRange());
     }
 
     public void intakeNote(boolean intakeWorking) {

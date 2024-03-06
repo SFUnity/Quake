@@ -51,9 +51,9 @@ public class Intake extends SubsystemBase{
     }
 
     public void runIndexer() {
-        if (!(m_shooter.m_shooterDistanceSensor.getRange() <= ShooterConstants.kShooterDistanceRangeInches)) {
-            m_indexerMotor.set(IntakeConstants.kIndexerIntakeSpeedPercent);
-        }
+        //if (!(m_shooter.m_shooterDistanceSensor.getRange() <= ShooterConstants.kShooterDistanceRangeInches)) {
+        m_indexerMotor.set(IntakeConstants.kIndexerIntakeSpeedPercent);
+        //}
     }
 
     /**
