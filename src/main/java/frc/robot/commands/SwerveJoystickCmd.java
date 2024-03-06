@@ -17,7 +17,7 @@ public class SwerveJoystickCmd extends Command {
     private final Swerve m_swerve;
     private final Supplier<Double> xSpdFunction, ySpdFunction, turningSpdFunction;
     private final Trigger goFastTrigger, goSlowTrigger;
-    private Boolean goingFast, goingSlow = false;
+    private Boolean goingFast = false, goingSlow = false;
     private final Boolean fieldOrientedFunction;
 
     private ShuffleboardTab swerveTab = Shuffleboard.getTab("Swerve Subsystem");
@@ -25,10 +25,10 @@ public class SwerveJoystickCmd extends Command {
     private GenericEntry turnSpeedEntry = swerveTab.addPersistent("Turn Normal", 1).withSize(2, 1).withPosition(2, 0).getEntry();
     private GenericEntry driveSpeedFastEntry = swerveTab.addPersistent("Drive Fast", 1).withSize(2, 1).withPosition(0, 1).getEntry();
     private GenericEntry turnSpeedFastEntry = swerveTab.addPersistent("Turn Fast", 1).withSize(2, 1).withPosition(2, 1).getEntry();
+    private GenericEntry goingFastEntry = swerveTab.add("Going Fast?", false).withSize(2, 1).withPosition(4, 1).getEntry();
     private GenericEntry driveSpeedSlowEntry = swerveTab.addPersistent("Drive Slow", 1).withSize(2, 1).withPosition(0, 2).getEntry();
     private GenericEntry turnSpeedSlowEntry = swerveTab.addPersistent("Turn Slow", 1).withSize(2, 1).withPosition(2, 2).getEntry();
-    private GenericEntry goingFastEntry = swerveTab.add("Going Fast?", false).withSize(1, 1).withPosition(0, 3).getEntry();
-    private GenericEntry goingSlowEntry = swerveTab.add("Going Slow?", false).withSize(1, 1).withPosition(1, 3).getEntry();
+    private GenericEntry goingSlowEntry = swerveTab.add("Going Slow?", false).withSize(2, 1).withPosition(4, 2).getEntry();
 
     /**
      * @param swerve
