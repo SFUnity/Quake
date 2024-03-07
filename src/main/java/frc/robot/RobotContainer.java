@@ -50,7 +50,9 @@ public class RobotContainer {
 
     private final Command m_straightPathAuto;
 
-    // private final Command m_autoPath1;
+    private final Command m_autoPath1;
+
+    private final Command m_autoPath1Only;
 
     SendableChooser<Command> m_autoChooser = new SendableChooser<>();
 
@@ -97,13 +99,18 @@ public class RobotContainer {
         NamedCommands.registerCommand("ampShoot", m_shooter.readyShootAmpCommand()); 
         NamedCommands.registerCommand("speakerShoot", m_shooter.readyShootSpeakerCommand());
         NamedCommands.registerCommand("putNoteInFlywheels", m_shooter.putNoteIntoFlywheelsCommand());
+        NamedCommands.registerCommand("stopShooting", m_shooter.stopShootingCommand());
 
         m_straightPathAuto = new PathPlannerAuto("Test Auto");
+        m_autoPath1 = new PathPlannerAuto("Auto 1");
+        m_autoPath1Only = new PathPlannerAuto("Path Auto");
 
         configureBindings();
 
         // Add commands to the autonomous command chooser
         m_autoChooser.setDefaultOption("Straight Path Auto", m_straightPathAuto);
+        m_autoChooser.addOption("Auto 1", m_autoPath1);
+        m_autoChooser.addOption("Path Auto", m_autoPath1Only);
         m_autoChooser.addOption("Straight Auto", m_straightAuto);
         m_autoChooser.addOption("Circle Auto", m_circleAuto);
 
@@ -117,7 +124,7 @@ public class RobotContainer {
                   .withPosition(0, 0);
         driversTab.add(m_fieldOrientedChooser)
                   .withSize(2, 1)
-                  .withPosition(0, 3);
+                  .withPosition(0, 2);
 
         SmartDashboard.putData(m_swerve);
         SmartDashboard.putData(m_intake);

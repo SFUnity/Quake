@@ -214,4 +214,12 @@ public class Shooter extends SubsystemBase {
             setFlywheelMotorSpeed();
         });
     }
+
+    public Command stopShootingCommand() {
+        return runOnce(() -> {
+            setAngleMotorSpeeds();
+            stopFlywheelMotors();
+            stopRollerMotors();
+        });    
+    }
 }
