@@ -74,7 +74,7 @@ public class Shooter extends SubsystemBase {
                                                         .withPosition(5, 0)
                                                         .getEntry();
 
-    private GenericEntry distanceSensorWorkingEntry = driversTab.add("Distance Sensor Working", true)
+    private GenericEntry distanceSensorWorkingEntry = driversTab.addPersistent("Distance Sensor Working", true)
                                                                 .withWidget(BuiltInWidgets.kToggleButton)
                                                                 .withSize(3, 2)
                                                                 .withPosition(2, 2)
@@ -148,6 +148,10 @@ public class Shooter extends SubsystemBase {
         } else {
             return false;
         }
+    }
+
+    public boolean distanceSensorWorking() {
+        return m_shooterDistanceSensor.isRangeValid() && distanceSensorWorkingEntry.getBoolean(true);
     }
 
     public void putNoteIntoFlywheels() {

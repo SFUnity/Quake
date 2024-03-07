@@ -44,10 +44,17 @@ public class ShooterCmd extends Command {
             m_shooter.stopRollerMotors();
         }
 
-        // Set angle speeds
         if (!square.getAsBoolean()) {
             m_shooter.setAngleMotorSpeeds();
-            m_shooter.setFlywheelMotorSpeed();
+            if (m_shooter.distanceSensorWorking()) {
+                if (m_shooter.isNoteInShooter()) {
+                    m_shooter.setFlywheelMotorSpeed();
+                } else {
+                    m_shooter.stopFlywheelMotors();
+                }
+            } else {
+                m_shooter.setFlywheelMotorSpeed();
+            }
         }
     }
 
