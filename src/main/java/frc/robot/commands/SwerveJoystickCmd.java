@@ -16,8 +16,8 @@ import frc.robot.subsystems.Swerve;
 public class SwerveJoystickCmd extends Command {
     private final Swerve m_swerve;
     private final Supplier<Double> xSpdFunction, ySpdFunction, turningSpdFunction;
-    private final Trigger goFastTrigger, goSlowTrigger;
-    private Boolean goingFast = false, goingSlow = false;
+    private final Trigger goFastTrigger;
+    private Boolean goingFast = false;
     private final Boolean fieldOrientedFunction;
 
     private ShuffleboardTab swerveTab = Shuffleboard.getTab("Swerve Subsystem");
@@ -28,19 +28,13 @@ public class SwerveJoystickCmd extends Command {
     
     private GenericEntry driveSpeedFastEntry = swerveTab.addPersistent("Drive Fast", 1).withSize(2, 1).withPosition(0, 1).getEntry();
     private GenericEntry turnSpeedFastEntry = swerveTab.addPersistent("Turn Fast", 1).withSize(2, 1).withPosition(2, 1).getEntry();
-    
-    private GenericEntry driveSpeedSlowEntry = swerveTab.addPersistent("Drive Slow", 1).withSize(2, 1).withPosition(0, 2).getEntry();
-    private GenericEntry turnSpeedSlowEntry = swerveTab.addPersistent("Turn Slow", 1).withSize(1, 1).withPosition(2, 2).getEntry();
-    
+        
     private GenericEntry goingFastEntry = driversTab.add("Going Fast?", false)
                                                     .withSize(2, 1)
                                                     .withPosition(0, 1)
                                                     .getEntry();
 
-    private GenericEntry goingSlowEntry = driversTab.add("Going Slow?", false)
-                                                    .withSize(2, 1)
-                                                    .withPosition(0, 2)                                                    
-                                                    .getEntry();
+    private boolean buttonPressedRecently = false;                                                
 
     /**
      * @param swerve
@@ -51,7 +45,7 @@ public class SwerveJoystickCmd extends Command {
      */
     public SwerveJoystickCmd(Swerve swerve,
             Supplier<Double> xSpdFunction, Supplier<Double> ySpdFunction, 
-            Supplier<Double> turningSpdFunction, Trigger goFastTrigger, Trigger goSlowTrigger, 
+            Supplier<Double> turningSpdFunction, Trigger goFastTrigger, 
             Boolean fieldOrientedFunction) {
         m_swerve = swerve;
         this.xSpdFunction = xSpdFunction;
@@ -59,7 +53,6 @@ public class SwerveJoystickCmd extends Command {
         this.turningSpdFunction = turningSpdFunction;
         this.fieldOrientedFunction = fieldOrientedFunction;
         this.goFastTrigger = goFastTrigger;
-        this.goSlowTrigger = goSlowTrigger;
         addRequirements(swerve);
     }
 
@@ -74,20 +67,13 @@ public class SwerveJoystickCmd extends Command {
         turningSpeed = this.applyDeadBand(turningSpeed);
         
         // Modified speeds
-        if (goFastTrigger.getAsBoolean()) {
-            if (goingFast == true) {
-                goingFast = false;
-            } else {
-                goingFast = true;
+        if (goFastTrigger.getAsBoolean() && !buttonPressedRecently) {
+            if (goFastTrigger.getAsBoolean()) {
+                goingFast = !goingFast;
             }
-            goingSlow = false;
-        } else if (goSlowTrigger.getAsBoolean()) {
-            if (goingSlow == true) {
-                goingSlow = false;
-            } else {
-                goingSlow = true;
-            }
-            goingFast = false;
+            buttonPressedRecently = true;   
+        } else if (!goFastTrigger.getAsBoolean()) {
+            buttonPressedRecently = false;
         }
 
         if (goingFast) {
@@ -95,19 +81,11 @@ public class SwerveJoystickCmd extends Command {
             ySpeed *= driveSpeedFastEntry.getDouble(1);
             turningSpeed *= turnSpeedFastEntry.getDouble(1);
             goingFastEntry.setBoolean(true);
-            goingSlowEntry.setBoolean(false);
-        } else if (goingSlow) {
-            xSpeed *= driveSpeedSlowEntry.getDouble(1);
-            ySpeed *= driveSpeedSlowEntry.getDouble(1);
-            turningSpeed *= turnSpeedSlowEntry.getDouble(1);
-            goingSlowEntry.setBoolean(true);
-            goingFastEntry.setBoolean(false);
         } else {
             xSpeed *= driveSpeedEntry.getDouble(1);
             ySpeed *= driveSpeedEntry.getDouble(1);
             turningSpeed *= turnSpeedEntry.getDouble(1);
             goingFastEntry.setBoolean(false);
-            goingSlowEntry.setBoolean(false);
         }
         
         ChassisSpeeds chassisSpeeds = speedsToChassisSpeeds(xSpeed, ySpeed, turningSpeed, fieldOrientedFunction);
