@@ -16,7 +16,7 @@ import frc.robot.subsystems.Swerve;
 public class SwerveJoystickCmd extends Command {
     private final Swerve m_swerve;
     private final Supplier<Double> xSpdFunction, ySpdFunction, turningSpdFunction;
-    private final Trigger goFastTrigger;
+    private final Trigger goFastTrigger, moveLeft, moveRight, moveForwards, moveBackwards;
     private Boolean goingFast = false;
     private final Boolean fieldOrientedFunction;
 
@@ -46,6 +46,7 @@ public class SwerveJoystickCmd extends Command {
     public SwerveJoystickCmd(Swerve swerve,
             Supplier<Double> xSpdFunction, Supplier<Double> ySpdFunction, 
             Supplier<Double> turningSpdFunction, Trigger goFastTrigger, 
+            Trigger moveLeft, Trigger moveRight, Trigger moveForwards, Trigger moveBackwards,
             Boolean fieldOrientedFunction) {
         m_swerve = swerve;
         this.xSpdFunction = xSpdFunction;
@@ -53,6 +54,10 @@ public class SwerveJoystickCmd extends Command {
         this.turningSpdFunction = turningSpdFunction;
         this.fieldOrientedFunction = fieldOrientedFunction;
         this.goFastTrigger = goFastTrigger;
+        this.moveLeft = moveLeft;
+        this.moveRight = moveRight;
+        this.moveForwards = moveForwards;
+        this.moveBackwards = moveBackwards;
         addRequirements(swerve);
     }
 
@@ -86,6 +91,16 @@ public class SwerveJoystickCmd extends Command {
             ySpeed *= driveSpeedEntry.getDouble(1);
             turningSpeed *= turnSpeedEntry.getDouble(1);
             goingFastEntry.setBoolean(false);
+        }
+
+        if (moveLeft.getAsBoolean()) {
+            xSpeed = -0.5;
+        } else if (moveRight.getAsBoolean()) {
+            xSpeed = 0.5;
+        } else if (moveForwards.getAsBoolean()) {
+            ySpeed = 0.5;
+        } else if (moveBackwards.getAsBoolean()) {
+            ySpeed = -0.5;
         }
         
         ChassisSpeeds chassisSpeeds = speedsToChassisSpeeds(xSpeed, ySpeed, turningSpeed, fieldOrientedFunction);

@@ -73,6 +73,10 @@ public class RobotContainer {
                 () -> -m_driverController.getLeftX(),
                 () -> m_driverController.getRightX(),
                 m_driverController.leftBumper(),
+                m_driverController.povLeft(),
+                m_driverController.povRight(),
+                m_driverController.povUp(),
+                m_driverController.povDown(),
                 true));
 
         m_shooter.setDefaultCommand(new ShooterCmd(
