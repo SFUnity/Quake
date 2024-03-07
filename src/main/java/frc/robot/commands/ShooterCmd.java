@@ -7,15 +7,15 @@ import frc.robot.subsystems.Shooter;
 
 public class ShooterCmd extends Command {
     private final Shooter m_shooter;
-    private final Trigger leftBumper, rightBumper, cross, circle;
+    private final Trigger leftBumper, rightBumper, square, circle;
     private GenericEntry intakeWorkingEntry;
 
-    public ShooterCmd(Shooter shooter, Trigger cross, Trigger circle, Trigger leftBumper, Trigger rightBumper, GenericEntry intakeWorkingEntryEntry) {
+    public ShooterCmd(Shooter shooter, Trigger square, Trigger circle, Trigger leftBumper, Trigger rightBumper, GenericEntry intakeWorkingEntryEntry) {
         m_shooter = shooter;
 
         this.leftBumper = leftBumper;
         this.rightBumper = rightBumper;
-        this.cross = cross;
+        this.square = square;
         this.circle = circle;
         this.intakeWorkingEntry = intakeWorkingEntryEntry;
 
@@ -34,7 +34,7 @@ public class ShooterCmd extends Command {
         }
 
         // Set flywheel and roller speeds
-        if (cross.getAsBoolean()) {
+        if (square.getAsBoolean()) {
             m_shooter.intakeNote(intakeWorkingEntry.getBoolean(true));
             m_shooter.stopRollerMotors();
         } else if (circle.getAsBoolean()) {
@@ -45,7 +45,7 @@ public class ShooterCmd extends Command {
         }
 
         // Set angle speeds
-        if (!cross.getAsBoolean()) {
+        if (!square.getAsBoolean()) {
             m_shooter.setAngleMotorSpeeds();
             m_shooter.setFlywheelMotorSpeed();
         }

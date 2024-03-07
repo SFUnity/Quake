@@ -134,6 +134,10 @@ public class Shooter extends SubsystemBase {
         m_shooterRollerMotor.set(1);
     }
 
+    public void feedNote() {
+        m_shooterRollerMotor.set(0.15);
+    }
+
     public void stopRollerMotors() {
         m_shooterRollerMotor.stopMotor();
     }

@@ -8,14 +8,14 @@ import frc.robot.subsystems.Intake;
 public class IntakeCmd extends Command{
 
     private final Intake m_intake;
-    private final Trigger square, triangle, cross;
+    private final Trigger cross, triangle, square;
     private GenericEntry intakeWorkingEntry;
 
-    public IntakeCmd(Intake intake, Trigger square, Trigger triangle, Trigger cross, GenericEntry intakeWorkingEntry) {
+    public IntakeCmd(Intake intake, Trigger cross, Trigger triangle, Trigger square, GenericEntry intakeWorkingEntry) {
         m_intake = intake;
-        this.square = square;
-        this.triangle = triangle;
         this.cross = cross;
+        this.triangle = triangle;
+        this.square = square;
         this.intakeWorkingEntry = intakeWorkingEntry;
 
         addRequirements(intake);
@@ -40,9 +40,9 @@ public class IntakeCmd extends Command{
         // set indexer and intake roller speeds
         } else if (triangle.getAsBoolean()) {
             m_intake.lowerAndOuttake();
-        } else if (cross.getAsBoolean()) {
+        } else if (square.getAsBoolean()) {
             m_intake.runIndexer();
-            if (square.getAsBoolean()) {
+            if (cross.getAsBoolean()) {
                 m_intake.lowerAndRunIntake();
             } else {
                 m_intake.raiseAndStopIntake();
