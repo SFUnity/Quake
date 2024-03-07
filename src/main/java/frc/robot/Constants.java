@@ -77,7 +77,7 @@ public final class Constants {
     public static final int kDriverControllerId = 0;
     public static final int kOperationControllerId = 1;
 
-    public static final double kDeadband = 0.05;
+    public static final double kDeadband = 0.1;
   }
 
   public static final class IntakeConstants {
