@@ -2,6 +2,9 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+
+import java.util.Map;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.Rev2mDistanceSensor;
@@ -38,14 +41,33 @@ public class Shooter extends SubsystemBase {
     private double desiredSpeedBottom;
     private double desiredSpeedTop;
 
+    private ShuffleboardTab speedsTab = Shuffleboard.getTab("Speeds");
+    private GenericEntry ampSpeedBottomEntry = speedsTab.addPersistent("Amp Speed Bottom", ShooterConstants.kAmpShootingSpeedBottomRPM)
+                                                    .withWidget(BuiltInWidgets.kNumberSlider)
+                                                    .withProperties(Map.of("min", 0, "max", 5000))
+                                                    .getEntry();
+    private GenericEntry ampSpeedTopEntry = speedsTab.addPersistent("Amp Speed Top", ShooterConstants.kAmpShootingSpeedTopRPM)
+                                                    .withWidget(BuiltInWidgets.kNumberSlider)
+                                                    .withProperties(Map.of("min", 0, "max", 5000))
+                                                    .getEntry();
+    private GenericEntry ampAngleEntry = speedsTab.addPersistent("Amp Angle", ShooterConstants.kDesiredAmpAngleRevRotations)
+                                                    .withWidget(BuiltInWidgets.kNumberSlider)
+                                                    .withProperties(Map.of("min", 10, "max", 25))
+                                                    .getEntry();
+    private GenericEntry speakerAngleEntry = speedsTab.addPersistent("Speaker Angle", ShooterConstants.kSpeakerManualAngleRevRotations)
+                                                    .withWidget(BuiltInWidgets.kNumberSlider)
+                                                    .withProperties(Map.of("min", 10, "max", 25))
+                                                    .getEntry();
+    
+    private GenericEntry bottomFlywheelSpeedEntry = speedsTab.add("Bottom Speed", 0).getEntry();
+    private GenericEntry topFlywheelSpeedEntry = speedsTab.add("Top Speed", 0).getEntry();
+    private GenericEntry desiredSpeedBottomEntry = speedsTab.add("Desired Speed Bottom", 0).getEntry();
+    private GenericEntry desiredSpeedTopEntry = speedsTab.add("Desired Speed Top", 0).getEntry();
+
     private ShuffleboardTab operationsTab = Shuffleboard.getTab("Operations");
     private ShuffleboardTab driversTab = Shuffleboard.getTab("Drivers");
-    private GenericEntry bottomFlywheelSpeedEntry = operationsTab.add("Bottom Speed", 0).getEntry();
-    private GenericEntry topFlywheelSpeedEntry = operationsTab.add("Top Speed", 0).getEntry();
     private GenericEntry angleEntry = operationsTab.add("Shooter Angle", 0).getEntry();
     private GenericEntry distanceSensorEntry = operationsTab.add("Distance sensor", -2).getEntry();
-    private GenericEntry desiredSpeedBottomEntry = operationsTab.add("Desired Speed Bottom", 0).getEntry();
-    private GenericEntry desiredSpeedTopEntry = operationsTab.add("Desired Speed Top", 0).getEntry();
     
     private GenericEntry noteInShooterEntry = driversTab.add("Note In Shooter?", false)
                                                         .withSize(5, 4)
@@ -73,7 +95,7 @@ public class Shooter extends SubsystemBase {
         m_bottomFlywheelEncoder = m_shooterBottomFlywheelMotor.getEncoder();
         m_topFlywheelEncoder = m_shooterTopFlywheelMotor.getEncoder();
 
-        desiredAngle = ShooterConstants.kSpeakerManualAngleRevRotations;
+        desiredAngle = speakerAngleEntry.getDouble(ShooterConstants.kSpeakerManualAngleRevRotations);
         m_anglePidController = m_shooterAngleMotor.getPIDController();
         this.setAngleMotorSpeeds();
 
@@ -97,8 +119,6 @@ public class Shooter extends SubsystemBase {
     public void intakeNote(boolean intakeWorking) {
         m_bottomFlywheePidController.setReference(ShooterConstants.kFlywheelIntakeSpeedRPM, ControlType.kVelocity);
         m_topFlywheePidController.setReference(ShooterConstants.kFlywheelIntakeSpeedRPM, ControlType.kVelocity);
-        // m_shooterBottomFlywheelMotor.set(ShooterConstants.kFlywheelIntakeSpeedRPM / ShooterConstants.kFlywheelMaxSpeedRPM);
-        // m_shooterTopFlywheelMotor.set(ShooterConstants.kFlywheelIntakeSpeedRPM / ShooterConstants.kFlywheelMaxSpeedRPM);
         if (intakeWorking) {
             m_anglePidController.setReference(0, ControlType.kPosition);
         } else {
@@ -109,13 +129,13 @@ public class Shooter extends SubsystemBase {
     public void readyShootSpeaker() {
         desiredSpeedBottom = ShooterConstants.kShooterDefaultSpeedRPM;
         desiredSpeedTop = ShooterConstants.kShooterDefaultSpeedRPM;
-        desiredAngle = ShooterConstants.kSpeakerManualAngleRevRotations;
+        desiredAngle = speakerAngleEntry.getDouble(ShooterConstants.kSpeakerManualAngleRevRotations);
     }
 
     public void readyShootAmp() {
-        desiredSpeedBottom = ShooterConstants.kAmpShootingSpeedBottomRPM;
-        desiredSpeedTop = ShooterConstants.kAmpShootingSpeedTopRPM;
-        desiredAngle = ShooterConstants.kDesiredAmpAngleRevRotations;
+        desiredSpeedBottom = ampSpeedBottomEntry.getDouble(0);
+        desiredSpeedTop = ampSpeedTopEntry.getDouble(0);
+        desiredAngle = ampAngleEntry.getDouble(ShooterConstants.kDesiredAmpAngleRevRotations);
     }
 
     /**
