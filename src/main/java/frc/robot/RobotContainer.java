@@ -50,6 +50,8 @@ public class RobotContainer {
 
     private final Command m_straightPathAuto;
 
+    // private final Command m_autoPath1;
+
     SendableChooser<Command> m_autoChooser = new SendableChooser<>();
 
     // Field Oriented Chooser

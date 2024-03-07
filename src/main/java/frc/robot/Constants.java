@@ -91,7 +91,7 @@ public final class Constants {
     public static final double kIntakeRaisedAngleRevRotations = 0;
     
     public static final int kIndexerMotorId = 11;
-    public static final double kIndexerIntakeSpeedPercent = 0.175;
+    public static final double kIndexerIntakeSpeedPercent = 0.2;
   }
   
   public static final class ShooterConstants {
@@ -102,7 +102,7 @@ public final class Constants {
 
     public static final int kShooterAngleMotorEncoderId = 5;
     
-    public static final double kSpeakerManualAngleRevRotations = 16;
+    public static final double kSpeakerManualAngleRevRotations = 19;
     public static final double kDesiredAmpAngleRevRotations = 19;
     public static final double kSourceAngleRevRotations = 17; //TODO needs to be updated with measured values
     
