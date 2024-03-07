@@ -114,6 +114,8 @@ public class RobotContainer {
                   .withPosition(0, 3);
 
         SmartDashboard.putData(m_swerve);
+        SmartDashboard.putData(m_intake);
+        SmartDashboard.putData(m_shooter);
         SmartDashboard.putNumber("distance sensor", m_shooter.m_shooterDistanceSensor.getRange());
         // SmartDashboard.putData(m_straightAuto);
         // SmartDashboard.putData(m_circleAuto);
