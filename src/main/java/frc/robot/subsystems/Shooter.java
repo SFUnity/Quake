@@ -44,6 +44,8 @@ public class Shooter extends SubsystemBase {
     private GenericEntry topFlywheelSpeedEntry = operationsTab.add("Top Speed", 0).getEntry();
     private GenericEntry angleEntry = operationsTab.add("Shooter Angle", 0).getEntry();
     private GenericEntry distanceSensorEntry = operationsTab.add("Distance sensor", -2).getEntry();
+    private GenericEntry desiredSpeedBottomEntry = operationsTab.add("Desired Speed Bottom", 0).getEntry();
+    private GenericEntry desiredSpeedTopEntry = operationsTab.add("Desired Speed Top", 0).getEntry();
     
     private GenericEntry noteInShooterEntry = driversTab.add("Note In Shooter?", false)
                                                         .withSize(5, 4)
@@ -162,11 +164,10 @@ public class Shooter extends SubsystemBase {
     }
 
     public void setFlywheelMotorSpeed() {
-        double stupidStupidFlywheelSpeedFixBecauseIDontKnowWhatsWrong = 2;
-        m_bottomFlywheePidController.setReference(stupidStupidFlywheelSpeedFixBecauseIDontKnowWhatsWrong*desiredSpeedBottom, ControlType.kVelocity);
-        m_topFlywheePidController.setReference(stupidStupidFlywheelSpeedFixBecauseIDontKnowWhatsWrong*desiredSpeedTop, ControlType.kVelocity);
-        // m_shooterBottomFlywheelMotor.set(desiredSpeedBottom / ShooterConstants.kFlywheelMaxSpeedRPM);
-        // m_shooterTopFlywheelMotor.set(desiredSpeedTop / ShooterConstants.kFlywheelMaxSpeedRPM);
+        m_bottomFlywheePidController.setReference(desiredSpeedBottom, ControlType.kVelocity);
+        m_topFlywheePidController.setReference(desiredSpeedTop, ControlType.kVelocity);
+        desiredSpeedBottomEntry.setDouble(desiredSpeedBottom);
+        desiredSpeedTopEntry.setDouble(desiredSpeedTop);
     }
 
     // Auto Commands

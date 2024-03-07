@@ -87,11 +87,11 @@ public final class Constants {
 
     public static final double kIntakeRollerSpeedPercent = 1.0;
 
-    public static final double kIntakeLoweredAngleRevRotations = 25;
+    public static final double kIntakeLoweredAngleRevRotations = 26;
     public static final double kIntakeRaisedAngleRevRotations = 0;
     
     public static final int kIndexerMotorId = 11;
-    public static final double kIndexerIntakeSpeedPercent = 0.65;
+    public static final double kIndexerIntakeSpeedPercent = 0.175;
   }
   
   public static final class ShooterConstants {
@@ -108,11 +108,10 @@ public final class Constants {
     
     public static final double kRollerShootingSpeedPercent = 1.0;
     
-    // public static final double kFlywheelMaxSpeedRPM = 5676;
     public static final double kFlywheelIntakeSpeedRPM = -750;
     public static final double kAmpShootingSpeedBottomRPM = 1470;
     public static final double kAmpShootingSpeedTopRPM = 1317;
-    public static final double kShooterDefaultSpeedRPM = 5000;
+    public static final double kShooterDefaultSpeedRPM = 10000;
     
     public static final double kShooterDistanceRangeInches = 2.5;
   }
