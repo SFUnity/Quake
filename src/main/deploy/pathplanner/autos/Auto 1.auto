@@ -28,6 +28,62 @@
           "data": {
             "name": "stopShooting"
           }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Speaker to B"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "lowerAndRun"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "shooterIntakeNote"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "B to Speaker"
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "speakerShoot"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "putNoteInFlywheels"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "stopShooting"
+                }
+              }
+            ]
+          }
         }
       ]
     }

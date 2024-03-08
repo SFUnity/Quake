@@ -104,6 +104,8 @@ public class RobotContainer {
         NamedCommands.registerCommand("speakerShoot", m_shooter.readyShootSpeakerCommand());
         NamedCommands.registerCommand("putNoteInFlywheels", m_shooter.putNoteIntoFlywheelsCommand());
         NamedCommands.registerCommand("stopShooting", m_shooter.stopShootingCommand());
+        NamedCommands.registerCommand("lowerAndRun", m_intake.lowerAndRunIntakeCmd());
+        NamedCommands.registerCommand("shooterIntakeNote", m_shooter.intakeNoteCmd());
 
         m_straightPathAuto = new PathPlannerAuto("Test Auto");
         m_autoPath1 = new PathPlannerAuto("Auto 1");

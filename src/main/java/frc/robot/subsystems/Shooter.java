@@ -199,20 +199,34 @@ public class Shooter extends SubsystemBase {
     }
 
     // Auto Commands
+    public Command intakeNoteCmd() {
+        return run(() -> {
+            intakeNote(true);
+        }).withTimeout(2);
+    }
+    
     public Command readyShootAmpCommand() {
-        return runOnce(() -> readyShootAmp());
+        return run(() -> {
+            readyShootAmp();
+            setFlywheelMotorSpeed();
+            setAngleMotorSpeeds();
+        }).withTimeout(1);
     }
 
     public Command readyShootSpeakerCommand() {
-        return runOnce(() -> readyShootSpeaker());
+        return run(() -> {
+            readyShootSpeaker();
+            setFlywheelMotorSpeed();
+            setAngleMotorSpeeds();
+        }).withTimeout(1);
     }
 
     public Command putNoteIntoFlywheelsCommand() {
-        return runOnce(() -> {
+        return run(() -> {
             putNoteIntoFlywheels();
             setAngleMotorSpeeds();
             setFlywheelMotorSpeed();
-        });
+        }).withTimeout(2);
     }
 
     public Command stopShootingCommand() {
@@ -220,6 +234,6 @@ public class Shooter extends SubsystemBase {
             setAngleMotorSpeeds();
             stopFlywheelMotors();
             stopRollerMotors();
-        });    
+        });
     }
 }

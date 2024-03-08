@@ -104,4 +104,11 @@ public class Intake extends SubsystemBase{
             raiseAndStopIntake();
         });
     }
+
+    public Command lowerAndRunIntakeCmd() {
+        return run(() -> {
+            lowerAndRunIntake();
+            runIndexer();
+        }).withTimeout(2);
+    }
 }
