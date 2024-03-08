@@ -6,28 +6,14 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.GenericEntry;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj.shuffleboard.*;
+import edu.wpi.first.wpilibj.smartdashboard.*;
+import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.Command.InterruptionBehavior;
-import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
+import edu.wpi.first.wpilibj2.command.button.*;
 import frc.robot.Constants.ControllerConstants;
-import frc.robot.commands.CircleAutoCmd;
-import frc.robot.commands.IntakeCmd;
-import frc.robot.commands.ShooterCmd;
-import frc.robot.commands.StraightAutoCmd;
-import frc.robot.commands.SwerveJoystickCmd;
-import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Shooter;
-// import frc.robot.subsystems.LEDs;
-import frc.robot.subsystems.Swerve;
+import frc.robot.commands.*;
+import frc.robot.subsystems.*;
 
 
 public class RobotContainer {
