@@ -112,8 +112,8 @@ public class RobotContainer {
         configureBindings();
 
         // Add commands to the autonomous command chooser
-        m_autoChooser.setDefaultOption("Straight Path Auto", m_straightPathAuto);
-        m_autoChooser.addOption("Auto 1", m_autoPath1);
+        m_autoChooser.setDefaultOption("Auto 1", m_autoPath1);
+        m_autoChooser.addOption("Straight Path Auto", m_straightPathAuto);
         m_autoChooser.addOption("Path Auto", m_autoPath1Only);
         m_autoChooser.addOption("Straight Auto", m_straightAuto);
         m_autoChooser.addOption("Circle Auto", m_circleAuto);
@@ -143,7 +143,6 @@ public class RobotContainer {
         new Trigger(m_driverController.x()).whileTrue(m_swerve.SetXCommand());
         new Trigger(m_driverController.a()).onTrue(new InstantCommand(() -> m_swerve.resetPose(new Pose2d(2, 2, new Rotation2d(0)))).andThen(() -> m_swerve.resetHeading()));
 
-        // TODO test this
         new Trigger(() -> m_shooter.isNoteInShooter()).whileTrue(m_intake.noteInShooterCommand().withInterruptBehavior(InterruptionBehavior.kCancelIncoming));
 
         // LED Triggers

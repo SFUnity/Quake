@@ -14,13 +14,7 @@
         {
           "type": "named",
           "data": {
-            "name": "ampShoot"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.25
+            "name": "speakerShoot"
           }
         },
         {
@@ -30,21 +24,9 @@
           }
         },
         {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.25
-          }
-        },
-        {
           "type": "named",
           "data": {
             "name": "stopShooting"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Simple Auto Path 1"
           }
         }
       ]
