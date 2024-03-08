@@ -38,18 +38,16 @@ public class Shooter extends SubsystemBase {
     private double desiredAngle;
     private double desiredSpeedBottom;
     private double desiredSpeedTop;
-
-    private ShuffleboardTab speedsTab = Shuffleboard.getTab("Speeds");
-                                                    
-    private GenericEntry bottomFlywheelSpeedEntry = speedsTab.add("Bottom Speed", 0).getEntry();
-    private GenericEntry topFlywheelSpeedEntry = speedsTab.add("Top Speed", 0).getEntry();
-    private GenericEntry desiredSpeedBottomEntry = speedsTab.add("Desired Speed Bottom", 0).getEntry();
-    private GenericEntry desiredSpeedTopEntry = speedsTab.add("Desired Speed Top", 0).getEntry();
-
+    
     private ShuffleboardTab operationsTab = Shuffleboard.getTab("Operations");
     private ShuffleboardTab driversTab = Shuffleboard.getTab("Drivers");
     private GenericEntry angleEntry = operationsTab.add("Shooter Angle", 0).getEntry();
     private GenericEntry distanceSensorEntry = operationsTab.add("Distance sensor", -2).getEntry();
+    
+private GenericEntry bottomFlywheelSpeedEntry = operationsTab.add("Bottom Speed", 0).getEntry();
+private GenericEntry topFlywheelSpeedEntry = operationsTab.add("Top Speed", 0).getEntry();
+private GenericEntry desiredSpeedBottomEntry = operationsTab.add("Desired Speed Bottom", 0).getEntry();
+private GenericEntry desiredSpeedTopEntry = operationsTab.add("Desired Speed Top", 0).getEntry();
     
     private GenericEntry noteInShooterEntry = driversTab.add("Note In Shooter?", false)
                                                         .withSize(5, 4)

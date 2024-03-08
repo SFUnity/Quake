@@ -44,8 +44,6 @@ public class RobotContainer {
     // Field Oriented Chooser
     SendableChooser<Boolean> m_fieldOrientedChooser = new SendableChooser<>();
 
-    public ShuffleboardTab mainTab = Shuffleboard.getTab("Main");
-
     private ShuffleboardTab driversTab = Shuffleboard.getTab("Drivers");
     private GenericEntry intakeWorkingEntry = driversTab.add("Intake Working", true)
                                                         .withWidget(BuiltInWidgets.kToggleButton)

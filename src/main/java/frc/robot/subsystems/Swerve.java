@@ -104,10 +104,9 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
     private DoubleArrayPublisher m_desiredStatesPublisher = m_desiredStatesTopic.publish();
 
     public ShuffleboardTab swerveTab = Shuffleboard.getTab("Swerve Subsystem");
-    public ShuffleboardTab mainTab = Shuffleboard.getTab("Main");
     private ShuffleboardTab configsTab = Shuffleboard.getTab("Configs");
 
-    private GenericEntry headingEntry = mainTab.add("Heading", 0).withWidget(BuiltInWidgets.kGyro).getEntry();
+    private GenericEntry headingEntry = swerveTab.add("Heading", 0).withWidget(BuiltInWidgets.kGyro).getEntry();
     
     // private GenericEntry turnToAnglePEntry = swerveTab.addPersistent("turnToAngle P", 0.05).getEntry();
     // private GenericEntry turnToAngleIEntry = swerveTab.addPersistent("turnToAngle I", 0.01).getEntry();
@@ -145,7 +144,7 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
         turnToAnglePID.enableContinuousInput(-180, 180);
         turnToAnglePID.setTolerance(0.1);
 
-        mainTab.add("Field", field2d).withSize(5, 3).withPosition(0, 0);
+        swerveTab.add("Field", field2d).withSize(5, 3).withPosition(0, 0);
 
         AutoBuilder.configureHolonomic(
             this::getPose, // Robot pose supplier
