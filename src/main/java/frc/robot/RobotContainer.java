@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.Command.InterruptionBehavior;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -48,11 +49,7 @@ public class RobotContainer {
 
     private final Command m_circleAuto = new CircleAutoCmd(m_swerve);
 
-    private final Command m_straightPathAuto;
-
-    private final Command m_autoPath1;
-
-    private final Command m_autoPath1Only;
+    private final Command m_2NoteSpeaker;
 
     SendableChooser<Command> m_autoChooser = new SendableChooser<>();
 
@@ -107,16 +104,13 @@ public class RobotContainer {
         NamedCommands.registerCommand("lowerAndRun", m_intake.lowerAndRunIntakeCmd());
         NamedCommands.registerCommand("shooterIntakeNote", m_shooter.intakeNoteCmd());
 
-        m_straightPathAuto = new PathPlannerAuto("Test Auto");
-        m_autoPath1 = new PathPlannerAuto("Auto 1");
-        m_autoPath1Only = new PathPlannerAuto("Path Auto");
+        m_2NoteSpeaker = new PathPlannerAuto("2 Note Speaker");
 
         configureBindings();
 
         // Add commands to the autonomous command chooser
-        m_autoChooser.setDefaultOption("Auto 1", m_autoPath1);
-        m_autoChooser.addOption("Straight Path Auto", m_straightPathAuto);
-        m_autoChooser.addOption("Path Auto", m_autoPath1Only);
+        m_autoChooser.setDefaultOption("Nothing", new RunCommand(() -> {}, m_swerve, m_intake, m_shooter));
+        m_autoChooser.addOption("Auto 1", m_2NoteSpeaker);
         m_autoChooser.addOption("Straight Auto", m_straightAuto);
         m_autoChooser.addOption("Circle Auto", m_circleAuto);
 
