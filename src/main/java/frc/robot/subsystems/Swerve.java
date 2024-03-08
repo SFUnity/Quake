@@ -152,8 +152,8 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
             this::getRobotRelativeChassisSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
             this::driveRobotRelative, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
             new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
-                    new PIDConstants(0.25, 0.0, 0.0), // Translation PID constants
-                    new PIDConstants(0.5, 0.0, 0.0), // Rotation PID constants
+                    new PIDConstants(5, 0.0, 0.0), // Translation PID constants
+                    new PIDConstants(5, 0.0, 0.009), // Rotation PID constants
                     ModuleConstants.kMaxModuleSpeedMPS, // Max module speed, in m/s
                     0.3, // Drive base radius in meters. Distance from robot center to furthest module.
                     new ReplanningConfig(false, false) // Default path replanning config. See the API for the options here
