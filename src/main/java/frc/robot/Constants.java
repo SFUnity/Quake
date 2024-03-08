@@ -120,7 +120,8 @@ public final class Constants {
     public static final int kClimberMotorIdL = 12; //TODO needs to be updated with correct values
     public static final int kClimberMotorIdR = 13; //TODO needs to be updated with correct values
     public static final double kClimberDistanceConversionRate = 0.001; //TODO needs to be updated with correct values
-    public static final double kClimbHeight = 10.0; //TODO needs to be updated with correct values
+    public static final double kExtendHeight = 10.0; //TODO needs to be updated with correct values
+    public static final double kRetractHeight = 0.0; //TODO needs to be updated with correct values
   }
   
   public static final class LEDConstants {

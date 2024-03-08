@@ -6,33 +6,26 @@ import frc.robot.subsystems.Climber;
 
 public class ClimberCmd extends Command {
     private final Climber m_climber;
-    private final Trigger climbTrigger, decendTrigger;
+    private final Trigger climbTrigger;
     private boolean buttonPressed = false;
 
-    public ClimberCmd(Climber climber, Trigger climbTrigger, Trigger decendTrigger) {
+    public ClimberCmd(Climber climber, Trigger climbTrigger) {
         m_climber = climber;
         this.climbTrigger = climbTrigger;
-        this.decendTrigger = decendTrigger;
     }
 
     @Override
     public void initialize() {
-        m_climber.resetEncoders();
+        //m_climber.resetEncoders();
     }
 
     @Override
     public void execute() {
-        if (climbTrigger.getAsBoolean() && !buttonPressed) {
-            m_climber.climb();
-            buttonPressed = true;
-        } else if (decendTrigger.getAsBoolean() && !buttonPressed) {
-            m_climber.descend();
-            buttonPressed = true;
-        } else if (!climbTrigger.getAsBoolean() && !decendTrigger.getAsBoolean()) {
-            buttonPressed = false;
+        if (climbTrigger.getAsBoolean()) {
+            m_climber.extend();
+        } else {
+            m_climber.retract();
         }
-
-        m_climber.updateClimber();
     }
 
     @Override
