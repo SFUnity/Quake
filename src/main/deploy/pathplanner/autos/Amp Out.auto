@@ -3,9 +3,9 @@
   "startingPose": {
     "position": {
       "x": 0.72,
-      "y": 4.41
+      "y": 6.68
     },
-    "rotation": -60.0
+    "rotation": -120.0
   },
   "command": {
     "type": "sequential",
@@ -20,7 +20,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Source Out Path"
+            "pathName": "Amp Out Path"
           }
         }
       ]

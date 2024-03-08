@@ -36,6 +36,8 @@ public class RobotContainer {
     private final Command m_circleAuto = new CircleAutoCmd(m_swerve);
 
     private final Command m_2NoteSpeaker;
+    private final Command m_sourceOut;
+    private final Command m_ampOut;
 
     SendableChooser<Command> m_autoChooser = new SendableChooser<>();
 
@@ -83,20 +85,20 @@ public class RobotContainer {
                 m_operationsController.square(),
                 intakeWorkingEntry));
 
-        NamedCommands.registerCommand("ampShoot", m_shooter.readyShootAmpCommand()); 
-        NamedCommands.registerCommand("speakerShoot", m_shooter.readyShootSpeakerCommand());
-        NamedCommands.registerCommand("putNoteInFlywheels", m_shooter.putNoteIntoFlywheelsCommand());
-        NamedCommands.registerCommand("stopShooting", m_shooter.stopShootingCommand());
-        NamedCommands.registerCommand("lowerAndRun", m_intake.lowerAndRunIntakeCmd());
-        NamedCommands.registerCommand("shooterIntakeNote", m_shooter.intakeNoteCmd());
+        NamedCommands.registerCommand("fullSpeakerShoot", new SequentialCommandGroup(m_shooter.readyShootSpeakerCommand(), m_shooter.putNoteIntoFlywheelsCommand(), m_shooter.stopShootingCommand()));
+        NamedCommands.registerCommand("fullIntakeNote", new ParallelCommandGroup(m_shooter.intakeNoteCmd(), m_intake.lowerAndRunIntakeCmd()));
 
         m_2NoteSpeaker = new PathPlannerAuto("2 Note Speaker");
+        m_sourceOut = new PathPlannerAuto("Source Out");
+        m_ampOut = new PathPlannerAuto("Amp Out");
 
         configureBindings();
 
         // Add commands to the autonomous command chooser
         m_autoChooser.setDefaultOption("Nothing", new RunCommand(() -> {}, m_swerve, m_intake, m_shooter));
-        m_autoChooser.addOption("Auto 1", m_2NoteSpeaker);
+        m_autoChooser.addOption("2 Note Speaker", m_2NoteSpeaker);
+        m_autoChooser.addOption("Source Out", m_sourceOut);
+        m_autoChooser.addOption("Amp Out", m_ampOut);
         m_autoChooser.addOption("Straight Auto", m_straightAuto);
         m_autoChooser.addOption("Circle Auto", m_circleAuto);
 

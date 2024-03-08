@@ -14,19 +14,7 @@
         {
           "type": "named",
           "data": {
-            "name": "speakerShoot"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "putNoteInFlywheels"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "stopShooting"
+            "name": "fullSpeakerShoot"
           }
         },
         {
@@ -42,13 +30,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "lowerAndRun"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "shooterIntakeNote"
+                  "name": "fullIntakeNote"
                 }
               }
             ]
@@ -61,28 +43,9 @@
           }
         },
         {
-          "type": "sequential",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "speakerShoot"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "putNoteInFlywheels"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "stopShooting"
-                }
-              }
-            ]
+            "name": "fullSpeakerShoot"
           }
         }
       ]
