@@ -17,15 +17,15 @@
     {
       "anchor": {
         "x": 1.35,
-        "y": 5.55
+        "y": 5.55472336015897
       },
       "prevControl": {
         "x": 1.9351753013427588,
-        "y": 5.55
+        "y": 5.55472336015897
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Speaker Side"
     }
   ],
   "rotationTargets": [],
