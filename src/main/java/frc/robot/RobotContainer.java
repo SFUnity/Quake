@@ -68,7 +68,11 @@ public class RobotContainer {
                                                         .withPosition(2, 0)
                                                         .getEntry();
 
+    private ShuffleboardTab configsTab = Shuffleboard.getTab("Configs");                                                   
+
     public RobotContainer() {
+        configsTab.add(m_swerve.setConfigsCommand()).withWidget(BuiltInWidgets.kCommand); 
+
         m_swerve.setDefaultCommand(new SwerveJoystickCmd(
                 m_swerve,
                 () -> -m_driverController.getLeftY(),

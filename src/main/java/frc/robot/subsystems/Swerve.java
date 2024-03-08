@@ -104,6 +104,7 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
 
     public ShuffleboardTab swerveTab = Shuffleboard.getTab("Swerve Subsystem");
     public ShuffleboardTab mainTab = Shuffleboard.getTab("Main");
+    private ShuffleboardTab configsTab = Shuffleboard.getTab("Configs");
 
     private GenericEntry headingEntry = mainTab.add("Heading", 0).withWidget(BuiltInWidgets.kGyro).getEntry();
     
@@ -118,6 +119,12 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
     // private GenericEntry autoRotationPEntry = swerveTab.addPersistent("Auto Rotation P", 0.05).getEntry();
     // private GenericEntry autoRotationIEntry = swerveTab.addPersistent("Auto Rotation I", 0.00).getEntry();
     // private GenericEntry autoRotationDEntry = swerveTab.addPersistent("Auto Rotation D", 0.01).getEntry();
+
+    private GenericEntry kSEntry = configsTab.addPersistent("kS", 0.05).getEntry();
+    private GenericEntry kVEntry = configsTab.addPersistent("kV", 0.12).getEntry();
+    private GenericEntry kPEntry = configsTab.addPersistent("kP", 0.11).getEntry();
+    private GenericEntry kIEntry = configsTab.addPersistent("kI", 0.00).getEntry();
+    private GenericEntry kDEntry = configsTab.addPersistent("kD", 0.00).getEntry();
 
     public Swerve() {
         /* Threads are units of code. These threads call the zeroHeading method 1 sec 
@@ -167,6 +174,15 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
         );
     }
 
+    public Command setConfigsCommand() {
+        return runOnce(() -> {
+            m_backLeft.applyConfigs(kSEntry.getDouble(0.05), kVEntry.getDouble(0.12), kPEntry.getDouble(0.11), kIEntry.getDouble(0.00), kDEntry.getDouble(0.00));
+            m_backRight.applyConfigs(kSEntry.getDouble(0.05), kVEntry.getDouble(0.12), kPEntry.getDouble(0.11), kIEntry.getDouble(0.00), kDEntry.getDouble(0.00));
+            m_frontLeft.applyConfigs(kSEntry.getDouble(0.05), kVEntry.getDouble(0.12), kPEntry.getDouble(0.11), kIEntry.getDouble(0.00), kDEntry.getDouble(0.00));
+            m_frontRight.applyConfigs(kSEntry.getDouble(0.05), kVEntry.getDouble(0.12), kPEntry.getDouble(0.11), kIEntry.getDouble(0.00), kDEntry.getDouble(0.00));
+        });
+    }
+
     public void resetHeading() {
         m_gyro.reset();
     }
@@ -202,13 +218,13 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
         field2d.setRobotPose(getPose());
 
         currentStates[0] = m_frontLeft.getState().angle.getDegrees();
-        currentStates[1] = m_frontLeft.getState().speedMetersPerSecond;
+        currentStates[1] = Math.abs(m_frontLeft.getState().speedMetersPerSecond);
         currentStates[2] = m_frontRight.getState().angle.getDegrees();
-        currentStates[3] = m_frontRight.getState().speedMetersPerSecond;
+        currentStates[3] = Math.abs(m_frontRight.getState().speedMetersPerSecond);
         currentStates[4] = m_backLeft.getState().angle.getDegrees();
-        currentStates[5] = m_backLeft.getState().speedMetersPerSecond;
+        currentStates[5] = Math.abs(m_backLeft.getState().speedMetersPerSecond);
         currentStates[6] = m_backRight.getState().angle.getDegrees();
-        currentStates[7] = m_backRight.getState().speedMetersPerSecond;
+        currentStates[7] = Math.abs(m_backRight.getState().speedMetersPerSecond);
 
         m_statesPublisher.set(currentStates);
 

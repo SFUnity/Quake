@@ -1,7 +1,9 @@
 package frc.robot.subsystems.modules;
 
-import com.ctre.phoenix6.configs.FeedbackConfigs;
+// import com.ctre.phoenix6.configs.FeedbackConfigs;
+import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfigurator;
+import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.revrobotics.CANSparkMax;
@@ -17,7 +19,6 @@ import frc.robot.Constants.ModuleConstants;
 import lib.SwerveModule;
 
 public class RealSwerveModule implements AutoCloseable, SwerveModule {
-    
     private final TalonFX m_driveMotor;
     private final CANSparkMax m_turningMotor;
 
@@ -25,6 +26,8 @@ public class RealSwerveModule implements AutoCloseable, SwerveModule {
     private final boolean kAbsoluteEncoderReversed;
 
     private final PIDController turningPidController;
+    // create a velocity closed-loop request, voltage output, slot 0 configs
+    private final VelocityVoltage m_driveRequest = new VelocityVoltage(0).withSlot(0);
 
     private SwerveModuleState desiredState = new SwerveModuleState(0.0, new Rotation2d());
     
@@ -36,8 +39,15 @@ public class RealSwerveModule implements AutoCloseable, SwerveModule {
                 
         m_driveMotor = new TalonFX(kDriveMotorId, "rio");
         TalonFXConfigurator configurator = m_driveMotor.getConfigurator();
-        FeedbackConfigs feedbackConfigs = new FeedbackConfigs().withRotorToSensorRatio(DriveConstants.kDriveEncoderPositionConversionFactor / (DriveConstants.kWheelDiameterMeters * Math.PI));
-        configurator.apply(feedbackConfigs);
+        // FeedbackConfigs feedbackConfigs = new FeedbackConfigs().withSensorToMechanismRatio(DriveConstants.kDriveEncoderPositionConversionFactor / (DriveConstants.kWheelDiameterMeters * Math.PI));
+        Slot0Configs slot0Configs = new Slot0Configs();
+        slot0Configs.kS = 0.05; // Add 0.05 V output to overcome static friction
+        slot0Configs.kV = 0.12; // A velocity target of 1 rps results in 0.12 V output
+        slot0Configs.kP = 0.11; // An error of 1 rps results in 0.11 V output
+        slot0Configs.kI = 0; // no output for integrated error
+        slot0Configs.kD = 0; // no output for error derivative
+        // configurator.apply(feedbackConfigs);
+        configurator.apply(slot0Configs);
         m_driveMotor.setInverted(driveMotorReversed);
 
         kAbsoluteEncoderReversed = absoluteEncoderReversed;
@@ -47,6 +57,17 @@ public class RealSwerveModule implements AutoCloseable, SwerveModule {
         turningPidController.enableContinuousInput(-Math.PI, Math.PI);
 
         resetEncoders(); // Resets encoders every time the robot boots up
+    }
+
+    public void applyConfigs(double kS, double kV, double kP, double kI, double kD) {
+        TalonFXConfigurator configurator = m_driveMotor.getConfigurator();
+        Slot0Configs slot0Configs = new Slot0Configs();
+        slot0Configs.kS = kS;
+        slot0Configs.kV = kV;
+        slot0Configs.kP = kP;
+        slot0Configs.kI = kI; 
+        slot0Configs.kD = kD; 
+        configurator.apply(slot0Configs);
     }
 
     @Override
@@ -65,8 +86,7 @@ public class RealSwerveModule implements AutoCloseable, SwerveModule {
         double desiredTurnSpeed = turningPidController.calculate(getAbsoluteEncoderRad(), state.angle.getRadians());
         m_turningMotor.set(desiredTurnSpeed);
 
-        double normalizedSpeed = state.speedMetersPerSecond / ModuleConstants.kMaxModuleSpeedMPS;
-        m_driveMotor.set(normalizedSpeed);
+        m_driveMotor.setControl(m_driveRequest.withVelocity(state.speedMetersPerSecond / (DriveConstants.kWheelDiameterMeters * Math.PI) * DriveConstants.kDriveEncoderPositionConversionFactor));
 
         desiredState = state;
     }
