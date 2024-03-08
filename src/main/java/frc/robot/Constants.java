@@ -102,7 +102,7 @@ public final class Constants {
 
     public static final int kShooterAngleMotorEncoderId = 5;
     
-    public static final double kSpeakerManualAngleRevRotations = 19;
+    public static final double kSpeakerManualAngleRevRotations = 18;
     public static final double kDesiredAmpAngleRevRotations = 19;
     public static final double kSourceAngleRevRotations = 17; //TODO needs to be updated with measured values
     

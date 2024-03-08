@@ -54,10 +54,10 @@ public class Shooter extends SubsystemBase {
                                                     .withWidget(BuiltInWidgets.kNumberSlider)
                                                     .withProperties(Map.of("min", 10, "max", 25))
                                                     .getEntry();
-    private GenericEntry speakerAngleEntry = speedsTab.addPersistent("Speaker Angle", ShooterConstants.kSpeakerManualAngleRevRotations)
-                                                    .withWidget(BuiltInWidgets.kNumberSlider)
-                                                    .withProperties(Map.of("min", 10, "max", 25))
-                                                    .getEntry();
+    // private GenericEntry speakerAngleEntry = speedsTab.addPersistent("Speaker Angle", ShooterConstants.kSpeakerManualAngleRevRotations)
+    //                                                 .withWidget(BuiltInWidgets.kNumberSlider)
+    //                                                 .withProperties(Map.of("min", 10, "max", 25))
+    //                                                 .getEntry();
     
     private GenericEntry bottomFlywheelSpeedEntry = speedsTab.add("Bottom Speed", 0).getEntry();
     private GenericEntry topFlywheelSpeedEntry = speedsTab.add("Top Speed", 0).getEntry();
@@ -95,7 +95,7 @@ public class Shooter extends SubsystemBase {
         m_bottomFlywheelEncoder = m_shooterBottomFlywheelMotor.getEncoder();
         m_topFlywheelEncoder = m_shooterTopFlywheelMotor.getEncoder();
 
-        desiredAngle = speakerAngleEntry.getDouble(ShooterConstants.kSpeakerManualAngleRevRotations);
+        desiredAngle = ShooterConstants.kSpeakerManualAngleRevRotations;
         m_anglePidController = m_shooterAngleMotor.getPIDController();
         this.setAngleMotorSpeeds();
 
@@ -129,7 +129,7 @@ public class Shooter extends SubsystemBase {
     public void readyShootSpeaker() {
         desiredSpeedBottom = ShooterConstants.kShooterDefaultSpeedRPM;
         desiredSpeedTop = ShooterConstants.kShooterDefaultSpeedRPM;
-        desiredAngle = speakerAngleEntry.getDouble(ShooterConstants.kSpeakerManualAngleRevRotations);
+        desiredAngle = ShooterConstants.kSpeakerManualAngleRevRotations;
     }
 
     public void readyShootAmp() {
