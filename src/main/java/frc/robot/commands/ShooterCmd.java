@@ -46,15 +46,16 @@ public class ShooterCmd extends Command {
 
         if (!square.getAsBoolean()) {
             m_shooter.setAngleMotorSpeeds();
-            if (m_shooter.distanceSensorWorking()) {
-                if (m_shooter.isNoteInShooter()) {
-                    m_shooter.setFlywheelMotorSpeed();
-                } else {
-                    m_shooter.stopFlywheelMotors();
-                }
-            } else {
-                m_shooter.setFlywheelMotorSpeed();
-            }
+            m_shooter.setFlywheelMotorSpeed();
+            // if (m_shooter.distanceSensorWorking()) {
+            //     if (m_shooter.isNoteInShooter()) {
+            //         m_shooter.setFlywheelMotorSpeed();
+            //     } else {
+            //         m_shooter.stopFlywheelMotors();
+            //     }
+            // } else {
+            //     m_shooter.setFlywheelMotorSpeed();
+            // }
         }
     }
 
