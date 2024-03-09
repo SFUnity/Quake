@@ -42,10 +42,10 @@ public class RealSwerveModule implements AutoCloseable, SwerveModule {
         // FeedbackConfigs feedbackConfigs = new FeedbackConfigs().withSensorToMechanismRatio(DriveConstants.kDriveEncoderPositionConversionFactor / (DriveConstants.kWheelDiameterMeters * Math.PI));
         Slot0Configs slot0Configs = new Slot0Configs();
         slot0Configs.kS = 0.05; // Add 0.05 V output to overcome static friction
-        slot0Configs.kV = 0.12; // A velocity target of 1 rps results in 0.12 V output
+        slot0Configs.kV = 0.02; // A velocity target of 1 rps results in 0.12 V output
         slot0Configs.kP = 0.11; // An error of 1 rps results in 0.11 V output
         slot0Configs.kI = 0; // no output for integrated error
-        slot0Configs.kD = 0; // no output for error derivative
+        slot0Configs.kD = 0.005; // no output for error derivative
         // configurator.apply(feedbackConfigs);
         configurator.apply(slot0Configs);
         m_driveMotor.setInverted(driveMotorReversed);
