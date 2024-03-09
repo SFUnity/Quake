@@ -74,6 +74,7 @@ public class RobotContainer {
                 m_operationsController.circle(),
                 m_operationsController.L1(),
                 m_operationsController.R1(),
+                m_operationsController.L2(),
                 intakeWorkingEntry));
         
         m_intake.setDefaultCommand(new IntakeCmd(

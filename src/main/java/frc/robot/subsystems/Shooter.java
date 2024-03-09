@@ -44,10 +44,10 @@ public class Shooter extends SubsystemBase {
     private GenericEntry angleEntry = operationsTab.add("Shooter Angle", 0).getEntry();
     private GenericEntry distanceSensorEntry = operationsTab.add("Distance sensor", -2).getEntry();
     
-private GenericEntry bottomFlywheelSpeedEntry = operationsTab.add("Bottom Speed", 0).getEntry();
-private GenericEntry topFlywheelSpeedEntry = operationsTab.add("Top Speed", 0).getEntry();
-private GenericEntry desiredSpeedBottomEntry = operationsTab.add("Desired Speed Bottom", 0).getEntry();
-private GenericEntry desiredSpeedTopEntry = operationsTab.add("Desired Speed Top", 0).getEntry();
+    private GenericEntry bottomFlywheelSpeedEntry = operationsTab.add("Bottom Speed", 0).getEntry();
+    private GenericEntry topFlywheelSpeedEntry = operationsTab.add("Top Speed", 0).getEntry();
+    private GenericEntry desiredSpeedBottomEntry = operationsTab.add("Desired Speed Bottom", 0).getEntry();
+    private GenericEntry desiredSpeedTopEntry = operationsTab.add("Desired Speed Top", 0).getEntry();
     
     private GenericEntry noteInShooterEntry = driversTab.add("Note In Shooter?", false)
                                                         .withSize(5, 4)
@@ -118,6 +118,12 @@ private GenericEntry desiredSpeedTopEntry = operationsTab.add("Desired Speed Top
         desiredAngle = ShooterConstants.kDesiredAmpAngleRevRotations;
     }
 
+    public void readyShootFeed() {
+        desiredSpeedBottom = ShooterConstants.kShooterFeedingSpeedRPM;
+        desiredSpeedTop = ShooterConstants.kShooterFeedingSpeedRPM;
+        desiredAngle = ShooterConstants.kFeedingAngleRevRotations;
+    }
+
     /**
      * returns whether there is a note in the shooter
      * @return boolean value of if there is a note in shooter
@@ -184,21 +190,13 @@ private GenericEntry desiredSpeedTopEntry = operationsTab.add("Desired Speed Top
             intakeNote(true);
         }).withTimeout(2);
     }
-    
-    public Command readyShootAmpCommand() {
-        return run(() -> {
-            readyShootAmp();
-            setFlywheelMotorSpeed();
-            setAngleMotorSpeeds();
-        }).withTimeout(1);
-    }
 
     public Command readyShootSpeakerCommand() {
         return run(() -> {
             readyShootSpeaker();
             setFlywheelMotorSpeed();
             setAngleMotorSpeeds();
-        }).withTimeout(1);
+        }).withTimeout(0.75);
     }
 
     public Command putNoteIntoFlywheelsCommand() {
@@ -206,7 +204,7 @@ private GenericEntry desiredSpeedTopEntry = operationsTab.add("Desired Speed Top
             putNoteIntoFlywheels();
             setAngleMotorSpeeds();
             setFlywheelMotorSpeed();
-        }).withTimeout(2);
+        }).withTimeout(0.75);
     }
 
     public Command stopShootingCommand() {

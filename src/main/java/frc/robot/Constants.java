@@ -105,6 +105,7 @@ public final class Constants {
     public static final double kSpeakerManualAngleRevRotations = 60;
     public static final double kDesiredAmpAngleRevRotations = 63;
     public static final double kSourceAngleRevRotations = 70;
+    public static final double kFeedingAngleRevRotations = 20;
     
     public static final double kRollerShootingSpeedPercent = 1.0;
     
@@ -112,6 +113,7 @@ public final class Constants {
     public static final double kAmpShootingSpeedBottomRPM = 2460;
     public static final double kAmpShootingSpeedTopRPM = 2033;
     public static final double kShooterDefaultSpeedRPM = 10000;
+    public static final double kShooterFeedingSpeedRPM = 10000;
     
     public static final double kShooterDistanceRangeInches = 2.5;
   }
