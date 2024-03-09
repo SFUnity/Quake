@@ -102,7 +102,7 @@ public final class Constants {
 
     public static final int kShooterAngleMotorEncoderId = 5;
     
-    public static final double kSpeakerManualAngleRevRotations = 60;
+    public static final double kSpeakerManualAngleRevRotations = 63;
     public static final double kDesiredAmpAngleRevRotations = 63;
     public static final double kSourceAngleRevRotations = 70;
     public static final double kFeedingAngleRevRotations = 20;
