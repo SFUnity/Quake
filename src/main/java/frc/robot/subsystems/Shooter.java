@@ -105,6 +105,10 @@ public class Shooter extends SubsystemBase {
             m_anglePidController.setReference(ShooterConstants.kSourceAngleRevRotations, ControlType.kPosition);
         }
     }
+
+    public void rollersIntake() {
+        m_shooterRollerMotor.set(0.05);
+    }
     
     public void readyShootSpeaker() {
         desiredSpeedBottom = ShooterConstants.kShooterDefaultSpeedRPM;
