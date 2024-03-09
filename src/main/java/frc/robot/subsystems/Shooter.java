@@ -74,11 +74,11 @@ public class Shooter extends SubsystemBase {
                                                     .getEntry();
     private GenericEntry ampAngleEntry = speedsTab.addPersistent("Amp Angle", ShooterConstants.kDesiredAmpAngleRevRotations)
                                                     .withWidget(BuiltInWidgets.kNumberSlider)
-                                                    .withProperties(Map.of("min", 10, "max", 25))
+                                                    .withProperties(Map.of("min", 50, "max", 80))
                                                     .getEntry();
     private GenericEntry speakerAngleEntry = speedsTab.addPersistent("Speaker Angle", ShooterConstants.kSpeakerManualAngleRevRotations)
                                                     .withWidget(BuiltInWidgets.kNumberSlider)
-                                                    .withProperties(Map.of("min", 10, "max", 25))
+                                                    .withProperties(Map.of("min", 50, "max", 80))
                                                     .getEntry();                                                            
 
     public Shooter() {        
@@ -221,7 +221,7 @@ public class Shooter extends SubsystemBase {
             readyShootSpeaker();
             setFlywheelMotorSpeed();
             setAngleMotorSpeeds();
-        }).withTimeout(0.75);
+        }).withTimeout(0.5);
     }
 
     public Command putNoteIntoFlywheelsCommand() {
