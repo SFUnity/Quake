@@ -111,4 +111,10 @@ public class Intake extends SubsystemBase{
             runIndexer();
         }).withTimeout(2);
     }
+
+    public Command raiseAndStopIntakeCmd() {
+        return runOnce(() -> {
+            raiseAndStopIntake();
+        });
+    }
 }

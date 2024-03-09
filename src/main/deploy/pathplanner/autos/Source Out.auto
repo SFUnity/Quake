@@ -18,15 +18,65 @@
           }
         },
         {
-          "type": "wait",
+          "type": "path",
           "data": {
-            "waitTime": 3.0
+            "pathName": "Source Side to 5"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "raiseAndStopIntake"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Note 5 In"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "fullSpeakerShoot"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Source Out Path"
+            "pathName": "Speaker to Note 4"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "raiseAndStopIntake"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Note 4 to Speaker"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "fullSpeakerShoot"
           }
         }
       ]

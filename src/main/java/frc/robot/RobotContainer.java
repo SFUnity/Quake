@@ -35,7 +35,7 @@ public class RobotContainer {
 
     private final Command m_circleAuto = new CircleAutoCmd(m_swerve);
 
-    private final Command m_2NoteSpeaker;
+    private final Command m_4NoteSpeaker;
     private final Command m_sourceOut;
     private final Command m_ampOut;
 
@@ -86,8 +86,9 @@ public class RobotContainer {
 
         NamedCommands.registerCommand("fullSpeakerShoot", new SequentialCommandGroup(m_shooter.readyShootSpeakerCommand(), m_shooter.putNoteIntoFlywheelsCommand(), m_shooter.stopShootingCommand()));
         NamedCommands.registerCommand("fullIntakeNote", new ParallelCommandGroup(m_shooter.intakeNoteCmd(), m_intake.lowerAndRunIntakeCmd()));
+        NamedCommands.registerCommand("raiseAndStopIntake", m_intake.raiseAndStopIntakeCmd());
 
-        m_2NoteSpeaker = new PathPlannerAuto("2 Note Speaker");
+        m_4NoteSpeaker = new PathPlannerAuto("4 Note Speaker");
         m_sourceOut = new PathPlannerAuto("Source Out");
         m_ampOut = new PathPlannerAuto("Amp Out");
 
@@ -95,7 +96,7 @@ public class RobotContainer {
 
         // Add commands to the autonomous command chooser
         m_autoChooser.setDefaultOption("Nothing", new RunCommand(() -> {}, m_swerve, m_intake, m_shooter));
-        m_autoChooser.addOption("2 Note Speaker", m_2NoteSpeaker);
+        m_autoChooser.addOption("4 Note Speaker", m_4NoteSpeaker);
         m_autoChooser.addOption("Source Out", m_sourceOut);
         m_autoChooser.addOption("Amp Out", m_ampOut);
         m_autoChooser.addOption("Straight Auto", m_straightAuto);
