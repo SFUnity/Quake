@@ -38,6 +38,8 @@ public class RobotContainer {
     private final Command m_4NoteSpeaker;
     private final Command m_sourceOut;
     private final Command m_ampOut;
+    private final Command m_straightPath;
+    private final Command m_swervyPath;
 
     SendableChooser<Command> m_autoChooser = new SendableChooser<>();
 
@@ -91,6 +93,8 @@ public class RobotContainer {
         m_4NoteSpeaker = new PathPlannerAuto("4 Note Speaker");
         m_sourceOut = new PathPlannerAuto("Source Out");
         m_ampOut = new PathPlannerAuto("Amp Out");
+        m_straightPath = new PathPlannerAuto("Straight Path Auto");
+        m_swervyPath = new PathPlannerAuto("Swervy Path Auto");
 
         configureBindings();
 
@@ -99,8 +103,10 @@ public class RobotContainer {
         m_autoChooser.addOption("4 Note Speaker", m_4NoteSpeaker);
         m_autoChooser.addOption("Source Out", m_sourceOut);
         m_autoChooser.addOption("Amp Out", m_ampOut);
-        m_autoChooser.addOption("Straight Auto", m_straightAuto);
-        m_autoChooser.addOption("Circle Auto", m_circleAuto);
+        // m_autoChooser.addOption("Straight Path", m_straightPath);
+        // m_autoChooser.addOption("Swervy Path", m_swervyPath);
+        // m_autoChooser.addOption("Straight Auto", m_straightAuto);
+        // m_autoChooser.addOption("Circle Auto", m_circleAuto);
 
         // Add options to the field oriented chooser
         m_fieldOrientedChooser.setDefaultOption("Field Oriented", true);
