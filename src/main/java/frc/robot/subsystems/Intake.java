@@ -50,6 +50,10 @@ public class Intake extends SubsystemBase{
         //}
     }
 
+    public void indexerOuttake() {
+        m_indexerMotor.set(-IntakeConstants.kIndexerIntakeSpeedPercent);
+    }
+
     /**
      * stop the indexer motors
      */
