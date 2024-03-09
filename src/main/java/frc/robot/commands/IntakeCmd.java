@@ -40,6 +40,7 @@ public class IntakeCmd extends Command{
         // set indexer and intake roller speeds
         } else if (triangle.getAsBoolean()) {
             m_intake.lowerAndOuttake();
+            m_intake.indexerOuttake();
         } else if (square.getAsBoolean()) {
             m_intake.runIndexer();
             if (cross.getAsBoolean()) {
