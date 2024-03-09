@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import java.util.Map;
+
 import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
@@ -41,6 +43,8 @@ public class Shooter extends SubsystemBase {
     
     private ShuffleboardTab operationsTab = Shuffleboard.getTab("Operations");
     private ShuffleboardTab driversTab = Shuffleboard.getTab("Drivers");
+    private ShuffleboardTab speedsTab = Shuffleboard.getTab("Speeds");
+
     private GenericEntry angleEntry = operationsTab.add("Shooter Angle", 0).getEntry();
     private GenericEntry distanceSensorEntry = operationsTab.add("Distance sensor", -2).getEntry();
     
@@ -60,6 +64,23 @@ public class Shooter extends SubsystemBase {
                                                                 .withPosition(2, 2)
                                                                 .getEntry();
 
+    private GenericEntry ampSpeedBottomEntry = speedsTab.addPersistent("Amp Speed Bottom", ShooterConstants.kAmpShootingSpeedBottomRPM)
+                                                    .withWidget(BuiltInWidgets.kNumberSlider)
+                                                    .withProperties(Map.of("min", 0, "max", 5000))
+                                                    .getEntry();
+    private GenericEntry ampSpeedTopEntry = speedsTab.addPersistent("Amp Speed Top", ShooterConstants.kAmpShootingSpeedTopRPM)
+                                                    .withWidget(BuiltInWidgets.kNumberSlider)
+                                                    .withProperties(Map.of("min", 0, "max", 5000))
+                                                    .getEntry();
+    private GenericEntry ampAngleEntry = speedsTab.addPersistent("Amp Angle", ShooterConstants.kDesiredAmpAngleRevRotations)
+                                                    .withWidget(BuiltInWidgets.kNumberSlider)
+                                                    .withProperties(Map.of("min", 10, "max", 25))
+                                                    .getEntry();
+    private GenericEntry speakerAngleEntry = speedsTab.addPersistent("Speaker Angle", ShooterConstants.kSpeakerManualAngleRevRotations)
+                                                    .withWidget(BuiltInWidgets.kNumberSlider)
+                                                    .withProperties(Map.of("min", 10, "max", 25))
+                                                    .getEntry();                                                            
+
     public Shooter() {        
         m_shooterDistanceSensor = new Rev2mDistanceSensor(Port.kOnboard);
         m_shooterDistanceSensor.setDistanceUnits(Unit.kInches);
@@ -75,7 +96,7 @@ public class Shooter extends SubsystemBase {
         m_bottomFlywheelEncoder = m_shooterBottomFlywheelMotor.getEncoder();
         m_topFlywheelEncoder = m_shooterTopFlywheelMotor.getEncoder();
 
-        desiredAngle = ShooterConstants.kSpeakerManualAngleRevRotations;
+        desiredAngle = speakerAngleEntry.getDouble(ShooterConstants.kSpeakerManualAngleRevRotations);
         m_anglePidController = m_shooterAngleMotor.getPIDController();
         this.setAngleMotorSpeeds();
 
@@ -113,13 +134,13 @@ public class Shooter extends SubsystemBase {
     public void readyShootSpeaker() {
         desiredSpeedBottom = ShooterConstants.kShooterDefaultSpeedRPM;
         desiredSpeedTop = ShooterConstants.kShooterDefaultSpeedRPM;
-        desiredAngle = ShooterConstants.kSpeakerManualAngleRevRotations;
+        desiredAngle = speakerAngleEntry.getDouble(ShooterConstants.kSpeakerManualAngleRevRotations);
     }
 
     public void readyShootAmp() {
-        desiredSpeedBottom = ShooterConstants.kAmpShootingSpeedBottomRPM;
-        desiredSpeedTop = ShooterConstants.kAmpShootingSpeedTopRPM;
-        desiredAngle = ShooterConstants.kDesiredAmpAngleRevRotations;
+        desiredSpeedBottom = ampSpeedBottomEntry.getDouble(ShooterConstants.kAmpShootingSpeedBottomRPM);
+        desiredSpeedTop = ampSpeedTopEntry.getDouble(ShooterConstants.kAmpShootingSpeedTopRPM);
+        desiredAngle = ampAngleEntry.getDouble(ShooterConstants.kDesiredAmpAngleRevRotations);
     }
 
     public void readyShootFeed() {
