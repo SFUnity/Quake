@@ -47,37 +47,6 @@
           "data": {
             "name": "fullSpeakerShoot"
           }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Speaker to Note 4"
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "raiseAndStopIntake"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Note 4 to Speaker"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "fullSpeakerShoot"
-          }
         }
       ]
     }

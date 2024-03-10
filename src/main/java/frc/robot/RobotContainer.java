@@ -102,10 +102,10 @@ public class RobotContainer {
         m_autoChooser.setDefaultOption("Nothing", new RunCommand(() -> {}, m_swerve, m_intake, m_shooter));
         m_autoChooser.addOption("4 Note Speaker", m_4NoteSpeaker);
         m_autoChooser.addOption("Source Out", m_sourceOut);
-        m_autoChooser.addOption("Amp Out", m_ampOut);
+        m_autoChooser.addOption("Amp", m_ampOut);
         // m_autoChooser.addOption("Straight Path", m_straightPath);
         // m_autoChooser.addOption("Swervy Path", m_swervyPath);
-        // m_autoChooser.addOption("Straight Auto", m_straightAuto);
+        m_autoChooser.addOption("Straight Auto", m_straightAuto);
         // m_autoChooser.addOption("Circle Auto", m_circleAuto);
 
         // Add options to the field oriented chooser
@@ -123,7 +123,7 @@ public class RobotContainer {
         SmartDashboard.putData(m_swerve);
         SmartDashboard.putData(m_intake);
         SmartDashboard.putData(m_shooter);
-        SmartDashboard.putNumber("distance sensor", m_shooter.m_shooterDistanceSensor.getRange());
+        SmartDashboard.putData(new SequentialCommandGroup(m_shooter.readyShootSpeakerCommand(), m_shooter.putNoteIntoFlywheelsCommand(), m_shooter.stopShootingCommand()));
         // SmartDashboard.putData(m_straightAuto);
         // SmartDashboard.putData(m_circleAuto);
         // SmartDashboard.putData(m_swerve.TurnToAngle(45));

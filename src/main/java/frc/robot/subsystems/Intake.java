@@ -119,6 +119,7 @@ public class Intake extends SubsystemBase{
     public Command raiseAndStopIntakeCmd() {
         return runOnce(() -> {
             raiseAndStopIntake();
+            m_indexerMotor.stopMotor();
         });
     }
 }

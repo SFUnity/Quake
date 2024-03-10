@@ -16,18 +16,6 @@
           "data": {
             "name": "fullSpeakerShoot"
           }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 5.0
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Amp Out Path"
-          }
         }
       ]
     }
