@@ -89,6 +89,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("fullSpeakerShoot", new SequentialCommandGroup(m_shooter.readyShootSpeakerCommand(), m_shooter.putNoteIntoFlywheelsCommand(), m_shooter.stopShootingCommand()));
         NamedCommands.registerCommand("fullIntakeNote", new ParallelCommandGroup(m_shooter.intakeNoteCmd(), m_intake.lowerAndRunIntakeCmd()));
         NamedCommands.registerCommand("raiseAndStopIntake", m_intake.raiseAndStopIntakeCmd());
+        NamedCommands.registerCommand("Straight", m_straightAuto);
 
         m_4NoteSpeaker = new PathPlannerAuto("4 Note Speaker");
         m_sourceOut = new PathPlannerAuto("Source Out");

@@ -244,7 +244,7 @@ public class Shooter extends SubsystemBase {
             readyShootSpeaker();
             setFlywheelMotorSpeed();
             setAngleMotorSpeeds();
-        }).withTimeout(1);
+        }).withTimeout(0.8);
     }
 
     public Command putNoteIntoFlywheelsCommand() {
