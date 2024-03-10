@@ -43,7 +43,7 @@ public class Shooter extends SubsystemBase {
     private double desiredSpeedTop;
     
     private ShuffleboardTab driversTab = Shuffleboard.getTab("Drivers");
-    private ShuffleboardTab speedsTab = Shuffleboard.getTab("Speeds");
+    private ShuffleboardTab speedsTab = Shuffleboard.getTab("Speeds/Angles");
     private ShuffleboardTab loggingTab = Shuffleboard.getTab("Logging");
 
     private GenericEntry bottomFlywheelVoltageEntry = loggingTab.add("bottomFlywheelVoltage", 0.00).getEntry();
