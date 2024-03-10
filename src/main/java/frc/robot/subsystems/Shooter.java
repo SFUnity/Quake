@@ -30,6 +30,7 @@ public class Shooter extends SubsystemBase {
     private final RelativeEncoder m_angleEncoder;
     public final RelativeEncoder m_bottomFlywheelEncoder;
     public final RelativeEncoder m_topFlywheelEncoder;
+    public final RelativeEncoder m_feederEncoder;
     
     public final Rev2mDistanceSensor m_shooterDistanceSensor;
     
@@ -48,6 +49,7 @@ public class Shooter extends SubsystemBase {
     private GenericEntry angleEntry = operationsTab.add("Shooter Angle", 0).getEntry();
     private GenericEntry distanceSensorEntry = operationsTab.add("Distance sensor", -2).getEntry();
     
+    private GenericEntry feederSpeedEntry = operationsTab.add("Feeder Speed", 0).getEntry();    
     private GenericEntry bottomFlywheelSpeedEntry = operationsTab.add("Bottom Speed", 0).getEntry();
     private GenericEntry topFlywheelSpeedEntry = operationsTab.add("Top Speed", 0).getEntry();
     private GenericEntry desiredSpeedBottomEntry = operationsTab.add("Desired Speed Bottom", 0).getEntry();
@@ -95,6 +97,7 @@ public class Shooter extends SubsystemBase {
         m_angleEncoder.setPositionConversionFactor(1/36/360); // 36:1 gear ratio and 360 degrees per rotation
         m_bottomFlywheelEncoder = m_shooterBottomFlywheelMotor.getEncoder();
         m_topFlywheelEncoder = m_shooterTopFlywheelMotor.getEncoder();
+        m_feederEncoder = m_shooterRollerMotor.getEncoder();
 
         desiredAngle = speakerAngleEntry.getDouble(ShooterConstants.kSpeakerManualAngleRevRotations);
         m_anglePidController = m_shooterAngleMotor.getPIDController();
@@ -112,6 +115,7 @@ public class Shooter extends SubsystemBase {
         super.periodic();
         bottomFlywheelSpeedEntry.setDouble(m_bottomFlywheelEncoder.getVelocity());
         topFlywheelSpeedEntry.setDouble(m_topFlywheelEncoder.getVelocity());
+        feederSpeedEntry.setDouble(m_feederEncoder.getVelocity());
         angleEntry.setDouble(m_angleEncoder.getPosition());
         distanceSensorEntry.setDouble(m_shooterDistanceSensor.GetRange());
         noteInShooterEntry.setBoolean(isNoteInShooter());
@@ -221,7 +225,7 @@ public class Shooter extends SubsystemBase {
             readyShootSpeaker();
             setFlywheelMotorSpeed();
             setAngleMotorSpeeds();
-        }).withTimeout(0.5);
+        }).withTimeout(1);
     }
 
     public Command putNoteIntoFlywheelsCommand() {
@@ -229,13 +233,13 @@ public class Shooter extends SubsystemBase {
             putNoteIntoFlywheels();
             setAngleMotorSpeeds();
             setFlywheelMotorSpeed();
-        }).withTimeout(0.75);
+        }).withTimeout(2);
     }
 
     public Command stopShootingCommand() {
         return runOnce(() -> {
             setAngleMotorSpeeds();
-            stopFlywheelMotors();
+            readyShootAmp();
             stopRollerMotors();
         });
     }
