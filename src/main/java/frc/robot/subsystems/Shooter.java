@@ -110,7 +110,7 @@ public class Shooter extends SubsystemBase {
         m_topFlywheelEncoder = m_shooterTopFlywheelMotor.getEncoder();
         m_feederEncoder = m_shooterRollerMotor.getEncoder();
 
-        desiredAngle = speakerAngleEntry.getDouble(ShooterConstants.kSpeakerManualAngleRevRotations);
+        desiredAngle = ShooterConstants.kSpeakerManualAngleRevRotations;
         m_anglePidController = m_shooterAngleMotor.getPIDController();
         this.setAngleMotorSpeeds();
 
@@ -158,7 +158,7 @@ public class Shooter extends SubsystemBase {
     public void readyShootSpeaker() {
         desiredSpeedBottom = ShooterConstants.kShooterDefaultSpeedRPM;
         desiredSpeedTop = ShooterConstants.kShooterDefaultSpeedRPM;
-        desiredAngle = speakerAngleEntry.getDouble(ShooterConstants.kSpeakerManualAngleRevRotations);
+        desiredAngle = ShooterConstants.kSpeakerManualAngleRevRotations;
     }
 
     public void readyShootAmp() {
