@@ -104,10 +104,10 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
     private DoubleArrayPublisher m_desiredStatesPublisher = m_desiredStatesTopic.publish();
 
     public ShuffleboardTab swerveTab = Shuffleboard.getTab("Swerve Subsystem");
-    public ShuffleboardTab mainTab = Shuffleboard.getTab("Main");
+    public ShuffleboardTab loggingTab = Shuffleboard.getTab("Logging");
     private ShuffleboardTab configsTab = Shuffleboard.getTab("Configs");
 
-    private GenericEntry headingEntry = mainTab.add("Heading", 0).withWidget(BuiltInWidgets.kGyro).getEntry();
+    private GenericEntry headingEntry = loggingTab.add("Heading", 0).withWidget(BuiltInWidgets.kGyro).getEntry();
     
     // private GenericEntry turnToAnglePEntry = swerveTab.addPersistent("turnToAngle P", 0.05).getEntry();
     // private GenericEntry turnToAngleIEntry = swerveTab.addPersistent("turnToAngle I", 0.01).getEntry();
@@ -127,25 +127,25 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
     private GenericEntry kIEntry = configsTab.addPersistent("kI", 0.00).getEntry();
     private GenericEntry kDEntry = configsTab.addPersistent("kD", 0.00).getEntry();
 
-    private GenericEntry frontLeftDriveVoltageEntry = mainTab.add("flDriveVoltage", 0.00).getEntry();
-    private GenericEntry frontRightDriveVoltageEntry = mainTab.add("frDriveVoltage", 0.00).getEntry();
-    private GenericEntry backLeftDriveVoltageEntry = mainTab.add("blDriveVoltage", 0.00).getEntry();
-    private GenericEntry backRightDriveVoltageEntry = mainTab.add("brDriveVoltage", 0.00).getEntry();
+    private GenericEntry frontLeftDriveVoltageEntry = loggingTab.add("flDriveVoltage", 0.00).getEntry();
+    private GenericEntry frontRightDriveVoltageEntry = loggingTab.add("frDriveVoltage", 0.00).getEntry();
+    private GenericEntry backLeftDriveVoltageEntry = loggingTab.add("blDriveVoltage", 0.00).getEntry();
+    private GenericEntry backRightDriveVoltageEntry = loggingTab.add("brDriveVoltage", 0.00).getEntry();
 
-    private GenericEntry frontLeftDriveCurrentEntry = mainTab.add("flDriveCurrent", 0.00).getEntry();
-    private GenericEntry frontRightDriveCurrentEntry = mainTab.add("frDriveCurrent", 0.00).getEntry();
-    private GenericEntry backLeftDriveCurrentEntry = mainTab.add("blDriveCurrent", 0.00).getEntry();
-    private GenericEntry backRightDriveCurrentEntry = mainTab.add("brDriveCurrent", 0.00).getEntry();
+    private GenericEntry frontLeftDriveCurrentEntry = loggingTab.add("flDriveCurrent", 0.00).getEntry();
+    private GenericEntry frontRightDriveCurrentEntry = loggingTab.add("frDriveCurrent", 0.00).getEntry();
+    private GenericEntry backLeftDriveCurrentEntry = loggingTab.add("blDriveCurrent", 0.00).getEntry();
+    private GenericEntry backRightDriveCurrentEntry = loggingTab.add("brDriveCurrent", 0.00).getEntry();
 
-    private GenericEntry frontLeftTurningVoltageEntry = mainTab.add("flTurningVoltage", 0.00).getEntry();
-    private GenericEntry frontRightTurningVoltageEntry = mainTab.add("frTurningVoltage", 0.00).getEntry();
-    private GenericEntry backLeftTurningVoltageEntry = mainTab.add("blTurningVoltage", 0.00).getEntry();
-    private GenericEntry backRightTurningVoltageEntry = mainTab.add("brTurningVoltage", 0.00).getEntry();
+    private GenericEntry frontLeftTurningVoltageEntry = loggingTab.add("flTurningVoltage", 0.00).getEntry();
+    private GenericEntry frontRightTurningVoltageEntry = loggingTab.add("frTurningVoltage", 0.00).getEntry();
+    private GenericEntry backLeftTurningVoltageEntry = loggingTab.add("blTurningVoltage", 0.00).getEntry();
+    private GenericEntry backRightTurningVoltageEntry = loggingTab.add("brTurningVoltage", 0.00).getEntry();
 
-    private GenericEntry frontLeftTurningOutputCurrentEntry = mainTab.add("flTurningOutputCurrent", 0.00).getEntry();
-    private GenericEntry frontRightTurningOutputCurrentEntry = mainTab.add("frTurningOutputCurrent", 0.00).getEntry();
-    private GenericEntry backLeftTurningOutputCurrentEntry = mainTab.add("blTurningOutputCurrent", 0.00).getEntry();
-    private GenericEntry backRightTurningOutputCurrentEntry = mainTab.add("brTurningOutputCurrent", 0.00).getEntry();
+    private GenericEntry frontLeftTurningOutputCurrentEntry = loggingTab.add("flTurningOutputCurrent", 0.00).getEntry();
+    private GenericEntry frontRightTurningOutputCurrentEntry = loggingTab.add("frTurningOutputCurrent", 0.00).getEntry();
+    private GenericEntry backLeftTurningOutputCurrentEntry = loggingTab.add("blTurningOutputCurrent", 0.00).getEntry();
+    private GenericEntry backRightTurningOutputCurrentEntry = loggingTab.add("brTurningOutputCurrent", 0.00).getEntry();
 
     public Swerve() {
         /* Threads are units of code. These threads call the zeroHeading method 1 sec 
@@ -165,7 +165,7 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
         turnToAnglePID.enableContinuousInput(-180, 180);
         turnToAnglePID.setTolerance(0.1);
 
-        mainTab.add("Field", field2d).withSize(5, 3).withPosition(0, 0);
+        loggingTab.add("Field", field2d).withSize(5, 3).withPosition(0, 0);
 
         AutoBuilder.configureHolonomic(
             this::getPose, // Robot pose supplier

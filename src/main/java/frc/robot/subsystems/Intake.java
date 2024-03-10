@@ -23,16 +23,15 @@ public class Intake extends SubsystemBase{
 
     private final SparkPIDController m_anglePidController;
 
-    private ShuffleboardTab operationsTab = Shuffleboard.getTab("Operations");
-    private ShuffleboardTab mainTab = Shuffleboard.getTab("Main");
-    private GenericEntry angleEntry = operationsTab.add("Intake Angle", 0).getEntry();
+    private ShuffleboardTab loggingTab = Shuffleboard.getTab("Logging");
+    private GenericEntry angleEntry = loggingTab.add("Intake Angle", 0).getEntry();
 
-    private GenericEntry intakePivotVoltageEntry = mainTab.add("intakePivotVoltage", 0.00).getEntry();
-    private GenericEntry intakePivotCurrentEntry = mainTab.add("intakePivotOutputCurrent", 0.00).getEntry();
-    private GenericEntry intakeRollersVoltageEntry = mainTab.add("intakeRollersVoltage", 0.00).getEntry();
-    private GenericEntry intakeRollersCurrentEntry = mainTab.add("intakeRollersOutputCurrent", 0.00).getEntry();
-    private GenericEntry indexerVoltageEntry = mainTab.add("indexerVoltage", 0.00).getEntry();
-    private GenericEntry indexerCurrentEntry = mainTab.add("indexerOutputCurrent", 0.00).getEntry();
+    private GenericEntry intakePivotVoltageEntry = loggingTab.add("intakePivotVoltage", 0.00).getEntry();
+    private GenericEntry intakePivotCurrentEntry = loggingTab.add("intakePivotOutputCurrent", 0.00).getEntry();
+    private GenericEntry intakeRollersVoltageEntry = loggingTab.add("intakeRollersVoltage", 0.00).getEntry();
+    private GenericEntry intakeRollersCurrentEntry = loggingTab.add("intakeRollersOutputCurrent", 0.00).getEntry();
+    private GenericEntry indexerVoltageEntry = loggingTab.add("indexerVoltage", 0.00).getEntry();
+    private GenericEntry indexerCurrentEntry = loggingTab.add("indexerOutputCurrent", 0.00).getEntry();
 
     public Intake(Shooter shooter) {
         m_intakeAngleMotor = new CANSparkMax(IntakeConstants.kIntakeAngleMotorId, MotorType.kBrushless);

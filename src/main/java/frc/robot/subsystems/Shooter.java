@@ -42,29 +42,28 @@ public class Shooter extends SubsystemBase {
     private double desiredSpeedBottom;
     private double desiredSpeedTop;
     
-    private ShuffleboardTab operationsTab = Shuffleboard.getTab("Operations");
     private ShuffleboardTab driversTab = Shuffleboard.getTab("Drivers");
     private ShuffleboardTab speedsTab = Shuffleboard.getTab("Speeds");
-    private ShuffleboardTab mainTab = Shuffleboard.getTab("Main");
+    private ShuffleboardTab loggingTab = Shuffleboard.getTab("Logging");
 
-    private GenericEntry bottomFlywheelVoltageEntry = mainTab.add("bottomFlywheelVoltage", 0.00).getEntry();
-    private GenericEntry bottomFlywheelCurrentEntry = mainTab.add("bottomFlywheelOutputCurrent", 0.00).getEntry();
-    private GenericEntry topFlywheelVoltageEntry = mainTab.add("topFlywheelVoltage", 0.00).getEntry();
-    private GenericEntry topFlywheelCurrentEntry = mainTab.add("topFlywheelOutputCurrent", 0.00).getEntry();
-    private GenericEntry feederVoltageEntry = mainTab.add("feederVoltage", 0.00).getEntry();
-    private GenericEntry feederCurrentEntry = mainTab.add("feederOutputCurrent", 0.00).getEntry();
-    private GenericEntry shooterPivotVoltageEntry = mainTab.add("shooterPivotVoltage", 0.00).getEntry();
-    private GenericEntry shooterPivotCurrentEntry = mainTab.add("shooterPivotOutputCurrent", 0.00).getEntry();
+    private GenericEntry bottomFlywheelVoltageEntry = loggingTab.add("bottomFlywheelVoltage", 0.00).getEntry();
+    private GenericEntry bottomFlywheelCurrentEntry = loggingTab.add("bottomFlywheelOutputCurrent", 0.00).getEntry();
+    private GenericEntry topFlywheelVoltageEntry = loggingTab.add("topFlywheelVoltage", 0.00).getEntry();
+    private GenericEntry topFlywheelCurrentEntry = loggingTab.add("topFlywheelOutputCurrent", 0.00).getEntry();
+    private GenericEntry feederVoltageEntry = loggingTab.add("feederVoltage", 0.00).getEntry();
+    private GenericEntry feederCurrentEntry = loggingTab.add("feederOutputCurrent", 0.00).getEntry();
+    private GenericEntry shooterPivotVoltageEntry = loggingTab.add("shooterPivotVoltage", 0.00).getEntry();
+    private GenericEntry shooterPivotCurrentEntry = loggingTab.add("shooterPivotOutputCurrent", 0.00).getEntry();
 
 
-    private GenericEntry angleEntry = operationsTab.add("Shooter Angle", 0).getEntry();
-    private GenericEntry distanceSensorEntry = operationsTab.add("Distance sensor", -2).getEntry();
+    private GenericEntry angleEntry = loggingTab.add("Shooter Angle", 0).getEntry();
+    private GenericEntry distanceSensorEntry = loggingTab.add("Distance sensor", -2).getEntry();
     
-    private GenericEntry feederSpeedEntry = operationsTab.add("Feeder Speed", 0).getEntry();    
-    private GenericEntry bottomFlywheelSpeedEntry = operationsTab.add("Bottom Speed", 0).getEntry();
-    private GenericEntry topFlywheelSpeedEntry = operationsTab.add("Top Speed", 0).getEntry();
-    private GenericEntry desiredSpeedBottomEntry = operationsTab.add("Desired Speed Bottom", 0).getEntry();
-    private GenericEntry desiredSpeedTopEntry = operationsTab.add("Desired Speed Top", 0).getEntry();
+    private GenericEntry feederSpeedEntry = loggingTab.add("Feeder Speed", 0).getEntry();    
+    private GenericEntry bottomFlywheelSpeedEntry = loggingTab.add("Bottom Speed", 0).getEntry();
+    private GenericEntry topFlywheelSpeedEntry = loggingTab.add("Top Speed", 0).getEntry();
+    private GenericEntry desiredSpeedBottomEntry = loggingTab.add("Desired Speed Bottom", 0).getEntry();
+    private GenericEntry desiredSpeedTopEntry = loggingTab.add("Desired Speed Top", 0).getEntry();
     
     private GenericEntry noteInShooterEntry = driversTab.add("Note In Shooter?", false)
                                                         .withSize(5, 4)
