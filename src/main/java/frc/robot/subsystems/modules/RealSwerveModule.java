@@ -59,6 +59,22 @@ public class RealSwerveModule implements AutoCloseable, SwerveModule {
         resetEncoders(); // Resets encoders every time the robot boots up
     }
 
+    public double getKrakenSupplyVoltage() {
+        return m_driveMotor.getSupplyVoltage().getValueAsDouble();
+    }
+
+    public double getKrakenSupplyCurrent() {
+        return m_driveMotor.getSupplyCurrent().getValueAsDouble();
+    }
+
+    public double getTurningSupplyVoltage() {
+        return m_turningMotor.getBusVoltage();
+    }
+
+    public double getTurningOutputCurrent() {
+        return m_turningMotor.getOutputCurrent();
+    }
+
     public void applyConfigs(double kS, double kV, double kP, double kI, double kD) {
         TalonFXConfigurator configurator = m_driveMotor.getConfigurator();
         Slot0Configs slot0Configs = new Slot0Configs();

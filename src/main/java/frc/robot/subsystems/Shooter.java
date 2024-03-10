@@ -45,6 +45,17 @@ public class Shooter extends SubsystemBase {
     private ShuffleboardTab operationsTab = Shuffleboard.getTab("Operations");
     private ShuffleboardTab driversTab = Shuffleboard.getTab("Drivers");
     private ShuffleboardTab speedsTab = Shuffleboard.getTab("Speeds");
+    private ShuffleboardTab mainTab = Shuffleboard.getTab("Main");
+
+    private GenericEntry bottomFlywheelVoltageEntry = mainTab.add("bottomFlywheelVoltage", 0.00).getEntry();
+    private GenericEntry bottomFlywheelCurrentEntry = mainTab.add("bottomFlywheelOutputCurrent", 0.00).getEntry();
+    private GenericEntry topFlywheelVoltageEntry = mainTab.add("topFlywheelVoltage", 0.00).getEntry();
+    private GenericEntry topFlywheelCurrentEntry = mainTab.add("topFlywheelOutputCurrent", 0.00).getEntry();
+    private GenericEntry feederVoltageEntry = mainTab.add("feederVoltage", 0.00).getEntry();
+    private GenericEntry feederCurrentEntry = mainTab.add("feederOutputCurrent", 0.00).getEntry();
+    private GenericEntry shooterPivotVoltageEntry = mainTab.add("shooterPivotVoltage", 0.00).getEntry();
+    private GenericEntry shooterPivotCurrentEntry = mainTab.add("shooterPivotOutputCurrent", 0.00).getEntry();
+
 
     private GenericEntry angleEntry = operationsTab.add("Shooter Angle", 0).getEntry();
     private GenericEntry distanceSensorEntry = operationsTab.add("Distance sensor", -2).getEntry();
@@ -119,6 +130,15 @@ public class Shooter extends SubsystemBase {
         angleEntry.setDouble(m_angleEncoder.getPosition());
         distanceSensorEntry.setDouble(m_shooterDistanceSensor.GetRange());
         noteInShooterEntry.setBoolean(isNoteInShooter());
+
+        bottomFlywheelVoltageEntry.setDouble(m_shooterBottomFlywheelMotor.getBusVoltage());
+        bottomFlywheelCurrentEntry.setDouble(m_shooterBottomFlywheelMotor.getOutputCurrent());
+        topFlywheelVoltageEntry.setDouble(m_shooterTopFlywheelMotor.getBusVoltage());
+        topFlywheelCurrentEntry.setDouble(m_shooterTopFlywheelMotor.getOutputCurrent());
+        feederVoltageEntry.setDouble(m_shooterRollerMotor.getBusVoltage());
+        feederCurrentEntry.setDouble(m_shooterRollerMotor.getOutputCurrent());
+        shooterPivotVoltageEntry.setDouble(m_shooterAngleMotor.getBusVoltage());
+        shooterPivotCurrentEntry.setDouble(m_shooterAngleMotor.getOutputCurrent());
     }
 
     public void intakeNote(boolean intakeWorking) {

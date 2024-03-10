@@ -24,7 +24,15 @@ public class Intake extends SubsystemBase{
     private final SparkPIDController m_anglePidController;
 
     private ShuffleboardTab operationsTab = Shuffleboard.getTab("Operations");
+    private ShuffleboardTab mainTab = Shuffleboard.getTab("Main");
     private GenericEntry angleEntry = operationsTab.add("Intake Angle", 0).getEntry();
+
+    private GenericEntry intakePivotVoltageEntry = mainTab.add("intakePivotVoltage", 0.00).getEntry();
+    private GenericEntry intakePivotCurrentEntry = mainTab.add("intakePivotOutputCurrent", 0.00).getEntry();
+    private GenericEntry intakeRollersVoltageEntry = mainTab.add("intakeRollersVoltage", 0.00).getEntry();
+    private GenericEntry intakeRollersCurrentEntry = mainTab.add("intakeRollersOutputCurrent", 0.00).getEntry();
+    private GenericEntry indexerVoltageEntry = mainTab.add("indexerVoltage", 0.00).getEntry();
+    private GenericEntry indexerCurrentEntry = mainTab.add("indexerOutputCurrent", 0.00).getEntry();
 
     public Intake(Shooter shooter) {
         m_intakeAngleMotor = new CANSparkMax(IntakeConstants.kIntakeAngleMotorId, MotorType.kBrushless);
@@ -42,6 +50,12 @@ public class Intake extends SubsystemBase{
     public void periodic() {
         super.periodic();
         angleEntry.setDouble(m_angleEncoder.getPosition());
+        intakePivotVoltageEntry.setDouble(m_intakeAngleMotor.getBusVoltage());
+        intakePivotCurrentEntry.setDouble(m_intakeAngleMotor.getAppliedOutput());
+        intakeRollersVoltageEntry.setDouble(m_intakeMotor.getBusVoltage());
+        intakeRollersCurrentEntry.setDouble(m_intakeMotor.getAppliedOutput());
+        indexerVoltageEntry.setDouble(m_indexerMotor.getBusVoltage());
+        indexerCurrentEntry.setDouble(m_indexerMotor.getAppliedOutput());
     }
 
     public void runIndexer() {

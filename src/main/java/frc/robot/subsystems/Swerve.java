@@ -104,9 +104,10 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
     private DoubleArrayPublisher m_desiredStatesPublisher = m_desiredStatesTopic.publish();
 
     public ShuffleboardTab swerveTab = Shuffleboard.getTab("Swerve Subsystem");
+    public ShuffleboardTab mainTab = Shuffleboard.getTab("Main");
     private ShuffleboardTab configsTab = Shuffleboard.getTab("Configs");
 
-    private GenericEntry headingEntry = swerveTab.add("Heading", 0).withWidget(BuiltInWidgets.kGyro).getEntry();
+    private GenericEntry headingEntry = mainTab.add("Heading", 0).withWidget(BuiltInWidgets.kGyro).getEntry();
     
     // private GenericEntry turnToAnglePEntry = swerveTab.addPersistent("turnToAngle P", 0.05).getEntry();
     // private GenericEntry turnToAngleIEntry = swerveTab.addPersistent("turnToAngle I", 0.01).getEntry();
@@ -126,6 +127,26 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
     private GenericEntry kIEntry = configsTab.addPersistent("kI", 0.00).getEntry();
     private GenericEntry kDEntry = configsTab.addPersistent("kD", 0.00).getEntry();
 
+    private GenericEntry frontLeftDriveVoltageEntry = mainTab.add("flDriveVoltage", 0.00).getEntry();
+    private GenericEntry frontRightDriveVoltageEntry = mainTab.add("frDriveVoltage", 0.00).getEntry();
+    private GenericEntry backLeftDriveVoltageEntry = mainTab.add("blDriveVoltage", 0.00).getEntry();
+    private GenericEntry backRightDriveVoltageEntry = mainTab.add("brDriveVoltage", 0.00).getEntry();
+
+    private GenericEntry frontLeftDriveCurrentEntry = mainTab.add("flDriveCurrent", 0.00).getEntry();
+    private GenericEntry frontRightDriveCurrentEntry = mainTab.add("frDriveCurrent", 0.00).getEntry();
+    private GenericEntry backLeftDriveCurrentEntry = mainTab.add("blDriveCurrent", 0.00).getEntry();
+    private GenericEntry backRightDriveCurrentEntry = mainTab.add("brDriveCurrent", 0.00).getEntry();
+
+    private GenericEntry frontLeftTurningVoltageEntry = mainTab.add("flTurningVoltage", 0.00).getEntry();
+    private GenericEntry frontRightTurningVoltageEntry = mainTab.add("frTurningVoltage", 0.00).getEntry();
+    private GenericEntry backLeftTurningVoltageEntry = mainTab.add("blTurningVoltage", 0.00).getEntry();
+    private GenericEntry backRightTurningVoltageEntry = mainTab.add("brTurningVoltage", 0.00).getEntry();
+
+    private GenericEntry frontLeftTurningOutputCurrentEntry = mainTab.add("flTurningOutputCurrent", 0.00).getEntry();
+    private GenericEntry frontRightTurningOutputCurrentEntry = mainTab.add("frTurningOutputCurrent", 0.00).getEntry();
+    private GenericEntry backLeftTurningOutputCurrentEntry = mainTab.add("blTurningOutputCurrent", 0.00).getEntry();
+    private GenericEntry backRightTurningOutputCurrentEntry = mainTab.add("brTurningOutputCurrent", 0.00).getEntry();
+
     public Swerve() {
         /* Threads are units of code. These threads call the zeroHeading method 1 sec 
         after the robot starts without interfering with the rest of the code */
@@ -144,7 +165,7 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
         turnToAnglePID.enableContinuousInput(-180, 180);
         turnToAnglePID.setTolerance(0.1);
 
-        swerveTab.add("Field", field2d).withSize(5, 3).withPosition(0, 0);
+        mainTab.add("Field", field2d).withSize(5, 3).withPosition(0, 0);
 
         AutoBuilder.configureHolonomic(
             this::getPose, // Robot pose supplier
@@ -171,6 +192,30 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
             },
             this // Reference to this subsystem to set requirements
         );
+    }
+
+    @Override
+    public void periodic() {
+        super.periodic();
+        frontLeftDriveVoltageEntry.setDouble(m_frontLeft.getKrakenSupplyVoltage());
+        frontLeftDriveCurrentEntry.setDouble(m_frontLeft.getKrakenSupplyCurrent());
+        frontLeftTurningVoltageEntry.setDouble(m_frontLeft.getTurningSupplyVoltage());
+        frontLeftTurningOutputCurrentEntry.setDouble(m_frontLeft.getTurningOutputCurrent());
+
+        frontRightDriveVoltageEntry.setDouble(m_frontRight.getKrakenSupplyVoltage());
+        frontRightDriveCurrentEntry.setDouble(m_frontRight.getKrakenSupplyCurrent());
+        frontRightTurningVoltageEntry.setDouble(m_frontRight.getTurningSupplyVoltage());
+        frontRightTurningOutputCurrentEntry.setDouble(m_frontRight.getTurningOutputCurrent());
+
+        backLeftDriveCurrentEntry.setDouble(m_backLeft.getKrakenSupplyVoltage());
+        backLeftDriveVoltageEntry.setDouble(m_backLeft.getKrakenSupplyCurrent());
+        backLeftTurningVoltageEntry.setDouble(m_backLeft.getTurningSupplyVoltage());
+        backLeftTurningOutputCurrentEntry.setDouble(m_backLeft.getTurningOutputCurrent());
+
+        backRightDriveVoltageEntry.setDouble(m_backRight.getKrakenSupplyVoltage());
+        backRightDriveCurrentEntry.setDouble(m_backRight.getKrakenSupplyCurrent());
+        backRightTurningVoltageEntry.setDouble(m_backRight.getTurningSupplyVoltage());
+        backRightTurningOutputCurrentEntry.setDouble(m_backRight.getTurningOutputCurrent());
     }
 
     public Command setConfigsCommand() {
