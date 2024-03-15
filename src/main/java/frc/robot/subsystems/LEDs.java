@@ -13,7 +13,7 @@ public class LEDs extends SubsystemBase{
     private final AddressableLED m_led = new AddressableLED(9);
     // Reuse buffer
     // Default to a length of 60, start empty output
-    private final AddressableLEDBuffer m_ledBuffer = new AddressableLEDBuffer(60);
+    private final AddressableLEDBuffer m_ledBuffer = new AddressableLEDBuffer(150);
     private int m_rainbowFirstPixelHue;
 
     public LEDs() {

@@ -128,6 +128,11 @@ public class RobotContainer {
         // SmartDashboard.putData(m_straightAuto);
         // SmartDashboard.putData(m_circleAuto);
         // SmartDashboard.putData(m_swerve.TurnToAngle(45));
+        SmartDashboard.putData("default LEDs", m_LEDs.defaultPattern());
+        SmartDashboard.putData(m_LEDs.NoteInIndexerPattern());
+        SmartDashboard.putData(m_LEDs.NoteInShooterPattern());
+        SmartDashboard.putData(m_LEDs.ShootingNotePattern());
+        SmartDashboard.putData("rainbow!", m_LEDs.setToRainbow());
     }
 
     private void configureBindings() {
