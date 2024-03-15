@@ -19,7 +19,7 @@ import frc.robot.subsystems.*;
 public class RobotContainer {
     private final Swerve m_swerve = new Swerve();
 
-    // private final LEDs m_LEDs = new LEDs();
+    private final LEDs m_LEDs = new LEDs();
     private final Shooter m_shooter = new Shooter();
 
     private final Intake m_intake = new Intake(m_shooter);
