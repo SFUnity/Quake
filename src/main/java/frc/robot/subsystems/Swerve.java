@@ -109,9 +109,14 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
 
     private GenericEntry headingEntry = loggingTab.add("Heading", 0).withWidget(BuiltInWidgets.kGyro).getEntry();
     
-    // private GenericEntry turnToAnglePEntry = swerveTab.addPersistent("turnToAngle P", 0.05).getEntry();
-    // private GenericEntry turnToAngleIEntry = swerveTab.addPersistent("turnToAngle I", 0.01).getEntry();
-    private PIDController turnToAnglePID = new PIDController(0.05, 0, 0);
+    private GenericEntry turnToAnglePEntry = swerveTab.addPersistent("turnToAngle P", 0.05).withPosition(0, 2).withSize(2, 1).getEntry();
+    private GenericEntry turnToAngleIEntry = swerveTab.addPersistent("turnToAngle I", 0.0).withPosition(2, 2).withSize(2, 1).getEntry();
+    private GenericEntry turnToAngleDEntry = swerveTab.addPersistent("turnToAngle D", 0.0).withPosition(4, 2).withSize(2, 1).getEntry();
+    private PIDController turnToAnglePID = new PIDController(0.05, 0.4, turnToAngleDEntry.getDouble(0));
+
+    private double pastTurnToAnglePEntry = turnToAnglePEntry.getDouble(0.05);
+    private double pastTurnToAngleIEntry = turnToAngleIEntry.getDouble(0.05);
+    private double pastTurnToAngleDEntry = turnToAngleDEntry.getDouble(0.0);
 
     // private GenericEntry autoTranslationPEntry = swerveTab.addPersistent("Auto Translation P", 0.05).getEntry();
     // private GenericEntry autoTranslationIEntry = swerveTab.addPersistent("Auto Translation I", 0.00).getEntry();
@@ -164,6 +169,7 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
 
         turnToAnglePID.enableContinuousInput(-180, 180);
         turnToAnglePID.setTolerance(0.1);
+        turnToAnglePID.setIZone(5);
 
         loggingTab.add("Field", field2d).withSize(5, 3).withPosition(0, 0);
 
@@ -216,6 +222,32 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
         backRightDriveCurrentEntry.setDouble(m_backRight.getKrakenSupplyCurrent());
         backRightTurningVoltageEntry.setDouble(m_backRight.getTurningSupplyVoltage());
         backRightTurningOutputCurrentEntry.setDouble(m_backRight.getTurningOutputCurrent());
+
+        double currentP = turnToAnglePEntry.getDouble(0.05);
+        double currentI = turnToAngleIEntry.getDouble(0.0);
+        double currentD = turnToAngleDEntry.getDouble(0.0);
+        if (pastTurnToAnglePEntry != currentP) {
+            newTurnToAnglePID(currentP, currentI, currentD);
+            pastTurnToAnglePEntry = currentP;
+            System.out.println("New P: " + currentP);
+        }
+        if (pastTurnToAngleIEntry != currentI) {
+            newTurnToAnglePID(currentP, currentI, currentD);
+            pastTurnToAngleIEntry = currentI;
+            System.out.println("New I: " + currentI);
+        }
+        if (pastTurnToAngleDEntry != currentD) {
+            newTurnToAnglePID(currentP, currentI, currentD);
+            pastTurnToAngleDEntry = currentD;
+            System.out.println("New D: " + currentD);
+        }
+    }
+
+    private void newTurnToAnglePID(double currentP, double currentI, double currentD) {
+        turnToAnglePID = new PIDController(currentP, currentI, currentD);
+        turnToAnglePID.enableContinuousInput(-180, 180);
+        turnToAnglePID.setTolerance(0.1);
+        turnToAnglePID.setIZone(5);
     }
 
     public Command setConfigsCommand() {
@@ -372,6 +404,9 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
      */
     // Still a little fast
     public double turnToAngleSpeed(double desiredAngleDegrees) {
+        if (turnToAnglePID.getSetpoint() != desiredAngleDegrees) {
+            turnToAnglePID.setSetpoint(desiredAngleDegrees);
+        }
         if (turnToAnglePID.atSetpoint()) {
             return 0;
         } else {

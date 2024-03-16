@@ -139,7 +139,8 @@ public class RobotContainer {
         SmartDashboard.putData(new SequentialCommandGroup(m_shooter.readyShootSpeakerCommand(), m_shooter.putNoteIntoFlywheelsCommand(), m_shooter.stopShootingCommand()));
         // SmartDashboard.putData(m_straightAuto);
         // SmartDashboard.putData(m_circleAuto);
-        // SmartDashboard.putData(m_swerve.TurnToAngle(45));
+        SmartDashboard.putData("Turn to 45", m_swerve.TurnToAngle(45));
+        SmartDashboard.putData("Turn to 0", m_swerve.TurnToAngle(0));
         SmartDashboard.putData("default LEDs", m_LEDs.defaultPattern());
         SmartDashboard.putData(m_LEDs.NoteInIndexerPattern());
         SmartDashboard.putData(m_LEDs.NoteInShooterPattern());
