@@ -29,7 +29,6 @@ import frc.robot.subsystems.*;
 
 
 public class RobotContainer {
-    private final LEDs m_LEDs = new LEDs();
     private final Swerve m_swerve = new Swerve();
     public final LimelightSubsystem m_limelight = LimelightSubsystem.getInstance();
     private final LEDs m_LEDs = new LEDs();
