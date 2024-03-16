@@ -1,14 +1,13 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.LimelightConstants;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 // import frc.robot.Constants.DriveConstants;
 
@@ -113,21 +112,11 @@ public class LimelightSubsystem extends SubsystemBase {
   }
 
   public double getDistance () {
-
-    // how many degrees back is your limelight rotated from perfectly vertical?
-    double limelightMountAngleDegrees = 25.0; 
-
-    // distance from the center of the Limelight lens to the floor
-    double limelightLensHeightInches = 20.0; 
-
-    // distance from the target to the floor
-    double goalHeightInches = 60.0; 
-
-    double angleToGoalDegrees = limelightMountAngleDegrees + y;
+    double angleToGoalDegrees = LimelightConstants.kLimelightMountAngleDegrees + y;
     double angleToGoalRadians = angleToGoalDegrees * (3.14159 / 180.0);
 
-    //calculate distance
-    return (goalHeightInches - limelightLensHeightInches) / Math.tan(angleToGoalRadians);
+    // calculate distance
+    return (LimelightConstants.kHeightOfSpeakerInches - LimelightConstants.kLimelightLensHeightInches) / Math.tan(angleToGoalRadians);
   }
 
   /**
