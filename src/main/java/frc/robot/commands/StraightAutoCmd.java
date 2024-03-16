@@ -16,10 +16,10 @@ public class StraightAutoCmd extends Command {
     @Override
     public void execute() {
         SwerveModuleState[] module_states = {
-                new SwerveModuleState(1.0, new Rotation2d(0, 0)),
-                new SwerveModuleState(1.0, new Rotation2d(0, 0)),
-                new SwerveModuleState(1.0, new Rotation2d(0, 0)),
-                new SwerveModuleState(1.0, new Rotation2d(0, 0))
+                new SwerveModuleState(0.25, new Rotation2d(0, 0)),
+                new SwerveModuleState(0.25, new Rotation2d(0, 0)),
+                new SwerveModuleState(0.25, new Rotation2d(0, 0)),
+                new SwerveModuleState(0.25, new Rotation2d(0, 0))
         };
         m_swerve.setModuleStates(module_states);
     }
