@@ -119,7 +119,7 @@ public class RobotContainer {
         // m_autoChooser.addOption("Straight Path", m_straightPath);
         // m_autoChooser.addOption("Swervy Path", m_swervyPath);
         m_autoChooser.addOption("Straight Auto", m_straightAuto);
-        // m_autoChooser.addOption("Circle Auto", m_circleAuto);
+        m_autoChooser.addOption("Circle Auto", m_circleAuto);
 
         // Add options to the field oriented chooser
         m_fieldOrientedChooser.setDefaultOption("Field Oriented", true);
