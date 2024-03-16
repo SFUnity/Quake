@@ -30,7 +30,7 @@ import frc.robot.subsystems.*;
 
 public class RobotContainer {
     private final Swerve m_swerve = new Swerve();
-    public final LimelightSubsystem m_limelightSubsystem = LimelightSubsystem.getInstance();
+    public final LimelightSubsystem m_limelight = LimelightSubsystem.getInstance();
     private final LEDs m_LEDs = new LEDs();
     private final Shooter m_shooter = new Shooter();
     private final Intake m_intake = new Intake(m_shooter);
@@ -82,11 +82,13 @@ public class RobotContainer {
 
         m_shooter.setDefaultCommand(new ShooterCmd(
                 m_shooter, 
+                m_limelight,
                 m_operationsController.square(),
                 m_operationsController.circle(),
                 m_operationsController.L1(),
                 m_operationsController.R1(),
                 m_operationsController.L2(),
+                m_operationsController.R2(),
                 intakeWorkingEntry));
         
         m_intake.setDefaultCommand(new IntakeCmd(
@@ -166,7 +168,7 @@ public class RobotContainer {
 //     }
   
     public LimelightSubsystem getLimelightSubsystem() {
-        return m_limelightSubsystem; 
+        return m_limelight; 
     }
 
     public Command getAutonomousCommand() {

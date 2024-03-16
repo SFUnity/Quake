@@ -154,10 +154,20 @@ public class Shooter extends SubsystemBase {
         m_shooterRollerMotor.set(0.05);
     }
     
-    public void readyShootSpeaker() {
+    public void readyShootSpeakerManual() {
         desiredSpeedBottom = ShooterConstants.kShooterDefaultSpeedRPM;
         desiredSpeedTop = ShooterConstants.kShooterDefaultSpeedRPM;
         desiredAngle = ShooterConstants.kSpeakerManualAngleRevRotations;
+    }
+
+    public void readyShootSpeakerAutomatic(double distanceFromTarget) {
+        desiredSpeedBottom = ShooterConstants.kShooterDefaultSpeedRPM;
+        desiredSpeedTop = ShooterConstants.kShooterDefaultSpeedRPM;
+        
+        double heightOfTarget = ShooterConstants.kHeightOfSpeakerInches;
+        double angleRad = Math.atan(heightOfTarget / distanceFromTarget);
+        double angleDeg = Math.toDegrees(angleRad);
+        desiredAngle = angleDeg;
     }
 
     public void readyShootAmp() {
@@ -214,12 +224,7 @@ public class Shooter extends SubsystemBase {
      * @param distanceFromTarget meters
      * @return retruns vertical angle to target in degrees
      */
-    // public double getAimAngle(Double distanceFromTarget) {
-    //     double heightOfTarget = ShooterConstants.kHeightOfSpeakerInches;
-    //     double angleRad = Math.atan(heightOfTarget / distanceFromTarget);
-    //     double angleDeg = Math.toDegrees(angleRad);
-    //     return angleDeg;
-    // }
+    
 
     public void setAngleMotorSpeeds() {
         m_anglePidController.setReference(desiredAngle, ControlType.kPosition);
@@ -241,7 +246,7 @@ public class Shooter extends SubsystemBase {
 
     public Command readyShootSpeakerCommand() {
         return run(() -> {
-            readyShootSpeaker();
+            readyShootSpeakerManual();
             setFlywheelMotorSpeed();
             setAngleMotorSpeeds();
         }).withTimeout(0.8);

@@ -3,21 +3,24 @@ package frc.robot.commands;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.Shooter;
 
 public class ShooterCmd extends Command {
     private final Shooter m_shooter;
-    private final Trigger leftBumper, rightBumper, square, circle, leftTrigger;
+    private final LimelightSubsystem m_limelight;
+    private final Trigger leftBumper, rightBumper, square, circle, leftTrigger, rightTrigger;
     private GenericEntry intakeWorkingEntry;
 
-    public ShooterCmd(Shooter shooter, Trigger square, Trigger circle, Trigger leftBumper, Trigger rightBumper, Trigger leftTrigger, GenericEntry intakeWorkingEntryEntry) {
+    public ShooterCmd(Shooter shooter, LimelightSubsystem limelight, Trigger square, Trigger circle, Trigger leftBumper, Trigger rightBumper, Trigger leftTrigger, Trigger rightTrigger, GenericEntry intakeWorkingEntryEntry) {
         m_shooter = shooter;
-
+        m_limelight = limelight;
         this.leftBumper = leftBumper;
         this.rightBumper = rightBumper;
         this.square = square;
         this.circle = circle;
         this.leftTrigger = leftTrigger;
+        this.rightTrigger = rightTrigger; 
         this.intakeWorkingEntry = intakeWorkingEntryEntry;
 
         addRequirements(shooter);
@@ -26,18 +29,22 @@ public class ShooterCmd extends Command {
     @Override
     public void execute() {
         // Set flywheel and angle setpoints
-        if (rightBumper.getAsBoolean()) {
-            m_shooter.readyShootSpeaker();
-        }
-
         if (leftBumper.getAsBoolean()) {
             m_shooter.readyShootAmp();
         }
 
+        if (rightBumper.getAsBoolean()) {
+            m_shooter.readyShootSpeakerAutomatic(m_limelight.getDistance());
+        }
+        
         if (leftTrigger.getAsBoolean()) {
             m_shooter.readyShootFeed();
         }
 
+        if (rightTrigger.getAsBoolean()) {
+            m_shooter.readyShootSpeakerManual();
+        }
+        
         // Set flywheel and roller speeds
         if (square.getAsBoolean()) {
             m_shooter.intakeNote(intakeWorkingEntry.getBoolean(true));
