@@ -3,6 +3,20 @@ package frc.robot;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.CircleAutoCmd;
+import frc.robot.commands.StraightAutoCmd;
+import frc.robot.commands.SwerveJoystickCmd;
+import frc.robot.subsystems.Swerve;
+import frc.robot.subsystems.LimelightSubsystem;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.GenericEntry;
@@ -18,12 +32,10 @@ import frc.robot.subsystems.*;
 
 public class RobotContainer {
     private final Swerve m_swerve = new Swerve();
-
+    public final LimelightSubsystem m_limelightSubsystem = LimelightSubsystem.getInstance();
     private final LEDs m_LEDs = new LEDs();
     private final Shooter m_shooter = new Shooter();
-
     private final Intake m_intake = new Intake(m_shooter);
-
 
     private final CommandXboxController m_driverController = new CommandXboxController(
                     ControllerConstants.kDriverControllerId);
@@ -134,7 +146,7 @@ public class RobotContainer {
         SmartDashboard.putData(m_LEDs.ShootingNotePattern());
         SmartDashboard.putData("rainbow!", m_LEDs.setToRainbow());
     }
-
+  
     private void configureBindings() {
         new Trigger(m_driverController.x()).whileTrue(m_swerve.SetXCommand());
         new Trigger(m_driverController.a()).onTrue(new InstantCommand(() -> m_swerve.resetPose(new Pose2d(2, 2, new Rotation2d(0)))).andThen(() -> m_swerve.resetHeading()));
@@ -154,6 +166,10 @@ public class RobotContainer {
 //     public LEDs getLEDs() {
 //         return m_LEDs;
 //     }
+  
+    public LimelightSubsystem getLimelightSubsystem() {
+        return m_limelightSubsystem; 
+    }
 
     public Command getAutonomousCommand() {
         return m_autoChooser.getSelected();
