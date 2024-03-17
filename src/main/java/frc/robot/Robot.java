@@ -5,11 +5,10 @@ import edu.wpi.first.util.datalog.StringLogEntry;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-// import frc.robot.Constants.LEDConstants;
-// import frc.robot.subsystems.LEDs;
+import frc.robot.Constants.LEDConstants;
+import frc.robot.subsystems.LEDs;
 import frc.robot.subsystems.Swerve;
 //import frc.robot.subsystems.LimelightSubsystem;
 import edu.wpi.first.wpilibj.RobotBase;
@@ -20,7 +19,7 @@ public class Robot extends TimedRobot {
   private RobotContainer m_robotContainer;
 
   private Swerve m_swerve;
-  // private LEDs m_LEDs;
+  private LEDs m_LEDs;
 
   // Git info logging
   StringLogEntry entryGitSha = new StringLogEntry(DataLogManager.getLog(), "/Metadata/GitSHA");
@@ -43,10 +42,10 @@ public class Robot extends TimedRobot {
 
     m_robotContainer = new RobotContainer();
     m_swerve = m_robotContainer.getSwerve();
-    // m_LEDs = m_robotContainer.getLEDs();
+    m_LEDs = m_robotContainer.getLEDs();
     DriverStation.silenceJoystickConnectionWarning(true);
 
-    // m_LEDs.setRGB(LEDConstants.kDefault[0], LEDConstants.kDefault[1], LEDConstants.kDefault[2]);
+    m_LEDs.setRGB(LEDConstants.kDefault[0], LEDConstants.kDefault[1], LEDConstants.kDefault[2]);
   }
 
   @Override
