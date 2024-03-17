@@ -48,7 +48,6 @@ public class ShooterCmd extends Command {
         // Set flywheel and roller speeds
         if (square.getAsBoolean()) {
             m_shooter.intakeNote(intakeWorkingEntry.getBoolean(true));
-            m_shooter.rollersIntake();
         } else if (circle.getAsBoolean()) {
             m_shooter.putNoteIntoFlywheels();
         } else {

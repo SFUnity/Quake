@@ -97,6 +97,7 @@ public class RobotContainer {
                 m_operationsController.cross(),
                 m_operationsController.triangle(),
                 m_operationsController.square(),
+                m_operationsController.circle(),
                 intakeWorkingEntry));
 
         NamedCommands.registerCommand("fullSpeakerShoot", new SequentialCommandGroup(m_shooter.readyShootSpeakerCommand(), m_shooter.putNoteIntoFlywheelsCommand(), m_shooter.stopShootingCommand()));

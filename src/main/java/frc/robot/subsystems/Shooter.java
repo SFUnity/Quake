@@ -141,6 +141,7 @@ public class Shooter extends SubsystemBase {
         shooterPivotCurrentEntry.setDouble(m_shooterAngleMotor.getOutputCurrent());
     }
 
+    // TODO optimize after experimentation
     public void intakeNote(boolean intakeWorking) {
         m_bottomFlywheePidController.setReference(ShooterConstants.kFlywheelIntakeSpeedRPM, ControlType.kVelocity);
         m_topFlywheePidController.setReference(ShooterConstants.kFlywheelIntakeSpeedRPM, ControlType.kVelocity);
@@ -149,10 +150,6 @@ public class Shooter extends SubsystemBase {
         } else {
             m_anglePidController.setReference(ShooterConstants.kSourceAngleRevRotations, ControlType.kPosition);
         }
-    }
-
-    public void rollersIntake() {
-        m_shooterRollerMotor.set(0.05);
     }
     
     public void readyShootSpeakerManual() {
