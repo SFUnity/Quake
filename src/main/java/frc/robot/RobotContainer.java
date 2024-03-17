@@ -70,15 +70,16 @@ public class RobotContainer {
 
         m_swerve.setDefaultCommand(new SwerveJoystickCmd(
                 m_swerve,
+                m_limelight,
                 () -> -m_driverController.getLeftY(),
                 () -> -m_driverController.getLeftX(),
                 () -> m_driverController.getRightX(),
                 m_driverController.leftBumper(),
+                m_driverController.b(),
                 m_driverController.povDown(),
                 m_driverController.povUp(),
                 m_driverController.povLeft(),
-                m_driverController.povRight(),
-                true));
+                m_driverController.povRight()));
 
         m_shooter.setDefaultCommand(new ShooterCmd(
                 m_shooter, 

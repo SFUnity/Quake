@@ -11,14 +11,16 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.Swerve;
 
 public class SwerveJoystickCmd extends Command {
     private final Swerve m_swerve;
+    private final LimelightSubsystem m_limelight;
     private final Supplier<Double> xSpdFunction, ySpdFunction, turningSpdFunction;
-    private final Trigger goFastTrigger, moveLeft, moveRight, moveForwards, moveBackwards;
+    private final Trigger goFastTrigger, alignToSpeakerTrigger, moveLeft, moveRight, moveForwards, moveBackwards;
     private Boolean goingFast = false;
-    private final Boolean fieldOrientedFunction;
+    private boolean fieldOrientedFunction = true;
 
     private ShuffleboardTab swerveTab = Shuffleboard.getTab("Swerve Subsystem");
     private ShuffleboardTab driversTab = Shuffleboard.getTab("Drivers");
@@ -43,17 +45,18 @@ public class SwerveJoystickCmd extends Command {
      * @param turningSpdFunction
      * @param fieldOrientedFunction
      */
-    public SwerveJoystickCmd(Swerve swerve,
+    public SwerveJoystickCmd(Swerve swerve, LimelightSubsystem limelight,
             Supplier<Double> xSpdFunction, Supplier<Double> ySpdFunction, 
-            Supplier<Double> turningSpdFunction, Trigger goFastTrigger, 
-            Trigger moveLeft, Trigger moveRight, Trigger moveForwards, Trigger moveBackwards,
-            Boolean fieldOrientedFunction) {
+            Supplier<Double> turningSpdFunction, 
+            Trigger goFastTrigger, Trigger alignToSpeakerTrigger,
+            Trigger moveLeft, Trigger moveRight, Trigger moveForwards, Trigger moveBackwards) {
         m_swerve = swerve;
+        m_limelight = limelight;
         this.xSpdFunction = xSpdFunction;
         this.ySpdFunction = ySpdFunction;
         this.turningSpdFunction = turningSpdFunction;
-        this.fieldOrientedFunction = fieldOrientedFunction;
         this.goFastTrigger = goFastTrigger;
+        this.alignToSpeakerTrigger = alignToSpeakerTrigger;
         this.moveLeft = moveLeft;
         this.moveRight = moveRight;
         this.moveForwards = moveForwards;
@@ -101,6 +104,13 @@ public class SwerveJoystickCmd extends Command {
             ySpeed = 0.5;
         } else if (moveBackwards.getAsBoolean()) {
             ySpeed = -0.5;
+        }
+
+        if (alignToSpeakerTrigger.getAsBoolean()) {
+            turningSpeed = m_swerve.turnToAngleSpeed(m_limelight.getTargetOffsetX());
+            fieldOrientedFunction = false;
+        } else {
+            fieldOrientedFunction = true;
         }
         
         ChassisSpeeds chassisSpeeds = speedsToChassisSpeeds(xSpeed, ySpeed, turningSpeed, fieldOrientedFunction);
