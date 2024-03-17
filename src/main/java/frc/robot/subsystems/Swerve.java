@@ -105,9 +105,8 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
 
     public ShuffleboardTab swerveTab = Shuffleboard.getTab("Swerve Subsystem");
     public ShuffleboardTab loggingTab = Shuffleboard.getTab("Logging");
-    private ShuffleboardTab configsTab = Shuffleboard.getTab("Configs");
 
-    private GenericEntry headingEntry = loggingTab.add("Heading", 0).withWidget(BuiltInWidgets.kGyro).getEntry();
+    private GenericEntry headingEntry = swerveTab.add("Heading", 0).withPosition(2, 0).withSize(2, 2).withWidget(BuiltInWidgets.kGyro).getEntry();
     
     private GenericEntry turnToAnglePEntry = swerveTab.addPersistent("turnToAngle P", 0.05).withPosition(0, 2).withSize(2, 1).getEntry();
     private GenericEntry turnToAngleIEntry = swerveTab.addPersistent("turnToAngle I", 0.0).withPosition(2, 2).withSize(2, 1).getEntry();
@@ -125,12 +124,6 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
     // private GenericEntry autoRotationPEntry = swerveTab.addPersistent("Auto Rotation P", 0.05).getEntry();
     // private GenericEntry autoRotationIEntry = swerveTab.addPersistent("Auto Rotation I", 0.00).getEntry();
     // private GenericEntry autoRotationDEntry = swerveTab.addPersistent("Auto Rotation D", 0.01).getEntry();
-
-    private GenericEntry kSEntry = configsTab.addPersistent("kS", 0.05).getEntry();
-    private GenericEntry kVEntry = configsTab.addPersistent("kV", 0.12).getEntry();
-    private GenericEntry kPEntry = configsTab.addPersistent("kP", 0.11).getEntry();
-    private GenericEntry kIEntry = configsTab.addPersistent("kI", 0.00).getEntry();
-    private GenericEntry kDEntry = configsTab.addPersistent("kD", 0.00).getEntry();
 
     private GenericEntry frontLeftDriveVoltageEntry = loggingTab.add("flDriveVoltage", 0.00).getEntry();
     private GenericEntry frontRightDriveVoltageEntry = loggingTab.add("frDriveVoltage", 0.00).getEntry();
@@ -248,15 +241,6 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
         turnToAnglePID.enableContinuousInput(-180, 180);
         turnToAnglePID.setTolerance(0.1);
         turnToAnglePID.setIZone(5);
-    }
-
-    public Command setConfigsCommand() {
-        return runOnce(() -> {
-            m_backLeft.applyConfigs(kSEntry.getDouble(0.05), kVEntry.getDouble(0.12), kPEntry.getDouble(0.11), kIEntry.getDouble(0.00), kDEntry.getDouble(0.00));
-            m_backRight.applyConfigs(kSEntry.getDouble(0.05), kVEntry.getDouble(0.12), kPEntry.getDouble(0.11), kIEntry.getDouble(0.00), kDEntry.getDouble(0.00));
-            m_frontLeft.applyConfigs(kSEntry.getDouble(0.05), kVEntry.getDouble(0.12), kPEntry.getDouble(0.11), kIEntry.getDouble(0.00), kDEntry.getDouble(0.00));
-            m_frontRight.applyConfigs(kSEntry.getDouble(0.05), kVEntry.getDouble(0.12), kPEntry.getDouble(0.11), kIEntry.getDouble(0.00), kDEntry.getDouble(0.00));
-        });
     }
 
     public void resetHeading() {

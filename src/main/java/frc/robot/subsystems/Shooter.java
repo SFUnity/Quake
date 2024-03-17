@@ -1,7 +1,5 @@
 package frc.robot.subsystems;
 
-import java.util.Map;
-
 import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
@@ -44,7 +42,6 @@ public class Shooter extends SubsystemBase {
     private double desiredSpeedTop;
     
     private ShuffleboardTab driversTab = Shuffleboard.getTab("Drivers");
-    private ShuffleboardTab speedsTab = Shuffleboard.getTab("Speeds/Angles");
     private ShuffleboardTab loggingTab = Shuffleboard.getTab("Logging");
 
     private GenericEntry bottomFlywheelVoltageEntry = loggingTab.add("bottomFlywheelVoltage", 0.00).getEntry();
@@ -56,9 +53,8 @@ public class Shooter extends SubsystemBase {
     private GenericEntry shooterPivotVoltageEntry = loggingTab.add("shooterPivotVoltage", 0.00).getEntry();
     private GenericEntry shooterPivotCurrentEntry = loggingTab.add("shooterPivotOutputCurrent", 0.00).getEntry();
 
-
     private GenericEntry angleEntry = loggingTab.add("Shooter Angle", 0).getEntry();
-    private GenericEntry distanceSensorEntry = loggingTab.add("Distance sensor", -2).getEntry();
+    private GenericEntry distanceSensorEntry = loggingTab.add("Distance sensor", 0).getEntry();
     
     private GenericEntry feederSpeedEntry = loggingTab.add("Feeder Speed", 0).getEntry();    
     private GenericEntry bottomFlywheelSpeedEntry = loggingTab.add("Bottom Speed", 0).getEntry();
@@ -75,24 +71,7 @@ public class Shooter extends SubsystemBase {
                                                                 .withWidget(BuiltInWidgets.kToggleButton)
                                                                 .withSize(3, 2)
                                                                 .withPosition(2, 2)
-                                                                .getEntry();
-
-    private GenericEntry ampSpeedBottomEntry = speedsTab.addPersistent("Amp Speed Bottom", ShooterConstants.kAmpShootingSpeedBottomRPM)
-                                                    .withWidget(BuiltInWidgets.kNumberSlider)
-                                                    .withProperties(Map.of("min", 0, "max", 5000))
-                                                    .getEntry();
-    private GenericEntry ampSpeedTopEntry = speedsTab.addPersistent("Amp Speed Top", ShooterConstants.kAmpShootingSpeedTopRPM)
-                                                    .withWidget(BuiltInWidgets.kNumberSlider)
-                                                    .withProperties(Map.of("min", 0, "max", 5000))
-                                                    .getEntry();
-    private GenericEntry ampAngleEntry = speedsTab.addPersistent("Amp Angle", ShooterConstants.kDesiredAmpAngleRevRotations)
-                                                    .withWidget(BuiltInWidgets.kNumberSlider)
-                                                    .withProperties(Map.of("min", 50, "max", 80))
-                                                    .getEntry();
-    private GenericEntry speakerAngleEntry = speedsTab.addPersistent("Speaker Angle", ShooterConstants.kSpeakerManualAngleRevRotations)
-                                                    .withWidget(BuiltInWidgets.kNumberSlider)
-                                                    .withProperties(Map.of("min", 50, "max", 80))
-                                                    .getEntry();                                                            
+                                                                .getEntry();                                                          
 
     public Shooter() {        
         m_shooterDistanceSensor = new Rev2mDistanceSensor(Port.kOnboard);
@@ -172,9 +151,9 @@ public class Shooter extends SubsystemBase {
     }
 
     public void readyShootAmp() {
-        desiredSpeedBottom = ampSpeedBottomEntry.getDouble(ShooterConstants.kAmpShootingSpeedBottomRPM);
-        desiredSpeedTop = ampSpeedTopEntry.getDouble(ShooterConstants.kAmpShootingSpeedTopRPM);
-        desiredAngle = ampAngleEntry.getDouble(ShooterConstants.kDesiredAmpAngleRevRotations);
+        desiredSpeedBottom = ShooterConstants.kAmpShootingSpeedBottomRPM;
+        desiredSpeedTop = ShooterConstants.kAmpShootingSpeedTopRPM;
+        desiredAngle = ShooterConstants.kDesiredAmpAngleRevRotations;
     }
 
     public void readyShootFeed() {

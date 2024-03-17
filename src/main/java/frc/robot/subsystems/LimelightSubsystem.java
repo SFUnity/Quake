@@ -16,10 +16,12 @@ public class LimelightSubsystem extends SubsystemBase {
   private static LimelightSubsystem instance = null;
 
   public ShuffleboardTab limelightTab = Shuffleboard.getTab("limelight");
+  public ShuffleboardTab swerveTab = Shuffleboard.getTab("Swerve Subsystem");
 
   //Declaring objects that are used for retrieving data from the limelight.
 
   private GenericEntry txEntry = limelightTab.add("tx", 0).getEntry();
+  private GenericEntry txEntry2 = swerveTab.add("tx", 0).getEntry();
   private GenericEntry tyEntry = limelightTab.add("ty", 0).getEntry();
   private GenericEntry taEntry = limelightTab.add("ta", 0).getEntry();
   private GenericEntry tvEntry = limelightTab.add("tv", 0).getEntry();
@@ -62,6 +64,7 @@ public class LimelightSubsystem extends SubsystemBase {
     a = ta.getDouble(0.0);
 
     txEntry.setDouble(x);
+    txEntry2.setDouble(x);  
     tyEntry.setDouble(y);
     tvEntry.setDouble(v);
     taEntry.setDouble(a);

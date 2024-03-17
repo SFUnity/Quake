@@ -3,19 +3,8 @@ package frc.robot;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.CircleAutoCmd;
-import frc.robot.commands.StraightAutoCmd;
-import frc.robot.commands.SwerveJoystickCmd;
-import frc.robot.subsystems.Swerve;
-import frc.robot.subsystems.LimelightSubsystem;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.GenericEntry;
@@ -61,13 +50,9 @@ public class RobotContainer {
                                                         .withWidget(BuiltInWidgets.kToggleButton)
                                                         .withSize(3, 2)
                                                         .withPosition(2, 0)
-                                                        .getEntry();
-
-    private ShuffleboardTab configsTab = Shuffleboard.getTab("Configs");                                                   
+                                                        .getEntry();                                                  
 
     public RobotContainer() {
-        configsTab.add(m_swerve.setConfigsCommand()).withWidget(BuiltInWidgets.kCommand); 
-
         m_swerve.setDefaultCommand(new SwerveJoystickCmd(
                 m_swerve,
                 m_limelight,
