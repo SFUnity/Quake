@@ -162,6 +162,9 @@ public class Shooter extends SubsystemBase {
         desiredAngle = ShooterConstants.kSpeakerManualAngleRevRotations;
     }
 
+    /**
+     * @param distanceFromTarget meters
+     */
     public void readyShootSpeakerAutomatic(double distanceFromTarget) {
         desiredSpeedBottom = ShooterConstants.kShooterDefaultSpeedRPM;
         desiredSpeedTop = ShooterConstants.kShooterDefaultSpeedRPM;
@@ -220,13 +223,6 @@ public class Shooter extends SubsystemBase {
     public void stopAngleMotors() {
         m_shooterAngleMotor.stopMotor();
     }
-
-    /**
-     * gets angle to aim shooter
-     * @param distanceFromTarget meters
-     * @return retruns vertical angle to target in degrees
-     */
-    
 
     public void setAngleMotorSpeeds() {
         m_anglePidController.setReference(desiredAngle, ControlType.kPosition);
