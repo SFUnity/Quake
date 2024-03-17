@@ -38,16 +38,8 @@ public class LEDs extends SubsystemBase{
          m_led.setData(m_ledBuffer);
     }
 
-    public Command NoteInIndexerPattern() {
-        return runOnce(() -> this.setRGB(LEDConstants.kNoteInIndexer[0], LEDConstants.kNoteInIndexer[1], LEDConstants.kNoteInIndexer[2]));
-    }
-
     public Command NoteInShooterPattern() {
         return runOnce(() -> this.setRGB(LEDConstants.kNoteInShooter[0], LEDConstants.kNoteInShooter[1], LEDConstants.kNoteInShooter[2]));
-    }
-
-    public Command ShootingNotePattern() {
-        return runOnce(() -> this.setRGB(LEDConstants.kShootingNote[0], LEDConstants.kShootingNote[1], LEDConstants.kShootingNote[2]));
     }
 
     public Command defaultPattern() {

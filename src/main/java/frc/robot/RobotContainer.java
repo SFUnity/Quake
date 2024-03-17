@@ -137,14 +137,10 @@ public class RobotContainer {
         SmartDashboard.putData(m_intake);
         SmartDashboard.putData(m_shooter);
         SmartDashboard.putData(new SequentialCommandGroup(m_shooter.readyShootSpeakerCommand(), m_shooter.putNoteIntoFlywheelsCommand(), m_shooter.stopShootingCommand()));
-        // SmartDashboard.putData(m_straightAuto);
-        // SmartDashboard.putData(m_circleAuto);
         SmartDashboard.putData("Turn to 45", m_swerve.TurnToAngle(45));
         SmartDashboard.putData("Turn to 0", m_swerve.TurnToAngle(0));
         SmartDashboard.putData("default LEDs", m_LEDs.defaultPattern());
-        SmartDashboard.putData(m_LEDs.NoteInIndexerPattern());
         SmartDashboard.putData(m_LEDs.NoteInShooterPattern());
-        SmartDashboard.putData(m_LEDs.ShootingNotePattern());
         SmartDashboard.putData("rainbow!", m_LEDs.setToRainbow());
     }
   
@@ -155,9 +151,7 @@ public class RobotContainer {
         new Trigger(() -> m_shooter.isNoteInShooter()).whileTrue(m_intake.noteInShooterCommand().withInterruptBehavior(InterruptionBehavior.kCancelIncoming));
 
         // LED Triggers
-        // new Trigger(() -> m_intake.noteInIndexer()).onTrue(m_LEDs.NoteInIndexerPattern());
-        // new Trigger(() -> m_shooterDefaultCommand.noteInShooter()).onTrue(m_LEDs.NoteInShooterPattern());
-        // new Trigger(() -> m_shooterDefaultCommand.shootingNote()).onTrue(m_LEDs.ShootingNotePattern());
+        new Trigger(() -> m_shooter.isNoteInShooter()).onTrue(m_LEDs.NoteInShooterPattern());
     }
 
     public Swerve getSwerve() {
