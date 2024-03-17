@@ -106,7 +106,7 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
     public ShuffleboardTab swerveTab = Shuffleboard.getTab("Swerve Subsystem");
     public ShuffleboardTab loggingTab = Shuffleboard.getTab("Logging");
 
-    private GenericEntry headingEntry = swerveTab.add("Heading", 0).withPosition(2, 0).withSize(2, 2).withWidget(BuiltInWidgets.kGyro).getEntry();
+    private GenericEntry headingEntry = swerveTab.add("Heading", 0).withPosition(4, 0).withSize(2, 2).withWidget(BuiltInWidgets.kGyro).getEntry();
     
     private GenericEntry turnToAnglePEntry = swerveTab.addPersistent("turnToAngle P", 0.05).withPosition(0, 2).withSize(2, 1).getEntry();
     private GenericEntry turnToAngleIEntry = swerveTab.addPersistent("turnToAngle I", 0.0).withPosition(2, 2).withSize(2, 1).getEntry();

@@ -21,7 +21,7 @@ public class LimelightSubsystem extends SubsystemBase {
   //Declaring objects that are used for retrieving data from the limelight.
 
   private GenericEntry txEntry = limelightTab.add("tx", 0).getEntry();
-  private GenericEntry txEntry2 = swerveTab.add("tx", 0).getEntry();
+  private GenericEntry txEntry2 = swerveTab.add("tx", 0).withPosition(6, 0).getEntry();
   private GenericEntry tyEntry = limelightTab.add("ty", 0).getEntry();
   private GenericEntry taEntry = limelightTab.add("ta", 0).getEntry();
   private GenericEntry tvEntry = limelightTab.add("tv", 0).getEntry();
