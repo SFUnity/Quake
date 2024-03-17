@@ -114,6 +114,7 @@ public class SwerveJoystickCmd extends Command {
         }
         
         ChassisSpeeds chassisSpeeds = speedsToChassisSpeeds(xSpeed, ySpeed, turningSpeed, fieldOrientedFunction);
+        chassisSpeeds = ChassisSpeeds.discretize(chassisSpeeds, 0.02);
 
         SwerveModuleState[] moduleStates = 
         DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
