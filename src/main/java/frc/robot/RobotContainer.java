@@ -48,8 +48,8 @@ public class RobotContainer {
     private final Command m_4NoteSpeaker;
     private final Command m_sourceOut;
     private final Command m_ampOut;
-    private final Command m_straightPath;
-    private final Command m_swervyPath;
+    // private final Command m_straightPath;
+    // private final Command m_swervyPath;
 
     SendableChooser<Command> m_autoChooser = new SendableChooser<>();
 
@@ -106,8 +106,8 @@ public class RobotContainer {
         m_4NoteSpeaker = new PathPlannerAuto("4 Note Speaker");
         m_sourceOut = new PathPlannerAuto("Source Out");
         m_ampOut = new PathPlannerAuto("Amp Out");
-        m_straightPath = new PathPlannerAuto("Straight Path Auto");
-        m_swervyPath = new PathPlannerAuto("Swervy Path Auto");
+        // m_straightPath = new PathPlannerAuto("Straight Path Auto");
+        // m_swervyPath = new PathPlannerAuto("Swervy Path Auto");
 
         configureBindings();
 
