@@ -108,9 +108,6 @@ public class SwerveJoystickCmd extends Command {
 
         if (alignToSpeakerTrigger.getAsBoolean()) {
             turningSpeed = m_swerve.turnToAngleSpeed(m_limelight.getTargetOffsetX());
-            fieldOrientedFunction = false;
-        } else {
-            fieldOrientedFunction = true;
         }
         
         ChassisSpeeds chassisSpeeds = speedsToChassisSpeeds(xSpeed, ySpeed, turningSpeed, fieldOrientedFunction);

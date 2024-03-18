@@ -387,17 +387,8 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
      * @return turning speed in degrees
      */
     // Still a little fast
-    public double turnToAngleSpeed(double desiredAngleDegrees) {
-        if (turnToAnglePID.getSetpoint() != desiredAngleDegrees) {
-            turnToAnglePID.setSetpoint(desiredAngleDegrees);
-        }
-        if (turnToAnglePID.atSetpoint()) {
-            return 0;
-        } else {
-            double constrainedAngleDegrees = Rotation2d.fromDegrees(desiredAngleDegrees).getDegrees();
-            double turningSpeedDegrees = turnToAnglePID.calculate(m_gyro.getYaw().getValueAsDouble(), constrainedAngleDegrees);
-            return turningSpeedDegrees;
-        }
+    public double turnToAngleSpeed(double xOffset) {
+        return turnToAnglePID.calculate(xOffset, 0);
     }
 
     /**
