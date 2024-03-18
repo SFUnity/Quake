@@ -108,14 +108,14 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
 
     private GenericEntry headingEntry = swerveTab.add("Heading", 0).withPosition(4, 0).withSize(2, 2).withWidget(BuiltInWidgets.kGyro).getEntry();
     
-    private GenericEntry turnToAnglePEntry = swerveTab.addPersistent("turnToAngle P", 0.05).withPosition(0, 2).withSize(2, 1).getEntry();
-    private GenericEntry turnToAngleIEntry = swerveTab.addPersistent("turnToAngle I", 0.0).withPosition(2, 2).withSize(2, 1).getEntry();
-    private GenericEntry turnToAngleDEntry = swerveTab.addPersistent("turnToAngle D", 0.0).withPosition(4, 2).withSize(2, 1).getEntry();
-    private PIDController turnToAnglePID = new PIDController(0.05, 0.4, turnToAngleDEntry.getDouble(0));
+    private GenericEntry turnToTagPEntry = swerveTab.addPersistent("turnToTag P", 0.05).withPosition(0, 2).withSize(2, 1).getEntry();
+    private GenericEntry turnToTagIEntry = swerveTab.addPersistent("turnToTag I", 0.0).withPosition(2, 2).withSize(2, 1).getEntry();
+    private GenericEntry turnToTagDEntry = swerveTab.addPersistent("turnToTag D", 0.0).withPosition(4, 2).withSize(2, 1).getEntry();
+    private PIDController turnToTagPID = new PIDController(0.05, 0.4, turnToTagDEntry.getDouble(0));
 
-    private double pastTurnToAnglePEntry = turnToAnglePEntry.getDouble(0.05);
-    private double pastTurnToAngleIEntry = turnToAngleIEntry.getDouble(0.05);
-    private double pastTurnToAngleDEntry = turnToAngleDEntry.getDouble(0.0);
+    private double pastTurnToTagPEntry = turnToTagPEntry.getDouble(0.05);
+    private double pastTurnToTagIEntry = turnToTagIEntry.getDouble(0.05);
+    private double pastTurnToTagDEntry = turnToTagDEntry.getDouble(0.0);
 
     // private GenericEntry autoTranslationPEntry = swerveTab.addPersistent("Auto Translation P", 0.05).getEntry();
     // private GenericEntry autoTranslationIEntry = swerveTab.addPersistent("Auto Translation I", 0.00).getEntry();
@@ -160,9 +160,9 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
             modules2d[i] = field2d.getObject("module-" + i);
         }
 
-        turnToAnglePID.enableContinuousInput(-180, 180);
-        turnToAnglePID.setTolerance(0.1);
-        turnToAnglePID.setIZone(5);
+        turnToTagPID.enableContinuousInput(-180, 180);
+        turnToTagPID.setTolerance(0.1);
+        turnToTagPID.setIZone(5);
 
         loggingTab.add("Field", field2d).withSize(5, 3).withPosition(0, 0);
 
@@ -216,31 +216,31 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
         backRightTurningVoltageEntry.setDouble(m_backRight.getTurningSupplyVoltage());
         backRightTurningOutputCurrentEntry.setDouble(m_backRight.getTurningOutputCurrent());
 
-        double currentP = turnToAnglePEntry.getDouble(0.05);
-        double currentI = turnToAngleIEntry.getDouble(0.0);
-        double currentD = turnToAngleDEntry.getDouble(0.0);
-        if (pastTurnToAnglePEntry != currentP) {
-            newTurnToAnglePID(currentP, currentI, currentD);
-            pastTurnToAnglePEntry = currentP;
+        double currentP = turnToTagPEntry.getDouble(0.05);
+        double currentI = turnToTagIEntry.getDouble(0.0);
+        double currentD = turnToTagDEntry.getDouble(0.0);
+        if (pastTurnToTagPEntry != currentP) {
+            newTurnToTagPID(currentP, currentI, currentD);
+            pastTurnToTagPEntry = currentP;
             System.out.println("New P: " + currentP);
         }
-        if (pastTurnToAngleIEntry != currentI) {
-            newTurnToAnglePID(currentP, currentI, currentD);
-            pastTurnToAngleIEntry = currentI;
+        if (pastTurnToTagIEntry != currentI) {
+            newTurnToTagPID(currentP, currentI, currentD);
+            pastTurnToTagIEntry = currentI;
             System.out.println("New I: " + currentI);
         }
-        if (pastTurnToAngleDEntry != currentD) {
-            newTurnToAnglePID(currentP, currentI, currentD);
-            pastTurnToAngleDEntry = currentD;
+        if (pastTurnToTagDEntry != currentD) {
+            newTurnToTagPID(currentP, currentI, currentD);
+            pastTurnToTagDEntry = currentD;
             System.out.println("New D: " + currentD);
         }
     }
 
-    private void newTurnToAnglePID(double currentP, double currentI, double currentD) {
-        turnToAnglePID = new PIDController(currentP, currentI, currentD);
-        turnToAnglePID.enableContinuousInput(-180, 180);
-        turnToAnglePID.setTolerance(0.1);
-        turnToAnglePID.setIZone(5);
+    private void newTurnToTagPID(double currentP, double currentI, double currentD) {
+        turnToTagPID = new PIDController(currentP, currentI, currentD);
+        turnToTagPID.enableContinuousInput(-180, 180);
+        turnToTagPID.setTolerance(0.1);
+        turnToTagPID.setIZone(5);
     }
 
     public void resetHeading() {
@@ -387,8 +387,8 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
      * @return turning speed in degrees
      */
     // Still a little fast
-    public double turnToAngleSpeed(double xOffset) {
-        return turnToAnglePID.calculate(xOffset, 0);
+    public double turnToTagSpeed(double xOffset) {
+        return turnToTagPID.calculate(xOffset, 0);
     }
 
     /**
@@ -396,13 +396,13 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
      * @return
      */
     // Still a little fast
-    public Command TurnToAngle(double desiredAngleDegrees) {
+    public Command TurnToTag(double desiredAngleDegrees) {
         return run(
             () -> {
-                ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(0, 0, this.turnToAngleSpeed(desiredAngleDegrees), getRotation2d());
+                ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(0, 0, this.turnToTagSpeed(desiredAngleDegrees), getRotation2d());
                 this.setModuleStates(DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds));
             })
-        .until(() -> turnToAnglePID.atSetpoint())
+        .until(() -> turnToTagPID.atSetpoint())
         .finallyDo(interrupted -> {
             this.stopModules(); 
         });
