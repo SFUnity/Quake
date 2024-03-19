@@ -119,7 +119,7 @@ public class LimelightSubsystem extends SubsystemBase {
     double angleToGoalRadians = angleToGoalDegrees * (3.14159 / 180.0);
 
     // calculate distance
-    return (LimelightConstants.kHeightOfSpeakerInches - LimelightConstants.kLimelightLensHeightInches) / Math.tan(angleToGoalRadians);
+    return (LimelightConstants.kHeightOfTagInches - LimelightConstants.kLimelightLensHeightInches) / Math.tan(angleToGoalRadians);
   }
 
   /**

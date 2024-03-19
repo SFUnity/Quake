@@ -43,6 +43,7 @@ public class Shooter extends SubsystemBase {
     
     private ShuffleboardTab driversTab = Shuffleboard.getTab("Drivers");
     private ShuffleboardTab loggingTab = Shuffleboard.getTab("Logging");
+    private ShuffleboardTab limelightTab = Shuffleboard.getTab("limelight");
 
     private GenericEntry bottomFlywheelVoltageEntry = loggingTab.add("bottomFlywheelVoltage", 0.00).getEntry();
     private GenericEntry bottomFlywheelCurrentEntry = loggingTab.add("bottomFlywheelOutputCurrent", 0.00).getEntry();
@@ -54,6 +55,7 @@ public class Shooter extends SubsystemBase {
     private GenericEntry shooterPivotCurrentEntry = loggingTab.add("shooterPivotOutputCurrent", 0.00).getEntry();
 
     private GenericEntry angleEntry = loggingTab.add("Shooter Angle", 0).getEntry();
+    private GenericEntry desiredAngleEntry = loggingTab.add("Desired Shooter Angle", 0).getEntry();
     private GenericEntry distanceSensorEntry = loggingTab.add("Distance sensor", 0).getEntry();
     
     private GenericEntry feederSpeedEntry = loggingTab.add("Feeder Speed", 0).getEntry();    
@@ -71,7 +73,9 @@ public class Shooter extends SubsystemBase {
                                                                 .withWidget(BuiltInWidgets.kToggleButton)
                                                                 .withSize(3, 2)
                                                                 .withPosition(2, 2)
-                                                                .getEntry();                                                          
+                                                                .getEntry();
+                                                                
+    private GenericEntry autoAngleOffsetEntry = limelightTab.addPersistent("auto angle offset", 41).getEntry();                                                            
 
     public Shooter() {        
         m_shooterDistanceSensor = new Rev2mDistanceSensor(Port.kOnboard);
@@ -107,6 +111,7 @@ public class Shooter extends SubsystemBase {
         topFlywheelSpeedEntry.setDouble(m_topFlywheelEncoder.getVelocity());
         feederSpeedEntry.setDouble(m_feederEncoder.getVelocity());
         angleEntry.setDouble(m_angleEncoder.getPosition());
+        desiredAngleEntry.setDouble(desiredAngle);
         distanceSensorEntry.setDouble(m_shooterDistanceSensor.GetRange());
         noteInShooterEntry.setBoolean(isNoteInShooter());
 
@@ -125,9 +130,10 @@ public class Shooter extends SubsystemBase {
         m_bottomFlywheePidController.setReference(ShooterConstants.kFlywheelIntakeSpeedRPM, ControlType.kVelocity);
         m_topFlywheePidController.setReference(ShooterConstants.kFlywheelIntakeSpeedRPM, ControlType.kVelocity);
         if (intakeWorking) {
-            m_anglePidController.setReference(0, ControlType.kPosition);
+            m_anglePidController.setReference(-50, ControlType.kPosition);
         } else {
             m_anglePidController.setReference(ShooterConstants.kSourceAngleRevRotations, ControlType.kPosition);
+            m_shooterRollerMotor.set(-0.2);
         }
     }
     
@@ -147,7 +153,7 @@ public class Shooter extends SubsystemBase {
         double heightOfTarget = LimelightConstants.kHeightOfSpeakerInches;
         double angleRad = Math.atan(heightOfTarget / distanceFromTarget);
         double angleDeg = Math.toDegrees(angleRad);
-        desiredAngle = angleDeg;
+        desiredAngle = angleDeg + autoAngleOffsetEntry.getDouble(41);
     }
 
     public void readyShootAmp() {

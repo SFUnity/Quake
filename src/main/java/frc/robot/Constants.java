@@ -102,30 +102,34 @@ public final class Constants {
 
     public static final int kShooterAngleMotorEncoderId = 5;
     
-    public static final double kSpeakerManualAngleRevRotations = 62;
-    public static final double kDesiredAmpAngleRevRotations = 63;
-    public static final double kSourceAngleRevRotations = 70;
-    public static final double kFeedingAngleRevRotations = 20;
+    public static final double kSpeakerManualAngleRevRotations = -20;
+    public static final double kDesiredAmpAngleRevRotations = -20;
+    public static final double kSourceAngleRevRotations = -20;
+    public static final double kFeedingAngleRevRotations = -20;
+    public static final double kInatkeAngleRevRotations = -59;
     
     public static final double kRollerShootingSpeedPercent = 1.0;
     
     public static final double kFlywheelIntakeSpeedRPM = -750;
     public static final double kAmpShootingSpeedBottomRPM = 2460;
     public static final double kAmpShootingSpeedTopRPM = 2033;
-    public static final double kShooterDefaultSpeedRPM = 4500;
-    public static final double kShooterFeedingSpeedRPM = 4500;
+    public static final double kShooterDefaultSpeedRPM = 8000;
+    public static final double kShooterFeedingSpeedRPM = 8000;
     
     public static final double kShooterDistanceRangeInches = 2.5;
   }
 
   public static final class LimelightConstants {
     // how many degrees back is your limelight rotated from perfectly vertical?
-    public static final double kLimelightMountAngleDegrees = 25.0; 
+    public static final double kLimelightMountAngleDegrees = 28.0; 
 
     // distance from the center of the Limelight lens to the floor
-    public static final double kLimelightLensHeightInches = 20.0; 
+    public static final double kLimelightLensHeightInches = 26.5; 
 
     // distance from the target to the floor
+    public static final double kHeightOfTagInches = 56.5; //79.2;
+
+    // height of speaker
     public static final double kHeightOfSpeakerInches = 79.2;
   }
   
