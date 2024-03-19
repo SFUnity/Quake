@@ -94,12 +94,21 @@ public class Shooter extends SubsystemBase {
 
         desiredAngle = ShooterConstants.kSpeakerManualAngleRevRotations;
         m_anglePidController = m_shooterAngleMotor.getPIDController();
+        m_anglePidController.setP(0.05);
+        m_anglePidController.setI(0.00015);
+        m_anglePidController.setIZone(3);
         this.setAngleMotorSpeeds();
 
         desiredSpeedBottom = 0;
         desiredSpeedTop = 0;
         m_bottomFlywheePidController = m_shooterBottomFlywheelMotor.getPIDController();
         m_topFlywheePidController = m_shooterTopFlywheelMotor.getPIDController();
+        m_bottomFlywheePidController.setP(0.0002);
+        m_bottomFlywheePidController.setI(0.0000001);
+        m_bottomFlywheePidController.setD(0.02);
+        m_topFlywheePidController.setP(0.0002);
+        m_topFlywheePidController.setI(0.0000001);
+        m_topFlywheePidController.setD(0.02);
         this.setFlywheelMotorSpeed();
     }
 
