@@ -40,7 +40,6 @@ public class Intake extends SubsystemBase{
 
         //m_angleEncoder = new CANcoder(IntakeConstants.kIntakeAngleMotorEncoderId);
         m_angleEncoder = m_intakeAngleMotor.getEncoder();
-        m_angleEncoder.setPositionConversionFactor((1/15)*(24/42)*(12/34)/360); // 1:15 gearbox, then a 24:42 and 12:34 gear reduction / 360 degrees
 
         m_anglePidController = m_intakeAngleMotor.getPIDController();
     }

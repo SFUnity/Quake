@@ -88,7 +88,6 @@ public class Shooter extends SubsystemBase {
         m_shooterRollerMotor = new CANSparkMax(ShooterConstants.kShooterRollerMotor, MotorType.kBrushless);
         
         m_angleEncoder = m_shooterAngleMotor.getEncoder();
-        m_angleEncoder.setPositionConversionFactor(1.04167); // 375:1 gear ratio and 360 degrees per rotation
         m_bottomFlywheelEncoder = m_shooterBottomFlywheelMotor.getEncoder();
         m_topFlywheelEncoder = m_shooterTopFlywheelMotor.getEncoder();
         m_feederEncoder = m_shooterRollerMotor.getEncoder();
