@@ -67,7 +67,7 @@ public class Shooter extends SubsystemBase {
                                                         .withPosition(5, 0)
                                                         .getEntry();
 
-    private GenericEntry distanceSensorWorkingEntry = driversTab.addPersistent("Distance Sensor Working", true)
+    private GenericEntry distanceSensorWorkingEntry = driversTab.addPersistent("Distance Sensor Working", false)
                                                                 .withWidget(BuiltInWidgets.kToggleButton)
                                                                 .withSize(3, 2)
                                                                 .withPosition(2, 2)
@@ -84,7 +84,7 @@ public class Shooter extends SubsystemBase {
         m_shooterRollerMotor = new CANSparkMax(ShooterConstants.kShooterRollerMotor, MotorType.kBrushless);
         
         m_angleEncoder = m_shooterAngleMotor.getEncoder();
-        m_angleEncoder.setPositionConversionFactor(1/36/360); // 36:1 gear ratio and 360 degrees per rotation
+        m_angleEncoder.setPositionConversionFactor(1.04167); // 375:1 gear ratio and 360 degrees per rotation
         m_bottomFlywheelEncoder = m_shooterBottomFlywheelMotor.getEncoder();
         m_topFlywheelEncoder = m_shooterTopFlywheelMotor.getEncoder();
         m_feederEncoder = m_shooterRollerMotor.getEncoder();

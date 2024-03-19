@@ -112,8 +112,8 @@ public final class Constants {
     public static final double kFlywheelIntakeSpeedRPM = -750;
     public static final double kAmpShootingSpeedBottomRPM = 2460;
     public static final double kAmpShootingSpeedTopRPM = 2033;
-    public static final double kShooterDefaultSpeedRPM = 9000;
-    public static final double kShooterFeedingSpeedRPM = 9000;
+    public static final double kShooterDefaultSpeedRPM = 4500;
+    public static final double kShooterFeedingSpeedRPM = 4500;
     
     public static final double kShooterDistanceRangeInches = 2.5;
   }
