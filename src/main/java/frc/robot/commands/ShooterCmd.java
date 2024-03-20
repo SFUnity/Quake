@@ -3,6 +3,7 @@ package frc.robot.commands;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Constants.LimelightConstants;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.Shooter;
 
@@ -34,6 +35,7 @@ public class ShooterCmd extends Command {
         }
 
         if (rightBumper.getAsBoolean()) {
+            m_limelight.setPrefferedID(LimelightConstants.speakerTagID);
             m_shooter.readyShootSpeakerAutomatic(m_limelight.getDistance());
         }
         

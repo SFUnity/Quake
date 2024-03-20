@@ -5,9 +5,11 @@ import edu.wpi.first.util.datalog.StringLogEntry;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Constants.LEDConstants;
+import frc.robot.Constants.LimelightConstants;
 import frc.robot.subsystems.LEDs;
 import frc.robot.subsystems.Swerve;
 //import frc.robot.subsystems.LimelightSubsystem;
@@ -46,6 +48,14 @@ public class Robot extends TimedRobot {
     DriverStation.silenceJoystickConnectionWarning(true);
 
     m_LEDs.setRGB(LEDConstants.kDefault[0], LEDConstants.kDefault[1], LEDConstants.kDefault[2]);
+
+    if (DriverStation.getAlliance().get() == Alliance.Red) {
+      LimelightConstants.speakerTagID = 4;
+    } else if (DriverStation.getAlliance().get() == Alliance.Blue) {
+      LimelightConstants.speakerTagID = 7;
+    } else {
+      LimelightConstants.speakerTagID = 5;
+    }
   }
 
   @Override

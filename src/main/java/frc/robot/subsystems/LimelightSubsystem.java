@@ -28,17 +28,11 @@ public class LimelightSubsystem extends SubsystemBase {
   private GenericEntry distanceEntry = limelightTab.add("distance", 0).getEntry();
 
   private static NetworkTable table;
-  private static NetworkTableEntry tx;
-  private static NetworkTableEntry ty;
-  private static NetworkTableEntry tv;
-  private static NetworkTableEntry ta;
+  private static NetworkTableEntry tx, ty, tv, ta, priorityid;
   private static NetworkTableEntry camMode;
   private static NetworkTableEntry ledMode;
 
-  private static double x;
-  private static double y;
-  private static double v;
-  private static double a;
+  private static double x, y, v, a;
 
   private LimelightSubsystem ()
   {
@@ -50,6 +44,7 @@ public class LimelightSubsystem extends SubsystemBase {
     ty = table.getEntry("ty"); // Vertical offset from crosshair to target (-24.85 to 24.85 degrees).
     tv = table.getEntry("tv"); // Whether the limelight has any valid targets (0 or 1).
     ta = table.getEntry("ta"); // Target area (0% of image to 100% of image).
+    priorityid = table.getEntry("priorityid"); // Preffered id of the april tag
 
     ledMode = table.getEntry("ledMode"); // limelight's LED state (0-3).
     camMode = table.getEntry("camMode"); // limelight's operation mode (0-1).
@@ -76,6 +71,10 @@ public class LimelightSubsystem extends SubsystemBase {
     // limelightTab.add("tv", v);
     // limelightTab.add("ta", a);
    
+  }
+
+  public void setPrefferedID(int id) {
+    priorityid.setDouble(id);
   }
 
   /**
