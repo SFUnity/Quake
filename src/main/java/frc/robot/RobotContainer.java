@@ -124,7 +124,7 @@ public class RobotContainer {
         SmartDashboard.putData(m_intake);
         SmartDashboard.putData(m_shooter);
         SmartDashboard.putData(new SequentialCommandGroup(m_shooter.readyShootSpeakerCommand(), m_shooter.putNoteIntoFlywheelsCommand(), m_shooter.stopShootingCommand()));
-        SmartDashboard.putData("default LEDs", m_LEDs.defaultPattern());
+        SmartDashboard.putData("Shooter Empty LEDs", m_LEDs.ShooterEmptyPattern());
         SmartDashboard.putData(m_LEDs.NoteInShooterPattern());
         SmartDashboard.putData("rainbow!", m_LEDs.setToRainbow());
     }
@@ -137,6 +137,19 @@ public class RobotContainer {
 
         // LED Triggers
         new Trigger(() -> m_shooter.isNoteInShooter()).onTrue(m_LEDs.NoteInShooterPattern());
+        new Trigger(() -> m_shooter.isNoteInShooter()).onFalse(m_LEDs.ShooterEmptyPattern());
+        new Trigger(() -> m_shooter.isNoteInShooter() && m_limelight.isTargetAvailable()).whileTrue(m_LEDs.AprilTagDetectedPattern());
+        new Trigger(() -> {
+            boolean aligned = false;
+            if (m_shooter.isNoteInShooter()) {
+                if (m_limelight.isTargetAvailable()) {
+                    if (m_shooter.atDesiredAngle() && m_swerve.alignedWithTag()) {
+                        aligned =  true;
+                    }
+                }
+            }
+            return aligned;
+        }).whileTrue(m_LEDs.AprilTagDetectedPattern());
     }
 
     public Swerve getSwerve() {

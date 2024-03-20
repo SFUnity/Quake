@@ -47,7 +47,7 @@ public class Robot extends TimedRobot {
     m_LEDs = m_robotContainer.getLEDs();
     DriverStation.silenceJoystickConnectionWarning(true);
 
-    m_LEDs.setRGB(LEDConstants.kDefault[0], LEDConstants.kDefault[1], LEDConstants.kDefault[2]);
+    m_LEDs.setRGB(LEDConstants.kShooterEmpty[0], LEDConstants.kShooterEmpty[1], LEDConstants.kShooterEmpty[2]);
 
     if (DriverStation.getAlliance().get() == Alliance.Red) {
       LimelightConstants.speakerTagID = 4;

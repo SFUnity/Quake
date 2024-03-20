@@ -133,6 +133,10 @@ public class Shooter extends SubsystemBase {
         shooterPivotCurrentEntry.setDouble(m_shooterAngleMotor.getOutputCurrent());
     }
 
+    public boolean atDesiredAngle() {
+        return m_angleEncoder.getPosition() <= desiredAngle + 1 || m_angleEncoder.getPosition() >= desiredAngle - 1;
+    }
+
     // TODO optimize after experimentation
     public void intakeNote(boolean intakeWorking) {
         m_bottomFlywheePidController.setReference(ShooterConstants.kFlywheelIntakeSpeedRPM, ControlType.kVelocity);

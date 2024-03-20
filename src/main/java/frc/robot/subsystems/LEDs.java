@@ -42,8 +42,16 @@ public class LEDs extends SubsystemBase{
         return runOnce(() -> this.setRGB(LEDConstants.kNoteInShooter[0], LEDConstants.kNoteInShooter[1], LEDConstants.kNoteInShooter[2]));
     }
 
-    public Command defaultPattern() {
-        return runOnce(() -> this.setRGB(LEDConstants.kDefault[0], LEDConstants.kDefault[1], LEDConstants.kDefault[2]));
+    public Command ShooterEmptyPattern() {
+        return runOnce(() -> this.setRGB(LEDConstants.kShooterEmpty[0], LEDConstants.kShooterEmpty[1], LEDConstants.kShooterEmpty[2]));
+    }
+
+    public Command AprilTagDetectedPattern() {
+        return runOnce(() -> this.setRGB(LEDConstants.kTagDetected[0], LEDConstants.kTagDetected[1], LEDConstants.kTagDetected[2]));
+    }
+
+    public Command AlignedWithTagPattern() {
+        return runOnce(() -> this.setRGB(LEDConstants.kAligned[0], LEDConstants.kAligned[1], LEDConstants.kAligned[2]));
     }
 
     public void rainbow() {
