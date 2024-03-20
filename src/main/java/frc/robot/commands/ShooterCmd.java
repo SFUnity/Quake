@@ -12,6 +12,7 @@ public class ShooterCmd extends Command {
     private final LimelightSubsystem m_limelight;
     private final Trigger leftBumper, rightBumper, square, circle, leftTrigger, rightTrigger;
     private GenericEntry intakeWorkingEntry;
+    private boolean buttonPressedRecently = false, autoAligning = false;
 
     public ShooterCmd(Shooter shooter, LimelightSubsystem limelight, Trigger square, Trigger circle, Trigger leftBumper, Trigger rightBumper, Trigger leftTrigger, Trigger rightTrigger, GenericEntry intakeWorkingEntryEntry) {
         m_shooter = shooter;
@@ -34,8 +35,19 @@ public class ShooterCmd extends Command {
             m_shooter.readyShootAmp();
         }
 
-        if (rightBumper.getAsBoolean()) {
-            m_limelight.setPrefferedID(LimelightConstants.speakerTagID);
+        if (rightBumper.getAsBoolean() && !buttonPressedRecently) {
+            buttonPressedRecently = true;
+            if (autoAligning == false) {
+                autoAligning = true;
+                m_limelight.setPrefferedID(LimelightConstants.speakerTagID);
+            } else {
+                autoAligning = false;
+            }
+        } else {
+            buttonPressedRecently = false;
+        }
+
+        if (autoAligning) {
             m_shooter.readyShootSpeakerAutomatic(m_limelight.getDistance());
         }
         
