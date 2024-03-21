@@ -219,28 +219,22 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
         double currentP = turnToTagPEntry.getDouble(0.05);
         double currentI = turnToTagIEntry.getDouble(0.0);
         double currentD = turnToTagDEntry.getDouble(0.0);
+        
         if (pastTurnToTagPEntry != currentP) {
-            newTurnToTagPID(currentP, currentI, currentD);
+            turnToTagPID.setP(currentP);
             pastTurnToTagPEntry = currentP;
             System.out.println("New P: " + currentP);
         }
         if (pastTurnToTagIEntry != currentI) {
-            newTurnToTagPID(currentP, currentI, currentD);
+            turnToTagPID.setI(currentI);
             pastTurnToTagIEntry = currentI;
             System.out.println("New I: " + currentI);
         }
         if (pastTurnToTagDEntry != currentD) {
-            newTurnToTagPID(currentP, currentI, currentD);
+            turnToTagPID.setD(currentD);
             pastTurnToTagDEntry = currentD;
             System.out.println("New D: " + currentD);
         }
-    }
-
-    private void newTurnToTagPID(double currentP, double currentI, double currentD) {
-        turnToTagPID = new PIDController(currentP, currentI, currentD);
-        turnToTagPID.enableContinuousInput(-180, 180);
-        turnToTagPID.setTolerance(0.1);
-        turnToTagPID.setIZone(5);
     }
 
     public boolean alignedWithTag() {
