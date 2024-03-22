@@ -38,20 +38,20 @@ public class LEDs extends SubsystemBase{
          m_led.setData(m_ledBuffer);
     }
 
-    public Command NoteInShooterPattern() {
-        return runOnce(() -> this.setRGB(LEDConstants.kNoteInShooter[0], LEDConstants.kNoteInShooter[1], LEDConstants.kNoteInShooter[2]));
+    public void noteInShooterPattern() {
+        setRGB(LEDConstants.kNoteInShooter[0], LEDConstants.kNoteInShooter[1], LEDConstants.kNoteInShooter[2]);
     }
 
-    public Command ShooterEmptyPattern() {
-        return runOnce(() -> this.setRGB(LEDConstants.kShooterEmpty[0], LEDConstants.kShooterEmpty[1], LEDConstants.kShooterEmpty[2]));
+    public void shooterEmptyPattern() {
+        setRGB(LEDConstants.kShooterEmpty[0], LEDConstants.kShooterEmpty[1], LEDConstants.kShooterEmpty[2]);
     }
 
-    public Command AprilTagDetectedPattern() {
-        return runOnce(() -> this.setRGB(LEDConstants.kTagDetected[0], LEDConstants.kTagDetected[1], LEDConstants.kTagDetected[2]));
+    public void aprilTagDetectedPattern() {
+        setRGB(LEDConstants.kTagDetected[0], LEDConstants.kTagDetected[1], LEDConstants.kTagDetected[2]);
     }
 
-    public Command AlignedWithTagPattern() {
-        return runOnce(() -> this.setRGB(LEDConstants.kAligned[0], LEDConstants.kAligned[1], LEDConstants.kAligned[2]));
+    public void alignedWithTagPattern() {
+        setRGB(LEDConstants.kAligned[0], LEDConstants.kAligned[1], LEDConstants.kAligned[2]);
     }
 
     public void rainbow() {
