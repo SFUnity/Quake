@@ -82,8 +82,7 @@ public class Intake extends SubsystemBase{
         m_intakeMotor.set(IntakeConstants.kIntakeRollerSpeedPercent);
     }
 
-    public void lowerAndOuttake() {
-        m_anglePidController.setReference(IntakeConstants.kIntakeLoweredAngleRevRotations, ControlType.kPosition);
+    public void outtake() {
         m_intakeMotor.set(-IntakeConstants.kIntakeRollerSpeedPercent);
     }
 
