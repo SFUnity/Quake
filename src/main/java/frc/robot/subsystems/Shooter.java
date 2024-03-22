@@ -24,7 +24,7 @@ public class Shooter extends SubsystemBase {
     private final CANSparkMax m_shooterAngleMotor; 
     private final CANSparkMax m_shooterBottomFlywheelMotor;
     private final CANSparkMax m_shooterTopFlywheelMotor;
-    private final CANSparkMax m_shooterRollerMotor;
+    private final CANSparkMax m_feederMotor;
 
     private final RelativeEncoder m_angleEncoder;
     public final RelativeEncoder m_bottomFlywheelEncoder;
@@ -85,12 +85,12 @@ public class Shooter extends SubsystemBase {
         m_shooterAngleMotor = new CANSparkMax(ShooterConstants.kShooterAngleMotor, MotorType.kBrushless);
         m_shooterBottomFlywheelMotor = new CANSparkMax(ShooterConstants.kShooterBottomFlywheelMotorID, MotorType.kBrushless);
         m_shooterTopFlywheelMotor = new CANSparkMax(ShooterConstants.kShooterTopFlywheelMotorID, MotorType.kBrushless);
-        m_shooterRollerMotor = new CANSparkMax(ShooterConstants.kShooterRollerMotor, MotorType.kBrushless);
+        m_feederMotor = new CANSparkMax(ShooterConstants.kShooterRollerMotor, MotorType.kBrushless);
         
         m_angleEncoder = m_shooterAngleMotor.getEncoder();
         m_bottomFlywheelEncoder = m_shooterBottomFlywheelMotor.getEncoder();
         m_topFlywheelEncoder = m_shooterTopFlywheelMotor.getEncoder();
-        m_feederEncoder = m_shooterRollerMotor.getEncoder();
+        m_feederEncoder = m_feederMotor.getEncoder();
 
         desiredAngle = ShooterConstants.kSpeakerManualAngleRevRotations;
         m_anglePidController = m_shooterAngleMotor.getPIDController();
@@ -127,8 +127,8 @@ public class Shooter extends SubsystemBase {
         bottomFlywheelCurrentEntry.setDouble(m_shooterBottomFlywheelMotor.getOutputCurrent());
         topFlywheelVoltageEntry.setDouble(m_shooterTopFlywheelMotor.getBusVoltage());
         topFlywheelCurrentEntry.setDouble(m_shooterTopFlywheelMotor.getOutputCurrent());
-        feederVoltageEntry.setDouble(m_shooterRollerMotor.getBusVoltage());
-        feederCurrentEntry.setDouble(m_shooterRollerMotor.getOutputCurrent());
+        feederVoltageEntry.setDouble(m_feederMotor.getBusVoltage());
+        feederCurrentEntry.setDouble(m_feederMotor.getOutputCurrent());
         shooterPivotVoltageEntry.setDouble(m_shooterAngleMotor.getBusVoltage());
         shooterPivotCurrentEntry.setDouble(m_shooterAngleMotor.getOutputCurrent());
     }
@@ -139,13 +139,17 @@ public class Shooter extends SubsystemBase {
 
     // TODO optimize after experimentation
     public void intakeNote(boolean intakeWorking) {
-        m_bottomFlywheePidController.setReference(ShooterConstants.kFlywheelIntakeSpeedRPM, ControlType.kVelocity);
-        m_topFlywheePidController.setReference(ShooterConstants.kFlywheelIntakeSpeedRPM, ControlType.kVelocity);
-        if (intakeWorking) {
-            m_anglePidController.setReference(ShooterConstants.kIntakeAngleRevRotations, ControlType.kPosition);
+        if (!intakeWorking) {
+            m_bottomFlywheePidController.setReference(ShooterConstants.kFlywheelIntakeSpeedRPM, ControlType.kVelocity);
+            m_topFlywheePidController.setReference(ShooterConstants.kFlywheelIntakeSpeedRPM, ControlType.kVelocity);
+        }
+        m_anglePidController.setReference(intakeWorking ? ShooterConstants.kIntakeAngleRevRotations : ShooterConstants.kSourceAngleRevRotations, ControlType.kPosition);
+
+        if (!isNoteInShooter()) {
+            double speed = 0.15;
+            m_feederMotor.set(intakeWorking ? speed : -speed);
         } else {
-            m_anglePidController.setReference(ShooterConstants.kSourceAngleRevRotations, ControlType.kPosition);
-            m_shooterRollerMotor.set(-0.2);
+            m_feederMotor.set(0);
         }
     }
     
@@ -197,15 +201,15 @@ public class Shooter extends SubsystemBase {
     }
 
     public void putNoteIntoFlywheels() {
-        m_shooterRollerMotor.set(1);
+        m_feederMotor.set(1);
     }
 
     public void feedNote() {
-        m_shooterRollerMotor.set(0.15);
+        m_feederMotor.set(0.15);
     }
 
     public void stopRollerMotors() {
-        m_shooterRollerMotor.stopMotor();
+        m_feederMotor.stopMotor();
     }
 
     public void stopFlywheelMotors() {
