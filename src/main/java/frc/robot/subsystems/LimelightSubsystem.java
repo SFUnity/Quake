@@ -76,7 +76,11 @@ public class LimelightSubsystem extends SubsystemBase {
   }
 
   public void setPrefferedID(int id) {
-    priorityid.setDouble(id);
+    // if (id < 0) {
+    //   System.out.println("No preffered id");
+    // } else {
+      priorityid.setDouble(id);
+    // }
   }
 
   /**

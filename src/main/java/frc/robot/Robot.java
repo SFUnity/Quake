@@ -49,13 +49,11 @@ public class Robot extends TimedRobot {
 
     m_LEDs.setRGB(LEDConstants.kShooterEmpty[0], LEDConstants.kShooterEmpty[1], LEDConstants.kShooterEmpty[2]);
 
-    if (DriverStation.getAlliance().get() == Alliance.Red) {
-      LimelightConstants.speakerTagID = 4;
-    } else if (DriverStation.getAlliance().get() == Alliance.Blue) {
-      LimelightConstants.speakerTagID = 7;
-    } else {
-      LimelightConstants.speakerTagID = 5;
-    }
+    // if (DriverStation.getAlliance().get() == Alliance.Red) {
+    //   LimelightConstants.speakerTagID = 4;
+    // } else if (DriverStation.getAlliance().get() == Alliance.Blue) {
+    //   LimelightConstants.speakerTagID = 7;
+    // }
   }
 
   @Override
