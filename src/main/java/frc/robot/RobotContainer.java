@@ -140,14 +140,6 @@ public class RobotContainer {
         return m_swerve;
     }
 
-    public LEDs getLEDs() {
-        return m_LEDs;
-    }
-  
-    public LimelightSubsystem getLimelightSubsystem() {
-        return m_limelight; 
-    }
-
     public Command getAutonomousCommand() {
         return m_autoChooser.getSelected();
     }  
