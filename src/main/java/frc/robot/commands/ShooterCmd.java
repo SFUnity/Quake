@@ -32,6 +32,7 @@ public class ShooterCmd extends Command {
     public void execute() {
         // Set flywheel and angle setpoints
         if (leftBumper.getAsBoolean()) {
+            autoAligning = false;
             m_shooter.readyShootAmp();
         }
 
@@ -52,10 +53,12 @@ public class ShooterCmd extends Command {
         }
         
         if (leftTrigger.getAsBoolean()) {
+            autoAligning = false;
             m_shooter.readyShootFeed();
         }
 
         if (rightTrigger.getAsBoolean()) {
+            autoAligning = false;
             m_shooter.readyShootSpeakerManual();
         }
         
