@@ -87,7 +87,7 @@ public final class Constants {
 
     public static final double kIntakeRollerSpeedPercent = 1.0;
 
-    public static final double kIntakeLoweredAngleRevRotations = 25;
+    public static final double kIntakeLoweredAngleRevRotations = 26;
     public static final double kIntakeRaisedAngleRevRotations = 1;
     
     public static final int kIndexerMotorId = 11;
@@ -102,10 +102,10 @@ public final class Constants {
 
     public static final int kShooterAngleMotorEncoderId = 5;
     
-    public static final double kSpeakerManualAngleRevRotations = -20;
+    public static final double kSpeakerManualAngleRevRotations = -12;
     public static final double kDesiredAmpAngleRevRotations = -20;
-    public static final double kSourceAngleRevRotations = -20;
-    public static final double kFeedingAngleRevRotations = -20;
+    public static final double kSourceAngleRevRotations = -12;
+    public static final double kFeedingAngleRevRotations = -53;
     public static final double kIntakeAngleRevRotations = -53;
     
     public static final double kRollerShootingSpeedPercent = 1.0;
@@ -116,7 +116,7 @@ public final class Constants {
     public static final double kShooterDefaultSpeedRPM = 8000;
     public static final double kShooterFeedingSpeedRPM = 8000;
     
-    public static final double kShooterDistanceRangeInches = 1.5;
+    public static final double kShooterDistanceRangeInches = 3.0;
   }
 
   public static final class LimelightConstants {
@@ -127,13 +127,13 @@ public final class Constants {
     public static final double kLimelightLensHeightInches = 26.5; 
 
     // distance from the target to the floor
-    public static final double kHeightOfTagInches = 56.5; //79.2;
+    public static final double kHeightOfTagInches = 56.5;
 
     // height of speaker
     public static final double kHeightOfSpeakerInches = 79.2;
 
     public static int speakerTagID = 5;
-    public static final double kTurnToTagTolerance = 0.2;
+    public static final double kTurnToTagTolerance = 1.0; // TODO make porportional to distance
   }
   
   public static final class ClimberConstants {
@@ -147,7 +147,7 @@ public final class Constants {
   public static final class LEDConstants {
     public static final int[] kShooterEmpty = {255, 0, 0};
     public static final int[] kNoteInShooter = {0, 0, 255};
-    public static final int[] kTagDetected = {255, 0, 255};
+    public static final int[] kTagDetected = {155, 0, 255};
     public static final int[] kAligned = {0, 255, 0};
   }
 
