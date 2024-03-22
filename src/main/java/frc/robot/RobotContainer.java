@@ -133,7 +133,7 @@ public class RobotContainer {
         new Trigger(m_driverController.x()).whileTrue(m_swerve.SetXCommand());
         new Trigger(m_driverController.a()).onTrue(new InstantCommand(() -> m_swerve.resetPose(new Pose2d(2, 2, new Rotation2d(0)))).andThen(() -> m_swerve.resetHeading()));
 
-        new Trigger(() -> m_shooter.isNoteInShooter()).whileTrue(m_intake.noteInShooterCommand().withInterruptBehavior(InterruptionBehavior.kCancelIncoming));
+        // new Trigger(() -> m_shooter.isNoteInShooter()).whileTrue(m_intake.noteInShooterCommand().withInterruptBehavior(InterruptionBehavior.kCancelIncoming));
     }
 
     public Swerve getSwerve() {

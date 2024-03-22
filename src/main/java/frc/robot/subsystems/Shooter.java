@@ -146,7 +146,7 @@ public class Shooter extends SubsystemBase {
         m_anglePidController.setReference(intakeWorking ? ShooterConstants.kIntakeAngleRevRotations : ShooterConstants.kSourceAngleRevRotations, ControlType.kPosition);
 
         if (!isNoteInShooter()) {
-            double speed = 0.15;
+            double speed = 0.13;
             m_feederMotor.set(intakeWorking ? speed : -speed);
         } else {
             m_feederMotor.set(0);
