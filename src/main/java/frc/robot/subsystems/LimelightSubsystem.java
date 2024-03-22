@@ -25,6 +25,7 @@ public class LimelightSubsystem extends SubsystemBase {
   private GenericEntry tyEntry = limelightTab.add("ty", 0).getEntry();
   private GenericEntry taEntry = limelightTab.add("ta", 0).getEntry();
   private GenericEntry tvEntry = limelightTab.add("tv", 0).getEntry();
+  private GenericEntry tidEntry = limelightTab.add("tid", 0).getEntry();
   private GenericEntry distanceEntry = limelightTab.add("distance", 0).getEntry();
 
   private static NetworkTable table;
@@ -63,6 +64,7 @@ public class LimelightSubsystem extends SubsystemBase {
     tyEntry.setDouble(y);
     tvEntry.setDouble(v);
     taEntry.setDouble(a);
+    tidEntry.setDouble(NetworkTableInstance.getDefault().getTable("limelight").getEntry("tid").getDouble(0));
     distanceEntry.setDouble(getDistance());
 
 
