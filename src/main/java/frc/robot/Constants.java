@@ -106,7 +106,7 @@ public final class Constants {
     public static final double kDesiredAmpAngleRevRotations = -20;
     public static final double kSourceAngleRevRotations = -20;
     public static final double kFeedingAngleRevRotations = -20;
-    public static final double kInatkeAngleRevRotations = -59;
+    public static final double kIntakeAngleRevRotations = -53;
     
     public static final double kRollerShootingSpeedPercent = 1.0;
     

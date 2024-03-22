@@ -142,7 +142,7 @@ public class Shooter extends SubsystemBase {
         m_bottomFlywheePidController.setReference(ShooterConstants.kFlywheelIntakeSpeedRPM, ControlType.kVelocity);
         m_topFlywheePidController.setReference(ShooterConstants.kFlywheelIntakeSpeedRPM, ControlType.kVelocity);
         if (intakeWorking) {
-            m_anglePidController.setReference(-50, ControlType.kPosition);
+            m_anglePidController.setReference(ShooterConstants.kIntakeAngleRevRotations, ControlType.kPosition);
         } else {
             m_anglePidController.setReference(ShooterConstants.kSourceAngleRevRotations, ControlType.kPosition);
             m_shooterRollerMotor.set(-0.2);
