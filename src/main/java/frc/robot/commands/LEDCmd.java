@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.LimelightConstants;
 import frc.robot.subsystems.LEDs;
@@ -22,18 +23,27 @@ public class LEDCmd extends Command {
 
     @Override
     public void execute() {
-        if (m_shooter.isNoteInShooter()) {
-            if (m_limelight.isTargetAvailable()) {
-                if (m_shooter.atDesiredAngle() && Math.abs(m_limelight.getTargetOffsetX()) < LimelightConstants.kTurnToTagTolerance) {
-                    m_LEDs.alignedWithTagPattern();
+        if (DriverStation.isDisabled()) {
+            m_LEDs.idlePattern();
+        } else {
+            if (m_shooter.isNoteInShooter()) {
+                if (m_limelight.isTargetAvailable()) {
+                    if (Math.abs(m_limelight.getTargetOffsetX()) < LimelightConstants.kTurnToTagTolerance) { // m_shooter.atDesiredAngle() && 
+                        m_LEDs.alignedWithTagPattern();
+                    } else {
+                        m_LEDs.aprilTagDetectedPattern();
+                    }
                 } else {
-                    m_LEDs.aprilTagDetectedPattern();
+                    m_LEDs.noteInShooterPattern();
                 }
             } else {
-                m_LEDs.noteInShooterPattern();
+                m_LEDs.shooterEmptyPattern();
             }
-        } else {
-            m_LEDs.shooterEmptyPattern();
         }
+    }
+
+    @Override
+    public boolean runsWhenDisabled() {
+        return true;
     }
 }

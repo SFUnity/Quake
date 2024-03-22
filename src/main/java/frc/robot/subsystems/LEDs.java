@@ -26,10 +26,10 @@ public class LEDs extends SubsystemBase{
     }
 
     public void setGreen() {
-        setRGB(0, 255, 0);
+        setSolid(0, 255, 0);
     }
     
-    public void setRGB(int r, int g, int b) {
+    public void setSolid(int r, int g, int b) {
         for (var i = 0; i < m_ledBuffer.getLength(); i++) {
             // Sets the specified LED to the RGB values for red
             m_ledBuffer.setRGB(i, r, g, b);
@@ -39,19 +39,41 @@ public class LEDs extends SubsystemBase{
     }
 
     public void noteInShooterPattern() {
-        setRGB(LEDConstants.kNoteInShooter[0], LEDConstants.kNoteInShooter[1], LEDConstants.kNoteInShooter[2]);
+        setSolid(LEDConstants.kNoteInShooter[0], LEDConstants.kNoteInShooter[1], LEDConstants.kNoteInShooter[2]);
     }
 
     public void shooterEmptyPattern() {
-        setRGB(LEDConstants.kShooterEmpty[0], LEDConstants.kShooterEmpty[1], LEDConstants.kShooterEmpty[2]);
+        setSolid(LEDConstants.kShooterEmpty[0], LEDConstants.kShooterEmpty[1], LEDConstants.kShooterEmpty[2]);
     }
 
     public void aprilTagDetectedPattern() {
-        setRGB(LEDConstants.kTagDetected[0], LEDConstants.kTagDetected[1], LEDConstants.kTagDetected[2]);
+        setSolid(LEDConstants.kTagDetected[0], LEDConstants.kTagDetected[1], LEDConstants.kTagDetected[2]);
     }
 
     public void alignedWithTagPattern() {
-        setRGB(LEDConstants.kAligned[0], LEDConstants.kAligned[1], LEDConstants.kAligned[2]);
+        setSolid(LEDConstants.kAligned[0], LEDConstants.kAligned[1], LEDConstants.kAligned[2]);
+    }
+
+    public void idlePattern() {
+        // int firstDashStart = 0;
+        // int dashStart = firstDashStart + 0;
+        // int dashLength = 50;
+        // for (int i = dashStart; i < dashStart + dashLength; i++) {
+        //     m_ledBuffer.setRGB(i, 255, 0, 0);
+        // }
+        // dashStart += 50;
+        // for (int i = dashStart; i < dashStart + dashLength; i++) {
+        //     m_ledBuffer.setRGB(i, 255, 120, 0);
+        // }
+        // dashStart += 100;
+        // for (int i = dashStart; i < dashStart + dashLength; i++) {
+        //     m_ledBuffer.setRGB(i, 255, 238, 0);
+        // }
+        // dashStart += -150 + m_ledBuffer.getLength() * 0.02;
+        setSolid(255, 0, 0);
+        // for (int i = dashStart; i < dashStart + dashLength; i++) {
+        //     m_ledBuffer.setRGB(i, 255, 0, 0);
+        // }
     }
 
     public void rainbow() {
