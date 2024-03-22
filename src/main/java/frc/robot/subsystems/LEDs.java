@@ -12,9 +12,11 @@ public class LEDs extends SubsystemBase{
     // Must be a PWM header, not MXP or DIO
     private final AddressableLED m_led = new AddressableLED(9);
     // Reuse buffer
-    // Default to a length of 60, start empty output
-    private final AddressableLEDBuffer m_ledBuffer = new AddressableLEDBuffer(150);
+    private final int LED_LENGTH = 150;
+    private final AddressableLEDBuffer m_ledBuffer = new AddressableLEDBuffer(LED_LENGTH);
     private int m_rainbowFirstPixelHue;
+
+    private int dashStart = 0;
 
     public LEDs() {
         // Length is expensive to set, so only set it once, then just update data
@@ -55,25 +57,19 @@ public class LEDs extends SubsystemBase{
     }
 
     public void idlePattern() {
-        // int firstDashStart = 0;
-        // int dashStart = firstDashStart + 0;
-        // int dashLength = 50;
-        // for (int i = dashStart; i < dashStart + dashLength; i++) {
-        //     m_ledBuffer.setRGB(i, 255, 0, 0);
-        // }
-        // dashStart += 50;
-        // for (int i = dashStart; i < dashStart + dashLength; i++) {
-        //     m_ledBuffer.setRGB(i, 255, 120, 0);
-        // }
-        // dashStart += 100;
-        // for (int i = dashStart; i < dashStart + dashLength; i++) {
-        //     m_ledBuffer.setRGB(i, 255, 238, 0);
-        // }
-        // dashStart += -150 + m_ledBuffer.getLength() * 0.02;
+        int dashLength = 10;
         setSolid(255, 0, 0);
-        // for (int i = dashStart; i < dashStart + dashLength; i++) {
-        //     m_ledBuffer.setRGB(i, 255, 0, 0);
+
+        for (int i = dashStart; i < dashStart + dashLength; i++) {
+            m_ledBuffer.setRGB(i % LED_LENGTH, 255, 120, 0);
+        }
+
+        // for (int i = dashStart + 10; i < dashStart + dashLength; i++) {
+        //     m_ledBuffer.setRGB(i % LED_LENGTH, 255, 120, 0);
         // }
+
+        dashStart += LED_LENGTH * 0.02;
+        dashStart %= LED_LENGTH;
     }
 
     public void rainbow() {
