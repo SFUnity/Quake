@@ -133,7 +133,7 @@ public final class Constants {
     public static final double kHeightOfSpeakerInches = 79.2;
 
     public static int speakerTagID = 5;
-    public static final double kTurnToTagTolerance = 1.0; // TODO make porportional to distance
+    public static final double kTurnToTagTolerance = 0.1; // TODO make porportional to distance
   }
   
   public static final class ClimberConstants {

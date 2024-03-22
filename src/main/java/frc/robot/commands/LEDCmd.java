@@ -1,6 +1,9 @@
 package frc.robot.commands;
 
+import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.LimelightConstants;
 import frc.robot.subsystems.LEDs;
@@ -12,6 +15,9 @@ public class LEDCmd extends Command {
     private final Shooter m_shooter;
     private final LimelightSubsystem m_limelight;
     private final LEDs m_LEDs;
+
+    private ShuffleboardTab tuningTab = Shuffleboard.getTab("Tuning");
+    private GenericEntry m_tolerancePorportionEntry = tuningTab.add("Tolerance Proportion", 100).getEntry();
 
     public LEDCmd(Shooter shooter, Swerve swerve, LimelightSubsystem limelightSubsystem, LEDs leds) {
         m_shooter = shooter;
@@ -28,7 +34,7 @@ public class LEDCmd extends Command {
         } else {
             if (m_shooter.isNoteInShooter()) {
                 if (m_limelight.isTargetAvailable()) {
-                    if (Math.abs(m_limelight.getTargetOffsetX()) < LimelightConstants.kTurnToTagTolerance) { // m_shooter.atDesiredAngle() && 
+                    if (Math.abs(m_limelight.getTargetOffsetX()) < m_tolerancePorportionEntry.getDouble(100) / m_limelight.getDistance()) { // m_shooter.atDesiredAngle() && 
                         m_LEDs.alignedWithTagPattern();
                     } else {
                         m_LEDs.aprilTagDetectedPattern();
