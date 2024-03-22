@@ -30,6 +30,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.FieldObject2d;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.LimelightConstants;
 import frc.robot.Constants.ModuleConstants;
 import frc.robot.subsystems.modules.RealSwerveModule;
 import lib.SwerveModule;
@@ -111,7 +112,7 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
     private GenericEntry turnToTagPEntry = swerveTab.addPersistent("turnToTag P", 0.05).withPosition(0, 2).withSize(2, 1).getEntry();
     private GenericEntry turnToTagIEntry = swerveTab.addPersistent("turnToTag I", 0.0).withPosition(2, 2).withSize(2, 1).getEntry();
     private GenericEntry turnToTagDEntry = swerveTab.addPersistent("turnToTag D", 0.0).withPosition(4, 2).withSize(2, 1).getEntry();
-    private PIDController turnToTagPID = new PIDController(0.05, 0.4, turnToTagDEntry.getDouble(0));
+    private PIDController turnToTagPID = new PIDController(turnToTagPEntry.getDouble(0), turnToTagIEntry.getDouble(0), turnToTagDEntry.getDouble(0));
 
     private double pastTurnToTagPEntry = turnToTagPEntry.getDouble(0.05);
     private double pastTurnToTagIEntry = turnToTagIEntry.getDouble(0.05);
@@ -161,7 +162,7 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
         }
 
         turnToTagPID.enableContinuousInput(-180, 180);
-        turnToTagPID.setTolerance(0.1);
+        turnToTagPID.setTolerance(LimelightConstants.kTurnToTagTolerance);
         turnToTagPID.setIZone(5);
 
         loggingTab.add("Field", field2d).withSize(5, 3).withPosition(0, 0);
