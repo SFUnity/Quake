@@ -110,13 +110,15 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
     private GenericEntry headingEntry = swerveTab.add("Heading", 0).withPosition(4, 0).withSize(2, 2).withWidget(BuiltInWidgets.kGyro).getEntry();
     
     private GenericEntry turnToTagPEntry = swerveTab.addPersistent("turnToTag P", 0.05).withPosition(0, 2).withSize(2, 1).getEntry();
-    private GenericEntry turnToTagIEntry = swerveTab.addPersistent("turnToTag I", 0.0).withPosition(2, 2).withSize(2, 1).getEntry();
+    private GenericEntry turnToTagIEntry = swerveTab.addPersistent("turnToTag I", 0.0).withPosition(2, 2).withSize(1, 1).getEntry();
     private GenericEntry turnToTagDEntry = swerveTab.addPersistent("turnToTag D", 0.0).withPosition(4, 2).withSize(2, 1).getEntry();
+    private GenericEntry turnToTagIZoneEntry = swerveTab.addPersistent("turnToTage I Zone", 3).withPosition(3, 2).withSize(1, 1).getEntry();
     private PIDController turnToTagPID = new PIDController(turnToTagPEntry.getDouble(0), turnToTagIEntry.getDouble(0), turnToTagDEntry.getDouble(0));
 
     private double pastTurnToTagPEntry = turnToTagPEntry.getDouble(0.05);
     private double pastTurnToTagIEntry = turnToTagIEntry.getDouble(0.05);
     private double pastTurnToTagDEntry = turnToTagDEntry.getDouble(0.0);
+    private double pastTurnToTagIZoneEntry = turnToTagIZoneEntry.getDouble(0.0);
 
     // private GenericEntry autoTranslationPEntry = swerveTab.addPersistent("Auto Translation P", 0.05).getEntry();
     // private GenericEntry autoTranslationIEntry = swerveTab.addPersistent("Auto Translation I", 0.00).getEntry();
@@ -163,7 +165,7 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
 
         turnToTagPID.enableContinuousInput(-180, 180);
         turnToTagPID.setTolerance(LimelightConstants.kTurnToTagTolerance);
-        turnToTagPID.setIZone(5);
+        turnToTagPID.setIZone(3.5);
 
         loggingTab.add("Field", field2d).withSize(5, 3).withPosition(0, 0);
 
@@ -220,6 +222,7 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
         double currentP = turnToTagPEntry.getDouble(0.05);
         double currentI = turnToTagIEntry.getDouble(0.0);
         double currentD = turnToTagDEntry.getDouble(0.0);
+        double currentIZone = turnToTagIZoneEntry.getDouble(0.0);
         
         if (pastTurnToTagPEntry != currentP) {
             turnToTagPID.setP(currentP);
@@ -235,6 +238,12 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
             turnToTagPID.setD(currentD);
             pastTurnToTagDEntry = currentD;
             System.out.println("New D: " + currentD);
+        }
+
+        if (pastTurnToTagIZoneEntry != currentIZone) {
+            turnToTagPID.setIZone(currentIZone);
+            pastTurnToTagIZoneEntry = currentIZone;
+            System.out.println("New I Zone: " + currentIZone);
         }
     }
 
