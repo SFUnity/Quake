@@ -44,6 +44,7 @@ public class Shooter extends SubsystemBase {
     private ShuffleboardTab driversTab = Shuffleboard.getTab("Drivers");
     private ShuffleboardTab loggingTab = Shuffleboard.getTab("Logging");
     private ShuffleboardTab limelightTab = Shuffleboard.getTab("limelight");
+    private ShuffleboardTab tuningTab = Shuffleboard.getTab("Tuning");
 
     private GenericEntry bottomFlywheelVoltageEntry = loggingTab.add("bottomFlywheelVoltage", 0.00).getEntry();
     private GenericEntry bottomFlywheelCurrentEntry = loggingTab.add("bottomFlywheelOutputCurrent", 0.00).getEntry();
@@ -75,7 +76,8 @@ public class Shooter extends SubsystemBase {
                                                                 .withPosition(2, 2)
                                                                 .getEntry();
                                                                 
-    private GenericEntry autoAngleOffsetEntry = limelightTab.addPersistent("auto angle offset", 41).getEntry();                                                            
+    private GenericEntry autoAngleOffsetEntry = limelightTab.addPersistent("auto angle offset", 41).getEntry();
+    private GenericEntry feederSpeedSetterEntry = tuningTab.addPersistent("Feeder Speed", 0.13).getEntry();                                                            
 
     public Shooter() {        
         m_shooterDistanceSensor = new Rev2mDistanceSensor(Port.kOnboard);
@@ -145,8 +147,8 @@ public class Shooter extends SubsystemBase {
         }
         m_anglePidController.setReference(intakeWorking ? ShooterConstants.kIntakeAngleRevRotations : ShooterConstants.kSourceAngleRevRotations, ControlType.kPosition);
 
-        if (!isNoteInShooter()) {
-            double speed = 0.13;
+        if (!isNoteInShooter() && distanceSensorWorking()) {
+            double speed = feederSpeedSetterEntry.getDouble(0.13);
             m_feederMotor.set(intakeWorking ? speed : -speed);
         } else {
             m_feederMotor.set(0);
@@ -189,7 +191,7 @@ public class Shooter extends SubsystemBase {
      * @return boolean value of if there is a note in shooter
      */
     public boolean isNoteInShooter() {
-        if (distanceSensorWorkingEntry.getBoolean(true)) {
+        if (distanceSensorWorking()) {
             return m_shooterDistanceSensor.isRangeValid() && m_shooterDistanceSensor.getRange() <= ShooterConstants.kShooterDistanceRangeInches;
         } else {
             return false;
@@ -202,10 +204,6 @@ public class Shooter extends SubsystemBase {
 
     public void putNoteIntoFlywheels() {
         m_feederMotor.set(1);
-    }
-
-    public void feedNote() {
-        m_feederMotor.set(0.15);
     }
 
     public void stopRollerMotors() {
