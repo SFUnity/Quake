@@ -22,7 +22,6 @@ public class LimelightSubsystem extends SubsystemBase {
   private GenericEntry m_toleranceProportionEntry = tuningTab.add("Tolerance Proportion", 100).getEntry();
 
   //Declaring objects that are used for retrieving data from the limelight.
-
   private GenericEntry txEntry = limelightTab.add("tx", 0).getEntry();
   private GenericEntry txEntry2 = swerveTab.add("tx", 0).withPosition(6, 0).getEntry();
   private GenericEntry tyEntry = limelightTab.add("ty", 0).getEntry();
@@ -32,11 +31,11 @@ public class LimelightSubsystem extends SubsystemBase {
   private GenericEntry distanceEntry = limelightTab.add("distance", 0).getEntry();
 
   private static NetworkTable table;
-  private static NetworkTableEntry tx, ty, tv, ta, priorityid;
+  private static NetworkTableEntry tx, ty, tv, ta, tid, priorityid;
   private static NetworkTableEntry camMode;
   private static NetworkTableEntry ledMode;
 
-  private static double x, y, v, a;
+  private static double x, y, v, a, id;
 
   private LimelightSubsystem ()
   {
@@ -48,11 +47,14 @@ public class LimelightSubsystem extends SubsystemBase {
     ty = table.getEntry("ty"); // Vertical offset from crosshair to target (-24.85 to 24.85 degrees).
     tv = table.getEntry("tv"); // Whether the limelight has any valid targets (0 or 1).
     ta = table.getEntry("ta"); // Target area (0% of image to 100% of image).
+    tid = table.getEntry("tid"); // current id of the april tag
     priorityid = table.getEntry("priorityid"); // Preffered id of the april tag
 
     ledMode = table.getEntry("ledMode"); // limelight's LED state (0-3).
     camMode = table.getEntry("camMode"); // limelight's operation mode (0-1).
 
+    // setPrefferedID(LimelightConstants.speakerTagID);
+    priorityid.setInteger(5);
   }
 
   @Override 
@@ -61,28 +63,28 @@ public class LimelightSubsystem extends SubsystemBase {
     y = ty.getDouble(0.0);
     v = tv.getDouble(0.0);
     a = ta.getDouble(0.0);
+    id = tid.getDouble(0);
 
     txEntry.setDouble(x);
     txEntry2.setDouble(x);  
     tyEntry.setDouble(y);
     tvEntry.setDouble(v);
     taEntry.setDouble(a);
-    tidEntry.setDouble(NetworkTableInstance.getDefault().getTable("limelight").getEntry("tid").getDouble(0));
+    tidEntry.setDouble(id);
     distanceEntry.setDouble(getDistance());
 
-
-     // limelightTab.add("tx", x);
+    // limelightTab.add("tx", x);
     // limelightTab.add("ty", y);
     // limelightTab.add("tv", v);
     // limelightTab.add("ta", a);
    
   }
 
-  public void setPrefferedID(int id) {
+  public void setPrefferedID(int desiredId) {
     // if (id < 0) {
     //   System.out.println("No preffered id");
     // } else {
-      priorityid.setDouble(id);
+      priorityid.setInteger(desiredId);
     // }
   }
 
