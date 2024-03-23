@@ -92,6 +92,14 @@ public class Shooter extends SubsystemBase {
         m_shooterBottomFlywheelMotor = new CANSparkMax(ShooterConstants.kShooterBottomFlywheelMotorID, MotorType.kBrushless);
         m_shooterTopFlywheelMotor = new CANSparkMax(ShooterConstants.kShooterTopFlywheelMotorID, MotorType.kBrushless);
         m_feederMotor = new CANSparkMax(ShooterConstants.kShooterRollerMotor, MotorType.kBrushless);
+
+        m_shooterAngleMotor.setSecondaryCurrentLimit(80, 1);
+        m_shooterBottomFlywheelMotor.setSecondaryCurrentLimit(80, 1);
+        m_shooterTopFlywheelMotor.setSecondaryCurrentLimit(80, 1);
+        m_feederMotor.setSecondaryCurrentLimit(80, 1);
+
+        m_shooterBottomFlywheelMotor.enableVoltageCompensation(10);
+        m_shooterTopFlywheelMotor.enableVoltageCompensation(10);
         
         m_angleEncoder = m_shooterAngleMotor.getEncoder();
         m_bottomFlywheelEncoder = m_shooterBottomFlywheelMotor.getEncoder();
@@ -149,7 +157,7 @@ public class Shooter extends SubsystemBase {
             m_bottomFlywheePidController.setReference(ShooterConstants.kFlywheelIntakeSpeedRPM, ControlType.kVelocity);
             m_topFlywheePidController.setReference(ShooterConstants.kFlywheelIntakeSpeedRPM, ControlType.kVelocity);
         }
-        m_anglePidController.setReference(intakeWorking ? ShooterConstants.kIntakeAngleRevRotations : ShooterConstants.kSourceAngleRevRotations, ControlType.kPosition);
+        m_anglePidController.setReference(intakeWorking ? ShooterConstants.kIntakeAngleRevRotations : sourceAngleEntry.getDouble(ShooterConstants.kSourceAngleRevRotations), ControlType.kPosition);
 
         if (!isNoteInShooter() && distanceSensorWorking()) {
             double speed = feederSpeedSetterEntry.getDouble(0.13);

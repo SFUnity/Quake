@@ -38,6 +38,10 @@ public class Intake extends SubsystemBase{
         m_intakeMotor = new CANSparkMax(IntakeConstants.kIntakeRollersMotorId, MotorType.kBrushless);
         m_indexerMotor = new CANSparkMax(IntakeConstants.kIndexerMotorId, MotorType.kBrushless);
 
+        m_intakeAngleMotor.setSecondaryCurrentLimit(80, 1);
+        m_intakeMotor.setSecondaryCurrentLimit(80, 1);
+        m_indexerMotor.setSecondaryCurrentLimit(80, 1);
+
         //m_angleEncoder = new CANcoder(IntakeConstants.kIntakeAngleMotorEncoderId);
         m_angleEncoder = m_intakeAngleMotor.getEncoder();
 

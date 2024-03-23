@@ -36,6 +36,7 @@ public class RealSwerveModule implements AutoCloseable, SwerveModule {
         
         m_turningMotor = new CANSparkMax(kTurningMotorId, MotorType.kBrushless);
         m_turningMotor.setInverted(turningMotorReversed);
+        m_turningMotor.setSecondaryCurrentLimit(80, 1);
                 
         m_driveMotor = new TalonFX(kDriveMotorId, "rio");
         TalonFXConfigurator configurator = m_driveMotor.getConfigurator();
