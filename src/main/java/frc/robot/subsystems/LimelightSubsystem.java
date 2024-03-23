@@ -15,7 +15,7 @@ public class LimelightSubsystem extends SubsystemBase {
 
   private static LimelightSubsystem instance = null;
 
-  public ShuffleboardTab limelightTab = Shuffleboard.getTab("limelight");
+  public ShuffleboardTab limelightTab = Shuffleboard.getTab("Limelight");
   public ShuffleboardTab swerveTab = Shuffleboard.getTab("Swerve Subsystem");
 
   //Declaring objects that are used for retrieving data from the limelight.
