@@ -40,7 +40,6 @@ public class ShooterCmd extends Command {
             buttonPressedRecently = true;
             if (autoAligning == false) {
                 autoAligning = true;
-                m_limelight.setPrefferedID(LimelightConstants.speakerTagID);
             } else {
                 autoAligning = false;
             }
