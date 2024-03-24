@@ -56,9 +56,11 @@ public class Shooter extends SubsystemBase {
 
     private GenericEntry angleEntry = loggingTab.add("Shooter Angle", 0).getEntry();
     private GenericEntry desiredAngleEntry = loggingTab.add("Desired Shooter Angle", 0).getEntry();
-    private GenericEntry distanceSensorEntry = loggingTab.add("Distance sensor", 0).getEntry();
+    private GenericEntry distanceSensorDistanceEntry = loggingTab.add("Distance Sensor Distance", 0).getEntry();
+    private GenericEntry distanceSensorRangeIsValid = loggingTab.add("Dist Sensor Range is Valid", true).getEntry();
     
-    private GenericEntry feederSpeedEntry = loggingTab.add("Feeder Speed", 0).getEntry();    
+    private GenericEntry feederSpeedEntry = loggingTab.add("Feeder Speed", 0).getEntry(); 
+    private GenericEntry feederAppliedOutputEntry = loggingTab.add("Feeder Applied Output", 0).getEntry();   
     private GenericEntry bottomFlywheelSpeedEntry = loggingTab.add("Bottom Speed", 0).getEntry();
     private GenericEntry topFlywheelSpeedEntry = loggingTab.add("Top Speed", 0).getEntry();
     private GenericEntry desiredSpeedBottomEntry = loggingTab.add("Desired Speed Bottom", 0).getEntry();
@@ -136,9 +138,11 @@ public class Shooter extends SubsystemBase {
         bottomFlywheelSpeedEntry.setDouble(m_bottomFlywheelEncoder.getVelocity());
         topFlywheelSpeedEntry.setDouble(m_topFlywheelEncoder.getVelocity());
         feederSpeedEntry.setDouble(m_feederEncoder.getVelocity());
+        feederAppliedOutputEntry.setDouble(m_feederMotor.getAppliedOutput());
         angleEntry.setDouble(m_angleEncoder.getPosition());
         desiredAngleEntry.setDouble(desiredAngle);
-        distanceSensorEntry.setDouble(m_shooterDistanceSensor.GetRange());
+        distanceSensorDistanceEntry.setDouble(m_shooterDistanceSensor.GetRange());
+        distanceSensorRangeIsValid.setBoolean(m_shooterDistanceSensor.isRangeValid());
         noteInShooterEntry.setBoolean(isNoteInShooter());
 
         bottomFlywheelVoltageEntry.setDouble(m_shooterBottomFlywheelMotor.getBusVoltage());
@@ -168,6 +172,7 @@ public class Shooter extends SubsystemBase {
             m_feederMotor.set(intakeWorking ? speed : -speed);
         } else {
             m_feederMotor.set(0);
+            System.out.println("Feeder motor not running");
         }
     }
     
@@ -204,11 +209,7 @@ public class Shooter extends SubsystemBase {
      * @return boolean value of if there is a note in shooter
      */
     public boolean isNoteInShooter() {
-        if (distanceSensorWorking()) {
-            return m_shooterDistanceSensor.isRangeValid() && m_shooterDistanceSensor.getRange() <= ShooterConstants.kShooterDistanceRangeInches;
-        } else {
-            return false;
-        }
+        return distanceSensorWorking() && m_shooterDistanceSensor.getRange() <= ShooterConstants.kShooterDistanceRangeInches;
     }
 
     public boolean distanceSensorWorking() {

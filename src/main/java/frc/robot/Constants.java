@@ -105,8 +105,8 @@ public final class Constants {
     public static final double kSpeakerManualAngleRevRotations = -12;
     public static final double kDesiredAmpAngleRevRotations = -20;
     public static final double kSourceAngleRevRotations = -12;
-    public static final double kFeedingAngleRevRotations = -53;
-    public static final double kIntakeAngleRevRotations = -53;
+    public static final double kFeedingAngleRevRotations = -55;
+    public static final double kIntakeAngleRevRotations = -55;
     
     public static final double kRollerShootingSpeedPercent = 1.0;
     
@@ -116,7 +116,7 @@ public final class Constants {
     public static final double kShooterDefaultSpeedRPM = 9000;
     public static final double kShooterFeedingSpeedRPM = 9000;
     
-    public static final double kShooterDistanceRangeInches = 3.0;
+    public static final double kShooterDistanceRangeInches = 1.5;
   }
 
   public static final class LimelightConstants {
