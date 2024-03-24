@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7246993151393712,
-      "y": 4.437675801277529
+      "x": 1.35,
+      "y": 5.55472336015897
     },
-    "rotation": -60.0
+    "rotation": 0
   },
   "command": {
     "type": "sequential",
@@ -20,37 +20,55 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Source Side to Note 4"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Note 4 to Shooting"
+            "pathName": "Speaker to C"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "autoShootStopped"
+            "name": "autoShoot"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Shooting to 3"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "3 to Shoot"
+            "pathName": "C to B"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "autoShootStopped"
+            "name": "autoShoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "B to A"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "autoShoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "A to 2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "2 to Shoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "autoShoot"
           }
         }
       ]

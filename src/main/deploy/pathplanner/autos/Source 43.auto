@@ -1,0 +1,61 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.7246993151393712,
+      "y": 4.437675801277529
+    },
+    "rotation": -60.0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "fullSpeakerShoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Source Side to Note 4"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Note 4 to Shooting"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "autoShoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Shooting to 3"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "3 to Shoot Source Side"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "autoShoot"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}
