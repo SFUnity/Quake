@@ -12,7 +12,6 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.*;
 import edu.wpi.first.wpilibj2.command.*;
-import edu.wpi.first.wpilibj2.command.Command.InterruptionBehavior;
 import edu.wpi.first.wpilibj2.command.button.*;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.DriveConstants;
@@ -47,8 +46,6 @@ public class RobotContainer {
         }, m_swerve).until(() -> m_limelight.alignedWithTag());
     private final Command m_autoShootStopped = m_autoAlign.alongWith(m_shooter.readyAutoShoot()).andThen(m_shooter.putNoteIntoFlywheelsCommand());
 
-    private final Command m_CBA1;
-    private final Command m_43;
     private final Command m_justShootAndLeave;
     // private final Command m_straightPath;
     // private final Command m_swervyPath;
@@ -106,8 +103,6 @@ public class RobotContainer {
         NamedCommands.registerCommand("raiseAndStopIntake", m_intake.raiseAndStopIntakeCmd());
         NamedCommands.registerCommand("Straight", m_straightAuto);
 
-        m_CBA1 = new PathPlannerAuto("CBA1");
-        m_43 = new PathPlannerAuto("43");
         m_justShootAndLeave = fullSpeakerShoot.andThen(new WaitCommand(5)).andThen(m_straightAuto);
         // m_straightPath = new PathPlannerAuto("Straight Path Auto");
         // m_swervyPath = new PathPlannerAuto("Swervy Path Auto");
@@ -116,8 +111,11 @@ public class RobotContainer {
 
         // Add commands to the autonomous command chooser
         m_autoChooser.setDefaultOption("Nothing", new RunCommand(() -> {}, m_swerve, m_intake, m_shooter));
-        m_autoChooser.addOption("CBA1", m_CBA1);
-        m_autoChooser.addOption("43", m_43);
+        m_autoChooser.addOption("Center CBA1", new PathPlannerAuto("Center CBA1"));
+        m_autoChooser.addOption("Center CBA2", new PathPlannerAuto("Center CBA2"));
+        m_autoChooser.addOption("Center CB3", new PathPlannerAuto("Center CB3"));
+        m_autoChooser.addOption("Source 43", new PathPlannerAuto("Source 43"));
+        m_autoChooser.addOption("Amp A1", new PathPlannerAuto("Amp A1"));
         m_autoChooser.addOption("Just Shoot", fullSpeakerShoot);
         m_autoChooser.addOption("Just Shoot and Leave", m_justShootAndLeave);
         // m_autoChooser.addOption("Straight Path", m_straightPath);
