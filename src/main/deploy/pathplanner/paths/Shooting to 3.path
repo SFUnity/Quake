@@ -54,7 +54,7 @@
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "New Event Marker",
+      "name": "Full Intake",
       "waypointRelativePos": 1.15,
       "command": {
         "type": "parallel",
