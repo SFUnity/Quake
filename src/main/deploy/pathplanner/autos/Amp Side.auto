@@ -16,12 +16,6 @@
           "data": {
             "name": "fullSpeakerShoot"
           }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Straight"
-          }
         }
       ]
     }

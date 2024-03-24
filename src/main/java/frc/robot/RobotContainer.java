@@ -36,7 +36,7 @@ public class RobotContainer {
 
     private final Command m_4NoteSpeaker;
     private final Command m_sourceOut;
-    private final Command m_ampOut;
+    private final Command m_justShoot;
     // private final Command m_straightPath;
     // private final Command m_swervyPath;
 
@@ -94,7 +94,7 @@ public class RobotContainer {
 
         m_4NoteSpeaker = new PathPlannerAuto("4 Note Speaker");
         m_sourceOut = new PathPlannerAuto("Source Out");
-        m_ampOut = new PathPlannerAuto("Amp Out");
+        m_justShoot = new SequentialCommandGroup(m_shooter.readyShootSpeakerCommand(), m_shooter.putNoteIntoFlywheelsCommand(), m_shooter.stopShootingCommand());
         // m_straightPath = new PathPlannerAuto("Straight Path Auto");
         // m_swervyPath = new PathPlannerAuto("Swervy Path Auto");
 
@@ -104,7 +104,7 @@ public class RobotContainer {
         m_autoChooser.setDefaultOption("Nothing", new RunCommand(() -> {}, m_swerve, m_intake, m_shooter));
         m_autoChooser.addOption("4 Note Speaker", m_4NoteSpeaker);
         m_autoChooser.addOption("Source Out", m_sourceOut);
-        m_autoChooser.addOption("Amp", m_ampOut);
+        m_autoChooser.addOption("Just Shoot", m_justShoot);
         // m_autoChooser.addOption("Straight Path", m_straightPath);
         // m_autoChooser.addOption("Swervy Path", m_swervyPath);
         m_autoChooser.addOption("Straight Auto", m_straightAuto);
@@ -133,6 +133,7 @@ public class RobotContainer {
         new Trigger(m_driverController.x()).whileTrue(m_swerve.SetXCommand());
         new Trigger(m_driverController.a()).onTrue(new InstantCommand(() -> m_swerve.resetPose(new Pose2d(2, 2, new Rotation2d(0)))).andThen(() -> m_swerve.resetHeading()));
 
+        // TODO test this once done with the other stuff
         // new Trigger(() -> m_shooter.isNoteInShooter()).whileTrue(m_intake.noteInShooterCommand().withInterruptBehavior(InterruptionBehavior.kCancelIncoming));
     }
 

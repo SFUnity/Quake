@@ -1,6 +1,4 @@
 {
-  "robotWidth": 0.3,
-  "robotLength": 0.3,
   "robotWidth": 0.84,
   "robotLength": 0.84,
   "holonomicMode": true,

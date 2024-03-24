@@ -24,7 +24,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Speaker to B"
+                  "pathName": "C to B"
                 }
               },
               {
@@ -39,7 +39,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "B to Speaker"
+            "pathName": null
           }
         },
         {
@@ -70,7 +70,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "C to Speaker"
+            "pathName": null
           }
         },
         {
@@ -101,7 +101,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "A to Speaker"
+            "pathName": null
           }
         }
       ]
