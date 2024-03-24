@@ -247,10 +247,6 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
         }
     }
 
-    public boolean alignedWithTag() {
-        return turnToTagPID.atSetpoint();
-    }
-
     public void resetHeading() {
         m_gyro.reset();
     }

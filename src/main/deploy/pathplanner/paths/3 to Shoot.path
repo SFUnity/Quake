@@ -1,0 +1,103 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 7.695890836226117,
+        "y": 4.131430563787053
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 6.695890836226118,
+        "y": 4.131430563787053
+      },
+      "isLocked": false,
+      "linkedName": "Note 3"
+    },
+    {
+      "anchor": {
+        "x": 4.804406085664024,
+        "y": 3.7560025258939413
+      },
+      "prevControl": {
+        "x": 5.351870666704296,
+        "y": 4.288205321781014
+      },
+      "nextControl": {
+        "x": 4.143014159537535,
+        "y": 3.113048361456845
+      },
+      "isLocked": false,
+      "linkedName": "Under Stage"
+    },
+    {
+      "anchor": {
+        "x": 2.395063100311386,
+        "y": 3.229916320943753
+      },
+      "prevControl": {
+        "x": 3.1702667710890973,
+        "y": 2.4673615226860086
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [
+    {
+      "name": "Raise Intake",
+      "waypointRelativePos": 0.45,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "raiseAndStopIntake"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Ready Auto Shoot",
+      "waypointRelativePos": 1.75,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "readyAutoShoot"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 2.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -49.19918041901711,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": null,
+  "previewStartingState": {
+    "rotation": 0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}

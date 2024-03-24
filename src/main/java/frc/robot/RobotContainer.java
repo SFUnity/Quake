@@ -7,12 +7,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.*;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.Command.InterruptionBehavior;
 import edu.wpi.first.wpilibj2.command.button.*;
 import frc.robot.Constants.ControllerConstants;
+import frc.robot.Constants.DriveConstants;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 
@@ -21,7 +24,7 @@ public class RobotContainer {
     private final Swerve m_swerve = new Swerve();
     public final LimelightSubsystem m_limelight = LimelightSubsystem.getInstance();
     private final LEDs m_LEDs = new LEDs();
-    private final Shooter m_shooter = new Shooter();
+    private final Shooter m_shooter = new Shooter(m_limelight);
     private final Intake m_intake = new Intake(m_shooter);
 
     private final CommandXboxController m_driverController = new CommandXboxController(
@@ -33,6 +36,16 @@ public class RobotContainer {
     private final Command m_straightAuto = new StraightAutoCmd(m_swerve);
     // private final Command m_circleAuto = new CircleAutoCmd(m_swerve);
     private final Command fullSpeakerShoot = new SequentialCommandGroup(m_shooter.readyShootSpeakerCommand(), m_shooter.putNoteIntoFlywheelsCommand(), m_shooter.stopShootingCommand());
+    private final Command m_autoAlign = new RunCommand(() -> {
+            ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(0, 0, m_swerve.turnToTagSpeed(m_limelight.getTargetOffsetX()), m_swerve.getRotation2d());
+            chassisSpeeds = ChassisSpeeds.discretize(chassisSpeeds, 0.02);
+
+            SwerveModuleState[] moduleStates = 
+            DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
+
+            m_swerve.setModuleStates(moduleStates);
+        }, m_swerve).until(() -> m_limelight.alignedWithTag());
+    private final Command m_autoShootStopped = m_autoAlign.andThen(m_shooter.putNoteIntoFlywheelsCommand());
 
     private final Command m_4NoteSpeaker;
     private final Command m_sourceOut;
@@ -68,7 +81,6 @@ public class RobotContainer {
 
         m_shooter.setDefaultCommand(new ShooterCmd(
                 m_shooter, 
-                m_limelight,
                 m_operationsController.square(),
                 m_operationsController.circle(),
                 m_operationsController.L1(),
@@ -88,6 +100,8 @@ public class RobotContainer {
         m_LEDs.setDefaultCommand(new LEDCmd(m_shooter, m_swerve, m_limelight, m_LEDs));
 
         NamedCommands.registerCommand("fullSpeakerShoot", fullSpeakerShoot);
+        NamedCommands.registerCommand("readyAutoShoot", m_shooter.readyAutoShoot());
+        NamedCommands.registerCommand("autoShootStopped", m_autoShootStopped);
         NamedCommands.registerCommand("fullIntakeNote", new ParallelCommandGroup(m_shooter.intakeNoteCmd(), m_intake.lowerAndRunIntakeCmd()));
         NamedCommands.registerCommand("raiseAndStopIntake", m_intake.raiseAndStopIntakeCmd());
         NamedCommands.registerCommand("Straight", m_straightAuto);

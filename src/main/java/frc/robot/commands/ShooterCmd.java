@@ -3,20 +3,16 @@ package frc.robot.commands;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.Constants.LimelightConstants;
-import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.Shooter;
 
 public class ShooterCmd extends Command {
     private final Shooter m_shooter;
-    private final LimelightSubsystem m_limelight;
     private final Trigger leftBumper, rightBumper, square, circle, leftTrigger, rightTrigger;
     private GenericEntry intakeWorkingEntry;
     private boolean buttonPressedRecently = false, autoAligning = false;
 
-    public ShooterCmd(Shooter shooter, LimelightSubsystem limelight, Trigger square, Trigger circle, Trigger leftBumper, Trigger rightBumper, Trigger leftTrigger, Trigger rightTrigger, GenericEntry intakeWorkingEntryEntry) {
+    public ShooterCmd(Shooter shooter, Trigger square, Trigger circle, Trigger leftBumper, Trigger rightBumper, Trigger leftTrigger, Trigger rightTrigger, GenericEntry intakeWorkingEntryEntry) {
         m_shooter = shooter;
-        m_limelight = limelight;
         this.leftBumper = leftBumper;
         this.rightBumper = rightBumper;
         this.square = square;
@@ -48,7 +44,7 @@ public class ShooterCmd extends Command {
         }
 
         if (autoAligning) {
-            m_shooter.readyShootSpeakerAutomatic(m_limelight.getDistance());
+            m_shooter.readyShootSpeakerAutomatic();
         }
         
         if (leftTrigger.getAsBoolean()) {

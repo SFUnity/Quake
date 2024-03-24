@@ -1,0 +1,76 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 7.727720862849133,
+        "y": 2.4016230162089958
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 6.385277613147819,
+        "y": 1.671907779000744
+      },
+      "isLocked": false,
+      "linkedName": "Note 4"
+    },
+    {
+      "anchor": {
+        "x": 3.934424947553599,
+        "y": 1.9947806423390624
+      },
+      "prevControl": {
+        "x": 5.16475049153802,
+        "y": 1.3330011335948602
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Source Side Shooting"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [
+    {
+      "name": "New Event Marker",
+      "waypointRelativePos": 0.8,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "raiseAndStopIntake"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "readyAutoShoot"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 4.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -46.77445594045043,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": null,
+  "previewStartingState": {
+    "rotation": 8.061512068270996,
+    "velocity": 0
+  },
+  "useDefaultConstraints": false
+}

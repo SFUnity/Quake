@@ -83,7 +83,9 @@ public class Shooter extends SubsystemBase {
     private GenericEntry ampSpeedBottomEntry = tuningTab.addPersistent("Amp Speed Bottom", ShooterConstants.kAmpShootingSpeedBottomRPM).getEntry();
     private GenericEntry ampSpeedTopEntry = tuningTab.addPersistent("Amp Speed Top", ShooterConstants.kAmpShootingSpeedTopRPM).getEntry();
 
-    public Shooter() {        
+    private final LimelightSubsystem m_limelight;
+
+    public Shooter(LimelightSubsystem limelight) {        
         m_shooterDistanceSensor = new Rev2mDistanceSensor(Port.kOnboard);
         m_shooterDistanceSensor.setDistanceUnits(Unit.kInches);
         m_shooterDistanceSensor.setAutomaticMode(true);
@@ -124,6 +126,8 @@ public class Shooter extends SubsystemBase {
         m_topFlywheePidController.setI(0.0000001);
         m_topFlywheePidController.setD(0.02);
         this.setFlywheelMotorSpeed();
+
+        m_limelight = limelight;
     }
 
     @Override
@@ -173,15 +177,12 @@ public class Shooter extends SubsystemBase {
         desiredAngle = ShooterConstants.kSpeakerManualAngleRevRotations;
     }
 
-    /**
-     * @param distanceFromTarget meters
-     */
-    public void readyShootSpeakerAutomatic(double distanceFromTarget) {
+    public void readyShootSpeakerAutomatic() {
         desiredSpeedBottom = ShooterConstants.kShooterDefaultSpeedRPM;
         desiredSpeedTop = ShooterConstants.kShooterDefaultSpeedRPM;
         
         double heightOfTarget = LimelightConstants.kHeightOfSpeakerInches;
-        double angleRad = Math.atan(heightOfTarget / distanceFromTarget);
+        double angleRad = Math.atan(heightOfTarget / m_limelight.getDistance());
         double angleDeg = Math.toDegrees(angleRad);
         desiredAngle = angleDeg + autoAngleOffsetEntry.getDouble(41);
     }
@@ -246,7 +247,15 @@ public class Shooter extends SubsystemBase {
     public Command intakeNoteCmd() {
         return run(() -> {
             intakeNote(true);
-        }).withTimeout(2);
+        });
+    }
+
+    public Command readyAutoShoot() {
+        return run(() -> {
+            readyShootSpeakerAutomatic();
+            setAngleMotorSpeeds();
+            setFlywheelMotorSpeed();
+        });
     }
 
     public Command readyShootSpeakerCommand() {
@@ -254,7 +263,7 @@ public class Shooter extends SubsystemBase {
             readyShootSpeakerManual();
             setFlywheelMotorSpeed();
             setAngleMotorSpeeds();
-        }).withTimeout(0.8);
+        }).withTimeout(0.5);
     }
 
     public Command putNoteIntoFlywheelsCommand() {
@@ -262,7 +271,7 @@ public class Shooter extends SubsystemBase {
             putNoteIntoFlywheels();
             setAngleMotorSpeeds();
             setFlywheelMotorSpeed();
-        }).withTimeout(2);
+        }).withTimeout(0.1);
     }
 
     public Command stopShootingCommand() {

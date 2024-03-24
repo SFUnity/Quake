@@ -128,13 +128,13 @@ public class Intake extends SubsystemBase{
         return run(() -> {
             lowerAndRunIntake();
             runIndexer();
-        }).withTimeout(2);
+        });
     }
 
     public Command raiseAndStopIntakeCmd() {
         return runOnce(() -> {
             raiseAndStopIntake();
-            m_indexerMotor.stopMotor();
+            stopIndexer();
         });
     }
 }
