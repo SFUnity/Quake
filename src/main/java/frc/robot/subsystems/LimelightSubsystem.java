@@ -31,7 +31,7 @@ public class LimelightSubsystem extends SubsystemBase {
   private GenericEntry distanceEntry = limelightTab.add("distance", 0).getEntry();
 
   private static NetworkTable table;
-  private static NetworkTableEntry tx, ty, tv, ta, tid, priorityid;
+  private static NetworkTableEntry tx, ty, tv, ta, tid, priorityid, pipeline;
   private static NetworkTableEntry camMode;
   private static NetworkTableEntry ledMode;
 
@@ -49,12 +49,16 @@ public class LimelightSubsystem extends SubsystemBase {
     ta = table.getEntry("ta"); // Target area (0% of image to 100% of image).
     tid = table.getEntry("tid"); // current id of the april tag
     priorityid = table.getEntry("priorityid"); // Preffered id of the april tag
+    pipeline = table.getEntry("pipeline");
 
     ledMode = table.getEntry("ledMode"); // limelight's LED state (0-3).
     camMode = table.getEntry("camMode"); // limelight's operation mode (0-1).
 
     // setPrefferedID(LimelightConstants.speakerTagID);
     priorityid.setInteger(5);
+
+    //blue speaker = 0, red speaker = 1, source = 2
+    setPipeline(0);
   }
 
   @Override 
@@ -84,8 +88,12 @@ public class LimelightSubsystem extends SubsystemBase {
     // if (id < 0) {
     //   System.out.println("No preffered id");
     // } else {
-      priorityid.setInteger(desiredId);
+      priorityid.setNumber(desiredId);
     // }
+  }
+
+  public void setPipeline(int p) {
+    pipeline.setNumber(p);
   }
 
   public boolean alignedWithTag() {
