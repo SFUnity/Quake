@@ -31,12 +31,12 @@ public class RobotContainer {
 
     // Auto Commands Chooser
     private final Command m_straightAuto = new StraightAutoCmd(m_swerve);
-
-    private final Command m_circleAuto = new CircleAutoCmd(m_swerve);
+    // private final Command m_circleAuto = new CircleAutoCmd(m_swerve);
+    private final Command fullSpeakerShoot = new SequentialCommandGroup(m_shooter.readyShootSpeakerCommand(), m_shooter.putNoteIntoFlywheelsCommand(), m_shooter.stopShootingCommand());
 
     private final Command m_4NoteSpeaker;
     private final Command m_sourceOut;
-    private final Command m_justShoot;
+    private final Command m_justShootAndLeave;
     // private final Command m_straightPath;
     // private final Command m_swervyPath;
 
@@ -87,14 +87,14 @@ public class RobotContainer {
 
         m_LEDs.setDefaultCommand(new LEDCmd(m_shooter, m_swerve, m_limelight, m_LEDs));
 
-        NamedCommands.registerCommand("fullSpeakerShoot", new SequentialCommandGroup(m_shooter.readyShootSpeakerCommand(), m_shooter.putNoteIntoFlywheelsCommand(), m_shooter.stopShootingCommand()));
+        NamedCommands.registerCommand("fullSpeakerShoot", fullSpeakerShoot);
         NamedCommands.registerCommand("fullIntakeNote", new ParallelCommandGroup(m_shooter.intakeNoteCmd(), m_intake.lowerAndRunIntakeCmd()));
         NamedCommands.registerCommand("raiseAndStopIntake", m_intake.raiseAndStopIntakeCmd());
         NamedCommands.registerCommand("Straight", m_straightAuto);
 
         m_4NoteSpeaker = new PathPlannerAuto("4 Note Speaker");
         m_sourceOut = new PathPlannerAuto("Source Out");
-        m_justShoot = new SequentialCommandGroup(m_shooter.readyShootSpeakerCommand(), m_shooter.putNoteIntoFlywheelsCommand(), m_shooter.stopShootingCommand());
+        m_justShootAndLeave = fullSpeakerShoot.andThen(new WaitCommand(5)).andThen(m_straightAuto);
         // m_straightPath = new PathPlannerAuto("Straight Path Auto");
         // m_swervyPath = new PathPlannerAuto("Swervy Path Auto");
 
@@ -104,11 +104,12 @@ public class RobotContainer {
         m_autoChooser.setDefaultOption("Nothing", new RunCommand(() -> {}, m_swerve, m_intake, m_shooter));
         m_autoChooser.addOption("4 Note Speaker", m_4NoteSpeaker);
         m_autoChooser.addOption("Source Out", m_sourceOut);
-        m_autoChooser.addOption("Just Shoot", m_justShoot);
+        m_autoChooser.addOption("Just Shoot", fullSpeakerShoot);
+        m_autoChooser.addOption("Just Shoot and Leave", m_justShootAndLeave);
         // m_autoChooser.addOption("Straight Path", m_straightPath);
         // m_autoChooser.addOption("Swervy Path", m_swervyPath);
-        m_autoChooser.addOption("Straight Auto", m_straightAuto);
-        m_autoChooser.addOption("Circle Auto", m_circleAuto);
+        // m_autoChooser.addOption("Straight Auto", m_straightAuto);
+        // m_autoChooser.addOption("Circle Auto", m_circleAuto);
 
         // Add options to the field oriented chooser
         m_fieldOrientedChooser.setDefaultOption("Field Oriented", true);
