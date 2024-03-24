@@ -21,8 +21,8 @@ import frc.robot.subsystems.*;
 
 
 public class RobotContainer {
-    private final Swerve m_swerve = new Swerve();
     public final LimelightSubsystem m_limelight = LimelightSubsystem.getInstance();
+    private final Swerve m_swerve = new Swerve(m_limelight);
     private final LEDs m_LEDs = new LEDs();
     private final Shooter m_shooter = new Shooter(m_limelight);
     private final Intake m_intake = new Intake(m_shooter);
@@ -147,6 +147,9 @@ public class RobotContainer {
     private void configureBindings() {
         new Trigger(m_driverController.x()).whileTrue(m_swerve.SetXCommand());
         new Trigger(m_driverController.a()).onTrue(new InstantCommand(() -> m_swerve.resetPose(new Pose2d(2, 2, new Rotation2d(0)))).andThen(() -> m_swerve.resetHeading()));
+
+        new Trigger(m_operationsController.povUp()).onTrue(new InstantCommand(() -> m_limelight.setPipeline(0)));
+        new Trigger(m_operationsController.povDown()).onTrue(new InstantCommand(() -> m_limelight.setPipeline(1)));
 
         // TODO test this once done with the other stuff
         // new Trigger(() -> m_shooter.isNoteInShooter()).whileTrue(m_intake.noteInShooterCommand().withInterruptBehavior(InterruptionBehavior.kCancelIncoming));

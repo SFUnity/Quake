@@ -29,6 +29,7 @@ public class LimelightSubsystem extends SubsystemBase {
   private GenericEntry tvEntry = limelightTab.add("tv", 0).getEntry();
   private GenericEntry tidEntry = limelightTab.add("tid", 0).getEntry();
   private GenericEntry distanceEntry = limelightTab.add("distance", 0).getEntry();
+  private GenericEntry pipelineEntry = limelightTab.add("pipeline", 0).getEntry();
 
   private static NetworkTable table;
   private static NetworkTableEntry tx, ty, tv, ta, tid, priorityid, pipeline;
@@ -55,7 +56,7 @@ public class LimelightSubsystem extends SubsystemBase {
     camMode = table.getEntry("camMode"); // limelight's operation mode (0-1).
 
     // setPrefferedID(LimelightConstants.speakerTagID);
-    priorityid.setInteger(5);
+    // priorityid.setInteger(5);
 
     //blue speaker = 0, red speaker = 1, source = 2
     setPipeline(0);
@@ -76,6 +77,7 @@ public class LimelightSubsystem extends SubsystemBase {
     taEntry.setDouble(a);
     tidEntry.setDouble(id);
     distanceEntry.setDouble(getDistance());
+    pipelineEntry.setDouble(pipeline.getDouble(0));
 
     // limelightTab.add("tx", x);
     // limelightTab.add("ty", y);
@@ -84,13 +86,13 @@ public class LimelightSubsystem extends SubsystemBase {
    
   }
 
-  public void setPrefferedID(int desiredId) {
-    // if (id < 0) {
-    //   System.out.println("No preffered id");
-    // } else {
-      priorityid.setNumber(desiredId);
-    // }
-  }
+  // public void setPrefferedID(int desiredId) {
+  //   // if (id < 0) {
+  //   //   System.out.println("No preffered id");
+  //   // } else {
+  //     priorityid.setNumber(desiredId);
+  //   // }
+  // }
 
   public void setPipeline(int p) {
     pipeline.setNumber(p);

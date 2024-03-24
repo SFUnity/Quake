@@ -71,7 +71,8 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
         DriveConstants.kBackRightTurningEncoderReversed,
         DriveConstants.kBackRightDriveAbsoluteEncoderId,
         DriveConstants.kBackRightDriveAbsoluteEncoderReversed);
-    
+
+    private final LimelightSubsystem m_limelight;
 
     private final List<SwerveModule> modules = List.of(m_frontLeft, m_frontRight, m_backLeft, m_backRight);
 
@@ -148,7 +149,7 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
     private GenericEntry backLeftTurningOutputCurrentEntry = loggingTab.add("blTurningOutputCurrent", 0.00).getEntry();
     private GenericEntry backRightTurningOutputCurrentEntry = loggingTab.add("brTurningOutputCurrent", 0.00).getEntry();
 
-    public Swerve() {
+    public Swerve(LimelightSubsystem limelight) {
         /* Threads are units of code. These threads call the zeroHeading method 1 sec 
         after the robot starts without interfering with the rest of the code */
         new Thread(() -> {
@@ -163,8 +164,9 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
             modules2d[i] = field2d.getObject("module-" + i);
         }
 
+        m_limelight = limelight;
+
         turnToTagPID.enableContinuousInput(-180, 180);
-        turnToTagPID.setTolerance(LimelightConstants.kTurnToTagTolerance);
         turnToTagPID.setIZone(3.5);
 
         loggingTab.add("Field", field2d).withSize(5, 3).withPosition(0, 0);
@@ -392,7 +394,11 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
      */
     // Still a little fast
     public double turnToTagSpeed(double xOffset) {
-        return turnToTagPID.calculate(xOffset, 0);
+        if (m_limelight.alignedWithTag()) {
+            return 0;
+        } else {
+            return turnToTagPID.calculate(xOffset, 0);
+        }
     }
 
     /**
