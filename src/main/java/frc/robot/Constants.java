@@ -91,7 +91,7 @@ public final class Constants {
     public static final double kIntakeRaisedAngleRevRotations = 0;
     
     public static final int kIndexerMotorId = 11;
-    public static final double kIndexerIntakeSpeedPercent = 1.0;
+    public static final double kIndexerIntakeSpeedPercent = 0.8;
   }
   
   public static final class ShooterConstants {

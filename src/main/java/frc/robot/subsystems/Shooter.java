@@ -84,6 +84,7 @@ public class Shooter extends SubsystemBase {
     private GenericEntry sourceAngleEntry = tuningTab.addPersistent("Source Angle", ShooterConstants.kSourceAngleRevRotations).getEntry();
     private GenericEntry ampSpeedBottomEntry = tuningTab.addPersistent("Amp Speed Bottom", ShooterConstants.kAmpShootingSpeedBottomRPM).getEntry();
     private GenericEntry ampSpeedTopEntry = tuningTab.addPersistent("Amp Speed Top", ShooterConstants.kAmpShootingSpeedTopRPM).getEntry();
+    private GenericEntry intakeAngleEntry = tuningTab.addPersistent("Intake Angle", ShooterConstants.kIntakeAngleRevRotations).getEntry();
 
     private final LimelightSubsystem m_limelight;
 
@@ -110,7 +111,7 @@ public class Shooter extends SubsystemBase {
         m_topFlywheelEncoder = m_shooterTopFlywheelMotor.getEncoder();
         m_feederEncoder = m_feederMotor.getEncoder();
 
-        desiredAngle = ShooterConstants.kSpeakerManualAngleRevRotations;
+        desiredAngle = speakerAngleEntry.getDouble(ShooterConstants.kSpeakerManualAngleRevRotations);
         m_anglePidController = m_shooterAngleMotor.getPIDController();
         m_anglePidController.setP(0.05);
         m_anglePidController.setI(0.00015);
@@ -165,7 +166,7 @@ public class Shooter extends SubsystemBase {
             m_bottomFlywheePidController.setReference(ShooterConstants.kFlywheelIntakeSpeedRPM, ControlType.kVelocity);
             m_topFlywheePidController.setReference(ShooterConstants.kFlywheelIntakeSpeedRPM, ControlType.kVelocity);
         }
-        m_anglePidController.setReference(intakeWorking ? ShooterConstants.kIntakeAngleRevRotations : sourceAngleEntry.getDouble(ShooterConstants.kSourceAngleRevRotations), ControlType.kPosition);
+        m_anglePidController.setReference(intakeWorking ? intakeAngleEntry.getDouble(ShooterConstants.kIntakeAngleRevRotations) : sourceAngleEntry.getDouble(ShooterConstants.kSourceAngleRevRotations), ControlType.kPosition);
 
         if (!isNoteInShooter() && distanceSensorWorking()) {
             double speed = feederSpeedSetterEntry.getDouble(0.13);
@@ -179,7 +180,7 @@ public class Shooter extends SubsystemBase {
     public void readyShootSpeakerManual() {
         desiredSpeedBottom = ShooterConstants.kShooterDefaultSpeedRPM;
         desiredSpeedTop = ShooterConstants.kShooterDefaultSpeedRPM;
-        desiredAngle = ShooterConstants.kSpeakerManualAngleRevRotations;
+        desiredAngle = speakerAngleEntry.getDouble(ShooterConstants.kSpeakerManualAngleRevRotations);
     }
 
     public void readyShootSpeakerAutomatic() {

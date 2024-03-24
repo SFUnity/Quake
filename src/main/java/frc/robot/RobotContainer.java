@@ -115,7 +115,7 @@ public class RobotContainer {
         m_autoChooser.addOption("Center CBA2", new PathPlannerAuto("Center CBA2"));
         m_autoChooser.addOption("Center CB3", new PathPlannerAuto("Center CB3"));
         m_autoChooser.addOption("Source 43", new PathPlannerAuto("Source 43"));
-        m_autoChooser.addOption("Amp A1", new PathPlannerAuto("Amp A1"));
+        // m_autoChooser.addOption("Amp A1", new PathPlannerAuto("Amp A1"));
         m_autoChooser.addOption("Just Shoot", fullSpeakerShoot);
         m_autoChooser.addOption("Just Shoot and Leave", m_justShootAndLeave);
         // m_autoChooser.addOption("Straight Path", m_straightPath);
