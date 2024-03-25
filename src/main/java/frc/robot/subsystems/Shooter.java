@@ -1,7 +1,6 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkBase.ControlType;
-import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import com.revrobotics.CANSparkMax;
@@ -86,10 +85,10 @@ public class Shooter extends SubsystemBase {
     private GenericEntry autoAngleOffsetEntry = tuningTab.addPersistent("auto angle offset", -62).getEntry();
     private GenericEntry feederSpeedSetterEntry = tuningTab.addPersistent("Feeder Speed", 0.13).getEntry();   
     private GenericEntry speakerAngleEntry = tuningTab.addPersistent("Speaker Angle", ShooterConstants.kSpeakerManualAngleRevRotations).getEntry();
-    private GenericEntry ampAngleEntry = tuningTab.addPersistent("Amp Angle", ShooterConstants.kDesiredAmpAngleRevRotations).getEntry();
+    // private GenericEntry ampAngleEntry = tuningTab.addPersistent("Amp Angle", ShooterConstants.kDesiredAmpAngleRevRotations).getEntry();
     private GenericEntry sourceAngleEntry = tuningTab.addPersistent("Source Angle", ShooterConstants.kSourceAngleRevRotations).getEntry();
-    private GenericEntry ampSpeedBottomEntry = tuningTab.addPersistent("Amp Speed Bottom", ShooterConstants.kAmpShootingSpeedBottomRPM).getEntry();
-    private GenericEntry ampSpeedTopEntry = tuningTab.addPersistent("Amp Speed Top", ShooterConstants.kAmpShootingSpeedTopRPM).getEntry();
+    // private GenericEntry ampSpeedBottomEntry = tuningTab.addPersistent("Amp Speed Bottom", ShooterConstants.kAmpShootingSpeedBottomRPM).getEntry();
+    // private GenericEntry ampSpeedTopEntry = tuningTab.addPersistent("Amp Speed Top", ShooterConstants.kAmpShootingSpeedTopRPM).getEntry();
     private GenericEntry intakeAngleEntry = tuningTab.addPersistent("Intake Angle", ShooterConstants.kIntakeAngleRevRotations).getEntry();
 
     private GenericEntry readyAutoShootEntry = loggingTab.add("Ready Auto Shoot Called", false).getEntry();

@@ -32,7 +32,6 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.FieldObject2d;
 import frc.robot.Constants.DriveConstants;
-import frc.robot.Constants.LimelightConstants;
 import frc.robot.Constants.ModuleConstants;
 import frc.robot.subsystems.modules.RealSwerveModule;
 import lib.SwerveModule;
