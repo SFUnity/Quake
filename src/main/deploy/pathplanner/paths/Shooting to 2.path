@@ -3,37 +3,37 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.2195228788605728,
-        "y": 5.569779584003612
+        "x": 4.16299541858343,
+        "y": 5.971811823253277
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.7992596355563084,
-        "y": 5.6175840083161654
+        "x": 4.976251807489059,
+        "y": 6.831822108877114
       },
       "isLocked": false,
-      "linkedName": "Note B"
+      "linkedName": "Shooting after 1"
     },
     {
       "anchor": {
-        "x": 2.333065809650138,
-        "y": 6.6881655754052245
+        "x": 7.704501571040179,
+        "y": 5.841760035371923
       },
       "prevControl": {
-        "x": 1.4760761462406118,
-        "y": 6.308612607253703
+        "x": 6.721041192264336,
+        "y": 6.450549137451986
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Note A"
+      "linkedName": "Note 2"
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "Full Intake",
-      "waypointRelativePos": 0,
+      "name": "Lower intake",
+      "waypointRelativePos": 0.35,
       "command": {
         "type": "parallel",
         "data": {
@@ -57,7 +57,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 28.533824847080247,
+    "rotation": -7.489595265477104,
     "rotateFast": false
   },
   "reversed": false,

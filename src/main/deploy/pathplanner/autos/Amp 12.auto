@@ -1,0 +1,61 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.7361605000987782,
+      "y": 6.634600866423955
+    },
+    "rotation": 60.0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "fullSpeakerShoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Amp to 1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "1 to Shoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "autoShoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Shooting to 2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "2 to Shoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "autoShoot"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}
