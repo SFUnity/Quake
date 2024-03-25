@@ -59,6 +59,9 @@ public class Shooter extends SubsystemBase {
     private GenericEntry desiredAngleEntry = loggingTab.add("Desired Shooter Angle", 0).getEntry();
     private GenericEntry distanceSensorDistanceEntry = loggingTab.add("Distance Sensor Distance", 0).getEntry();
     private GenericEntry distanceSensorRangeIsValid = loggingTab.add("Dist Sensor Range is Valid", true).getEntry();
+
+    private GenericEntry distanceSensorDistancePerMethodEntry = loggingTab.add("Distance Sensor Distance Per Method", 0).getEntry();
+    private GenericEntry distanceSensorRangeIsValidPerMethod = loggingTab.add("Dist Sensor Range is Valid Per Method", true).getEntry();
     
     private GenericEntry feederSpeedEntry = loggingTab.add("Feeder Speed", 0).getEntry(); 
     private GenericEntry feederAppliedOutputEntry = loggingTab.add("Feeder Applied Output", 0).getEntry();   
@@ -72,7 +75,7 @@ public class Shooter extends SubsystemBase {
                                                         .withPosition(5, 0)
                                                         .getEntry();
 
-    private GenericEntry noteInShooterPerMethod = loggingTab.add("Note in Shooter?", false).getEntry();                            
+    private GenericEntry noteInShooterPerMethodEntry = loggingTab.add("Note in Shooter?", false).getEntry();                            
 
     private GenericEntry distanceSensorWorkingEntry = driversTab.addPersistent("Distance Sensor Working", false)
                                                                 .withWidget(BuiltInWidgets.kToggleButton)
@@ -178,14 +181,16 @@ public class Shooter extends SubsystemBase {
             double speed = feederSpeedSetterEntry.getDouble(0.13);
             m_feederMotor.set(intakeWorking ? speed : -speed);
             feederDesiredSpeedEntry.setDouble(speed);
-            System.out.println("Feeder motor is running");
-            noteInShooterPerMethod.setBoolean(false);
+            System.out.println("Feeder motor is running. Note in shooter: " + isNoteInShooter() + " Distance sensor working: " + distanceSensorWorking());
         } else {
             m_feederMotor.set(0);
             feederDesiredSpeedEntry.setDouble(0);            
             System.out.println("Feeder motor not running");
-            noteInShooterPerMethod.setBoolean(true);
         }
+
+        noteInShooterPerMethodEntry.setBoolean(isNoteInShooter());
+        distanceSensorDistancePerMethodEntry.setDouble(m_shooterDistanceSensor.GetRange());
+        distanceSensorRangeIsValidPerMethod.setBoolean(m_shooterDistanceSensor.isRangeValid());
     }
     
     public void readyShootSpeakerManual() {
