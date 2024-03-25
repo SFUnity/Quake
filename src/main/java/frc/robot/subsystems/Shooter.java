@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkBase.ControlType;
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import com.revrobotics.CANSparkMax;
@@ -71,6 +72,8 @@ public class Shooter extends SubsystemBase {
                                                         .withPosition(5, 0)
                                                         .getEntry();
 
+    private GenericEntry noteInShooterPerMethod = loggingTab.add("Note in Shooter?", false).getEntry();                            
+
     private GenericEntry distanceSensorWorkingEntry = driversTab.addPersistent("Distance Sensor Working", false)
                                                                 .withWidget(BuiltInWidgets.kToggleButton)
                                                                 .withSize(3, 2)
@@ -85,6 +88,9 @@ public class Shooter extends SubsystemBase {
     private GenericEntry ampSpeedBottomEntry = tuningTab.addPersistent("Amp Speed Bottom", ShooterConstants.kAmpShootingSpeedBottomRPM).getEntry();
     private GenericEntry ampSpeedTopEntry = tuningTab.addPersistent("Amp Speed Top", ShooterConstants.kAmpShootingSpeedTopRPM).getEntry();
     private GenericEntry intakeAngleEntry = tuningTab.addPersistent("Intake Angle", ShooterConstants.kIntakeAngleRevRotations).getEntry();
+
+    private GenericEntry readyAutoShootEntry = loggingTab.add("Ready Auto Shoot Called", false).getEntry();
+    private GenericEntry feederDesiredSpeedEntry = loggingTab.add("Feeder Desired Speed", 0).getEntry();
 
     private final LimelightSubsystem m_limelight;
 
@@ -171,9 +177,14 @@ public class Shooter extends SubsystemBase {
         if (!isNoteInShooter() && distanceSensorWorking()) {
             double speed = feederSpeedSetterEntry.getDouble(0.13);
             m_feederMotor.set(intakeWorking ? speed : -speed);
+            feederDesiredSpeedEntry.setDouble(speed);
+            System.out.println("Feeder motor is running");
+            noteInShooterPerMethod.setBoolean(false);
         } else {
             m_feederMotor.set(0);
+            feederDesiredSpeedEntry.setDouble(0);            
             System.out.println("Feeder motor not running");
+            noteInShooterPerMethod.setBoolean(true);
         }
     }
     
@@ -191,6 +202,7 @@ public class Shooter extends SubsystemBase {
         double angleRad = Math.atan(heightOfTarget / m_limelight.getDistance());
         double angleDeg = Math.toDegrees(angleRad);
         desiredAngle = angleDeg + autoAngleOffsetEntry.getDouble(41);
+        System.out.println("Ready auto shoot");
     }
 
     public void readyShootAmp() {
@@ -219,6 +231,7 @@ public class Shooter extends SubsystemBase {
 
     public void putNoteIntoFlywheels() {
         m_feederMotor.set(1);
+        feederDesiredSpeedEntry.setDouble(1);
     }
 
     public void stopRollerMotors() {
@@ -257,7 +270,8 @@ public class Shooter extends SubsystemBase {
             readyShootSpeakerAutomatic();
             setAngleMotorSpeeds();
             setFlywheelMotorSpeed();
-        });
+            readyAutoShootEntry.setBoolean(true);
+        }).finallyDo(() -> readyAutoShootEntry.setBoolean(false));
     }
 
     public Command readyShootSpeakerCommand() {
@@ -265,7 +279,7 @@ public class Shooter extends SubsystemBase {
             readyShootSpeakerManual();
             setFlywheelMotorSpeed();
             setAngleMotorSpeeds();
-        }).withTimeout(0.5);
+        }).withTimeout(0.9);
     }
 
     public Command putNoteIntoFlywheelsCommand() {
@@ -273,14 +287,10 @@ public class Shooter extends SubsystemBase {
             putNoteIntoFlywheels();
             setAngleMotorSpeeds();
             setFlywheelMotorSpeed();
-        }).withTimeout(0.1);
-    }
-
-    public Command stopShootingCommand() {
-        return runOnce(() -> {
+        }).finallyDo(() -> {
             setAngleMotorSpeeds();
             readyShootAmp();
             stopRollerMotors();
-        });
+        }).withTimeout(0.25);
     }
 }

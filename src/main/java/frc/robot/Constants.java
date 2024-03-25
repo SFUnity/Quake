@@ -116,7 +116,7 @@ public final class Constants {
     public static final double kShooterDefaultSpeedRPM = 9000;
     public static final double kShooterFeedingSpeedRPM = 9000;
     
-    public static final double kShooterDistanceRangeInches = 1.5;
+    public static final double kShooterDistanceRangeInches = 2.0;
   }
 
   public static final class LimelightConstants {

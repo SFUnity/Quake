@@ -32,7 +32,7 @@
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "New Event Marker",
+      "name": "Raise Intake + Ready Shoot",
       "waypointRelativePos": 0.8,
       "command": {
         "type": "parallel",
