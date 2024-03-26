@@ -266,7 +266,7 @@ public class Shooter extends SubsystemBase {
     public Command intakeNoteCmd() {
         return run(() -> {
             intakeNote(true);
-        });
+        }).until(() -> isNoteInShooter());
     }
 
     public Command readyAutoShoot() {
@@ -276,6 +276,19 @@ public class Shooter extends SubsystemBase {
             setFlywheelMotorSpeed();
             readyAutoShootEntry.setBoolean(true);
         }).finallyDo(() -> readyAutoShootEntry.setBoolean(false));
+    }
+
+    public Command autoShoot() {
+        return run(() -> {
+            readyShootSpeakerAutomatic();
+            putNoteIntoFlywheels();
+            setAngleMotorSpeeds();
+            setFlywheelMotorSpeed();
+        }).finallyDo(() -> {
+            setAngleMotorSpeeds();
+            readyShootAmp();
+            stopRollerMotors();
+        }).withTimeout(0.25);
     }
 
     public Command readyShootSpeakerCommand() {
