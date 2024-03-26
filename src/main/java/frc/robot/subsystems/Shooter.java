@@ -180,11 +180,9 @@ public class Shooter extends SubsystemBase {
             double speed = feederSpeedSetterEntry.getDouble(0.13);
             m_feederMotor.set(intakeWorking ? speed : -speed);
             feederDesiredSpeedEntry.setDouble(speed);
-            System.out.println("Feeder motor is running. Note in shooter: " + isNoteInShooter() + " Distance sensor working: " + distanceSensorWorking());
         } else {
             m_feederMotor.set(0);
-            feederDesiredSpeedEntry.setDouble(0);            
-            System.out.println("Feeder motor not running");
+            feederDesiredSpeedEntry.setDouble(0);
         }
 
         noteInShooterPerMethodEntry.setBoolean(isNoteInShooter());
@@ -206,7 +204,6 @@ public class Shooter extends SubsystemBase {
         double angleRad = Math.atan(heightOfTarget / m_limelight.getDistance());
         double angleDeg = Math.toDegrees(angleRad);
         desiredAngle = angleDeg + autoAngleOffsetEntry.getDouble(41);
-        System.out.println("Ready auto shoot");
     }
 
     public void readyShootAmp() {
