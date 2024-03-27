@@ -44,17 +44,16 @@ public class RobotContainer {
 
             m_swerve.setModuleStates(moduleStates);
         }, m_swerve).until(() -> m_limelight.alignedWithTag());
-    private final Command m_autoShoot = m_autoAlign.alongWith(m_shooter.readyAutoShoot()).andThen(m_shooter.autoShoot());
+    private final Command m_autoShoot = m_autoAlign.andThen(m_shooter.autoShoot().alongWith(new InstantCommand(() -> readyAutoShoot = false)));
 
     private final Command m_justShootAndLeave;
     // private final Command m_straightPath;
     // private final Command m_swervyPath;
     private boolean intakeIntakingNote = false;
-    private Command stopIntakeIntakingNote = new InstantCommand(() -> intakeIntakingNote = false);
-    private Command intakeIntakeNote = new InstantCommand(() -> intakeIntakingNote = true);
     private boolean shooterIntakingNote = false;
-    private Command stopShooterIntakingNote = new InstantCommand(() -> shooterIntakingNote = false);
-    private Command shooterIntakeNote = new InstantCommand(() -> shooterIntakingNote = true);
+    private boolean speakerShoot = false;
+    private boolean readyAutoShoot = false;
+    private boolean autoShoot = false;
 
     SendableChooser<Command> m_autoChooser = new SendableChooser<>();
 
@@ -102,11 +101,11 @@ public class RobotContainer {
 
         m_LEDs.setDefaultCommand(new LEDCmd(m_shooter, m_swerve, m_limelight, m_LEDs));
 
-        NamedCommands.registerCommand("fullSpeakerShoot", fullSpeakerShoot);
-        NamedCommands.registerCommand("readyAutoShoot", m_shooter.readyAutoShoot()); // May need to change to a Trigger
-        NamedCommands.registerCommand("autoShoot", m_autoShoot);
-        NamedCommands.registerCommand("fullIntakeNote", shooterIntakeNote.alongWith(intakeIntakeNote));
-        NamedCommands.registerCommand("raiseAndStopIntake", m_intake.raiseAndStopIntakeCmd().alongWith(stopIntakeIntakingNote));
+        NamedCommands.registerCommand("fullSpeakerShoot", new InstantCommand(() -> speakerShoot = true));
+        NamedCommands.registerCommand("readyAutoShoot", new InstantCommand(() -> readyAutoShoot = true)); // May need to change to a Trigger
+        NamedCommands.registerCommand("autoShoot", new InstantCommand(() -> autoShoot = true));
+        NamedCommands.registerCommand("fullIntakeNote", new InstantCommand(() -> shooterIntakingNote = true).alongWith(new InstantCommand(() -> intakeIntakingNote = true)));
+        NamedCommands.registerCommand("raiseAndStopIntake", new InstantCommand(() -> intakeIntakingNote = false));
 
         m_justShootAndLeave = new SequentialCommandGroup(m_shooter.readyShootSpeakerCommand(), m_shooter.putNoteIntoFlywheelsCommand(), new WaitCommand(5), m_straightAuto);
         // m_straightPath = new PathPlannerAuto("Straight Path Auto");
@@ -157,11 +156,19 @@ public class RobotContainer {
 
         // TODO test this once done with the other stuff
         // new Trigger(() -> m_shooter.isNoteInShooter() && DriverStation.isTeleop()).whileTrue(m_intake.noteInShooterCommand().withInterruptBehavior(InterruptionBehavior.kCancelIncoming));
-        new Trigger(() -> m_shooter.isNoteInShooter()).onTrue(stopShooterIntakingNote);
+        new Trigger(() -> m_shooter.isNoteInShooter()).onTrue(new InstantCommand(() -> shooterIntakingNote = false));
+        new Trigger(() -> m_shooter.isNoteInShooter()).onFalse(new InstantCommand(() -> {
+            readyAutoShoot = false;
+            autoShoot = false;
+        }));
         
         // Auto Triggers
+        new Trigger(() -> speakerShoot).onTrue(fullSpeakerShoot);
         new Trigger(() -> intakeIntakingNote).whileTrue(m_intake.lowerAndRunIntakeCmd());
         new Trigger(() -> shooterIntakingNote).whileTrue(m_shooter.intakeNoteCmd());
+        new Trigger(() -> readyAutoShoot).whileTrue(m_shooter.readyAutoShoot());
+        new Trigger(() -> intakeIntakingNote).onFalse(m_intake.raiseAndStopIntakeCmd());
+        new Trigger(() -> autoShoot).onTrue(m_autoShoot);
     }
 
     public Swerve getSwerve() {
