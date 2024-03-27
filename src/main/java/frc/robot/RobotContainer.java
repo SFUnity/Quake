@@ -52,8 +52,10 @@ public class RobotContainer {
     private boolean intakeIntakingNote = false;
     private boolean shooterIntakingNote = false;
     private boolean speakerShoot = false;
+    private boolean startSpeakerShoot = false;
     private boolean readyAutoShoot = false;
     private boolean autoShoot = false;
+    private boolean startAutoShoot = false;
 
     SendableChooser<Command> m_autoChooser = new SendableChooser<>();
 
@@ -101,9 +103,9 @@ public class RobotContainer {
 
         m_LEDs.setDefaultCommand(new LEDCmd(m_shooter, m_swerve, m_limelight, m_LEDs));
 
-        NamedCommands.registerCommand("fullSpeakerShoot", new InstantCommand(() -> speakerShoot = true));
-        NamedCommands.registerCommand("readyAutoShoot", new InstantCommand(() -> readyAutoShoot = true)); // May need to change to a Trigger
-        NamedCommands.registerCommand("autoShoot", new InstantCommand(() -> autoShoot = true));
+        NamedCommands.registerCommand("fullSpeakerShoot", new RunCommand(() -> startSpeakerShoot = true).until(() -> !speakerShoot));
+        NamedCommands.registerCommand("readyAutoShoot", new InstantCommand(() -> readyAutoShoot = true));
+        NamedCommands.registerCommand("autoShoot", new RunCommand(() -> startAutoShoot = true).until(() -> !autoShoot));
         NamedCommands.registerCommand("fullIntakeNote", new InstantCommand(() -> shooterIntakingNote = true).alongWith(new InstantCommand(() -> intakeIntakingNote = true)));
         NamedCommands.registerCommand("raiseAndStopIntake", new InstantCommand(() -> intakeIntakingNote = false));
 
@@ -160,15 +162,17 @@ public class RobotContainer {
         new Trigger(() -> m_shooter.isNoteInShooter()).onFalse(new InstantCommand(() -> {
             readyAutoShoot = false;
             autoShoot = false;
+            speakerShoot = false;
+            startAutoShoot = false;
         }));
         
         // Auto Triggers
-        new Trigger(() -> speakerShoot).onTrue(fullSpeakerShoot);
+        new Trigger(() -> startSpeakerShoot).onTrue(fullSpeakerShoot);
         new Trigger(() -> intakeIntakingNote).whileTrue(m_intake.lowerAndRunIntakeCmd());
         new Trigger(() -> shooterIntakingNote).whileTrue(m_shooter.intakeNoteCmd());
         new Trigger(() -> readyAutoShoot).whileTrue(m_shooter.readyAutoShoot());
         new Trigger(() -> intakeIntakingNote).onFalse(m_intake.raiseAndStopIntakeCmd());
-        new Trigger(() -> autoShoot).onTrue(m_autoShoot);
+        new Trigger(() -> startAutoShoot).onTrue(m_autoShoot);
     }
 
     public Swerve getSwerve() {

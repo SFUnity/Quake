@@ -11,8 +11,8 @@ public final class Constants {
     public static final double kTurningMotorGearRatio = 150 / 7;
     public static final double kDriveEncoderRot2Meter = kDriveMotorGearRatio * Math.PI * kWheelDiameterMeters;
     public static final double kTurningEncoderRot2Rad = kTurningMotorGearRatio * 2 * Math.PI;
-    public static final double kDriveEncoderRPM2MeterPerSec = kDriveEncoderRot2Meter / 60;
-    public static final double kTurningEncoderRPM2RadPerSec = kTurningEncoderRot2Rad / 60;
+    public static final double kDriveEncoderPercent2MeterPerSec = kDriveEncoderRot2Meter / 60;
+    public static final double kTurningEncoderPercent2RadPerSec = kTurningEncoderRot2Rad / 60;
     public static final double kPTurning = 0.25; // *
     public static final double kPDrive = 0.05; // *
     public static final double kMaxModuleSpeedMPS = 5.05; // Change for krakens
@@ -91,7 +91,7 @@ public final class Constants {
     public static final double kIntakeRaisedAngleRevRotations = 0;
     
     public static final int kIndexerMotorId = 11;
-    public static final double kIndexerIntakeSpeedPercent = 0.8;
+    public static final double kIndexerIntakeSpeedPercent = 1.0;
   }
   
   public static final class ShooterConstants {
@@ -105,16 +105,16 @@ public final class Constants {
     public static final double kSpeakerManualAngleRevRotations = -12;
     public static final double kDesiredAmpAngleRevRotations = -20;
     public static final double kSourceAngleRevRotations = -12;
-    public static final double kFeedingAngleRevRotations = -55;
+    public static final double kFeedingAngleRevRotations = -54;
     public static final double kIntakeAngleRevRotations = -55;
     
     public static final double kRollerShootingSpeedPercent = 1.0;
     
-    public static final double kFlywheelIntakeSpeedRPM = -750;
-    public static final double kAmpShootingSpeedBottomRPM = 2460;
-    public static final double kAmpShootingSpeedTopRPM = 2033;
-    public static final double kShooterDefaultSpeedRPM = 9000;
-    public static final double kShooterFeedingSpeedRPM = 9000;
+    public static final double kFlywheelIntakeSpeedVoltage = -1;
+    public static final double kAmpShootingSpeedBottomVoltage = 6;
+    public static final double kAmpShootingSpeedTopVoltage = 6;
+    public static final double kShooterDefaultSpeedVoltage = 10;
+    public static final double kShooterFeedingSpeedVoltage = 10;
     
     public static final double kShooterDistanceRangeInches = 2.0;
   }
