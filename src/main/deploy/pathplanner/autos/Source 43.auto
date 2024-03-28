@@ -79,22 +79,9 @@
                 }
               },
               {
-                "type": "sequential",
+                "type": "named",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 0.5
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "raiseAndStopIntake"
-                      }
-                    }
-                  ]
+                  "name": "raiseAndStopIntake"
                 }
               }
             ]
@@ -107,15 +94,79 @@
           }
         },
         {
-          "type": "path",
+          "type": "deadline",
           "data": {
-            "pathName": "Shooting to 3"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Shooting to 3"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 1.5
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "fullIntakeNote"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
           }
         },
         {
-          "type": "path",
+          "type": "deadline",
           "data": {
-            "pathName": "3 to Shoot Source Side"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "3 to Shoot Source Side"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "raiseAndStopIntake"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "shooterIntake"
+                      }
+                    },
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 1.0
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "readyAutoShoot"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
           }
         },
         {

@@ -98,10 +98,14 @@ public class RobotContainer {
 
         NamedCommands.registerCommand("fullSpeakerShoot", fullSpeakerShoot);
         NamedCommands.registerCommand("readyAutoShoot", m_shooter.readyAutoShoot());
-        NamedCommands.registerCommand("autoShoot", m_autoShoot);
+        NamedCommands.registerCommand("autoShoot", new RunCommand(() -> {
+            m_shooter.readyShootAmp();
+            m_shooter.setAngleMotorSpeeds();
+            m_shooter.setFlywheelMotorSpeed();
+        }, m_shooter).withTimeout(0.5).andThen(m_shooter.putNoteIntoFlywheelsCommand())); // TODO change this back to actually autoalign
         NamedCommands.registerCommand("fullIntakeNote", m_intake.lowerAndRunIntakeCmd().alongWith(m_shooter.intakeNoteCmd()));
         NamedCommands.registerCommand("shooterIntake", m_shooter.intakeNoteCmd());
-        NamedCommands.registerCommand("raiseAndStopIntake", m_intake.raiseAndStopIntakeCmd());
+        NamedCommands.registerCommand("raiseAndStopIntake", new WaitCommand(0.5).andThen(m_intake.raiseAndStopIntakeCmd()));
 
         m_justShootAndLeave = new SequentialCommandGroup(m_shooter.readyShootSpeakerCommand(), m_shooter.putNoteIntoFlywheelsCommand(), new WaitCommand(5), m_straightAuto);
         // m_straightPath = new PathPlannerAuto("Straight Path Auto");
