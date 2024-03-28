@@ -129,9 +129,9 @@ public class Shooter extends SubsystemBase {
 
         desiredAngle = speakerAngleEntry.getDouble(ShooterConstants.kSpeakerManualAngleRevRotations);
         m_anglePidController = m_shooterAngleMotor.getPIDController();
-        m_anglePidController.setP(0.05);
-        m_anglePidController.setI(0.00015);
-        m_anglePidController.setIZone(3);
+        m_anglePidController.setP(0.15);
+        // m_anglePidController.setI(0.00015);
+        // m_anglePidController.setIZone(3);
         this.setAngleMotorSpeeds();
 
         desiredSpeedBottom = 0;
