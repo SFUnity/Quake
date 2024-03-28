@@ -12,10 +12,8 @@ import com.revrobotics.Rev2mDistanceSensor.Port;
 import com.revrobotics.Rev2mDistanceSensor.Unit;
 
 import edu.wpi.first.networktables.GenericEntry;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -93,12 +91,6 @@ public class Shooter extends SubsystemBase {
     // private GenericEntry ampSpeedTopEntry = tuningTab.addPersistent("Amp Speed Top", ShooterConstants.kAmpShootingSpeedTopPercent).getEntry();
     private GenericEntry intakeAngleEntry = tuningTab.addPersistent("Intake Angle", ShooterConstants.kIntakeAngleRevRotations).getEntry();
 
-    private ShuffleboardLayout shooterAnglePidLayout = tuningTab.getLayout("Shooter PID", BuiltInLayouts.kList).withSize(2, 4);
-    private GenericEntry shooterAnglePEntry = shooterAnglePidLayout.addPersistent("P", 0.05).getEntry();
-    private GenericEntry shooterAngleIEntry = shooterAnglePidLayout.addPersistent("I", 0.00015).getEntry();
-    private GenericEntry shooterAngleDEntry = shooterAnglePidLayout.addPersistent("D", 0.0).getEntry();
-    private GenericEntry shooterAngleIZoneEntry = shooterAnglePidLayout.addPersistent("IZone", 3).getEntry();
-
     private GenericEntry readyAutoShootEntry = loggingTab.add("Ready Auto Shoot Called", false).getEntry();
     private GenericEntry feederDesiredSpeedEntry = loggingTab.add("Feeder Desired Speed", 0).getEntry();
 
@@ -170,17 +162,6 @@ public class Shooter extends SubsystemBase {
         feederCurrentEntry.setDouble(m_feederMotor.getOutputCurrent());
         shooterPivotVoltageEntry.setDouble(m_shooterAngleMotor.getBusVoltage());
         shooterPivotCurrentEntry.setDouble(m_shooterAngleMotor.getOutputCurrent());
-
-        // shooterAnglePidLayout.add("update", configurePID());
-    }
-
-    private Command configurePID() {
-        return runOnce(() -> {
-            m_anglePidController.setP(shooterAnglePEntry.getDouble(0));
-            m_anglePidController.setI(shooterAngleIEntry.getDouble(0));
-            m_anglePidController.setD(shooterAngleDEntry.getDouble(0));
-            m_anglePidController.setIZone(shooterAngleIZoneEntry.getDouble(0));
-        });
     }
 
     public boolean atDesiredAngle() {
