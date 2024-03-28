@@ -230,6 +230,10 @@ public class Shooter extends SubsystemBase {
         m_feederMotor.stopMotor();
     }
 
+    public void outtake() {
+        m_feederMotor.set(-0.5);
+    }
+
     public void stopFlywheelMotors() {
         m_shooterBottomFlywheelMotor.stopMotor();
         m_shooterTopFlywheelMotor.stopMotor();

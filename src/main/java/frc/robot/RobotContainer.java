@@ -80,6 +80,7 @@ public class RobotContainer {
                 m_shooter, 
                 m_operationsController.square(),
                 m_operationsController.circle(),
+                m_operationsController.triangle(),
                 m_operationsController.L1(),
                 m_operationsController.R1(),
                 m_operationsController.L2(),
