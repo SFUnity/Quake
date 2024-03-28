@@ -78,7 +78,7 @@
   "eventMarkers": [
     {
       "name": "Lower Intake",
-      "waypointRelativePos": 1.4,
+      "waypointRelativePos": 1.6,
       "command": {
         "type": "parallel",
         "data": {
