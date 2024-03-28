@@ -58,9 +58,6 @@ public class Shooter extends SubsystemBase {
     private GenericEntry desiredAngleEntry = loggingTab.add("Desired Shooter Angle", 0).getEntry();
     private GenericEntry distanceSensorDistanceEntry = loggingTab.add("Distance Sensor Distance", 0).getEntry();
     private GenericEntry distanceSensorRangeIsValid = loggingTab.add("Dist Sensor Range is Valid", true).getEntry();
-
-    private GenericEntry distanceSensorDistancePerMethodEntry = loggingTab.add("Distance Sensor Distance Per Method", 0).getEntry();
-    private GenericEntry distanceSensorRangeIsValidPerMethod = loggingTab.add("Dist Sensor Range is Valid Per Method", true).getEntry();
     
     private GenericEntry feederSpeedEntry = loggingTab.add("Feeder Speed", 0).getEntry(); 
     private GenericEntry feederAppliedOutputEntry = loggingTab.add("Feeder Applied Output", 0).getEntry();   
@@ -72,9 +69,7 @@ public class Shooter extends SubsystemBase {
     private GenericEntry noteInShooterEntry = driversTab.add("Note In Shooter?", false)
                                                         .withSize(5, 4)
                                                         .withPosition(5, 0)
-                                                        .getEntry();
-
-    private GenericEntry noteInShooterPerMethodEntry = loggingTab.add("Note in Shooter?", false).getEntry();                            
+                                                        .getEntry();                          
 
     private GenericEntry distanceSensorWorkingEntry = driversTab.addPersistent("Distance Sensor Working", false)
                                                                 .withWidget(BuiltInWidgets.kToggleButton)
@@ -184,10 +179,6 @@ public class Shooter extends SubsystemBase {
             m_feederMotor.set(0);
             feederDesiredSpeedEntry.setDouble(0);
         }
-
-        noteInShooterPerMethodEntry.setBoolean(isNoteInShooter());
-        distanceSensorDistancePerMethodEntry.setDouble(m_shooterDistanceSensor.GetRange());
-        distanceSensorRangeIsValidPerMethod.setBoolean(m_shooterDistanceSensor.isRangeValid());
     }
     
     public void readyShootSpeakerManual() {
