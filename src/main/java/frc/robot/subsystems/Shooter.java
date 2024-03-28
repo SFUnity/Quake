@@ -254,7 +254,7 @@ public class Shooter extends SubsystemBase {
     public Command intakeNoteCmd() {
         return run(() -> {
             intakeNote(true);
-        }).until(() -> isNoteInShooter());
+        });
     }
 
     public Command readyAutoShoot() {

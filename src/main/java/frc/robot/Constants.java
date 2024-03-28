@@ -111,8 +111,8 @@ public final class Constants {
     public static final double kRollerShootingSpeedPercent = 1.0;
     
     public static final double kFlywheelIntakeSpeedVoltage = -1;
-    public static final double kAmpShootingSpeedBottomVoltage = 6;
-    public static final double kAmpShootingSpeedTopVoltage = 6;
+    public static final double kAmpShootingSpeedBottomVoltage = 3;
+    public static final double kAmpShootingSpeedTopVoltage = 3;
     public static final double kShooterDefaultSpeedVoltage = 10;
     public static final double kShooterFeedingSpeedVoltage = 10;
     
