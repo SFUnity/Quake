@@ -232,6 +232,7 @@ public class Shooter extends SubsystemBase {
 
     public void outtake() {
         m_feederMotor.set(-0.5);
+        desiredAngle = ShooterConstants.kIntakeAngleRevRotations;
     }
 
     public void stopFlywheelMotors() {
@@ -258,7 +259,7 @@ public class Shooter extends SubsystemBase {
     public Command intakeNoteCmd() {
         return run(() -> {
             intakeNote(true);
-        });
+        }).until(() -> isNoteInShooter());
     }
 
     public Command readyAutoShoot() {
