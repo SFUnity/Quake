@@ -141,6 +141,7 @@ public final class Constants {
     public static final int kClimberMotorIdR = 13; //TODO needs to be updated with correct values
     public static final double kExtendHeightRotations = 10.0; //TODO needs to be updated with correct values
     public static final double kRetractHeightRotations = 0.0; //TODO needs to be updated with correct values
+    public static final double kPositionTolerance = 0.1;
   }
   
   public static final class LEDConstants {
