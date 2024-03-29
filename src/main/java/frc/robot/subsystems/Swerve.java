@@ -24,10 +24,8 @@ import edu.wpi.first.networktables.DoubleArrayTopic;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.FieldObject2d;
@@ -123,13 +121,6 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
     private double pastTurnToTagDEntry = turnToTagDEntry.getDouble(0.0);
     private double pastTurnToTagIZoneEntry = turnToTagIZoneEntry.getDouble(0.0);
 
-    private ShuffleboardLayout autoPDLayout = tuningTab.getLayout("Auto PD", BuiltInLayouts.kList).withSize(2, 4);
-    private GenericEntry autoTranslationPEntry = autoPDLayout.addPersistent("Auto Translation P", 5).getEntry();
-    private GenericEntry autoTranslationDEntry = autoPDLayout.addPersistent("Auto Translation D", 0.0).getEntry();
-
-    private GenericEntry autoRotationPEntry = autoPDLayout.addPersistent("Auto Rotation P", 5).getEntry();
-    private GenericEntry autoRotationDEntry = autoPDLayout.addPersistent("Auto Rotation D", 0.009).getEntry();
-
     private GenericEntry frontLeftDriveVoltageEntry = loggingTab.add("flDriveVoltage", 0.00).getEntry();
     private GenericEntry frontRightDriveVoltageEntry = loggingTab.add("frDriveVoltage", 0.00).getEntry();
     private GenericEntry backLeftDriveVoltageEntry = loggingTab.add("blDriveVoltage", 0.00).getEntry();
@@ -178,8 +169,8 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
             this::getRobotRelativeChassisSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
             this::driveRobotRelative, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
             new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
-                    new PIDConstants(autoTranslationPEntry.getDouble(5), 0.0, autoTranslationDEntry.getDouble(0)), // Translation PID constants
-                    new PIDConstants(autoRotationPEntry.getDouble(5), 0.0, autoRotationDEntry.getDouble(0.009)), // Rotation PID constants
+                    new PIDConstants(5, 0.0, 0), // Translation PID constants
+                    new PIDConstants(5, 0.0, 0.009), // Rotation PID constants
                     ModuleConstants.kMaxModuleSpeedMPS, // Max module speed, in m/s
                     0.3, // Drive base radius in meters. Distance from robot center to furthest module.
                     new ReplanningConfig(false, false) // Default path replanning config. See the API for the options here
@@ -197,8 +188,6 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
             },
             this // Reference to this subsystem to set requirements
         );
-
-        autoPDLayout.add("Update", configureAutoBuilder());
     }
 
     @Override
@@ -250,34 +239,6 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
             pastTurnToTagIZoneEntry = currentIZone;
             System.out.println("New I Zone: " + currentIZone);
         }
-    }
-
-    private Command configureAutoBuilder() {
-        return runOnce(() -> {AutoBuilder.configureHolonomic(
-            this::getPose, // Robot pose supplier
-            this::resetPose, // Method to reset odometry (will be called if your auto has a starting pose)
-            this::getRobotRelativeChassisSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
-            this::driveRobotRelative, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
-            new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
-                    new PIDConstants(autoTranslationPEntry.getDouble(5), 0.0, autoTranslationDEntry.getDouble(0)), // Translation PID constants
-                    new PIDConstants(autoRotationPEntry.getDouble(5), 0.0, autoRotationDEntry.getDouble(0.009)), // Rotation PID constants
-                    ModuleConstants.kMaxModuleSpeedMPS, // Max module speed, in m/s
-                    0.3, // Drive base radius in meters. Distance from robot center to furthest module.
-                    new ReplanningConfig(false, false) // Default path replanning config. See the API for the options here
-            ),
-            () -> {
-                // Boolean supplier that controls when the path will be mirrored for the red alliance
-                // This will flip the path being followed to the red side of the field.
-                // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
-
-                var alliance = DriverStation.getAlliance();
-                if (alliance.isPresent()) {
-                    return alliance.get() == DriverStation.Alliance.Red;
-                }
-                return false;
-            },
-            this // Reference to this subsystem to set requirements
-        );});
     }
 
     public void resetHeading() {

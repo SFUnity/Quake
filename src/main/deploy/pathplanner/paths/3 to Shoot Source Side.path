@@ -49,7 +49,7 @@
   "eventMarkers": [
     {
       "name": "Raise Intake",
-      "waypointRelativePos": 0.45,
+      "waypointRelativePos": 0.3,
       "command": {
         "type": "parallel",
         "data": {
@@ -63,27 +63,10 @@
           ]
         }
       }
-    },
-    {
-      "name": "Ready Auto Shoot",
-      "waypointRelativePos": 1.75,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "readyAutoShoot"
-              }
-            }
-          ]
-        }
-      }
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 3.0,
+    "maxVelocity": 2.5,
     "maxAcceleration": 2.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0

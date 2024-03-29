@@ -91,6 +91,9 @@ public class LimelightSubsystem extends SubsystemBase {
   }
 
   public boolean alignedWithTag() {
+    if (tvEntry.getDouble(0) == 0) {
+      System.out.println("No tag in sight");
+    }
     return Math.abs(getTargetOffsetX()) < m_toleranceProportionEntry.getDouble(100) / getDistance();
   }
 

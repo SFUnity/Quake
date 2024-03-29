@@ -54,8 +54,8 @@
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "Full Intake",
-      "waypointRelativePos": 1.15,
+      "name": "Lower intake",
+      "waypointRelativePos": 1.45,
       "command": {
         "type": "parallel",
         "data": {
@@ -72,7 +72,7 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 3.0,
+    "maxVelocity": 2.5,
     "maxAcceleration": 2.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0

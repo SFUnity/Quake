@@ -32,18 +32,35 @@
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "Raise intake and Ready Shoot",
-      "waypointRelativePos": 0.8,
+      "name": "Shooter intake and then raise and stop",
+      "waypointRelativePos": 0,
       "command": {
-        "type": "parallel",
+        "type": "sequential",
         "data": {
           "commands": [
             {
               "type": "named",
               "data": {
-                "name": "raiseAndStopIntake"
+                "name": "shooterIntake"
               }
             },
+            {
+              "type": "named",
+              "data": {
+                "name": "raiseAndStopIntake"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "ready auto shoot",
+      "waypointRelativePos": 0.8,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
             {
               "type": "named",
               "data": {

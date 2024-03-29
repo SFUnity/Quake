@@ -26,7 +26,7 @@
         {
           "type": "named",
           "data": {
-            "name": "autoShoot"
+            "name": "finishIntakingThenShoot"
           }
         },
         {
@@ -38,7 +38,7 @@
         {
           "type": "named",
           "data": {
-            "name": "autoShoot"
+            "name": "finishIntakingThenShoot"
           }
         },
         {
@@ -50,7 +50,7 @@
         {
           "type": "named",
           "data": {
-            "name": "autoShoot"
+            "name": "finishIntakingThenShoot"
           }
         },
         {

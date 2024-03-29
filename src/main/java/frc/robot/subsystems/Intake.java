@@ -33,7 +33,7 @@ public class Intake extends SubsystemBase{
     private GenericEntry intakeRollersCurrentEntry = loggingTab.add("intakeRollersOutputCurrent", 0.00).getEntry();
     private GenericEntry indexerVoltageEntry = loggingTab.add("indexerVoltage", 0.00).getEntry();
     private GenericEntry indexerCurrentEntry = loggingTab.add("indexerOutputCurrent", 0.00).getEntry();
-    private GenericEntry indexerSpeedEntry = tuningTab.addPersistent("Indexer Speed", IntakeConstants.kIndexerIntakeSpeedPercent).getEntry();
+    private GenericEntry intakeLoweredAngleEntry = tuningTab.addPersistent("Intake Lowered Angle", IntakeConstants.kIntakeLoweredAngleRevRotations).getEntry();
 
     public Intake(Shooter shooter) {
         m_intakeAngleMotor = new CANSparkMax(IntakeConstants.kIntakeAngleMotorId, MotorType.kBrushless);
@@ -65,11 +65,11 @@ public class Intake extends SubsystemBase{
     }
 
     public void runIndexer() {
-        m_indexerMotor.set(indexerSpeedEntry.getDouble(0));
+        m_indexerMotor.set(IntakeConstants.kIndexerIntakeSpeedPercent);
     }
 
     public void indexerOuttake() {
-        m_indexerMotor.set(-indexerSpeedEntry.getDouble(0));
+        m_indexerMotor.set(-IntakeConstants.kIndexerIntakeSpeedPercent);
     }
 
     /**
@@ -84,7 +84,7 @@ public class Intake extends SubsystemBase{
      * sets the intake motors to speed
      */
     public void lowerAndRunIntake() {
-        m_anglePidController.setReference(IntakeConstants.kIntakeLoweredAngleRevRotations, ControlType.kPosition);
+        m_anglePidController.setReference(intakeLoweredAngleEntry.getDouble(IntakeConstants.kIntakeLoweredAngleRevRotations), ControlType.kPosition);
         m_intakeMotor.set(IntakeConstants.kIntakeRollerSpeedPercent);
     }
 

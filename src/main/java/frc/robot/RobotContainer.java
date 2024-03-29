@@ -44,7 +44,12 @@ public class RobotContainer {
 
             m_swerve.setModuleStates(moduleStates);
         }, m_swerve).until(() -> m_limelight.alignedWithTag());
-    private final Command m_autoShootStopped = m_autoAlign.alongWith(m_shooter.readyAutoShoot()).andThen(m_shooter.putNoteIntoFlywheelsCommand());
+    private final Command m_autoShoot = m_autoAlign.alongWith(m_shooter.readyAutoShoot()).andThen(m_shooter.autoShoot());
+    // private final Command m_testShoot = new RunCommand(() -> {
+    //         m_shooter.readyShootAmp();
+    //         m_shooter.setAngleMotorSpeeds();
+    //         m_shooter.setFlywheelMotorSpeed();
+    //     }, m_shooter).withTimeout(0.5).andThen(m_shooter.putNoteIntoFlywheelsCommand());
 
     private final Command m_justShootAndLeave;
     // private final Command m_straightPath;
@@ -80,6 +85,7 @@ public class RobotContainer {
                 m_shooter, 
                 m_operationsController.square(),
                 m_operationsController.circle(),
+                m_operationsController.triangle(),
                 m_operationsController.L1(),
                 m_operationsController.R1(),
                 m_operationsController.L2(),
@@ -98,10 +104,11 @@ public class RobotContainer {
 
         NamedCommands.registerCommand("fullSpeakerShoot", fullSpeakerShoot);
         NamedCommands.registerCommand("readyAutoShoot", m_shooter.readyAutoShoot());
-        NamedCommands.registerCommand("autoShootStopped", m_autoShootStopped);
-        NamedCommands.registerCommand("fullIntakeNote", new ParallelDeadlineGroup(m_shooter.intakeNoteCmd(), m_intake.lowerAndRunIntakeCmd()));
-        NamedCommands.registerCommand("raiseAndStopIntake", m_intake.raiseAndStopIntakeCmd());
-        NamedCommands.registerCommand("Straight", m_straightAuto);
+        NamedCommands.registerCommand("autoShoot", m_autoShoot);
+        NamedCommands.registerCommand("fullIntakeNote", m_intake.lowerAndRunIntakeCmd().alongWith(m_shooter.intakeNoteCmd()));
+        NamedCommands.registerCommand("shooterIntake", m_shooter.intakeNoteCmd());
+        NamedCommands.registerCommand("raiseAndStopIntake", new WaitCommand(0.5).andThen(m_intake.raiseAndStopIntakeCmd()));
+        NamedCommands.registerCommand("finishIntakingThenShoot", m_shooter.intakeNoteCmd().andThen(m_autoShoot));
 
         m_justShootAndLeave = new SequentialCommandGroup(m_shooter.readyShootSpeakerCommand(), m_shooter.putNoteIntoFlywheelsCommand(), new WaitCommand(5), m_straightAuto);
         // m_straightPath = new PathPlannerAuto("Straight Path Auto");
@@ -115,7 +122,9 @@ public class RobotContainer {
         m_autoChooser.addOption("Center CBA2", new PathPlannerAuto("Center CBA2"));
         m_autoChooser.addOption("Center CB3", new PathPlannerAuto("Center CB3"));
         m_autoChooser.addOption("Source 43", new PathPlannerAuto("Source 43"));
+        m_autoChooser.addOption("Source 53", new PathPlannerAuto("Source 53"));
         m_autoChooser.addOption("Amp A1", new PathPlannerAuto("Amp A1"));
+        m_autoChooser.addOption("Amp 12", new PathPlannerAuto("Amp 12"));
         m_autoChooser.addOption("Just Shoot", fullSpeakerShoot);
         m_autoChooser.addOption("Just Shoot and Leave", m_justShootAndLeave);
         // m_autoChooser.addOption("Straight Path", m_straightPath);
@@ -150,7 +159,7 @@ public class RobotContainer {
         new Trigger(m_operationsController.povDown()).onTrue(new InstantCommand(() -> m_limelight.setPipeline(1)));
 
         // TODO test this once done with the other stuff
-        // new Trigger(() -> m_shooter.isNoteInShooter()).whileTrue(m_intake.noteInShooterCommand().withInterruptBehavior(InterruptionBehavior.kCancelIncoming));
+        // new Trigger(() -> m_shooter.isNoteInShooter() && DriverStation.isTeleop()).whileTrue(m_intake.noteInShooterCommand().withInterruptBehavior(InterruptionBehavior.kCancelIncoming));
     }
 
     public Swerve getSwerve() {

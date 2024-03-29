@@ -7,16 +7,17 @@ import frc.robot.subsystems.Shooter;
 
 public class ShooterCmd extends Command {
     private final Shooter m_shooter;
-    private final Trigger leftBumper, rightBumper, square, circle, leftTrigger, rightTrigger;
+    private final Trigger leftBumper, rightBumper, square, circle, triangle, leftTrigger, rightTrigger;
     private GenericEntry intakeWorkingEntry;
     private boolean buttonPressedRecently = false, autoAligning = false;
 
-    public ShooterCmd(Shooter shooter, Trigger square, Trigger circle, Trigger leftBumper, Trigger rightBumper, Trigger leftTrigger, Trigger rightTrigger, GenericEntry intakeWorkingEntryEntry) {
+    public ShooterCmd(Shooter shooter, Trigger square, Trigger circle, Trigger triangle, Trigger leftBumper, Trigger rightBumper, Trigger leftTrigger, Trigger rightTrigger, GenericEntry intakeWorkingEntryEntry) {
         m_shooter = shooter;
         this.leftBumper = leftBumper;
         this.rightBumper = rightBumper;
         this.square = square;
         this.circle = circle;
+        this.triangle = triangle;
         this.leftTrigger = leftTrigger;
         this.rightTrigger = rightTrigger; 
         this.intakeWorkingEntry = intakeWorkingEntryEntry;
@@ -62,6 +63,8 @@ public class ShooterCmd extends Command {
             m_shooter.intakeNote(intakeWorkingEntry.getBoolean(true));
         } else if (circle.getAsBoolean()) {
             m_shooter.putNoteIntoFlywheels();
+        } else if (triangle.getAsBoolean()) {
+            m_shooter.outtake();
         } else {
             m_shooter.stopFlywheelMotors();
             m_shooter.stopRollerMotors();
