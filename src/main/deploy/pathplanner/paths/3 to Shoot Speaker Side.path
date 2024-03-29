@@ -64,6 +64,23 @@
           ]
         }
       }
+    },
+    {
+      "name": "Finish Intaking",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "shooterIntake"
+              }
+            }
+          ]
+        }
+      }
     }
   ],
   "globalConstraints": {

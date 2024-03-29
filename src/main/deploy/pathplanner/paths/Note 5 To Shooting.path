@@ -35,13 +35,36 @@
       "name": "finish intaking",
       "waypointRelativePos": 0,
       "command": {
-        "type": "parallel",
+        "type": "sequential",
         "data": {
           "commands": [
             {
               "type": "named",
               "data": {
                 "name": "shooterIntake"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "raiseAndStopIntake"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "ready shoot",
+      "waypointRelativePos": 0.7,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "readyAutoShoot"
               }
             }
           ]
