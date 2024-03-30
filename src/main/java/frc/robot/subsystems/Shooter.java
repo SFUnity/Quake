@@ -189,7 +189,7 @@ public class Shooter extends SubsystemBase {
         double heightOfTarget = LimelightConstants.kHeightOfSpeakerInches;
         double angleRad = Math.atan(heightOfTarget / m_limelight.getDistance());
         double angleDeg = Math.toDegrees(angleRad);
-        desiredAngle = angleDeg + autoAngleOffsetEntry.getDouble(41);
+        desiredAngle = angleDeg + ShooterConstants.kSpeakerAngleOffsetRevRotations;
     }
 
     public void readyShootAmp() {
