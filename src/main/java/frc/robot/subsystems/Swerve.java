@@ -386,11 +386,11 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
      */
     // Still a little fast
     public double turnToTagSpeed(double xOffset) {
-        if (m_limelight.alignedWithTag()) {
-            return 0;
-        } else {
+        // if (m_limelight.alignedWithTag()) {
+        //     return 0;
+        // } else {
             return turnToTagPID.calculate(xOffset, 0);
-        }
+        // }
     }
 
     /**

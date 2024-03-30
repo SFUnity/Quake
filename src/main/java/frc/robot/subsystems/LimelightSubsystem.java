@@ -18,9 +18,6 @@ public class LimelightSubsystem extends SubsystemBase {
   public ShuffleboardTab limelightTab = Shuffleboard.getTab("Limelight");
   public ShuffleboardTab swerveTab = Shuffleboard.getTab("Swerve Subsystem");
 
-  private ShuffleboardTab tuningTab = Shuffleboard.getTab("Tuning");
-  private GenericEntry m_toleranceProportionEntry = tuningTab.add("Tolerance Proportion", 100).getEntry();
-
   //Declaring objects that are used for retrieving data from the limelight.
   private GenericEntry txEntry = limelightTab.add("tx", 0).getEntry();
   private GenericEntry txEntry2 = swerveTab.add("tx", 0).withPosition(6, 0).getEntry();
@@ -94,7 +91,7 @@ public class LimelightSubsystem extends SubsystemBase {
     if (tvEntry.getDouble(0) == 0) {
       System.out.println("No tag in sight");
     }
-    return Math.abs(getTargetOffsetX()) < m_toleranceProportionEntry.getDouble(100) / getDistance();
+    return Math.abs(getTargetOffsetX()) < 2;
   }
 
   /**
