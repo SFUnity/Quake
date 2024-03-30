@@ -78,7 +78,6 @@ public class Shooter extends SubsystemBase {
                                                                 .getEntry();
                                                                 
     private GenericEntry autoAngleOffsetEntry = tuningTab.addPersistent("auto angle offset", -62).getEntry();
-    private GenericEntry speakerAngleEntry = tuningTab.addPersistent("Speaker Angle", ShooterConstants.kSpeakerManualAngleRevRotations).getEntry();
     // private GenericEntry ampAngleEntry = tuningTab.addPersistent("Amp Angle", ShooterConstants.kDesiredAmpAngleRevRotations).getEntry();
     private GenericEntry sourceAngleEntry = tuningTab.addPersistent("Source Angle", ShooterConstants.kSourceAngleRevRotations).getEntry();
     // private GenericEntry ampSpeedBottomEntry = tuningTab.addPersistent("Amp Speed Bottom", ShooterConstants.kAmpShootingSpeedBottomPercent).getEntry();
@@ -113,7 +112,7 @@ public class Shooter extends SubsystemBase {
         m_topFlywheelEncoder = m_shooterTopFlywheelMotor.getEncoder();
         m_feederEncoder = m_feederMotor.getEncoder();
 
-        desiredAngle = speakerAngleEntry.getDouble(ShooterConstants.kSpeakerManualAngleRevRotations);
+        desiredAngle = ShooterConstants.kSpeakerManualAngleRevRotations;
         m_anglePidController = m_shooterAngleMotor.getPIDController();
         m_anglePidController.setP(0.15);
         // m_anglePidController.setI(0.00015);
@@ -181,7 +180,7 @@ public class Shooter extends SubsystemBase {
     public void readyShootSpeakerManual() {
         desiredSpeedBottom = ShooterConstants.kShooterDefaultSpeedVoltage;
         desiredSpeedTop = ShooterConstants.kShooterDefaultSpeedVoltage;
-        desiredAngle = speakerAngleEntry.getDouble(ShooterConstants.kSpeakerManualAngleRevRotations);
+        desiredAngle = ShooterConstants.kSpeakerManualAngleRevRotations;
     }
 
     public void readyShootSpeakerAutomatic() {
