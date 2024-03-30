@@ -17,6 +17,7 @@ public class LimelightSubsystem extends SubsystemBase {
 
   public ShuffleboardTab limelightTab = Shuffleboard.getTab("Limelight");
   public ShuffleboardTab swerveTab = Shuffleboard.getTab("Swerve Subsystem");
+  // private ShuffleboardTab tuningTab = Shuffleboard.getTab("Tuning");
 
   //Declaring objects that are used for retrieving data from the limelight.
   private GenericEntry txEntry = limelightTab.add("tx", 0).getEntry();
@@ -27,6 +28,8 @@ public class LimelightSubsystem extends SubsystemBase {
   private GenericEntry tidEntry = limelightTab.add("tid", 0).getEntry();
   private GenericEntry distanceEntry = limelightTab.add("distance", 0).getEntry();
   private GenericEntry pipelineEntry = limelightTab.add("pipeline", 0).getEntry();
+
+  // private GenericEntry autoAngleOffsetEntry = tuningTab.addPersistent("auto angle offset", 0).getEntry();
 
   private static NetworkTable table;
   private static NetworkTableEntry tx, ty, tv, ta, tid, priorityid, pipeline;
@@ -100,7 +103,7 @@ public class LimelightSubsystem extends SubsystemBase {
    */
   public double getTargetOffsetX()
   {
-    return tx.getDouble(0.0);
+    return tx.getDouble(0.0) + 3;
   }
 
   /**

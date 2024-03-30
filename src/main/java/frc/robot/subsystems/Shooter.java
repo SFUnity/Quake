@@ -77,7 +77,6 @@ public class Shooter extends SubsystemBase {
                                                                 .withPosition(2, 2)
                                                                 .getEntry();
                                                                 
-    private GenericEntry autoAngleOffsetEntry = tuningTab.addPersistent("auto angle offset", -62).getEntry();
     // private GenericEntry ampAngleEntry = tuningTab.addPersistent("Amp Angle", ShooterConstants.kDesiredAmpAngleRevRotations).getEntry();
     private GenericEntry sourceAngleEntry = tuningTab.addPersistent("Source Angle", ShooterConstants.kSourceAngleRevRotations).getEntry();
     // private GenericEntry ampSpeedBottomEntry = tuningTab.addPersistent("Amp Speed Bottom", ShooterConstants.kAmpShootingSpeedBottomPercent).getEntry();
@@ -177,13 +176,13 @@ public class Shooter extends SubsystemBase {
     }
     
     public void readyShootSpeakerManual() {
-        desiredSpeedBottom = ShooterConstants.kShooterDefaultSpeedVoltage;
+        desiredSpeedBottom = ShooterConstants.kShooterDefaultSpeedVoltage * 1.05;
         desiredSpeedTop = ShooterConstants.kShooterDefaultSpeedVoltage;
         desiredAngle = ShooterConstants.kSpeakerManualAngleRevRotations;
     }
 
     public void readyShootSpeakerAutomatic() {
-        desiredSpeedBottom = ShooterConstants.kShooterDefaultSpeedVoltage;
+        desiredSpeedBottom = ShooterConstants.kShooterDefaultSpeedVoltage * 1.05;
         desiredSpeedTop = ShooterConstants.kShooterDefaultSpeedVoltage;
         
         double heightOfTarget = LimelightConstants.kHeightOfSpeakerInches;
