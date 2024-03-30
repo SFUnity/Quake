@@ -77,10 +77,7 @@ public class Shooter extends SubsystemBase {
                                                                 .withPosition(2, 2)
                                                                 .getEntry();
                                                                 
-    // private GenericEntry ampAngleEntry = tuningTab.addPersistent("Amp Angle", ShooterConstants.kDesiredAmpAngleRevRotations).getEntry();
     private GenericEntry sourceAngleEntry = tuningTab.addPersistent("Source Angle", ShooterConstants.kSourceAngleRevRotations).getEntry();
-    // private GenericEntry ampSpeedBottomEntry = tuningTab.addPersistent("Amp Speed Bottom", ShooterConstants.kAmpShootingSpeedBottomPercent).getEntry();
-    // private GenericEntry ampSpeedTopEntry = tuningTab.addPersistent("Amp Speed Top", ShooterConstants.kAmpShootingSpeedTopPercent).getEntry();
 
     private GenericEntry readyAutoShootEntry = loggingTab.add("Ready Auto Shoot Called", false).getEntry();
     private GenericEntry feederDesiredSpeedEntry = loggingTab.add("Feeder Desired Speed", 0).getEntry();
@@ -161,8 +158,8 @@ public class Shooter extends SubsystemBase {
 
     public void intakeNote(boolean intakeWorking) {
         if (!intakeWorking) {
-            m_bottomFlywheePidController.setReference(ShooterConstants.kFlywheelIntakeSpeedVoltage, ControlType.kVelocity);
-            m_topFlywheePidController.setReference(ShooterConstants.kFlywheelIntakeSpeedVoltage, ControlType.kVelocity);
+            m_bottomFlywheePidController.setReference(ShooterConstants.kFlywheelIntakeSpeedVoltage, ControlType.kVoltage);
+            m_topFlywheePidController.setReference(ShooterConstants.kFlywheelIntakeSpeedVoltage, ControlType.kVoltage);
         }
         m_anglePidController.setReference(intakeWorking ? ShooterConstants.kIntakeAngleRevRotations : sourceAngleEntry.getDouble(ShooterConstants.kSourceAngleRevRotations), ControlType.kPosition);
 
