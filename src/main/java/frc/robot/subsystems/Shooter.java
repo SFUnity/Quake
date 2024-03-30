@@ -78,7 +78,6 @@ public class Shooter extends SubsystemBase {
                                                                 .getEntry();
                                                                 
     private GenericEntry autoAngleOffsetEntry = tuningTab.addPersistent("auto angle offset", -62).getEntry();
-    private GenericEntry feederSpeedSetterEntry = tuningTab.addPersistent("Feeder Speed", 0.13).getEntry();   
     private GenericEntry speakerAngleEntry = tuningTab.addPersistent("Speaker Angle", ShooterConstants.kSpeakerManualAngleRevRotations).getEntry();
     // private GenericEntry ampAngleEntry = tuningTab.addPersistent("Amp Angle", ShooterConstants.kDesiredAmpAngleRevRotations).getEntry();
     private GenericEntry sourceAngleEntry = tuningTab.addPersistent("Source Angle", ShooterConstants.kSourceAngleRevRotations).getEntry();
@@ -172,9 +171,8 @@ public class Shooter extends SubsystemBase {
         m_anglePidController.setReference(intakeWorking ? intakeAngleEntry.getDouble(ShooterConstants.kIntakeAngleRevRotations) : sourceAngleEntry.getDouble(ShooterConstants.kSourceAngleRevRotations), ControlType.kPosition);
 
         if (!isNoteInShooter() && distanceSensorWorking()) {
-            double speed = feederSpeedSetterEntry.getDouble(0.13);
-            m_feederMotor.set(intakeWorking ? speed : -speed);
-            feederDesiredSpeedEntry.setDouble(speed);
+            m_feederMotor.set(intakeWorking ? ShooterConstants.kFeederIntakingSpeedPercent : -ShooterConstants.kFeederIntakingSpeedPercent);
+            feederDesiredSpeedEntry.setDouble(ShooterConstants.kFeederIntakingSpeedPercent);
         } else {
             m_feederMotor.set(0);
             feederDesiredSpeedEntry.setDouble(0);

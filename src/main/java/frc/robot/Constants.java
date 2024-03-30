@@ -108,7 +108,8 @@ public final class Constants {
     public static final double kFeedingAngleRevRotations = -54;
     public static final double kIntakeAngleRevRotations = -55;
     
-    public static final double kRollerShootingSpeedPercent = 1.0;
+    public static final double kFeederShootingSpeedPercent = 1.0;
+    public static final double kFeederIntakingSpeedPercent = 0.13;
     
     public static final double kFlywheelIntakeSpeedVoltage = -1;
     public static final double kAmpShootingSpeedBottomVoltage = 3;
