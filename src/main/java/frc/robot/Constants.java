@@ -132,8 +132,6 @@ public final class Constants {
 
     // height of speaker
     public static final double kHeightOfSpeakerInches = 79.2;
-
-    public static int speakerTagID = 5;
   }
   
   public static final class ClimberConstants {
