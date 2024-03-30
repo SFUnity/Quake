@@ -79,9 +79,9 @@ public class Shooter extends SubsystemBase {
     private GenericEntry readyAutoShootEntry = loggingTab.add("Ready Auto Shoot Called", false).getEntry();
     private GenericEntry feederDesiredSpeedEntry = loggingTab.add("Feeder Desired Speed", 0).getEntry();
 
-    private final LimelightSubsystem m_limelight;
+    private final Limelight m_limelight;
 
-    public Shooter(LimelightSubsystem limelight) {        
+    public Shooter(Limelight limelight) {        
         m_shooterDistanceSensor = new Rev2mDistanceSensor(Port.kOnboard);
         m_shooterDistanceSensor.setDistanceUnits(Unit.kInches);
         m_shooterDistanceSensor.setAutomaticMode(true);

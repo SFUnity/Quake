@@ -20,7 +20,7 @@ import frc.robot.subsystems.*;
 
 
 public class RobotContainer {
-    public final LimelightSubsystem m_limelight = LimelightSubsystem.getInstance();
+    public final Limelight m_limelight = Limelight.getInstance();
     private final Swerve m_swerve = new Swerve();
     private final LEDs m_LEDs = new LEDs();
     private final Shooter m_shooter = new Shooter(m_limelight);
@@ -166,7 +166,7 @@ public class RobotContainer {
         return m_swerve;
     }
 
-    public LimelightSubsystem getLimelight() {
+    public Limelight getLimelight() {
         return m_limelight;
     }
 

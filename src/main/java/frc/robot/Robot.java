@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Constants.LimelightConstants;
-import frc.robot.subsystems.LimelightSubsystem;
+import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Swerve;
 import edu.wpi.first.wpilibj.RobotBase;
 
@@ -19,7 +19,7 @@ public class Robot extends TimedRobot {
   private RobotContainer m_robotContainer;
 
   private Swerve m_swerve;
-  private LimelightSubsystem m_limelight;
+  private Limelight m_limelight;
 
   // Git info logging
   StringLogEntry entryGitSha = new StringLogEntry(DataLogManager.getLog(), "/Metadata/GitSHA");

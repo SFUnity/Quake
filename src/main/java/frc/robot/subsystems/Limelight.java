@@ -11,9 +11,9 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
 // import frc.robot.Constants.DriveConstants;
 
-public class LimelightSubsystem extends SubsystemBase {
+public class Limelight extends SubsystemBase {
 
-  private static LimelightSubsystem instance = null;
+  private static Limelight instance = null;
 
   public ShuffleboardTab limelightTab = Shuffleboard.getTab("Limelight");
   public ShuffleboardTab swerveTab = Shuffleboard.getTab("Swerve Subsystem");
@@ -38,7 +38,7 @@ public class LimelightSubsystem extends SubsystemBase {
 
   private static double x, y, v, a, id;
 
-  private LimelightSubsystem ()
+  private Limelight ()
   {
     table = NetworkTableInstance.getDefault().getTable("limelight");
     
@@ -145,10 +145,10 @@ public class LimelightSubsystem extends SubsystemBase {
    * Method for other classes to use this class' methods.
    * @return the limelight instance object.
    */
-  public static LimelightSubsystem getInstance()
+  public static Limelight getInstance()
   {
     if (instance == null)
-      instance = new LimelightSubsystem();
+      instance = new Limelight();
     
     return instance;
   }
