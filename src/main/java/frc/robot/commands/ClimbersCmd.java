@@ -2,15 +2,15 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.Climbers;
 
-public class ClimberCmd extends Command {
-    private final Climber m_climber;
+public class ClimbersCmd extends Command {
+    private final Climbers m_climber;
     private final Trigger povUp, povDown;
     private boolean extending = false;
     private boolean retracting = false;
 
-    public ClimberCmd(Climber climber, Trigger povUp, Trigger povDown) {
+    public ClimbersCmd(Climbers climber, Trigger povUp, Trigger povDown) {
         m_climber = climber;
         this.povUp = povUp;
         this.povDown = povDown;

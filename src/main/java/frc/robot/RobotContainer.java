@@ -25,6 +25,7 @@ public class RobotContainer {
     private final LEDs m_LEDs = new LEDs();
     private final Shooter m_shooter = new Shooter(m_limelight);
     private final Intake m_intake = new Intake(m_shooter);
+    private final Climbers m_climbers = new Climbers();
 
     private final CommandXboxController m_driverController = new CommandXboxController(
                     ControllerConstants.kDriverControllerId);
