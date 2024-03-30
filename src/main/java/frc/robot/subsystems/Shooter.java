@@ -66,14 +66,14 @@ public class Shooter extends SubsystemBase {
     private GenericEntry desiredSpeedTopEntry = loggingTab.add("Desired Speed Top", 0).getEntry();
     
     private GenericEntry noteInShooterEntry = driversTab.add("Note In Shooter?", false)
-                                                        .withSize(5, 4)
-                                                        .withPosition(5, 0)
+                                                        .withSize(2, 1)
+                                                        .withPosition(9, 2)
                                                         .getEntry();                          
 
     private GenericEntry distanceSensorWorkingEntry = driversTab.addPersistent("Distance Sensor Working", false)
                                                                 .withWidget(BuiltInWidgets.kToggleButton)
-                                                                .withSize(3, 2)
-                                                                .withPosition(2, 2)
+                                                                .withSize(3, 3)
+                                                                .withPosition(5, 0)
                                                                 .getEntry();
                                                                 
     private GenericEntry readyAutoShootEntry = loggingTab.add("Ready Auto Shoot Called", false).getEntry();

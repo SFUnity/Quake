@@ -24,7 +24,7 @@ public class Intake extends SubsystemBase{
     private final SparkPIDController m_anglePidController;
 
     private ShuffleboardTab loggingTab = Shuffleboard.getTab("Logging");
-    private ShuffleboardTab tuningTab = Shuffleboard.getTab("Tuning");
+    private ShuffleboardTab driversTab = Shuffleboard.getTab("Drivers");
     private GenericEntry angleEntry = loggingTab.add("Intake Angle", 0).getEntry();
 
     private GenericEntry intakePivotVoltageEntry = loggingTab.add("intakePivotVoltage", 0.00).getEntry();
@@ -33,7 +33,11 @@ public class Intake extends SubsystemBase{
     private GenericEntry intakeRollersCurrentEntry = loggingTab.add("intakeRollersOutputCurrent", 0.00).getEntry();
     private GenericEntry indexerVoltageEntry = loggingTab.add("indexerVoltage", 0.00).getEntry();
     private GenericEntry indexerCurrentEntry = loggingTab.add("indexerOutputCurrent", 0.00).getEntry();
-    private GenericEntry intakeLoweredAngleEntry = tuningTab.addPersistent("Intake Lowered Angle", IntakeConstants.kIntakeLoweredAngleRevRotations).getEntry();
+
+    private GenericEntry intakeLoweredAngleEntry = driversTab.addPersistent("Intake Lowered Angle", IntakeConstants.kIntakeLoweredAngleRevRotations)
+                                                             .withSize(2, 1)
+                                                             .withPosition(9, 0)
+                                                             .getEntry();
 
     public Intake(Shooter shooter) {
         m_intakeAngleMotor = new CANSparkMax(IntakeConstants.kIntakeAngleMotorId, MotorType.kBrushless);

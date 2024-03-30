@@ -63,7 +63,7 @@ public class RobotContainer {
     private ShuffleboardTab driversTab = Shuffleboard.getTab("Drivers");
     private GenericEntry intakeWorkingEntry = driversTab.add("Intake Working", true)
                                                         .withWidget(BuiltInWidgets.kToggleButton)
-                                                        .withSize(3, 2)
+                                                        .withSize(3, 3)
                                                         .withPosition(2, 0)
                                                         .getEntry();                                                  
 
