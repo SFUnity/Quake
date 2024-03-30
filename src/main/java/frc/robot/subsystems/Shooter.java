@@ -162,7 +162,6 @@ public class Shooter extends SubsystemBase {
         return m_angleEncoder.getPosition() <= desiredAngle + 1 || m_angleEncoder.getPosition() >= desiredAngle - 1;
     }
 
-    // TODO optimize after experimentation
     public void intakeNote(boolean intakeWorking) {
         if (!intakeWorking) {
             m_bottomFlywheePidController.setReference(ShooterConstants.kFlywheelIntakeSpeedVoltage, ControlType.kVelocity);
