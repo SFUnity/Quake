@@ -106,7 +106,7 @@ public final class Constants {
 
     public static final double kSpeakerManualAngleRevRotations = -16;
     public static final double kDesiredAmpAngleRevRotations = -8;
-    public static final double kSourceAngleRevRotations = -12;
+    public static final double kSourceAngleRevRotations = -5;
     public static final double kFeedingAngleRevRotations = -54;
     public static final double kIntakeAngleRevRotations = -63;
     
