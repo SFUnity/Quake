@@ -11,15 +11,13 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
 // import frc.robot.Constants.DriveConstants;
 
-public class LimelightSubsystem extends SubsystemBase {
+public class Limelight extends SubsystemBase {
 
-  private static LimelightSubsystem instance = null;
+  private static Limelight instance = null;
 
   public ShuffleboardTab limelightTab = Shuffleboard.getTab("Limelight");
   public ShuffleboardTab swerveTab = Shuffleboard.getTab("Swerve Subsystem");
-
-  private ShuffleboardTab tuningTab = Shuffleboard.getTab("Tuning");
-  private GenericEntry m_toleranceProportionEntry = tuningTab.add("Tolerance Proportion", 100).getEntry();
+  // private ShuffleboardTab tuningTab = Shuffleboard.getTab("Tuning");
 
   //Declaring objects that are used for retrieving data from the limelight.
   private GenericEntry txEntry = limelightTab.add("tx", 0).getEntry();
@@ -31,6 +29,8 @@ public class LimelightSubsystem extends SubsystemBase {
   private GenericEntry distanceEntry = limelightTab.add("distance", 0).getEntry();
   private GenericEntry pipelineEntry = limelightTab.add("pipeline", 0).getEntry();
 
+  // private GenericEntry autoAngleOffsetEntry = tuningTab.addPersistent("auto angle offset", 0).getEntry();
+
   private static NetworkTable table;
   private static NetworkTableEntry tx, ty, tv, ta, tid, priorityid, pipeline;
   private static NetworkTableEntry camMode;
@@ -38,7 +38,7 @@ public class LimelightSubsystem extends SubsystemBase {
 
   private static double x, y, v, a, id;
 
-  private LimelightSubsystem ()
+  private Limelight ()
   {
     table = NetworkTableInstance.getDefault().getTable("limelight");
     
@@ -94,7 +94,7 @@ public class LimelightSubsystem extends SubsystemBase {
     if (tvEntry.getDouble(0) == 0) {
       System.out.println("No tag in sight");
     }
-    return Math.abs(getTargetOffsetX()) < m_toleranceProportionEntry.getDouble(100) / getDistance();
+    return Math.abs(getTargetOffsetX()) < 2;
   }
 
   /**
@@ -103,7 +103,7 @@ public class LimelightSubsystem extends SubsystemBase {
    */
   public double getTargetOffsetX()
   {
-    return tx.getDouble(0.0);
+    return tx.getDouble(0.0) + 3;
   }
 
   /**
@@ -154,10 +154,10 @@ public class LimelightSubsystem extends SubsystemBase {
    * Method for other classes to use this class' methods.
    * @return the limelight instance object.
    */
-  public static LimelightSubsystem getInstance()
+  public static Limelight getInstance()
   {
     if (instance == null)
-      instance = new LimelightSubsystem();
+      instance = new Limelight();
     
     return instance;
   }

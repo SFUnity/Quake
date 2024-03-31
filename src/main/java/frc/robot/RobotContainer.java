@@ -10,8 +10,10 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.*;
 import edu.wpi.first.wpilibj2.command.*;
+import edu.wpi.first.wpilibj2.command.Command.InterruptionBehavior;
 import edu.wpi.first.wpilibj2.command.button.*;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.DriveConstants;
@@ -20,11 +22,12 @@ import frc.robot.subsystems.*;
 
 
 public class RobotContainer {
-    public final LimelightSubsystem m_limelight = LimelightSubsystem.getInstance();
-    private final Swerve m_swerve = new Swerve(m_limelight);
+    public final Limelight m_limelight = Limelight.getInstance();
+    private final Swerve m_swerve = new Swerve();
     private final LEDs m_LEDs = new LEDs();
     private final Shooter m_shooter = new Shooter(m_limelight);
     private final Intake m_intake = new Intake(m_shooter);
+    // private final Climbers m_climbers = new Climbers();
 
     private final CommandXboxController m_driverController = new CommandXboxController(
                     ControllerConstants.kDriverControllerId);
@@ -43,8 +46,8 @@ public class RobotContainer {
             DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
 
             m_swerve.setModuleStates(moduleStates);
-        }, m_swerve).until(() -> m_limelight.alignedWithTag());
-    private final Command m_autoShoot = m_autoAlign.alongWith(m_shooter.readyAutoShoot()).andThen(m_shooter.autoShoot());
+        }, m_swerve).until(() -> m_limelight.alignedWithTag() && m_shooter.atAngle());
+    private final Command m_autoShoot = new ParallelDeadlineGroup(m_autoAlign, m_shooter.readyAutoShoot()).andThen(m_shooter.autoShoot());
     // private final Command m_testShoot = new RunCommand(() -> {
     //         m_shooter.readyShootAmp();
     //         m_shooter.setAngleMotorSpeeds();
@@ -63,7 +66,7 @@ public class RobotContainer {
     private ShuffleboardTab driversTab = Shuffleboard.getTab("Drivers");
     private GenericEntry intakeWorkingEntry = driversTab.add("Intake Working", true)
                                                         .withWidget(BuiltInWidgets.kToggleButton)
-                                                        .withSize(3, 2)
+                                                        .withSize(3, 3)
                                                         .withPosition(2, 0)
                                                         .getEntry();                                                  
 
@@ -160,11 +163,15 @@ public class RobotContainer {
         new Trigger(m_operationsController.povDown()).onTrue(new InstantCommand(() -> m_limelight.setPipeline(1)));
 
         // TODO test this once done with the other stuff
-        // new Trigger(() -> m_shooter.isNoteInShooter() && DriverStation.isTeleop()).whileTrue(m_intake.noteInShooterCommand().withInterruptBehavior(InterruptionBehavior.kCancelIncoming));
+        new Trigger(() -> m_shooter.isNoteInShooter() && DriverStation.isTeleop()).whileTrue(m_intake.noteInShooterCommand().withInterruptBehavior(InterruptionBehavior.kCancelIncoming));
     }
 
     public Swerve getSwerve() {
         return m_swerve;
+    }
+
+    public Limelight getLimelight() {
+        return m_limelight;
     }
 
     public Command getAutonomousCommand() {

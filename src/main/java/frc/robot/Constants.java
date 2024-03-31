@@ -102,17 +102,20 @@ public final class Constants {
 
     public static final int kShooterAngleMotorEncoderId = 5;
     
-    public static final double kSpeakerManualAngleRevRotations = -12;
-    public static final double kDesiredAmpAngleRevRotations = -20;
-    public static final double kSourceAngleRevRotations = -12;
+    public static final double kSpeakerAngleOffsetRevRotations = -72;
+
+    public static final double kSpeakerManualAngleRevRotations = -16;
+    public static final double kDesiredAmpAngleRevRotations = -8;
+    public static final double kSourceAngleRevRotations = -5;
     public static final double kFeedingAngleRevRotations = -54;
-    public static final double kIntakeAngleRevRotations = -55;
+    public static final double kIntakeAngleRevRotations = -63;
     
-    public static final double kRollerShootingSpeedPercent = 1.0;
+    public static final double kFeederShootingSpeedPercent = 1.0;
+    public static final double kFeederIntakingSpeedPercent = 0.13;
     
-    public static final double kFlywheelIntakeSpeedVoltage = -1;
+    public static final double kFlywheelIntakeSpeedVoltage = -2;
     public static final double kAmpShootingSpeedBottomVoltage = 3;
-    public static final double kAmpShootingSpeedTopVoltage = 3;
+    public static final double kAmpShootingSpeedTopVoltage = 0.5;
     public static final double kShooterDefaultSpeedVoltage = 10;
     public static final double kShooterFeedingSpeedVoltage = 10;
     
@@ -128,13 +131,10 @@ public final class Constants {
 
     // distance from the target to the floor
     public static final double kHeightOfSpeakerTagInches = 56.5;
-    public static final double kHeightOfSpeakerInches = 79.2;
+    public static final double kHeightOfSpeakerInches = 82.13;
 
     public static final double kHeightOfAmpAndSourceTagsInches = 48.13; // TODO middle or bottom of the tag?
     public static final double kXPoseOfAmp = 1.85;
-
-    public static int speakerTagID = 5;
-    public static final double kTurnToTagTolerance = 0.1; // TODO make porportional to distance
   }
   
   public static final class ClimberConstants {

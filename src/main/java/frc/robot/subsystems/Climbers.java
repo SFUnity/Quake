@@ -9,15 +9,15 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ClimberConstants;
 
 
-public class Climber extends SubsystemBase{
+public class Climbers extends SubsystemBase{
     private final CANSparkMax m_climberMotorL, m_climberMotorR;
     private final SparkPIDController m_leftClimberPidController, m_rightClimberPidController;
     private final RelativeEncoder m_leftClimberEncoder, m_rightClimberEncoder;
 
-    public Climber() {
+    public Climbers() {
         m_climberMotorL = new CANSparkMax(ClimberConstants.kClimberMotorIdL, MotorType.kBrushless);
         m_climberMotorR = new CANSparkMax(ClimberConstants.kClimberMotorIdR, MotorType.kBrushless);
-
+        // TODO secondary current limits 
         m_leftClimberEncoder = m_climberMotorL.getEncoder();
         m_rightClimberEncoder = m_climberMotorR.getEncoder();
         

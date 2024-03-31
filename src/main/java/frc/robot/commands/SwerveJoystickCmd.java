@@ -11,12 +11,12 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.DriveConstants;
-import frc.robot.subsystems.LimelightSubsystem;
+import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Swerve;
 
 public class SwerveJoystickCmd extends Command {
     private final Swerve m_swerve;
-    private final LimelightSubsystem m_limelight;
+    private final Limelight m_limelight;
     private final Supplier<Double> xSpdFunction, ySpdFunction, turningSpdFunction;
     private final Trigger goFastTrigger, alignToSpeakerTrigger, alignToAmpTrigger, moveLeft, moveRight, moveForwards, moveBackwards;
     private Boolean goingFast = false;
@@ -45,7 +45,7 @@ public class SwerveJoystickCmd extends Command {
      * @param turningSpdFunction
      * @param fieldOrientedFunction
      */
-    public SwerveJoystickCmd(Swerve swerve, LimelightSubsystem limelight,
+    public SwerveJoystickCmd(Swerve swerve, Limelight limelight,
             Supplier<Double> xSpdFunction, Supplier<Double> ySpdFunction, 
             Supplier<Double> turningSpdFunction, 
             Trigger goFastTrigger, Trigger alignToSpeakerTrigger, Trigger alignToAmpTrigger,

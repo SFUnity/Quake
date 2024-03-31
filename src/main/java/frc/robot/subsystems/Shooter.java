@@ -43,7 +43,6 @@ public class Shooter extends SubsystemBase {
     
     private ShuffleboardTab driversTab = Shuffleboard.getTab("Drivers");
     private ShuffleboardTab loggingTab = Shuffleboard.getTab("Logging");
-    private ShuffleboardTab tuningTab = Shuffleboard.getTab("Tuning");
 
     private GenericEntry bottomFlywheelVoltageEntry = loggingTab.add("bottomFlywheelVoltage", 0.00).getEntry();
     private GenericEntry bottomFlywheelCurrentEntry = loggingTab.add("bottomFlywheelOutputCurrent", 0.00).getEntry();
@@ -67,31 +66,22 @@ public class Shooter extends SubsystemBase {
     private GenericEntry desiredSpeedTopEntry = loggingTab.add("Desired Speed Top", 0).getEntry();
     
     private GenericEntry noteInShooterEntry = driversTab.add("Note In Shooter?", false)
-                                                        .withSize(5, 4)
-                                                        .withPosition(5, 0)
+                                                        .withSize(2, 1)
+                                                        .withPosition(9, 2)
                                                         .getEntry();                          
 
     private GenericEntry distanceSensorWorkingEntry = driversTab.addPersistent("Distance Sensor Working", false)
                                                                 .withWidget(BuiltInWidgets.kToggleButton)
-                                                                .withSize(3, 2)
-                                                                .withPosition(2, 2)
+                                                                .withSize(3, 3)
+                                                                .withPosition(5, 0)
                                                                 .getEntry();
                                                                 
-    private GenericEntry autoAngleOffsetEntry = tuningTab.addPersistent("auto angle offset", -62).getEntry();
-    private GenericEntry feederSpeedSetterEntry = tuningTab.addPersistent("Feeder Speed", 0.13).getEntry();   
-    private GenericEntry speakerAngleEntry = tuningTab.addPersistent("Speaker Angle", ShooterConstants.kSpeakerManualAngleRevRotations).getEntry();
-    // private GenericEntry ampAngleEntry = tuningTab.addPersistent("Amp Angle", ShooterConstants.kDesiredAmpAngleRevRotations).getEntry();
-    private GenericEntry sourceAngleEntry = tuningTab.addPersistent("Source Angle", ShooterConstants.kSourceAngleRevRotations).getEntry();
-    // private GenericEntry ampSpeedBottomEntry = tuningTab.addPersistent("Amp Speed Bottom", ShooterConstants.kAmpShootingSpeedBottomPercent).getEntry();
-    // private GenericEntry ampSpeedTopEntry = tuningTab.addPersistent("Amp Speed Top", ShooterConstants.kAmpShootingSpeedTopPercent).getEntry();
-    private GenericEntry intakeAngleEntry = tuningTab.addPersistent("Intake Angle", ShooterConstants.kIntakeAngleRevRotations).getEntry();
-
     private GenericEntry readyAutoShootEntry = loggingTab.add("Ready Auto Shoot Called", false).getEntry();
     private GenericEntry feederDesiredSpeedEntry = loggingTab.add("Feeder Desired Speed", 0).getEntry();
 
-    private final LimelightSubsystem m_limelight;
+    private final Limelight m_limelight;
 
-    public Shooter(LimelightSubsystem limelight) {        
+    public Shooter(Limelight limelight) {        
         m_shooterDistanceSensor = new Rev2mDistanceSensor(Port.kOnboard);
         m_shooterDistanceSensor.setDistanceUnits(Unit.kInches);
         m_shooterDistanceSensor.setAutomaticMode(true);
@@ -114,7 +104,7 @@ public class Shooter extends SubsystemBase {
         m_topFlywheelEncoder = m_shooterTopFlywheelMotor.getEncoder();
         m_feederEncoder = m_feederMotor.getEncoder();
 
-        desiredAngle = speakerAngleEntry.getDouble(ShooterConstants.kSpeakerManualAngleRevRotations);
+        desiredAngle = ShooterConstants.kSpeakerManualAngleRevRotations;
         m_anglePidController = m_shooterAngleMotor.getPIDController();
         m_anglePidController.setP(0.15);
         // m_anglePidController.setI(0.00015);
@@ -163,18 +153,16 @@ public class Shooter extends SubsystemBase {
         return m_angleEncoder.getPosition() <= desiredAngle + 1 || m_angleEncoder.getPosition() >= desiredAngle - 1;
     }
 
-    // TODO optimize after experimentation
     public void intakeNote(boolean intakeWorking) {
         if (!intakeWorking) {
-            m_bottomFlywheePidController.setReference(ShooterConstants.kFlywheelIntakeSpeedVoltage, ControlType.kVelocity);
-            m_topFlywheePidController.setReference(ShooterConstants.kFlywheelIntakeSpeedVoltage, ControlType.kVelocity);
+            m_bottomFlywheePidController.setReference(ShooterConstants.kFlywheelIntakeSpeedVoltage, ControlType.kVoltage);
+            m_topFlywheePidController.setReference(ShooterConstants.kFlywheelIntakeSpeedVoltage, ControlType.kVoltage);
         }
-        m_anglePidController.setReference(intakeWorking ? intakeAngleEntry.getDouble(ShooterConstants.kIntakeAngleRevRotations) : sourceAngleEntry.getDouble(ShooterConstants.kSourceAngleRevRotations), ControlType.kPosition);
+        m_anglePidController.setReference(intakeWorking ? ShooterConstants.kIntakeAngleRevRotations : ShooterConstants.kSourceAngleRevRotations, ControlType.kPosition);
 
         if (!isNoteInShooter() && distanceSensorWorking()) {
-            double speed = feederSpeedSetterEntry.getDouble(0.13);
-            m_feederMotor.set(intakeWorking ? speed : -speed);
-            feederDesiredSpeedEntry.setDouble(speed);
+            m_feederMotor.set(intakeWorking ? ShooterConstants.kFeederIntakingSpeedPercent : -ShooterConstants.kFeederIntakingSpeedPercent);
+            feederDesiredSpeedEntry.setDouble(ShooterConstants.kFeederIntakingSpeedPercent);
         } else {
             m_feederMotor.set(0);
             feederDesiredSpeedEntry.setDouble(0);
@@ -182,19 +170,19 @@ public class Shooter extends SubsystemBase {
     }
     
     public void readyShootSpeakerManual() {
-        desiredSpeedBottom = ShooterConstants.kShooterDefaultSpeedVoltage;
+        desiredSpeedBottom = ShooterConstants.kShooterDefaultSpeedVoltage * 1.05;
         desiredSpeedTop = ShooterConstants.kShooterDefaultSpeedVoltage;
-        desiredAngle = speakerAngleEntry.getDouble(ShooterConstants.kSpeakerManualAngleRevRotations);
+        desiredAngle = ShooterConstants.kSpeakerManualAngleRevRotations;
     }
 
     public void readyShootSpeakerAutomatic() {
-        desiredSpeedBottom = ShooterConstants.kShooterDefaultSpeedVoltage;
+        desiredSpeedBottom = ShooterConstants.kShooterDefaultSpeedVoltage * 1.05;
         desiredSpeedTop = ShooterConstants.kShooterDefaultSpeedVoltage;
         
         double heightOfTarget = LimelightConstants.kHeightOfSpeakerInches;
         double angleRad = Math.atan(heightOfTarget / m_limelight.getDistance());
         double angleDeg = Math.toDegrees(angleRad);
-        desiredAngle = angleDeg + autoAngleOffsetEntry.getDouble(41);
+        desiredAngle = angleDeg + ShooterConstants.kSpeakerAngleOffsetRevRotations;
     }
 
     public void readyShootAmp() {
@@ -253,6 +241,10 @@ public class Shooter extends SubsystemBase {
         m_topFlywheePidController.setReference(desiredSpeedTop, ControlType.kVoltage);
         desiredSpeedBottomEntry.setDouble(desiredSpeedBottom);
         desiredSpeedTopEntry.setDouble(desiredSpeedTop);
+    }
+
+    public boolean atAngle() {
+        return Math.abs(m_angleEncoder.getPosition() - desiredAngle) < 1;
     }
 
     // Auto Commands
