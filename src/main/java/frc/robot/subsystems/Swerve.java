@@ -121,7 +121,7 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
     private double pastTurnToTagDEntry = turnToTagDEntry.getDouble(0.0);
     private double pastTurnToTagIZoneEntry = turnToTagIZoneEntry.getDouble(0.0);
 
-    private final PIDController alignWithAmpPID = new PIDController(0, 0, 0);
+    private final PIDController alignWithAmpOrSourcePID = new PIDController(0, 0, 0);
 
     private GenericEntry frontLeftDriveVoltageEntry = loggingTab.add("flDriveVoltage", 0.00).getEntry();
     private GenericEntry frontRightDriveVoltageEntry = loggingTab.add("frDriveVoltage", 0.00).getEntry();
@@ -190,7 +190,7 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
         );
 
         // TODO tune this!!!
-        tuningTab.add("Amp Alignment", alignWithAmpPID);
+        tuningTab.add("Amp Alignment", alignWithAmpOrSourcePID);
     }
 
     @Override
@@ -402,16 +402,16 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
         return turnToTagPID.calculate(getHeading(), 270);
     }
 
-    public double alignWithAmpXSpeed(double xOffset) {
+    public double alignWithAmpOrSourceXSpeed(double xOffset) {
         if (m_limelight.isTargetAvailable()) {
-            return alignWithAmpPID.calculate(m_limelight.getTargetOffsetX(), 0);
+            return alignWithAmpOrSourcePID.calculate(m_limelight.getTargetOffsetX(), 0);
         } else {
-            return alignWithAmpPID.calculate(getPose().getX(), LimelightConstants.kXPoseOfAmp);
+            return alignWithAmpOrSourcePID.calculate(getPose().getX(), LimelightConstants.kXPoseOfAmp);
         }
     }
 
-    public double alignWithAmpYSpeed(double distance) {
-        return alignWithAmpPID.calculate(m_limelight.getDistance(), 0);
+    public double alignWithAmpOrSourceYSpeed(double distance) {
+        return alignWithAmpOrSourcePID.calculate(m_limelight.getDistance(), 0);
     }
 
     public Command SetXCommand() {
