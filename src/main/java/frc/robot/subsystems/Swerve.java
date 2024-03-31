@@ -30,6 +30,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.FieldObject2d;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.LimelightConstants;
 import frc.robot.Constants.ModuleConstants;
 import frc.robot.subsystems.modules.RealSwerveModule;
 import lib.SwerveModule;
@@ -114,12 +115,14 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
     private GenericEntry turnToTagIEntry = swerveTab.addPersistent("turnToTag I", 0.0).withPosition(2, 2).withSize(1, 1).getEntry();
     private GenericEntry turnToTagDEntry = swerveTab.addPersistent("turnToTag D", 0.0).withPosition(4, 2).withSize(2, 1).getEntry();
     private GenericEntry turnToTagIZoneEntry = swerveTab.addPersistent("turnToTage I Zone", 3).withPosition(3, 2).withSize(1, 1).getEntry();
-    private PIDController turnToTagPID = new PIDController(turnToTagPEntry.getDouble(0), turnToTagIEntry.getDouble(0), turnToTagDEntry.getDouble(0));
+    private final PIDController turnToTagPID = new PIDController(turnToTagPEntry.getDouble(0), turnToTagIEntry.getDouble(0), turnToTagDEntry.getDouble(0));
 
     private double pastTurnToTagPEntry = turnToTagPEntry.getDouble(0.05);
     private double pastTurnToTagIEntry = turnToTagIEntry.getDouble(0.05);
     private double pastTurnToTagDEntry = turnToTagDEntry.getDouble(0.0);
     private double pastTurnToTagIZoneEntry = turnToTagIZoneEntry.getDouble(0.0);
+
+    private final PIDController alignWithAmpPID = new PIDController(0, 0, 0);
 
     private GenericEntry frontLeftDriveVoltageEntry = loggingTab.add("flDriveVoltage", 0.00).getEntry();
     private GenericEntry frontRightDriveVoltageEntry = loggingTab.add("frDriveVoltage", 0.00).getEntry();
@@ -188,6 +191,9 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
             },
             this // Reference to this subsystem to set requirements
         );
+
+        // TODO tune this!!!
+        tuningTab.add("Amp Alignment", alignWithAmpPID);
     }
 
     @Override
@@ -381,33 +387,34 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
     }
 
     /**
-     * @param desiredAngleDegrees
+     * @param xOffset
      * @return turning speed in degrees
      */
-    // Still a little fast
-    public double turnToTagSpeed(double xOffset) {
+    public double turnToTagSpeed() {
         if (m_limelight.alignedWithTag()) {
             return 0;
         } else {
-            return turnToTagPID.calculate(xOffset, 0);
+            return turnToTagPID.calculate(m_limelight.getTargetOffsetX(), 0);
         }
     }
 
     /**
-     * @param desiredAngleDegrees
-     * @return
+     * @return turning speed in degrees
      */
-    // Still a little fast
-    public Command TurnToTag(double desiredAngleDegrees) {
-        return run(
-            () -> {
-                ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(0, 0, this.turnToTagSpeed(desiredAngleDegrees), getRotation2d());
-                this.setModuleStates(DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds));
-            })
-        .until(() -> turnToTagPID.atSetpoint())
-        .finallyDo(interrupted -> {
-            this.stopModules(); 
-        });
+    public double alignWithAmpSpeed() {
+        return turnToTagPID.calculate(getHeading(), 270);
+    }
+
+    public double alignWithAmpXSpeed(double xOffset) {
+        if (m_limelight.isTargetAvailable()) {
+            return alignWithAmpPID.calculate(m_limelight.getTargetOffsetX(), 0);
+        } else {
+            return alignWithAmpPID.calculate(getPose().getX(), LimelightConstants.kXPoseOfAmp);
+        }
+    }
+
+    public double alignWithAmpYSpeed(double distance) {
+        return alignWithAmpPID.calculate(m_limelight.getDistance(), 0);
     }
 
     public Command SetXCommand() {

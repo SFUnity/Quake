@@ -137,8 +137,17 @@ public class LimelightSubsystem extends SubsystemBase {
     double angleToGoalDegrees = LimelightConstants.kLimelightMountAngleDegrees + y;
     double angleToGoalRadians = Math.toRadians(angleToGoalDegrees);
 
+    id = tid.getDouble(0);
+    double heightOfTag = LimelightConstants.kHeightOfAmpAndSourceTagsInches;
+
+    if (id == 4 || id == 7) {
+      heightOfTag = LimelightConstants.kHeightOfSpeakerTagInches;
+    } else if (id == 14 || id == 13) {
+      // heightOfTag = LimelightConstants.kHeightOfStageTagInches;
+    }
+
     // calculate distance
-    return (LimelightConstants.kHeightOfTagInches - LimelightConstants.kLimelightLensHeightInches) / Math.tan(angleToGoalRadians);
+    return (heightOfTag - LimelightConstants.kLimelightLensHeightInches) / Math.tan(angleToGoalRadians);
   }
 
   /**

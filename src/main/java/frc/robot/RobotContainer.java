@@ -36,7 +36,7 @@ public class RobotContainer {
     // private final Command m_circleAuto = new CircleAutoCmd(m_swerve);
     private final Command fullSpeakerShoot = new SequentialCommandGroup(m_shooter.readyShootSpeakerCommand(), m_shooter.putNoteIntoFlywheelsCommand()).alongWith(m_intake.raiseAndStopIntakeCmd());
     private final Command m_autoAlign = new RunCommand(() -> {
-            ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(0, 0, m_swerve.turnToTagSpeed(m_limelight.getTargetOffsetX()), m_swerve.getRotation2d());
+            ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(0, 0, m_swerve.turnToTagSpeed(), m_swerve.getRotation2d());
             chassisSpeeds = ChassisSpeeds.discretize(chassisSpeeds, 0.02);
 
             SwerveModuleState[] moduleStates = 
@@ -76,6 +76,7 @@ public class RobotContainer {
                 () -> m_driverController.getRightX(),
                 m_driverController.leftBumper(),
                 m_driverController.b(),
+                m_driverController.leftTrigger(0.05),
                 m_driverController.povDown(),
                 m_driverController.povUp(),
                 m_driverController.povLeft(),

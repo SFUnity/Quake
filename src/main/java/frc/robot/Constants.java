@@ -127,10 +127,11 @@ public final class Constants {
     public static final double kLimelightLensHeightInches = 26.5; 
 
     // distance from the target to the floor
-    public static final double kHeightOfTagInches = 56.5;
-
-    // height of speaker
+    public static final double kHeightOfSpeakerTagInches = 56.5;
     public static final double kHeightOfSpeakerInches = 79.2;
+
+    public static final double kHeightOfAmpAndSourceTagsInches = 48.13; // TODO middle or bottom of the tag?
+    public static final double kXPoseOfAmp = 1.85;
 
     public static int speakerTagID = 5;
     public static final double kTurnToTagTolerance = 0.1; // TODO make porportional to distance

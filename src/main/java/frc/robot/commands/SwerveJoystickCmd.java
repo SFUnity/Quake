@@ -18,7 +18,7 @@ public class SwerveJoystickCmd extends Command {
     private final Swerve m_swerve;
     private final LimelightSubsystem m_limelight;
     private final Supplier<Double> xSpdFunction, ySpdFunction, turningSpdFunction;
-    private final Trigger goFastTrigger, alignToSpeakerTrigger, moveLeft, moveRight, moveForwards, moveBackwards;
+    private final Trigger goFastTrigger, alignToSpeakerTrigger, alignToAmpTrigger, moveLeft, moveRight, moveForwards, moveBackwards;
     private Boolean goingFast = false;
     private boolean fieldOrientedFunction = true;
 
@@ -48,7 +48,7 @@ public class SwerveJoystickCmd extends Command {
     public SwerveJoystickCmd(Swerve swerve, LimelightSubsystem limelight,
             Supplier<Double> xSpdFunction, Supplier<Double> ySpdFunction, 
             Supplier<Double> turningSpdFunction, 
-            Trigger goFastTrigger, Trigger alignToSpeakerTrigger,
+            Trigger goFastTrigger, Trigger alignToSpeakerTrigger, Trigger alignToAmpTrigger,
             Trigger moveLeft, Trigger moveRight, Trigger moveForwards, Trigger moveBackwards) {
         m_swerve = swerve;
         m_limelight = limelight;
@@ -57,6 +57,7 @@ public class SwerveJoystickCmd extends Command {
         this.turningSpdFunction = turningSpdFunction;
         this.goFastTrigger = goFastTrigger;
         this.alignToSpeakerTrigger = alignToSpeakerTrigger;
+        this.alignToAmpTrigger = alignToAmpTrigger;
         this.moveLeft = moveLeft;
         this.moveRight = moveRight;
         this.moveForwards = moveForwards;
@@ -107,7 +108,11 @@ public class SwerveJoystickCmd extends Command {
         }
 
         if (alignToSpeakerTrigger.getAsBoolean()) {
-            turningSpeed = m_swerve.turnToTagSpeed(m_limelight.getTargetOffsetX());
+            turningSpeed = m_swerve.turnToTagSpeed();
+        } else if (alignToAmpTrigger.getAsBoolean()) {
+            turningSpeed = m_swerve.alignWithAmpSpeed();
+            xSpeed = m_swerve.alignWithAmpXSpeed(m_limelight.getTargetOffsetX());
+            ySpeed = m_swerve.alignWithAmpYSpeed(m_limelight.getDistance());
         }
         
         ChassisSpeeds chassisSpeeds = speedsToChassisSpeeds(xSpeed, ySpeed, turningSpeed, fieldOrientedFunction);
