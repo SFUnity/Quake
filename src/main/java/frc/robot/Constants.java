@@ -134,7 +134,6 @@ public final class Constants {
     public static final double kHeightOfSpeakerInches = 82.13;
 
     public static final double kHeightOfAmpAndSourceTagsInches = 48.125;
-    public static final double kXPoseOfAmp = 1.85;
 
     public static final double kHeightOfStageTagInches = 47.5;
   }

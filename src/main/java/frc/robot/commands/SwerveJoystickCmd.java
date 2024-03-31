@@ -110,7 +110,7 @@ public class SwerveJoystickCmd extends Command {
         if (alignToSpeakerTrigger.getAsBoolean()) {
             turningSpeed = m_swerve.turnToTagSpeed();
         } else if (alignWithAmpOrSourceTrigger.getAsBoolean()) {
-            turningSpeed = m_swerve.alignWithAmpSpeed();
+            turningSpeed = m_swerve.turnToTagSpeed();
             xSpeed = m_swerve.alignWithAmpOrSourceXSpeed(m_limelight.getTargetOffsetX());
             ySpeed = m_swerve.alignWithAmpOrSourceYSpeed(m_limelight.getDistance());
         }

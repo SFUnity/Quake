@@ -30,7 +30,6 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.FieldObject2d;
 import frc.robot.Constants.DriveConstants;
-import frc.robot.Constants.LimelightConstants;
 import frc.robot.Constants.ModuleConstants;
 import frc.robot.subsystems.modules.RealSwerveModule;
 import lib.SwerveModule;
@@ -395,19 +394,8 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
         }
     }
 
-    /**
-     * @return turning speed in degrees
-     */
-    public double alignWithAmpSpeed() {
-        return turnToTagPID.calculate(getHeading(), 270);
-    }
-
     public double alignWithAmpOrSourceXSpeed(double xOffset) {
-        if (m_limelight.isTargetAvailable()) {
-            return alignWithAmpOrSourcePID.calculate(m_limelight.getTargetOffsetX(), 0);
-        } else {
-            return alignWithAmpOrSourcePID.calculate(getPose().getX(), LimelightConstants.kXPoseOfAmp);
-        }
+        return alignWithAmpOrSourcePID.calculate(m_limelight.getTargetOffsetX(), 0);
     }
 
     public double alignWithAmpOrSourceYSpeed(double distance) {
