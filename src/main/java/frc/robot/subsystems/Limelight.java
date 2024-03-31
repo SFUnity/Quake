@@ -143,8 +143,10 @@ public class Limelight extends SubsystemBase {
     if (id == 4 || id == 7) {
       heightOfTag = LimelightConstants.kHeightOfSpeakerTagInches;
     } else if (id == 14 || id == 13) {
-      // heightOfTag = LimelightConstants.kHeightOfStageTagInches;
+      heightOfTag = LimelightConstants.kHeightOfStageTagInches;
     }
+
+    heightOfTag += 5.25;
 
     // calculate distance
     return (heightOfTag - LimelightConstants.kLimelightLensHeightInches) / Math.tan(angleToGoalRadians);

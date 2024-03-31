@@ -46,7 +46,7 @@ public class Robot extends TimedRobot {
     DriverStation.silenceJoystickConnectionWarning(true);
 
     // if (DriverStation.getAlliance().get() == Alliance.Red) {
-    //   m_limelight.setPipeline(0); // TODO pipelines (4 red, 7 blue)
+    //   m_limelight.setPipeline(0); // TODO pipelines (4, 5, 9, 10, 13 red, 1, 2, 6, 7, 14 blue)
     //   System.out.println("Red pipeline");
     // } else if (DriverStation.getAlliance().get() == Alliance.Blue) {
     //   m_limelight.setPipeline(1);

@@ -130,11 +130,13 @@ public final class Constants {
     public static final double kLimelightLensHeightInches = 26.5; 
 
     // distance from the target to the floor
-    public static final double kHeightOfSpeakerTagInches = 56.5;
+    public static final double kHeightOfSpeakerTagInches = 51.875;
     public static final double kHeightOfSpeakerInches = 82.13;
 
-    public static final double kHeightOfAmpAndSourceTagsInches = 48.13; // TODO middle or bottom of the tag?
+    public static final double kHeightOfAmpAndSourceTagsInches = 48.125;
     public static final double kXPoseOfAmp = 1.85;
+
+    public static final double kHeightOfStageTagInches = 47.5;
   }
   
   public static final class ClimberConstants {
