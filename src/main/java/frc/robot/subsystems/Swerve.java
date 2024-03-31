@@ -40,6 +40,7 @@ import com.pathplanner.lib.util.*;
 
 
 public class Swerve extends SubsystemBase implements AutoCloseable {
+    private final Limelight m_limelight = Limelight.getInstance();
     private final RealSwerveModule m_frontLeft = new RealSwerveModule(
         DriveConstants.kFrontLeftDriveMotorId,
         DriveConstants.kFrontLeftTurningMotorId,
