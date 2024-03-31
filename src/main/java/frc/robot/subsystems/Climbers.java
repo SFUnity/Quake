@@ -17,7 +17,7 @@ public class Climbers extends SubsystemBase{
     public Climbers() {
         m_climberMotorL = new CANSparkMax(ClimberConstants.kClimberMotorIdL, MotorType.kBrushless);
         m_climberMotorR = new CANSparkMax(ClimberConstants.kClimberMotorIdR, MotorType.kBrushless);
-
+        // TODO secondary current limits 
         m_leftClimberEncoder = m_climberMotorL.getEncoder();
         m_rightClimberEncoder = m_climberMotorR.getEncoder();
         
