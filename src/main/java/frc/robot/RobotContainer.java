@@ -44,8 +44,8 @@ public class RobotContainer {
             DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
 
             m_swerve.setModuleStates(moduleStates);
-        }, m_swerve).until(() -> m_limelight.alignedWithTag());
-    private final Command m_autoShoot = m_autoAlign.alongWith(m_shooter.readyAutoShoot()).andThen(m_shooter.autoShoot());
+        }, m_swerve).until(() -> m_limelight.alignedWithTag() && m_shooter.atAngle());
+    private final Command m_autoShoot = new ParallelDeadlineGroup(m_autoAlign, m_shooter.readyAutoShoot()).andThen(m_shooter.autoShoot());
     // private final Command m_testShoot = new RunCommand(() -> {
     //         m_shooter.readyShootAmp();
     //         m_shooter.setAngleMotorSpeeds();

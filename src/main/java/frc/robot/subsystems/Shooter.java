@@ -243,6 +243,10 @@ public class Shooter extends SubsystemBase {
         desiredSpeedTopEntry.setDouble(desiredSpeedTop);
     }
 
+    public boolean atAngle() {
+        return Math.abs(m_angleEncoder.getPosition() - desiredAngle) < 1;
+    }
+
     // Auto Commands
     public Command intakeNoteCmd() {
         return run(() -> {
