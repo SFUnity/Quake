@@ -86,12 +86,20 @@ public class Limelight extends SubsystemBase {
    
   }
 
+  public boolean shootingSpeaker() {
+    return id == 4 || id == 7;
+  }
+
+  public boolean feeding() {
+    return id == 13 || id == 14;
+  }
+
   public void setPipeline(int p) {
     pipeline.setNumber(p);
   }
 
   public boolean alignedWithTag() {
-    if (tvEntry.getDouble(0) == 0) {
+    if (v == 0) {
       System.out.println("No tag in sight");
     }
     return Math.abs(getTargetOffsetX()) < 2;
@@ -103,7 +111,11 @@ public class Limelight extends SubsystemBase {
    */
   public double getTargetOffsetX()
   {
-    return tx.getDouble(0.0) + 3;
+    double offset = 0;
+    if (shootingSpeaker()) {
+      offset = 3;
+    }
+    return x + offset;
   }
 
   /**
@@ -112,7 +124,7 @@ public class Limelight extends SubsystemBase {
    */
   public double getTargetOffsetY()
   {
-    return ty.getDouble(0.0);
+    return y;
   }
 
   /**
@@ -121,7 +133,7 @@ public class Limelight extends SubsystemBase {
    */
   public boolean isTargetAvailable()
   {
-    return tv.getNumber(0).intValue() == 1 ? true : false;
+    return v == 1 ? true : false;
   }
 
   /**
@@ -130,19 +142,18 @@ public class Limelight extends SubsystemBase {
    */
   public double getTargetArea()
   {
-    return ta.getDouble(0.0);
+    return a;
   }
 
   public double getDistance () {
     double angleToGoalDegrees = LimelightConstants.kLimelightMountAngleDegrees + y;
     double angleToGoalRadians = Math.toRadians(angleToGoalDegrees);
 
-    id = tid.getDouble(0);
     double heightOfTag = LimelightConstants.kHeightOfAmpAndSourceTagsInches;
 
-    if (id == 4 || id == 7) {
+    if (shootingSpeaker()) {
       heightOfTag = LimelightConstants.kHeightOfSpeakerTagInches;
-    } else if (id == 14 || id == 13) {
+    } else if (feeding()) {
       heightOfTag = LimelightConstants.kHeightOfStageTagInches;
     }
 
