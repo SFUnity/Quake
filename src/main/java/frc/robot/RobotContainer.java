@@ -10,8 +10,10 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.*;
 import edu.wpi.first.wpilibj2.command.*;
+import edu.wpi.first.wpilibj2.command.Command.InterruptionBehavior;
 import edu.wpi.first.wpilibj2.command.button.*;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.DriveConstants;
@@ -25,7 +27,7 @@ public class RobotContainer {
     private final LEDs m_LEDs = new LEDs();
     private final Shooter m_shooter = new Shooter(m_limelight);
     private final Intake m_intake = new Intake(m_shooter);
-    private final Climbers m_climbers = new Climbers();
+    // private final Climbers m_climbers = new Climbers();
 
     private final CommandXboxController m_driverController = new CommandXboxController(
                     ControllerConstants.kDriverControllerId);
@@ -160,7 +162,7 @@ public class RobotContainer {
         new Trigger(m_operationsController.povDown()).onTrue(new InstantCommand(() -> m_limelight.setPipeline(1)));
 
         // TODO test this once done with the other stuff
-        // new Trigger(() -> m_shooter.isNoteInShooter() && DriverStation.isTeleop()).whileTrue(m_intake.noteInShooterCommand().withInterruptBehavior(InterruptionBehavior.kCancelIncoming));
+        new Trigger(() -> m_shooter.isNoteInShooter() && DriverStation.isTeleop()).whileTrue(m_intake.noteInShooterCommand().withInterruptBehavior(InterruptionBehavior.kCancelIncoming));
     }
 
     public Swerve getSwerve() {
