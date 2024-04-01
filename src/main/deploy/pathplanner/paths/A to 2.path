@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.333065809650138,
-        "y": 6.6881655754052245
+        "x": 2.3764027015233515,
+        "y": 6.735832958845405
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.4099284167229307,
-        "y": 6.99331448591672
+        "x": 3.4532653085961442,
+        "y": 7.040981869356901
       },
       "isLocked": false,
       "linkedName": "Note A"
@@ -35,19 +35,7 @@
       "rotateFast": false
     }
   ],
-  "constraintZones": [
-    {
-      "name": "Slow",
-      "minWaypointRelativePos": 0.7,
-      "maxWaypointRelativePos": 1.0,
-      "constraints": {
-        "maxVelocity": 2.5,
-        "maxAcceleration": 1.5,
-        "maxAngularVelocity": 540.0,
-        "maxAngularAcceleration": 720.0
-      }
-    }
-  ],
+  "constraintZones": [],
   "eventMarkers": [
     {
       "name": "Full Intake",
@@ -68,8 +56,8 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 2.5,
-    "maxAcceleration": 2.0,
+    "maxVelocity": 4.0,
+    "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },

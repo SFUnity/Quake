@@ -50,31 +50,6 @@
                 "data": {
                   "pathName": "3 to Shoot Source Side"
                 }
-              },
-              {
-                "type": "sequential",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "shooterIntake"
-                      }
-                    },
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 0.5
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "readyAutoShoot"
-                      }
-                    }
-                  ]
-                }
               }
             ]
           }

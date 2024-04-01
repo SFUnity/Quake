@@ -47,7 +47,7 @@ public class RobotContainer {
 
             m_swerve.setModuleStates(moduleStates);
         }, m_swerve).until(() -> m_limelight.alignedWithTag() && m_shooter.atAngle());
-    private final Command m_autoShoot = new ParallelDeadlineGroup(m_autoAlign, m_shooter.readyAutoShoot()).andThen(m_shooter.autoShoot());
+    private final Command m_autoShoot = new ParallelCommandGroup(m_shooter.intakeNoteCmd().andThen(m_shooter.readyAutoShoot().until(() -> m_shooter.atAngle())), m_autoAlign).andThen(m_shooter.autoShoot());
     // private final Command m_testShoot = new RunCommand(() -> {
     //         m_shooter.readyShootAmp();
     //         m_shooter.setAngleMotorSpeeds();
@@ -111,7 +111,9 @@ public class RobotContainer {
         NamedCommands.registerCommand("fullIntakeNote", m_intake.lowerAndRunIntakeCmd().alongWith(m_shooter.intakeNoteCmd()));
         NamedCommands.registerCommand("shooterIntake", m_shooter.intakeNoteCmd());
         NamedCommands.registerCommand("raiseAndStopIntake", new WaitCommand(0.5).andThen(m_intake.raiseAndStopIntakeCmd()));
-        NamedCommands.registerCommand("finishIntakingThenShoot", m_shooter.intakeNoteCmd().andThen(m_autoShoot));
+        // NamedCommands.registerCommand("finishIntakingThenShoot", m_shooter.intakeNoteCmd().andThen(m_autoShoot));
+        NamedCommands.registerCommand("finishIntakingThenShoot", m_autoShoot);
+        // NamedCommands.registerCommand("finishIntakingThenShoot", new ParallelCommandGroup(m_shooter.intakeNoteCmd().andThen(m_shooter.readyAutoShoot().until(() -> m_shooter.atAngle())), m_autoAlign).andThen(m_shooter.autoShoot()));
 
         m_justShootAndLeave = new SequentialCommandGroup(m_shooter.readyShootSpeakerCommand(), m_shooter.putNoteIntoFlywheelsCommand(), new WaitCommand(5), m_straightAuto);
         // m_straightPath = new PathPlannerAuto("Straight Path Auto");
@@ -175,5 +177,6 @@ public class RobotContainer {
 
     public Command getAutonomousCommand() {
         return m_autoChooser.getSelected();
+        // return new PathPlannerAuto("Source 53");
     }  
 }

@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.934424947553599,
-        "y": 1.9947806423390624
+        "x": 3.7797012346161436,
+        "y": 2.292054270718229
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.254744282636714,
-        "y": 2.9769982549224365
+        "x": 4.100020569699258,
+        "y": 3.2742718833016036
       },
       "isLocked": false,
       "linkedName": "Source Side Shooting"
@@ -55,7 +55,7 @@
   "eventMarkers": [
     {
       "name": "Lower intake",
-      "waypointRelativePos": 1.45,
+      "waypointRelativePos": 1.3,
       "command": {
         "type": "parallel",
         "data": {
@@ -72,8 +72,8 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 2.5,
-    "maxAcceleration": 2.0,
+    "maxVelocity": 4.0,
+    "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },

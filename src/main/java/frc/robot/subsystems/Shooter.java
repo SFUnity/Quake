@@ -67,7 +67,7 @@ public class Shooter extends SubsystemBase {
     
     private GenericEntry noteInShooterEntry = driversTab.add("Note In Shooter?", false)
                                                         .withSize(2, 1)
-                                                        .withPosition(9, 2)
+                                                        .withPosition(8, 2)
                                                         .getEntry();                          
 
     private GenericEntry distanceSensorWorkingEntry = driversTab.addPersistent("Distance Sensor Working", false)
@@ -76,7 +76,6 @@ public class Shooter extends SubsystemBase {
                                                                 .withPosition(5, 0)
                                                                 .getEntry();
                                                                 
-    private GenericEntry readyAutoShootEntry = loggingTab.add("Ready Auto Shoot Called", false).getEntry();
     private GenericEntry feederDesiredSpeedEntry = loggingTab.add("Feeder Desired Speed", 0).getEntry();
 
     private final Limelight m_limelight;
@@ -170,13 +169,13 @@ public class Shooter extends SubsystemBase {
     }
     
     public void readyShootSpeakerManual() {
-        desiredSpeedBottom = ShooterConstants.kShooterDefaultSpeedVoltage * 1.05;
+        desiredSpeedBottom = ShooterConstants.kShooterDefaultSpeedVoltage;
         desiredSpeedTop = ShooterConstants.kShooterDefaultSpeedVoltage;
         desiredAngle = ShooterConstants.kSpeakerManualAngleRevRotations;
     }
 
     public void readyShootSpeakerAutomatic() {
-        desiredSpeedBottom = ShooterConstants.kShooterDefaultSpeedVoltage * 1.05;
+        desiredSpeedBottom = ShooterConstants.kShooterDefaultSpeedVoltage;
         desiredSpeedTop = ShooterConstants.kShooterDefaultSpeedVoltage;
         
         double heightOfTarget = LimelightConstants.kHeightOfSpeakerInches;
@@ -259,8 +258,7 @@ public class Shooter extends SubsystemBase {
             readyShootSpeakerAutomatic();
             setAngleMotorSpeeds();
             setFlywheelMotorSpeed();
-            readyAutoShootEntry.setBoolean(true);
-        }).finallyDo(() -> readyAutoShootEntry.setBoolean(false));
+        });
     }
 
     public Command autoShoot() {

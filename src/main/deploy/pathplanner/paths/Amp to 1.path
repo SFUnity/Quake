@@ -33,11 +33,11 @@
     {
       "anchor": {
         "x": 7.439971575099845,
-        "y": 7.437482225391801
+        "y": 7.203599136543003
       },
       "prevControl": {
         "x": 7.065758632941767,
-        "y": 7.449176379834242
+        "y": 7.215293290985444
       },
       "nextControl": null,
       "isLocked": false,
@@ -59,17 +59,6 @@
       "constraints": {
         "maxVelocity": 1.0,
         "maxAcceleration": 2.0,
-        "maxAngularVelocity": 540.0,
-        "maxAngularAcceleration": 720.0
-      }
-    },
-    {
-      "name": "Slow at End",
-      "minWaypointRelativePos": 1.65,
-      "maxWaypointRelativePos": 2.0,
-      "constraints": {
-        "maxVelocity": 3.0,
-        "maxAcceleration": 1.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0
       }
@@ -95,8 +84,8 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 2.5,
-    "maxAcceleration": 2.0,
+    "maxVelocity": 4.0,
+    "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },

@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.7254448536674853,
-        "y": 4.69528523316306
+        "x": 2.0489663771350335,
+        "y": 4.665967622533537
       },
       "isLocked": false,
       "linkedName": "Note C"
     },
     {
       "anchor": {
-        "x": 2.2195228788605728,
-        "y": 5.569779584003612
+        "x": 2.341320238196032,
+        "y": 5.566417514601411
       },
       "prevControl": {
-        "x": 1.3496331013317302,
-        "y": 5.172854401264358
+        "x": 1.4993411183403562,
+        "y": 5.040180564691614
       },
       "nextControl": null,
       "isLocked": false,
@@ -50,14 +50,14 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 2.5,
-    "maxAcceleration": 2.0,
+    "maxVelocity": 5.0,
+    "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0,
+    "rotation": 0.0,
     "rotateFast": false
   },
   "reversed": false,
@@ -66,5 +66,5 @@
     "rotation": -29.167637262466783,
     "velocity": 0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

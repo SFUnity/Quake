@@ -104,7 +104,7 @@ public final class Constants {
     
     public static final double kSpeakerAngleOffsetRevRotations = -72;
 
-    public static final double kSpeakerManualAngleRevRotations = -16;
+    public static final double kSpeakerManualAngleRevRotations = -15;
     public static final double kDesiredAmpAngleRevRotations = -8;
     public static final double kSourceAngleRevRotations = -5;
     public static final double kFeedingAngleRevRotations = -54;
@@ -119,7 +119,7 @@ public final class Constants {
     public static final double kShooterDefaultSpeedVoltage = 10;
     public static final double kShooterFeedingSpeedVoltage = 10;
     
-    public static final double kShooterDistanceRangeInches = 2.0;
+    public static final double kShooterDistanceRangeInches = 2.5;
   }
 
   public static final class LimelightConstants {
@@ -133,7 +133,7 @@ public final class Constants {
     public static final double kHeightOfTagInches = 56.5;
 
     // height of speaker
-    public static final double kHeightOfSpeakerInches = 82.13;
+    public static final double kHeightOfSpeakerInches = 81.63;
   }
   
   public static final class ClimberConstants {
