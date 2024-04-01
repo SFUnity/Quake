@@ -35,7 +35,7 @@ public class Intake extends SubsystemBase{
     private GenericEntry indexerCurrentEntry = loggingTab.add("indexerOutputCurrent", 0.00).getEntry();
 
     private GenericEntry intakeLoweredAngleEntry = driversTab.addPersistent("Intake Lowered Angle", IntakeConstants.kIntakeLoweredAngleRevRotations)
-                                                             .withSize(2, 1)
+                                                             .withSize(1, 1)
                                                              .withPosition(8, 0)
                                                              .getEntry();
 

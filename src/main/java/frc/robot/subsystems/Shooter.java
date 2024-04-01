@@ -44,6 +44,11 @@ public class Shooter extends SubsystemBase {
     private ShuffleboardTab driversTab = Shuffleboard.getTab("Drivers");
     private ShuffleboardTab loggingTab = Shuffleboard.getTab("Logging");
 
+    private GenericEntry angleOffset = driversTab.addPersistent("Angle Offset", ShooterConstants.kSpeakerAngleOffsetRevRotations)
+                                                 .withPosition(8, 1)
+                                                 .withSize(1, 1)
+                                                 .getEntry();
+
     private GenericEntry bottomFlywheelVoltageEntry = loggingTab.add("bottomFlywheelVoltage", 0.00).getEntry();
     private GenericEntry bottomFlywheelCurrentEntry = loggingTab.add("bottomFlywheelOutputCurrent", 0.00).getEntry();
     private GenericEntry topFlywheelVoltageEntry = loggingTab.add("topFlywheelVoltage", 0.00).getEntry();
@@ -181,7 +186,7 @@ public class Shooter extends SubsystemBase {
         double heightOfTarget = LimelightConstants.kHeightOfSpeakerInches;
         double angleRad = Math.atan(heightOfTarget / m_limelight.getDistance());
         double angleDeg = Math.toDegrees(angleRad);
-        desiredAngle = angleDeg + ShooterConstants.kSpeakerAngleOffsetRevRotations;
+        desiredAngle = angleDeg + angleOffset.getDouble(ShooterConstants.kSpeakerAngleOffsetRevRotations);
     }
 
     public void readyShootAmp() {
@@ -279,7 +284,7 @@ public class Shooter extends SubsystemBase {
             readyShootSpeakerManual();
             setFlywheelMotorSpeed();
             setAngleMotorSpeeds();
-        }).withTimeout(0.9);
+        }).withTimeout(0.4);
     }
 
     public Command putNoteIntoFlywheelsCommand() {
@@ -291,6 +296,6 @@ public class Shooter extends SubsystemBase {
             setAngleMotorSpeeds();
             readyShootAmp();
             stopRollerMotors();
-        }).withTimeout(0.25);
+        }).until(() -> !isNoteInShooter()).withTimeout(1);
     }
 }
