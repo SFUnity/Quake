@@ -137,10 +137,11 @@ public final class Constants {
   }
   
   public static final class ClimberConstants {
-    public static final int kClimberMotorIdL = 12; //TODO needs to be updated with correct values
-    public static final int kClimberMotorIdR = 13; //TODO needs to be updated with correct values
-    public static final double kExtendHeightRotations = 10.0; //TODO needs to be updated with correct values
-    public static final double kRetractHeightRotations = 0.0; //TODO needs to be updated with correct values
+    public static final int kClimberMotorIdL = 12; 
+    public static final int kClimberMotorIdR = 13;
+    //TODO needs to be updated with correct values
+    public static final double kExtendHeightRotations = 10.0;
+    public static final double kRetractHeightRotations = 0.0;
     public static final double kPositionTolerance = 0.1;
   }
   

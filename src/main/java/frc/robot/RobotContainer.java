@@ -163,7 +163,6 @@ public class RobotContainer {
         new Trigger(m_operationsController.povUp()).onTrue(new InstantCommand(() -> m_limelight.setPipeline(0)));
         new Trigger(m_operationsController.povDown()).onTrue(new InstantCommand(() -> m_limelight.setPipeline(1)));
 
-        // TODO test this once done with the other stuff
         new Trigger(() -> m_shooter.isNoteInShooter() && DriverStation.isTeleop()).whileTrue(m_intake.noteInShooterCommand().withInterruptBehavior(InterruptionBehavior.kCancelIncoming));
     }
 
