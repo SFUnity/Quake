@@ -36,7 +36,7 @@ public class Intake extends SubsystemBase{
 
     private GenericEntry intakeLoweredAngleEntry = driversTab.addPersistent("Intake Lowered Angle", IntakeConstants.kIntakeLoweredAngleRevRotations)
                                                              .withSize(1, 1)
-                                                             .withPosition(8, 0)
+                                                             .withPosition(9, 2)
                                                              .getEntry();
 
     public Intake(Shooter shooter) {

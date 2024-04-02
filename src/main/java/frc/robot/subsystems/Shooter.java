@@ -52,7 +52,17 @@ public class Shooter extends SubsystemBase {
     private GenericEntry hegihtOfSpeakerEntry = driversTab.addPersistent("Speaker Height", LimelightConstants.kHeightOfSpeakerInches)
                                                  .withPosition(9, 1)
                                                  .withSize(1, 1)
-                                                 .getEntry();                                             
+                                                 .getEntry();
+                                                 
+    private GenericEntry feedingAngleEntry = driversTab.addPersistent("Feeding Angle", ShooterConstants.kFeedingAngleRevRotations)
+                                                       .withPosition(8, 0) //TODO change
+                                                       .withSize(1, 1)
+                                                       .getEntry();      
+                                                 
+    private GenericEntry feedingSpeedEntry = driversTab.addPersistent("Feeding Speed", ShooterConstants.kShooterFeedingSpeedVoltage)
+                                                       .withPosition(9, 0) //TODO change
+                                                       .withSize(1, 1)
+                                                       .getEntry();                                             
 
     private GenericEntry bottomFlywheelVoltageEntry = loggingTab.add("bottomFlywheelVoltage", 0.00).getEntry();
     private GenericEntry bottomFlywheelCurrentEntry = loggingTab.add("bottomFlywheelOutputCurrent", 0.00).getEntry();
@@ -76,7 +86,7 @@ public class Shooter extends SubsystemBase {
     private GenericEntry desiredSpeedTopEntry = loggingTab.add("Desired Speed Top", 0).getEntry();
     
     private GenericEntry noteInShooterEntry = driversTab.add("Note In Shooter?", false)
-                                                        .withSize(2, 1)
+                                                        .withSize(1, 1)
                                                         .withPosition(8, 2)
                                                         .getEntry();                          
 
@@ -201,9 +211,9 @@ public class Shooter extends SubsystemBase {
     }
 
     public void readyShootFeed() {
-        desiredSpeedBottom = ShooterConstants.kShooterFeedingSpeedVoltage;
-        desiredSpeedTop = ShooterConstants.kShooterFeedingSpeedVoltage;
-        desiredAngle = ShooterConstants.kFeedingAngleRevRotations;
+        desiredSpeedBottom = feedingSpeedEntry.getDouble(ShooterConstants.kShooterFeedingSpeedVoltage);
+        desiredSpeedTop = feedingSpeedEntry.getDouble(ShooterConstants.kShooterFeedingSpeedVoltage);
+        desiredAngle = feedingAngleEntry.getDouble(ShooterConstants.kFeedingAngleRevRotations);
     }
 
     /**
