@@ -48,6 +48,11 @@ public class Shooter extends SubsystemBase {
                                                  .withPosition(8, 1)
                                                  .withSize(1, 1)
                                                  .getEntry();
+                                                 
+    private GenericEntry hegihtOfSpeakerEntry = driversTab.addPersistent("Speaker Height", LimelightConstants.kHeightOfSpeakerInches)
+                                                 .withPosition(9, 1)
+                                                 .withSize(1, 1)
+                                                 .getEntry();                                             
 
     private GenericEntry bottomFlywheelVoltageEntry = loggingTab.add("bottomFlywheelVoltage", 0.00).getEntry();
     private GenericEntry bottomFlywheelCurrentEntry = loggingTab.add("bottomFlywheelOutputCurrent", 0.00).getEntry();
@@ -183,7 +188,7 @@ public class Shooter extends SubsystemBase {
         desiredSpeedBottom = ShooterConstants.kShooterDefaultSpeedVoltage;
         desiredSpeedTop = ShooterConstants.kShooterDefaultSpeedVoltage;
         
-        double heightOfTarget = LimelightConstants.kHeightOfSpeakerInches;
+        double heightOfTarget = hegihtOfSpeakerEntry.getDouble(LimelightConstants.kHeightOfSpeakerInches);
         double angleRad = Math.atan(heightOfTarget / m_limelight.getDistance());
         double angleDeg = Math.toDegrees(angleRad);
         desiredAngle = angleDeg + angleOffset.getDouble(ShooterConstants.kSpeakerAngleOffsetRevRotations);
