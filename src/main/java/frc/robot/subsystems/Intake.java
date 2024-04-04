@@ -52,8 +52,7 @@ public class Intake extends SubsystemBase{
         m_angleEncoder = m_intakeAngleMotor.getEncoder();
 
         m_anglePidController = m_intakeAngleMotor.getPIDController();
-        //  TODO check this
-        // m_anglePidController.setP(0.08);
+        m_anglePidController.setP(0.08);
     }
 
     @Override
