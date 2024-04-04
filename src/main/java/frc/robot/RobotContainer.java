@@ -27,7 +27,7 @@ public class RobotContainer {
     private final LEDs m_LEDs = new LEDs();
     private final Shooter m_shooter = new Shooter(m_limelight);
     private final Intake m_intake = new Intake(m_shooter);
-    // private final Climbers m_climbers = new Climbers();
+    private final Climbers m_climbers = new Climbers();
 
     private final CommandXboxController m_driverController = new CommandXboxController(
                     ControllerConstants.kDriverControllerId);
@@ -104,6 +104,8 @@ public class RobotContainer {
                 intakeWorkingEntry));
 
         m_LEDs.setDefaultCommand(new LEDCmd(m_shooter, m_swerve, m_limelight, m_LEDs));
+
+        m_climbers.setDefaultCommand(new ClimbersCmd(m_climbers, m_operationsController.povUp()));
 
         NamedCommands.registerCommand("fullSpeakerShoot", fullSpeakerShoot);
         NamedCommands.registerCommand("readyAutoShoot", m_shooter.readyAutoShoot());

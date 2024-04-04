@@ -4,7 +4,9 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.ControlType;
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ClimberConstants;
 
@@ -21,11 +23,17 @@ public class Climbers extends SubsystemBase{
         m_climberMotorL.setSecondaryCurrentLimit(80, 1);
         m_climberMotorR.setSecondaryCurrentLimit(80, 1);
 
+        m_climberMotorL.setIdleMode(IdleMode.kBrake);
+        m_climberMotorR.setIdleMode(IdleMode.kBrake);
+
         m_leftClimberEncoder = m_climberMotorL.getEncoder();
         m_rightClimberEncoder = m_climberMotorR.getEncoder();
         
         m_leftClimberPidController = m_climberMotorL.getPIDController();
         m_rightClimberPidController = m_climberMotorR.getPIDController();
+
+        m_leftClimberPidController.setP(0.05);
+        m_rightClimberPidController.setP(0.05);
     }
 
     public boolean at0() {
