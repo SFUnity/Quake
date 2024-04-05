@@ -25,11 +25,11 @@ public class SwerveJoystickCmd extends Command {
     private ShuffleboardTab swerveTab = Shuffleboard.getTab("Swerve Subsystem");
     private ShuffleboardTab driversTab = Shuffleboard.getTab("Drivers");
     
-    private GenericEntry driveSpeedEntry = swerveTab.addPersistent("Drive Normal", 1).withSize(2, 1).withPosition(0, 0).getEntry();
-    private GenericEntry turnSpeedEntry = swerveTab.addPersistent("Turn Normal", 1).withSize(2, 1).withPosition(2, 0).getEntry();
+    private GenericEntry driveSpeedEntry = swerveTab.addPersistent("Drive Normal", 3).withSize(2, 1).withPosition(0, 0).getEntry();
+    private GenericEntry turnSpeedEntry = swerveTab.addPersistent("Turn Normal", 4).withSize(2, 1).withPosition(2, 0).getEntry();
     
-    private GenericEntry driveSpeedFastEntry = swerveTab.addPersistent("Drive Fast", 1).withSize(2, 1).withPosition(0, 1).getEntry();
-    private GenericEntry turnSpeedFastEntry = swerveTab.addPersistent("Turn Fast", 1).withSize(2, 1).withPosition(2, 1).getEntry();
+    private GenericEntry driveSpeedFastEntry = swerveTab.addPersistent("Drive Fast", 4).withSize(2, 1).withPosition(0, 1).getEntry();
+    private GenericEntry turnSpeedFastEntry = swerveTab.addPersistent("Turn Fast", 5).withSize(2, 1).withPosition(2, 1).getEntry();
         
     private GenericEntry goingFastEntry = driversTab.add("Going Fast?", false)
                                                     .withSize(2, 1)

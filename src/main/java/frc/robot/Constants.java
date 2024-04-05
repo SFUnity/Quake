@@ -103,7 +103,7 @@ public final class Constants {
 
     public static final int kShooterAngleMotorEncoderId = 5;
     
-    public static final double kSpeakerAngleOffsetRevRotations = -72;
+    public static final double kSpeakerAngleOffsetRevRotations = -65;
 
     public static final double kSpeakerManualAngleRevRotations = -9.5;
     public static final double kDesiredAmpAngleRevRotations = -8;
@@ -135,7 +135,7 @@ public final class Constants {
     public static final double kHeightOfTagInches = 56.5;
 
     // height of speaker
-    public static final double kHeightOfSpeakerInches = 81.63;
+    public static final double kHeightOfSpeakerInches = 80;
   }
   
   public static final class ClimberConstants {
@@ -143,7 +143,7 @@ public final class Constants {
     public static final int kClimberMotorIdR = 12;
     public static final double kExtendHeightRotations = 2;
     public static final double kRetractHeightRotationsL = 78;
-    public static final double kRetractHeightRotationsR = 58;
+    public static final double kRetractHeightRotationsR = 52;
     public static final double kPositionTolerance = 0.1;
   }
   
