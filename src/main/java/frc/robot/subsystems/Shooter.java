@@ -55,14 +55,14 @@ public class Shooter extends SubsystemBase {
                                                  .getEntry();
                                                  
     private GenericEntry feedingAngleEntry = driversTab.addPersistent("Feeding Angle", ShooterConstants.kFeedingAngleRevRotations)
-                                                       .withPosition(8, 0) //TODO change
+                                                       .withPosition(8, 0)
                                                        .withSize(1, 1)
                                                        .getEntry();      
                                                  
     private GenericEntry feedingSpeedEntry = driversTab.addPersistent("Feeding Speed", ShooterConstants.kShooterFeedingSpeedVoltage)
-                                                       .withPosition(9, 0) //TODO change
+                                                       .withPosition(9, 0)
                                                        .withSize(1, 1)
-                                                       .getEntry();                                             
+                                                       .getEntry(); 
 
     private GenericEntry bottomFlywheelVoltageEntry = loggingTab.add("bottomFlywheelVoltage", 0.00).getEntry();
     private GenericEntry bottomFlywheelCurrentEntry = loggingTab.add("bottomFlywheelOutputCurrent", 0.00).getEntry();
@@ -214,6 +214,12 @@ public class Shooter extends SubsystemBase {
         desiredSpeedBottom = feedingSpeedEntry.getDouble(ShooterConstants.kShooterFeedingSpeedVoltage);
         desiredSpeedTop = feedingSpeedEntry.getDouble(ShooterConstants.kShooterFeedingSpeedVoltage);
         desiredAngle = feedingAngleEntry.getDouble(ShooterConstants.kFeedingAngleRevRotations);
+    }
+
+    public void climb() {
+        desiredSpeedBottom = 0;
+        desiredSpeedTop = 0;
+        m_anglePidController.setReference(ShooterConstants.kClimbingAngleRevRotations, ControlType.kPosition);
     }
 
     /**

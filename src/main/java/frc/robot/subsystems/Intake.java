@@ -39,6 +39,11 @@ public class Intake extends SubsystemBase{
                                                              .withPosition(9, 2)
                                                              .getEntry();
 
+    // private GenericEntry intakeClimbingAngleEntry = driversTab.addPersistent("Intake Climb", IntakeConstants.kIntakeRaisedAngleRevRotations)
+    //                                                          .withSize(1, 1)
+    //                                                          .withPosition(9, 0)
+    //                                                          .getEntry();                                                         
+
     public Intake(Shooter shooter) {
         m_intakeAngleMotor = new CANSparkMax(IntakeConstants.kIntakeAngleMotorId, MotorType.kBrushless);
         m_intakeMotor = new CANSparkMax(IntakeConstants.kIntakeRollersMotorId, MotorType.kBrushless);
@@ -118,8 +123,14 @@ public class Intake extends SubsystemBase{
         m_intakeMotor.stopMotor();
     }
 
+    public void climb() {
+        m_anglePidController.setReference(IntakeConstants.kIntakeClimbingAngleRevRotations, ControlType.kPosition);
+        m_intakeMotor.stopMotor();
+    }
+
     public void safetyRaiseIntake() {
         m_anglePidController.setReference(IntakeConstants.kIntakeRaisedAngleRevRotations, ControlType.kPosition);
+        m_intakeMotor.stopMotor();
     }
 
     public Command noteInShooterCommand() {

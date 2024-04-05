@@ -11,6 +11,8 @@ public class ClimbersCmd extends Command {
     public ClimbersCmd(Climbers climber, Trigger povUp) {
         m_climber = climber;
         this.povUp = povUp;
+
+        addRequirements(m_climber);
     }
 
     @Override

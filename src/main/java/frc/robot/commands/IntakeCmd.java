@@ -36,7 +36,6 @@ public class IntakeCmd extends Command{
         if (!intakeWorkingEntry.getBoolean(true)) {
             m_intake.safetyRaiseIntake();
             m_intake.stopIndexer();
-            m_intake.stopIntakeRollers();
             return;
         // set indexer and intake roller speeds
         } else if (triangle.getAsBoolean()) {

@@ -34,6 +34,8 @@ public class RobotContainer {
     private final CommandPS5Controller m_operationsController = new CommandPS5Controller(
                     ControllerConstants.kOperationControllerId);
 
+    private boolean climbing = false;                
+
     // Auto Commands Chooser
     private final Command m_straightAuto = new StraightAutoCmd(m_swerve);
     // private final Command m_circleAuto = new CircleAutoCmd(m_swerve);
@@ -166,6 +168,13 @@ public class RobotContainer {
         new Trigger(m_operationsController.povDown()).onTrue(new InstantCommand(() -> m_limelight.setPipeline(1)));
 
         new Trigger(() -> m_shooter.isNoteInShooter() && DriverStation.isTeleop()).whileTrue(m_intake.noteInShooterCommand().withInterruptBehavior(InterruptionBehavior.kCancelIncoming));
+
+        m_operationsController.povUp().onTrue(new InstantCommand(() -> climbing = true));
+        m_operationsController.povDown().onTrue(new InstantCommand(() -> climbing = false));
+        new Trigger(() -> climbing == true).whileTrue(new RunCommand(() -> {
+            m_shooter.climb();
+            m_intake.climb();
+        }, m_shooter, m_intake).withInterruptBehavior(InterruptionBehavior.kCancelIncoming));
     }
 
     public Swerve getSwerve() {
