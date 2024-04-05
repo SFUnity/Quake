@@ -35,6 +35,7 @@ public class RobotContainer {
                     ControllerConstants.kOperationControllerId);
 
     private boolean climbing = false;                
+    private boolean extending = false;                
 
     // Auto Commands Chooser
     private final Command m_straightAuto = new StraightAutoCmd(m_swerve);
@@ -107,7 +108,7 @@ public class RobotContainer {
 
         m_LEDs.setDefaultCommand(new LEDCmd(m_shooter, m_swerve, m_limelight, m_LEDs));
 
-        m_climbers.setDefaultCommand(new ClimbersCmd(m_climbers, m_operationsController.povUp()));
+        m_climbers.setDefaultCommand(m_climbers.defaultCmd());
 
         NamedCommands.registerCommand("fullSpeakerShoot", fullSpeakerShoot);
         NamedCommands.registerCommand("readyAutoShoot", m_shooter.readyAutoShoot());
@@ -169,12 +170,14 @@ public class RobotContainer {
 
         new Trigger(() -> m_shooter.isNoteInShooter() && DriverStation.isTeleop()).whileTrue(m_intake.noteInShooterCommand().withInterruptBehavior(InterruptionBehavior.kCancelIncoming));
 
-        m_operationsController.povUp().onTrue(new InstantCommand(() -> climbing = true));
-        m_operationsController.povDown().onTrue(new InstantCommand(() -> climbing = false));
+        m_operationsController.povLeft().onTrue(new InstantCommand(() -> climbing = false));
+        m_operationsController.povUp().onTrue(new InstantCommand(() -> {climbing = true; extending = true;}));
+        m_operationsController.povDown().onTrue(new InstantCommand(() -> extending = false));
+        new Trigger(() -> extending == true).whileTrue(new RunCommand(() -> m_climbers.extend()));
         new Trigger(() -> climbing == true).whileTrue(new RunCommand(() -> {
             m_shooter.climb();
             m_intake.climb();
-        }, m_shooter, m_intake).withInterruptBehavior(InterruptionBehavior.kCancelIncoming));
+        }, m_climbers,  m_shooter, m_intake).withInterruptBehavior(InterruptionBehavior.kCancelIncoming));
     }
 
     public Swerve getSwerve() {

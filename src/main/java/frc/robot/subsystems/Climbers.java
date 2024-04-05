@@ -7,6 +7,7 @@ import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ClimberConstants;
 
@@ -48,6 +49,10 @@ public class Climbers extends SubsystemBase{
     public void retract() {
         m_leftClimberPidController.setReference(ClimberConstants.kRetractHeightRotations, ControlType.kPosition);
         m_rightClimberPidController.setReference(ClimberConstants.kRetractHeightRotations, ControlType.kPosition);
+    }
+
+    public Command defaultCmd() {
+        return run(() -> retract());
     }
 
     public void stop() {
