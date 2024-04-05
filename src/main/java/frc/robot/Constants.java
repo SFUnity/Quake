@@ -108,7 +108,7 @@ public final class Constants {
     public static final double kSpeakerManualAngleRevRotations = -9.5;
     public static final double kDesiredAmpAngleRevRotations = -8;
     public static final double kSourceAngleRevRotations = -5;
-    public static final double kFeedingAngleRevRotations = -54;
+    public static final double kFeedingAngleRevRotations = -5;
     public static final double kIntakeAngleRevRotations = -63;
     public static final double kClimbingAngleRevRotations = -1;
     
@@ -119,7 +119,7 @@ public final class Constants {
     public static final double kAmpShootingSpeedBottomVoltage = 3;
     public static final double kAmpShootingSpeedTopVoltage = 0.5;
     public static final double kShooterDefaultSpeedVoltage = 10;
-    public static final double kShooterFeedingSpeedVoltage = 10;
+    public static final double kShooterFeedingSpeedVoltage = 5;
     
     public static final double kShooterDistanceRangeInches = 2.5;
   }
@@ -141,8 +141,9 @@ public final class Constants {
   public static final class ClimberConstants {
     public static final int kClimberMotorIdL = 13; 
     public static final int kClimberMotorIdR = 12;
-    public static final double kExtendHeightRotations = 1;
-    public static final double kRetractHeightRotations = 60;
+    public static final double kExtendHeightRotations = 2;
+    public static final double kRetractHeightRotationsL = 78;
+    public static final double kRetractHeightRotationsR = 58;
     public static final double kPositionTolerance = 0.1;
   }
   
