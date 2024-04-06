@@ -195,8 +195,8 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
         frontRightTurningVoltageEntry.setDouble(m_frontRight.getTurningSupplyVoltage());
         frontRightTurningOutputCurrentEntry.setDouble(m_frontRight.getTurningOutputCurrent());
 
-        backLeftDriveCurrentEntry.setDouble(m_backLeft.getKrakenSupplyVoltage());
-        backLeftDriveVoltageEntry.setDouble(m_backLeft.getKrakenSupplyCurrent());
+        backLeftDriveCurrentEntry.setDouble(m_backLeft.getKrakenSupplyCurrent());
+        backLeftDriveVoltageEntry.setDouble(m_backLeft.getKrakenSupplyVoltage());
         backLeftTurningVoltageEntry.setDouble(m_backLeft.getTurningSupplyVoltage());
         backLeftTurningOutputCurrentEntry.setDouble(m_backLeft.getTurningOutputCurrent());
 
