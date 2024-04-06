@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 6.49274506526221,
-        "y": 1.7541231663659906
+        "x": 6.45766260193489,
+        "y": 1.5904050041718334
       },
       "prevControl": {
-        "x": 4.604203075215267,
-        "y": 1.1197198558927035
+        "x": 4.569120611887947,
+        "y": 0.9560016936985463
       },
       "nextControl": {
-        "x": 6.948862293716486,
-        "y": 1.9073431006964425
+        "x": 6.913779830389166,
+        "y": 1.7436249385022853
       },
       "isLocked": false,
       "linkedName": null
@@ -44,13 +44,7 @@
       "linkedName": "Note 4"
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.7,
-      "rotationDegrees": 21.29322844153127,
-      "rotateFast": false
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [
     {
