@@ -120,7 +120,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("finishIntakingThenShoot", m_autoShoot);
         // NamedCommands.registerCommand("finishIntakingThenShoot", new ParallelCommandGroup(m_shooter.intakeNoteCmd().andThen(m_shooter.readyAutoShoot().until(() -> m_shooter.atAngle())), m_autoAlign).andThen(m_shooter.autoShoot()));
 
-        m_justShootAndLeave = new SequentialCommandGroup(m_shooter.readyShootSpeakerCommand(), m_shooter.putNoteIntoFlywheelsCommand(), new WaitCommand(5), m_straightAuto);
+        m_justShootAndLeave = new SequentialCommandGroup(m_shooter.readyShootSpeakerCommand(), m_shooter.putNoteIntoFlywheelsCommand(), new WaitCommand(10), m_straightAuto);
         // m_straightPath = new PathPlannerAuto("Straight Path Auto");
         // m_swervyPath = new PathPlannerAuto("Swervy Path Auto");
 
