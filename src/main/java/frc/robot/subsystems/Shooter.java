@@ -95,6 +95,11 @@ public class Shooter extends SubsystemBase {
                                                                 .withSize(3, 3)
                                                                 .withPosition(5, 0)
                                                                 .getEntry();
+
+    private GenericEntry sourceAngleEntry = driversTab.addPersistent("Source", ShooterConstants.kSourceAngleRevRotations)
+                                                                .withSize(1, 1)
+                                                                .withPosition(0, 3)
+                                                                .getEntry();                                                            
                                                                 
     private GenericEntry feederDesiredSpeedEntry = loggingTab.add("Feeder Desired Speed", 0).getEntry();
 
@@ -177,7 +182,7 @@ public class Shooter extends SubsystemBase {
             m_bottomFlywheePidController.setReference(ShooterConstants.kFlywheelIntakeSpeedVoltage, ControlType.kVoltage);
             m_topFlywheePidController.setReference(ShooterConstants.kFlywheelIntakeSpeedVoltage, ControlType.kVoltage);
         }
-        m_anglePidController.setReference(intakeWorking ? ShooterConstants.kIntakeAngleRevRotations : ShooterConstants.kSourceAngleRevRotations, ControlType.kPosition);
+        m_anglePidController.setReference(intakeWorking ? ShooterConstants.kIntakeAngleRevRotations : sourceAngleEntry.getDouble(ShooterConstants.kSourceAngleRevRotations), ControlType.kPosition);
 
         if (!isNoteInShooter() && distanceSensorWorking()) {
             m_feederMotor.set(intakeWorking ? ShooterConstants.kFeederIntakingSpeedPercent : -ShooterConstants.kFeederIntakingSpeedPercent);
