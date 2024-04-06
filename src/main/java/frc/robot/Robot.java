@@ -45,7 +45,7 @@ public class Robot extends TimedRobot {
     DriverStation.silenceJoystickConnectionWarning(true);
 
     if (DriverStation.getAlliance().get() == Alliance.Red) {
-      m_limelight.setPipeline(0); // TODO pipelines (4 red, 7 blue)
+      m_limelight.setPipeline(0); // pipelines (4 red, 7 blue)
       System.out.println("Red pipeline");
     } else if (DriverStation.getAlliance().get() == Alliance.Blue) {
       m_limelight.setPipeline(1);
@@ -70,6 +70,14 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
+    if (DriverStation.getAlliance().get() == Alliance.Red) {
+      m_limelight.setPipeline(0);
+      System.out.println("Red pipeline");
+    } else if (DriverStation.getAlliance().get() == Alliance.Blue) {
+      m_limelight.setPipeline(1);
+      System.out.println("Blue pipeline");
+    }
+
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
@@ -80,6 +88,14 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+    if (DriverStation.getAlliance().get() == Alliance.Red) {
+      m_limelight.setPipeline(0);
+      System.out.println("Red pipeline");
+    } else if (DriverStation.getAlliance().get() == Alliance.Blue) {
+      m_limelight.setPipeline(1);
+      System.out.println("Blue pipeline");
+    }
+
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
