@@ -50,7 +50,7 @@ public class RobotContainer {
 
             m_swerve.setModuleStates(moduleStates);
         }, m_swerve).until(() -> m_limelight.alignedWithTag() && m_shooter.atAngle());
-    private final Command m_autoShoot = new ParallelCommandGroup(m_shooter.intakeNoteCmd().andThen(m_shooter.readyAutoShoot().until(() -> m_shooter.atAngle())), m_autoAlign).andThen(m_shooter.autoShoot());
+    private final Command m_autoShoot = new ParallelCommandGroup(m_shooter.intakeNoteCmd().withTimeout(4).andThen(m_shooter.readyAutoShoot().until(() -> m_shooter.atAngle())), m_autoAlign).andThen(m_shooter.autoShoot());
     // private final Command m_testShoot = new RunCommand(() -> {
     //         m_shooter.readyShootAmp();
     //         m_shooter.setAngleMotorSpeeds();
