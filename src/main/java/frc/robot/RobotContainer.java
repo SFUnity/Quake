@@ -5,8 +5,6 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.networktables.GenericEntry;
@@ -163,7 +161,7 @@ public class RobotContainer {
   
     private void configureBindings() {
         new Trigger(m_driverController.x()).whileTrue(m_swerve.SetXCommand());
-        new Trigger(m_driverController.a()).onTrue(new InstantCommand(() -> m_swerve.resetPose(new Pose2d(2, 2, new Rotation2d(0)))).andThen(() -> m_swerve.resetHeading()));
+        new Trigger(m_driverController.a()).onTrue(new InstantCommand(() -> m_swerve.resetHeading()));
 
         new Trigger(m_operationsController.povUp()).onTrue(new InstantCommand(() -> m_limelight.setPipeline(0)));
         new Trigger(m_operationsController.povDown()).onTrue(new InstantCommand(() -> m_limelight.setPipeline(1)));
@@ -189,6 +187,5 @@ public class RobotContainer {
 
     public Command getAutonomousCommand() {
         return m_autoChooser.getSelected();
-        // return new PathPlannerAuto("Source 53");
     }  
 }
