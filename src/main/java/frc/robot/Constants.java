@@ -103,7 +103,7 @@ public final class Constants {
 
     public static final int kShooterAngleMotorEncoderId = 5;
     
-    public static final double kSpeakerAngleOffsetRevRotations = -69.5;
+    public static final double kSpeakerAngleOffsetRevRotations = -74;
 
     public static final double kSpeakerManualAngleRevRotations = -9.5;
     public static final double kDesiredAmpAngleRevRotations = -8;
@@ -116,7 +116,7 @@ public final class Constants {
     public static final double kFeederIntakingSpeedPercent = 0.13;
     
     public static final double kFlywheelIntakeSpeedVoltage = -2;
-    public static final double kAmpShootingSpeedBottomVoltage = 3;
+    public static final double kAmpShootingSpeedBottomVoltage = 3.5;
     public static final double kAmpShootingSpeedTopVoltage = 0.5;
     public static final double kShooterDefaultSpeedVoltage = 10;
     public static final double kShooterFeedingSpeedVoltage = 5;
@@ -152,6 +152,7 @@ public final class Constants {
     public static final int[] kNoteInShooter = {0, 0, 255};
     public static final int[] kTagDetected = {155, 0, 255};
     public static final int[] kAligned = {0, 255, 0};
+    public static final int[] kSourceIntake = {255, 255, 0};
   }
 
 }
