@@ -56,6 +56,10 @@ public class LEDs extends SubsystemBase{
         setSolid(LEDConstants.kAligned[0], LEDConstants.kAligned[1], LEDConstants.kAligned[2]);
     }
 
+    public void sourceIntake() {
+        setSolid(LEDConstants.kSourceIntake[0], LEDConstants.kSourceIntake[1], LEDConstants.kSourceIntake[2]);
+    }
+
     public void idlePattern() {
         int dashLength = 10;
         setSolid(255, 0, 0);

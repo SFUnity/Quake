@@ -104,7 +104,7 @@ public class RobotContainer {
                 m_operationsController.circle(),
                 intakeWorkingEntry));
 
-        m_LEDs.setDefaultCommand(new LEDCmd(m_shooter, m_swerve, m_limelight, m_LEDs));
+        m_LEDs.setDefaultCommand(new LEDCmd(m_shooter, m_swerve, m_limelight, m_LEDs, intakeWorkingEntry));
 
         m_climbers.setDefaultCommand(m_climbers.defaultCmd());
 
