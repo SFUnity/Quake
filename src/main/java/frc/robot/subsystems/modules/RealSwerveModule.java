@@ -1,8 +1,11 @@
 package frc.robot.subsystems.modules;
 
+import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.configs.TalonFXConfigurator;
+import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.CANcoder;
+import com.ctre.phoenix6.hardware.TalonFX;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -10,34 +13,40 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ModuleConstants;
 import lib.SwerveModule;
 
 public class RealSwerveModule implements AutoCloseable, SwerveModule {
-    
-    private final CANSparkMax m_driveMotor;
+    private final TalonFX m_driveMotor;
     private final CANSparkMax m_turningMotor;
-
-    private final RelativeEncoder m_driveEncoder;
 
     private final CANcoder m_absoluteEncoder;
     private final boolean kAbsoluteEncoderReversed;
 
     private final PIDController turningPidController;
+    // create a velocity closed-loop request, voltage output, slot 0 configs
+    private final VelocityVoltage m_driveRequest = new VelocityVoltage(0).withSlot(0);
 
     private SwerveModuleState desiredState = new SwerveModuleState(0.0, new Rotation2d());
     
     public RealSwerveModule(int kDriveMotorId, int kTurningMotorId, boolean driveMotorReversed, boolean turningMotorReversed,
             int absoluteEncoderId, boolean absoluteEncoderReversed) {
         
-        m_driveMotor = new CANSparkMax(kDriveMotorId, MotorType.kBrushless);
         m_turningMotor = new CANSparkMax(kTurningMotorId, MotorType.kBrushless);
-
-        m_driveMotor.setInverted(driveMotorReversed);
         m_turningMotor.setInverted(turningMotorReversed);
-
-        m_driveEncoder = m_driveMotor.getEncoder();
+        m_turningMotor.setSecondaryCurrentLimit(80, 1);
+                
+        m_driveMotor = new TalonFX(kDriveMotorId, "rio");
+        TalonFXConfigurator configurator = m_driveMotor.getConfigurator();
+        Slot0Configs slot0Configs = new Slot0Configs();
+        slot0Configs.kS = 0.05; // Add 0.05 V output to overcome static friction
+        slot0Configs.kV = 0.02; // A velocity target of 1 rps results in 0.12 V output
+        slot0Configs.kP = 0.11; // An error of 1 rps results in 0.11 V output
+        slot0Configs.kI = 0; // no output for integrated error
+        slot0Configs.kD = 0.005; // no output for error derivative
+        configurator.apply(slot0Configs);
+        m_driveMotor.setInverted(driveMotorReversed);
 
         kAbsoluteEncoderReversed = absoluteEncoderReversed;
         m_absoluteEncoder = new CANcoder(absoluteEncoderId);
@@ -46,6 +55,33 @@ public class RealSwerveModule implements AutoCloseable, SwerveModule {
         turningPidController.enableContinuousInput(-Math.PI, Math.PI);
 
         resetEncoders(); // Resets encoders every time the robot boots up
+    }
+
+    public double getKrakenSupplyVoltage() {
+        return m_driveMotor.getSupplyVoltage().getValueAsDouble();
+    }
+
+    public double getKrakenSupplyCurrent() {
+        return m_driveMotor.getSupplyCurrent().getValueAsDouble();
+    }
+
+    public double getTurningSupplyVoltage() {
+        return m_turningMotor.getBusVoltage();
+    }
+
+    public double getTurningOutputCurrent() {
+        return m_turningMotor.getOutputCurrent();
+    }
+
+    public void applyConfigs(double kS, double kV, double kP, double kI, double kD) {
+        TalonFXConfigurator configurator = m_driveMotor.getConfigurator();
+        Slot0Configs slot0Configs = new Slot0Configs();
+        slot0Configs.kS = kS;
+        slot0Configs.kV = kV;
+        slot0Configs.kP = kP;
+        slot0Configs.kI = kI; 
+        slot0Configs.kD = kD; 
+        configurator.apply(slot0Configs);
     }
 
     @Override
@@ -63,15 +99,15 @@ public class RealSwerveModule implements AutoCloseable, SwerveModule {
         state = SwerveModuleState.optimize(state, getState().angle);
         double desiredTurnSpeed = turningPidController.calculate(getAbsoluteEncoderRad(), state.angle.getRadians());
         m_turningMotor.set(desiredTurnSpeed);
-        m_driveMotor.set(state.speedMetersPerSecond);
+
+        m_driveMotor.setControl(m_driveRequest.withVelocity(state.speedMetersPerSecond / (DriveConstants.kWheelDiameterMeters * Math.PI) * DriveConstants.kDriveEncoderPositionConversionFactor));
 
         desiredState = state;
-        SmartDashboard.putString("Swerve[" + m_absoluteEncoder.getDeviceID() + "] state", state.toString());
     }
 
     @Override
     public void resetEncoders() {
-        m_driveEncoder.setPosition(0);
+        m_driveMotor.setPosition(0);
     }
 
     public double getAbsoluteEncoderRotations() {
@@ -90,12 +126,18 @@ public class RealSwerveModule implements AutoCloseable, SwerveModule {
         return desiredState;
     }
 
+    /**
+     * @return The position of the drive motor in meters
+     */
     public double getDrivePosition() {
-        return m_driveEncoder.getPosition();
+        return m_driveMotor.getPosition().getValueAsDouble();
     }
 
+    /**
+     * @return The velocity of the drive motor in meters per second
+    */
     public double getDriveVelocity() {
-        return m_driveEncoder.getVelocity();
+        return m_driveMotor.getVelocity().getValueAsDouble();
     }
 
     @Override

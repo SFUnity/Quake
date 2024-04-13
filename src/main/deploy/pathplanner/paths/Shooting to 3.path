@@ -1,0 +1,92 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 3.7797012346161436,
+        "y": 2.292054270718229
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 4.100020569699258,
+        "y": 3.2742718833016036
+      },
+      "isLocked": false,
+      "linkedName": "Source Side Shooting"
+    },
+    {
+      "anchor": {
+        "x": 4.808786825550858,
+        "y": 3.87076512044762
+      },
+      "prevControl": {
+        "x": 4.265764809888626,
+        "y": 3.408448601392815
+      },
+      "nextControl": {
+        "x": 5.3693753541353235,
+        "y": 4.3480373666587795
+      },
+      "isLocked": false,
+      "linkedName": "Under Stage"
+    },
+    {
+      "anchor": {
+        "x": 7.695890836226117,
+        "y": 4.131430563787053
+      },
+      "prevControl": {
+        "x": 6.9793589309400845,
+        "y": 4.13784407661408
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Note 3"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1.0,
+      "rotationDegrees": 0,
+      "rotateFast": false
+    }
+  ],
+  "constraintZones": [],
+  "eventMarkers": [
+    {
+      "name": "Lower intake",
+      "waypointRelativePos": 1.3,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "fullIntakeNote"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 5.0,
+    "maxAcceleration": 4.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": null,
+  "previewStartingState": {
+    "rotation": -44.48612439318113,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}
