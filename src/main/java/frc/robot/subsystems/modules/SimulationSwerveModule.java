@@ -39,4 +39,23 @@ public class SimulationSwerveModule implements SwerveModule {
   @Override
   public void resetEncoders() {}
 
+  @Override
+  public double getKrakenSupplyVoltage() {
+      return 12;
+  }
+
+  @Override
+  public double getKrakenSupplyCurrent() {
+      return 20;
+  }
+
+  @Override
+  public double getTurningSupplyVoltage() {
+      return 12;
+  }
+
+  @Override
+  public double getTurningOutputCurrent() {
+      return 20;
+  }
 }

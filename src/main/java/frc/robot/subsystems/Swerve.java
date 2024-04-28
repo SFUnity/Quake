@@ -31,7 +31,6 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.FieldObject2d;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ModuleConstants;
-import frc.robot.subsystems.modules.RealSwerveModule;
 import lib.SwerveModule;
 
 import com.pathplanner.lib.auto.*;
@@ -39,7 +38,7 @@ import com.pathplanner.lib.util.*;
 
 
 public class Swerve extends SubsystemBase implements AutoCloseable {
-    private final RealSwerveModule m_frontLeft = new RealSwerveModule(
+    private final SwerveModule m_frontLeft = SwerveModule.create(
         DriveConstants.kFrontLeftDriveMotorId,
         DriveConstants.kFrontLeftTurningMotorId,
         DriveConstants.kFrontLeftDriveEncoderReversed,
@@ -47,7 +46,7 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
         DriveConstants.kFrontLeftDriveAbsoluteEncoderId,
         DriveConstants.kFrontLeftDriveAbsoluteEncoderReversed);
 
-    private final RealSwerveModule m_frontRight = new RealSwerveModule(
+    private final SwerveModule m_frontRight = SwerveModule.create(
         DriveConstants.kFrontRightDriveMotorId,
         DriveConstants.kFrontRightTurningMotorId,
         DriveConstants.kFrontRightDriveEncoderReversed,
@@ -55,7 +54,7 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
         DriveConstants.kFrontRightDriveAbsoluteEncoderId,
         DriveConstants.kFrontRightDriveAbsoluteEncoderReversed);
 
-    private final RealSwerveModule m_backLeft = new RealSwerveModule(
+    private final SwerveModule m_backLeft = SwerveModule.create(
         DriveConstants.kBackLeftDriveMotorId,
         DriveConstants.kBackLeftTurningMotorId,
         DriveConstants.kBackLeftDriveEncoderReversed,
@@ -63,7 +62,7 @@ public class Swerve extends SubsystemBase implements AutoCloseable {
         DriveConstants.kBackLeftDriveAbsoluteEncoderId,
         DriveConstants.kBackLeftDriveAbsoluteEncoderReversed);
 
-    private final RealSwerveModule m_backRight = new RealSwerveModule(
+    private final SwerveModule m_backRight = SwerveModule.create(
         DriveConstants.kBackRightDriveMotorId,
         DriveConstants.kBackRightTurningMotorId,
         DriveConstants.kBackRightDriveEncoderReversed,

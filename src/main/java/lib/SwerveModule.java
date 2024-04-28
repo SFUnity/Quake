@@ -77,6 +77,14 @@ public interface SwerveModule extends Sendable {
    */
   public void resetEncoders();
 
+  public double getKrakenSupplyVoltage();
+
+  public double getKrakenSupplyCurrent();
+
+  public double getTurningSupplyVoltage();
+
+  public double getTurningOutputCurrent();
+
   @Override
   default void initSendable(SendableBuilder _builder) {
     // _builder.addDoubleProperty("current velocity", () -> getState().speedMetersPerSecond, null);
