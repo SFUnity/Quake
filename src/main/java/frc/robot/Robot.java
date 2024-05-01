@@ -1,5 +1,7 @@
 package frc.robot;
 
+import org.littletonrobotics.urcl.URCL;
+
 import com.ctre.phoenix6.SignalLogger;
 
 import edu.wpi.first.util.datalog.DataLog;
@@ -38,6 +40,7 @@ public class Robot extends TimedRobot {
     }
     DataLog log = DataLogManager.getLog();
     DriverStation.startDataLog(log);
+    URCL.start(); // TODO test this!
 
     // Git info logging. Run build if it says GitBuildConstants doesn't exist
     entryGitSha.append(GitBuildConstants.GIT_SHA);
