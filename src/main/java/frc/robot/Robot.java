@@ -1,5 +1,7 @@
 package frc.robot;
 
+import com.ctre.phoenix6.SignalLogger;
+
 import edu.wpi.first.util.datalog.DataLog;
 import edu.wpi.first.util.datalog.StringLogEntry;
 import edu.wpi.first.wpilibj.DataLogManager;
@@ -29,6 +31,8 @@ public class Robot extends TimedRobot {
     // Logging stuff
     if (RobotBase.isReal()) {
       DataLogManager.start("/home/lvuser");
+      SignalLogger.setPath("/home/lvuser");
+      SignalLogger.start(); // TODO test this!
     } else {
       DataLogManager.start("logs");
     }
