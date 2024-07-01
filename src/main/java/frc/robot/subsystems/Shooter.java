@@ -5,11 +5,7 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.Rev2mDistanceSensor;
 import com.revrobotics.SparkPIDController;
-import com.revrobotics.Rev2mDistanceSensor.Port;
-
-import com.revrobotics.Rev2mDistanceSensor.Unit;
 
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
@@ -30,8 +26,6 @@ public class Shooter extends SubsystemBase {
     public final RelativeEncoder m_bottomFlywheelEncoder;
     public final RelativeEncoder m_topFlywheelEncoder;
     public final RelativeEncoder m_feederEncoder;
-    
-    public final Rev2mDistanceSensor m_shooterDistanceSensor;
     
     private final SparkPIDController m_anglePidController;
     private final SparkPIDController m_topFlywheePidController;
@@ -106,10 +100,6 @@ public class Shooter extends SubsystemBase {
     private final Limelight m_limelight;
 
     public Shooter(Limelight limelight) {        
-        m_shooterDistanceSensor = new Rev2mDistanceSensor(Port.kOnboard);
-        m_shooterDistanceSensor.setDistanceUnits(Unit.kInches);
-        m_shooterDistanceSensor.setAutomaticMode(true);
-        
         m_shooterAngleMotor = new CANSparkMax(ShooterConstants.kShooterAngleMotor, MotorType.kBrushless);
         m_shooterBottomFlywheelMotor = new CANSparkMax(ShooterConstants.kShooterBottomFlywheelMotorID, MotorType.kBrushless);
         m_shooterTopFlywheelMotor = new CANSparkMax(ShooterConstants.kShooterTopFlywheelMotorID, MotorType.kBrushless);
@@ -159,8 +149,8 @@ public class Shooter extends SubsystemBase {
         feederAppliedOutputEntry.setDouble(m_feederMotor.getAppliedOutput());
         angleEntry.setDouble(m_angleEncoder.getPosition());
         desiredAngleEntry.setDouble(desiredAngle);
-        distanceSensorDistanceEntry.setDouble(m_shooterDistanceSensor.GetRange());
-        distanceSensorRangeIsValid.setBoolean(m_shooterDistanceSensor.isRangeValid());
+        distanceSensorDistanceEntry.setDouble(1);
+        distanceSensorRangeIsValid.setBoolean(true);
         noteInShooterEntry.setBoolean(isNoteInShooter());
 
         bottomFlywheelVoltageEntry.setDouble(m_shooterBottomFlywheelMotor.getBusVoltage());
@@ -232,11 +222,11 @@ public class Shooter extends SubsystemBase {
      * @return boolean value of if there is a note in shooter
      */
     public boolean isNoteInShooter() {
-        return distanceSensorWorking() && m_shooterDistanceSensor.getRange() <= ShooterConstants.kShooterDistanceRangeInches;
+        return true;
     }
 
     public boolean distanceSensorWorking() {
-        return m_shooterDistanceSensor.isRangeValid() && distanceSensorWorkingEntry.getBoolean(true);
+        return true;
     }
 
     public void putNoteIntoFlywheels() {
